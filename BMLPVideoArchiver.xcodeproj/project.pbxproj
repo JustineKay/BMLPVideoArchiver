@@ -12,6 +12,7 @@
 		6B6B3FDA1BE1A9AA00EDE9F2 /* GTMOAuth2ViewTouch.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B6B3FD91BE1A9AA00EDE9F2 /* GTMOAuth2ViewTouch.xib */; };
 		6B6B3FE51BE1A9E500EDE9F2 /* GTLDrive_Sources.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B6B3FE31BE1A9E500EDE9F2 /* GTLDrive_Sources.m */; };
 		6B6B40131BE1CEF500EDE9F2 /* libGTLTouchStaticLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B6B400E1BE1CE7C00EDE9F2 /* libGTLTouchStaticLib.a */; };
+		6B9B14741C1FB62200E5A662 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B9B14731C1FB62200E5A662 /* MobileCoreServices.framework */; };
 		6BDC39C21BDF22EF0036BE01 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDC39C11BDF22EF0036BE01 /* main.m */; };
 		6BDC39C51BDF22EF0036BE01 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDC39C41BDF22EF0036BE01 /* AppDelegate.m */; };
 		6BDC39CB1BDF22EF0036BE01 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BDC39C91BDF22EF0036BE01 /* Main.storyboard */; };
@@ -61,6 +62,7 @@
 		6B6B3FE31BE1A9E500EDE9F2 /* GTLDrive_Sources.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTLDrive_Sources.m; sourceTree = "<group>"; };
 		6B6B3FE41BE1A9E500EDE9F2 /* GTLDrive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTLDrive.h; sourceTree = "<group>"; };
 		6B6B40041BE1CE7B00EDE9F2 /* GTL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GTL.xcodeproj; path = "../../../google-api-objectivec-client/Source/GTL.xcodeproj"; sourceTree = "<group>"; };
+		6B9B14731C1FB62200E5A662 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		6BDC39BD1BDF22EF0036BE01 /* BMLPVideoArchiver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BMLPVideoArchiver.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BDC39C11BDF22EF0036BE01 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6BDC39C31BDF22EF0036BE01 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B9B14741C1FB62200E5A662 /* MobileCoreServices.framework in Frameworks */,
 				6B6B40131BE1CEF500EDE9F2 /* libGTLTouchStaticLib.a in Frameworks */,
 				6B6B3FD61BE1A52A00EDE9F2 /* SystemConfiguration.framework in Frameworks */,
 				6B6B3FD41BE1A51C00EDE9F2 /* Security.framework in Frameworks */,
@@ -92,6 +95,7 @@
 		5F8AEF7038B6D5F6DAD271EE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6B9B14731C1FB62200E5A662 /* MobileCoreServices.framework */,
 				6B6B3FD51BE1A52A00EDE9F2 /* SystemConfiguration.framework */,
 				6B6B3FD31BE1A51C00EDE9F2 /* Security.framework */,
 				3FFB43943C105DE2F96CF328 /* libPods.a */,
