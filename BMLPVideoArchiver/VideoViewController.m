@@ -97,9 +97,6 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 // Handle selection of an image
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-//    UIImage *image = [info valueForKey:UIImagePickerControllerOriginalImage];
-//    [self dismissViewControllerAnimated:YES completion:nil];
-    
     NSString *mediaType = [info objectForKey: UIImagePickerControllerMediaType];
     
     if (CFStringCompare ((__bridge CFStringRef) mediaType, kUTTypeMovie, 0) == kCFCompareEqualTo) {
@@ -111,22 +108,6 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         }
     }
     
-    [self dismissViewControllerAnimated:YES completion:nil];
-    
-//    // 1 - Get video
-//    NSString *videoURL = [info objectForKey: UIImagePickerControllerMediaURL];
-//    
-//    // 2 - Dismiss image picker
-//    [self dismissViewControllerAnimated:NO completion:nil];
-//    
-//    // Handle a movie capture
-//    if (CFStringCompare ((__bridge_retained CFStringRef)videoURL, kUTTypeMovie, 0) == kCFCompareEqualTo) {
-//        
-//        // 3 - Play the video
-//        //MPMoviePlayerViewController *theMovie = [[MPMoviePlayerViewController alloc]
-//                                                 //initWithContentURL:[info objectForKey:UIImagePickerControllerMediaURL]];
-//    [self uploadVideo:videoURL];
-//    }
 }
 
 // Handle cancel from image picker/camera.
@@ -171,7 +152,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     }
 }
 
-// Uploads a photo to Google Drive
+// Upload video to Google Drive
 - (void)uploadVideo:(NSString *)videoURLPath
 {
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
@@ -182,12 +163,10 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     file.descriptionProperty = @"Uploaded from the Google Drive iOS Quickstart";
     file.mimeType = @"video/quicktime";
     
-    //NSString *filePath = [[NSBundle mainBundle] pathForResource:@"Test" ofType:@"Mov"];
-    
     NSError *error = nil;
     
     NSData *data = [NSData dataWithContentsOfFile:videoURLPath options:NSDataReadingMappedIfSafe error:&error];
-    //NSData *data = UIImagePNGRepresentation((UIImage *)image);
+    
     GTLUploadParameters *uploadParameters = [GTLUploadParameters uploadParametersWithData:data MIMEType:file.mimeType];
     GTLQueryDrive *query = [GTLQueryDrive queryForFilesInsertWithObject:file
                                                        uploadParameters:uploadParameters];
