@@ -1,0 +1,1 @@
+pod 'LLSimpleCamera', '~> 3.0'
