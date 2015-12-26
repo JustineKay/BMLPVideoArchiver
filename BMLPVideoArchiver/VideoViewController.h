@@ -11,7 +11,21 @@
 #import "GTMOAuth2ViewControllerTouch.h"
 #import "GTLDrive.h"
 
-@interface VideoViewController : UIViewController
+@interface VideoViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+{
+IBOutlet UIButton *cameraSelectionButton;
+IBOutlet UIButton *flashModeButton;
+IBOutlet UIButton *videoQualitySelectionButton;
+IBOutlet UIImageView *recordIndicatorView;
+
+IBOutlet UIView *cameraOverlayView;
+
+UITapGestureRecognizer  *recordGestureRecognizer;
+UIImagePickerController *camera;
+BOOL                     recording;
+BOOL                     showCameraSelection;
+BOOL                     showFlashMode;
+}
 
 @property (nonatomic, strong) GTLServiceDrive *service;
 @property (nonatomic, strong) UITextView *output;

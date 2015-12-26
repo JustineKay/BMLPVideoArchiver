@@ -33,13 +33,23 @@ static NSString *const kKeychainItemName = @"BMLP Video Archiver";
 static NSString *const kClientID = @"749579524688-b1oaiu8cc4obq06aal4org55qie5lho2.apps.googleusercontent.com";
 static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
-@interface VideoViewController ()<UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface VideoViewController ()
 
 {
     BOOL isAuthorized;
 }
 
-@property (nonatomic) LLSimpleCamera *camera;
+- (void)changeVideoQuality:(id)sender;
+- (void)changeFlashMode:(id)sender;
+- (void)changeCamera:(id)sender;
+
+- (void)createCamera;
+- (void)startRecording;
+- (void)stopRecording;
+
+- (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo;
+
+//@property (nonatomic) LLSimpleCamera *LLSCamera;
 @property (nonatomic, retain) GTLServiceDrive *driveService;
 
 @end
@@ -52,6 +62,17 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 {
     [super viewDidLoad];
     
+    cameraSelectionButton.alpha = 0.0;
+    flashModeButton.alpha = 0.0;
+    recordIndicatorView.alpha = 0.0;
+    
+    [self createCamera];
+    
+    recordGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleVideoRecording)];
+    recordGestureRecognizer.numberOfTapsRequired = 2;
+    
+    [cameraOverlayView addGestureRecognizer:recordGestureRecognizer];
+    
     // Initialize the drive service & load existing credentials from the keychain if available
     self.driveService = [[GTLServiceDrive alloc] init];
     self.driveService.authorizer = [GTMOAuth2ViewControllerTouch authForGoogleFromKeychainForName:kKeychainItemName
@@ -59,40 +80,163 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
                                                                                      clientSecret:kClientSecret];
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
-    // Always display the camera UI.
-    [self showCamera];
+//    CGRect theRect = [camera.view frame];
+//    [cameraOverlayView setFrame:theRect];
+    
+//    [self presentViewController:camera animated:animated completion:nil];
+//    camera.cameraOverlayView = cameraOverlayView;
 }
 
-- (void)showCamera
+- (void)viewDidAppear:(BOOL)animated
 {
-    UIImagePickerController *cameraUI = [[UIImagePickerController alloc] init];
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
-    {
-        cameraUI.sourceType = UIImagePickerControllerSourceTypeCamera;
-    }
-    else
-    {
-        // In case we're running the iPhone simulator, fall back on the photo library instead.
-        cameraUI.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-        {
-            [self showAlert:@"Error" message:@"Sorry, iPad Simulator not supported!"];
-            return;
+    //cameraOverlayView = [[UIView alloc] init];
+    CGRect theRect = [camera.view frame];
+    [cameraOverlayView setFrame:theRect];
+    
+     camera.cameraOverlayView = cameraOverlayView;
+    
+    [self presentViewController:camera animated:animated completion:nil];
+    
+   
+    
+//    // Always display the camera UI.
+//    [self showCamera];
+}
+
+//- (void)dealloc {
+//    [recordGestureRecognizer release];
+//    
+//    [super dealloc];
+//}
+
+
+- (void)createCamera
+{
+    camera = [[UIImagePickerController alloc] init];
+    //if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+    //{
+        camera.sourceType = UIImagePickerControllerSourceTypeCamera;
+    //};
+//    else
+//    {
+//        // In case we're running the iPhone simulator, fall back on the photo library instead.
+//        cameraUI.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+//        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+//        {
+//            [self showAlert:@"Error" message:@"Sorry, iPad Simulator not supported!"];
+//            return;
+//        }
+//    };
+    
+    
+    camera.mediaTypes = [[NSArray alloc] initWithObjects:(NSString *)kUTTypeMovie, nil];
+    camera.cameraCaptureMode = UIImagePickerControllerCameraCaptureModeVideo;
+    //cameraUI.allowsEditing = YES;
+    camera.showsCameraControls = NO;
+    camera.cameraViewTransform = CGAffineTransformIdentity;
+    
+    // not all devices have two cameras or a flash so just check here
+    if ( [UIImagePickerController isCameraDeviceAvailable: UIImagePickerControllerCameraDeviceRear] ) {
+        camera.cameraDevice = UIImagePickerControllerCameraDeviceRear;
+        if ( [UIImagePickerController isCameraDeviceAvailable: UIImagePickerControllerCameraDeviceFront] ) {
+            cameraSelectionButton.alpha = 1.0;
+            showCameraSelection = YES;
         }
-    };
-    cameraUI.mediaTypes = [[NSArray alloc] initWithObjects:(NSString *)kUTTypeMovie, nil];
-    cameraUI.allowsEditing = YES;
-    cameraUI.delegate = self;
-    [self presentViewController:cameraUI animated:YES completion:nil];
+    } else {
+        camera.cameraDevice = UIImagePickerControllerCameraDeviceFront;
+    }
+    
+    if ( [UIImagePickerController isFlashAvailableForCameraDevice:camera.cameraDevice] ) {
+        camera.cameraFlashMode = UIImagePickerControllerCameraFlashModeOff;
+        flashModeButton.alpha = 1.0;
+        showFlashMode = YES;
+    }
+    
+    camera.videoQuality = UIImagePickerControllerQualityType640x480;
+    
+    camera.delegate = self;
+    camera.edgesForExtendedLayout = UIRectEdgeAll;
+    
+    //[self presentViewController:camera animated:YES completion:nil];
     
     if (![self isAuthorized])
     {
         // Not yet authorized, request authorization and push the login UI onto the navigation stack.
-        [cameraUI pushViewController:[self createAuthController] animated:YES];
+        [camera pushViewController:[self createAuthController] animated:YES];
     }
 }
+
+- (void)toggleVideoRecording {
+    if (!recording) {
+        recording = YES;
+        [self startRecording];
+    } else {
+        recording = NO;
+        [self stopRecording];
+    }
+}
+
+- (void)changeVideoQuality:(id)sender {
+    if (camera.videoQuality == UIImagePickerControllerQualityType640x480) {
+        camera.videoQuality = UIImagePickerControllerQualityTypeHigh;
+        [videoQualitySelectionButton setImage:[UIImage imageNamed:@"hd-selected.png"] forState:UIControlStateNormal];
+    } else {
+        camera.videoQuality = UIImagePickerControllerQualityType640x480;
+        [videoQualitySelectionButton setImage:[UIImage imageNamed:@"sd-selected.png"] forState:UIControlStateNormal];
+    }
+}
+
+- (void)changeFlashMode:(id)sender {
+    if (camera.cameraFlashMode == UIImagePickerControllerCameraFlashModeOff) {
+        camera.cameraFlashMode = UIImagePickerControllerCameraFlashModeOn;
+        [flashModeButton setImage:[UIImage imageNamed:@"flash-on.png"] forState:UIControlStateNormal];
+    } else {
+        camera.cameraFlashMode = UIImagePickerControllerCameraFlashModeOff;
+        [flashModeButton setImage:[UIImage imageNamed:@"flash-off.png"] forState:UIControlStateNormal];
+    }
+}
+
+- (void)changeCamera:(id)sender {
+    if (camera.cameraDevice == UIImagePickerControllerCameraDeviceRear) {
+        camera.cameraDevice = UIImagePickerControllerCameraDeviceFront;
+    } else {
+        camera.cameraDevice = UIImagePickerControllerCameraDeviceRear;
+    }
+    
+    if ( ![UIImagePickerController isFlashAvailableForCameraDevice:camera.cameraDevice] ) {
+        [UIView animateWithDuration:0.3 animations:^(void) {flashModeButton.alpha = 0;}];
+        showFlashMode = NO;
+    } else {
+        [UIView animateWithDuration:0.3 animations:^(void) {flashModeButton.alpha = 1.0;}];
+        showFlashMode = YES;
+    }
+}
+
+- (void)startRecording {
+    
+    void (^hideControls)(void);
+    hideControls = ^(void) {
+        cameraSelectionButton.alpha = 0;
+        flashModeButton.alpha = 0;
+        videoQualitySelectionButton.alpha = 0;
+        recordIndicatorView.alpha = 1.0;
+    };
+    
+    void (^recordMovie)(BOOL finished);
+    recordMovie = ^(BOOL finished) {
+        [camera startVideoCapture];
+    };
+    
+    // Hide controls
+    [UIView  animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:hideControls completion:recordMovie];
+}
+
+- (void)stopRecording {
+    [camera stopVideoCapture];
+}
+
 
 // Handle selection of an image
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
@@ -101,12 +245,36 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     if (CFStringCompare ((__bridge CFStringRef) mediaType, kUTTypeMovie, 0) == kCFCompareEqualTo) {
         NSURL *videoUrl=(NSURL*)[info objectForKey:UIImagePickerControllerMediaURL];
-        NSString *moviePath = [videoUrl path];
+        NSString *videoPath = [videoUrl path];
         
-        if (UIVideoAtPathIsCompatibleWithSavedPhotosAlbum (moviePath)) {
-            [self uploadVideo:moviePath];
+        if (UIVideoAtPathIsCompatibleWithSavedPhotosAlbum (videoPath)) {
+            
+            //save to Google Drive
+            [self uploadVideo:videoPath];
+            
+            //save to photo album
+            UISaveVideoAtPathToSavedPhotosAlbum(videoPath, self, @selector(video:didFinishSavingWithError:contextInfo:), NULL);
+            
+        } else {
+            
+            [self video:videoPath didFinishSavingWithError:nil contextInfo:NULL];
         }
     }
+    
+}
+
+- (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
+    
+    void (^showControls)(void);
+    showControls = ^(void) {
+        if (showCameraSelection) cameraSelectionButton.alpha = 1.0;
+        if (showFlashMode) flashModeButton.alpha = 1.0;
+        videoQualitySelectionButton.alpha = 1.0;
+        recordIndicatorView.alpha = 0.0;
+    };
+    
+    // Show controls
+    [UIView  animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:showControls completion:NULL];
     
 }
 
@@ -156,11 +324,11 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 - (void)uploadVideo:(NSString *)videoURLPath
 {
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"'Quickstart Uploaded File ('EEEE MMMM d, YYYY h:mm a, zzz')"];
+    [dateFormat setDateFormat:@"BMLP Video Archiver Uploaded File ('EEEE MMMM d, YYYY h:mm a, zzz')"];
     
     GTLDriveFile *file = [GTLDriveFile object];
     file.title = [dateFormat stringFromDate:[NSDate date]];
-    file.descriptionProperty = @"Uploaded from the Google Drive iOS Quickstart";
+    file.descriptionProperty = @"Uploaded from BMLP Video Archiver";
     file.mimeType = @"video/quicktime";
     
     NSError *error = nil;
@@ -222,110 +390,5 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
                              otherButtonTitles: nil];
     [alert show];
 }
-
-//@synthesize service = _service;
-//@synthesize output = _output;
-//
-//// When the view loads, create necessary subviews, and initialize the Drive API service.
-//- (void)viewDidLoad {
-//    [super viewDidLoad];
-//    
-//    // Create a UITextView to display output.
-//    self.output = [[UITextView alloc] initWithFrame:self.view.bounds];
-//    self.output.editable = false;
-//    self.output.contentInset = UIEdgeInsetsMake(20.0, 0.0, 20.0, 0.0);
-//    self.output.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-//    [self.view addSubview:self.output];
-//    
-//    // Initialize the Drive API service & load existing credentials from the keychain if available.
-//    self.service = [[GTLServiceDrive alloc] init];
-//    self.service.authorizer =
-//    [GTMOAuth2ViewControllerTouch authForGoogleFromKeychainForName:kKeychainItemName
-//                                                          clientID:kClientID
-//                                                      clientSecret:kClientSecret];
-//}
-//
-//// When the view appears, ensure that the Drive API service is authorized, and perform API calls.
-//- (void)viewDidAppear:(BOOL)animated {
-//    if (!self.service.authorizer.canAuthorize) {
-//        // Not yet authorized, request authorization by pushing the login UI onto the UI stack.
-//        [self presentViewController:[self createAuthController] animated:YES completion:nil];
-//        
-//    } else {
-//        [self fetchFiles];
-//    }
-//}
-//
-//// Construct a query to get names and IDs of 10 files using the Google Drive API.
-//- (void)fetchFiles {
-//    self.output.text = @"Getting files...";
-//    GTLQueryDrive *query =
-//    [GTLQueryDrive queryForFilesList];
-//    query.maxResults = 10;
-//    [self.service executeQuery:query
-//                      delegate:self
-//             didFinishSelector:@selector(displayResultWithTicket:finishedWithObject:error:)];
-//}
-//
-//// Process the response and display output.
-//- (void)displayResultWithTicket:(GTLServiceTicket *)ticket
-//             finishedWithObject:(GTLDriveFileList *)files
-//                          error:(NSError *)error {
-//    if (error == nil) {
-//        NSMutableString *filesString = [[NSMutableString alloc] init];
-//        if (files.items.count > 0) {
-//            [filesString appendString:@"Files:\n"];
-//            for (GTLDriveFile *file in files) {
-//                [filesString appendFormat:@"%@ (%@)\n", file.title, file.identifier];
-//            }
-//        } else {
-//            [filesString appendString:@"No files found."];
-//        }
-//        self.output.text = filesString;
-//    } else {
-//        [self showAlert:@"Error" message:error.localizedDescription];
-//    }
-//}
-//
-//
-//// Creates the auth controller for authorizing access to Drive API.
-//- (GTMOAuth2ViewControllerTouch *)createAuthController {
-//    GTMOAuth2ViewControllerTouch *authController;
-//    NSArray *scopes = [NSArray arrayWithObjects:kGTLAuthScopeDriveMetadataReadonly, nil];
-//    authController = [[GTMOAuth2ViewControllerTouch alloc]
-//                      initWithScope:[scopes componentsJoinedByString:@" "]
-//                      clientID:kClientID
-//                      clientSecret:kClientSecret
-//                      keychainItemName:kKeychainItemName
-//                      delegate:self
-//                      finishedSelector:@selector(viewController:finishedWithAuth:error:)];
-//    return authController;
-//}
-//
-//// Handle completion of the authorization process, and update the Drive API
-//// with the new credentials.
-//- (void)viewController:(GTMOAuth2ViewControllerTouch *)viewController
-//      finishedWithAuth:(GTMOAuth2Authentication *)authResult
-//                 error:(NSError *)error {
-//    if (error != nil) {
-//        [self showAlert:@"Authentication Error" message:error.localizedDescription];
-//        self.service.authorizer = nil;
-//    }
-//    else {
-//        self.service.authorizer = authResult;
-//        [self dismissViewControllerAnimated:YES completion:nil];
-//    }
-//}
-//
-//// Helper for showing an alert
-//- (void)showAlert:(NSString *)title message:(NSString *)message {
-//    UIAlertView *alert;
-//    alert = [[UIAlertView alloc] initWithTitle:title
-//                                       message:message
-//                                      delegate:nil
-//                             cancelButtonTitle:@"OK"
-//                             otherButtonTitles:nil];
-//    [alert show];
-//}
 
 @end

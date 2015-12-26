@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B0263F61C2F3C150099BF46 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B0263F51C2F3C150099BF46 /* MainWindow.xib */; };
+		6B0263F81C2F3F850099BF46 /* VideoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B0263F71C2F3F850099BF46 /* VideoViewController.xib */; };
 		6B6B3FD41BE1A51C00EDE9F2 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B6B3FD31BE1A51C00EDE9F2 /* Security.framework */; };
 		6B6B3FD61BE1A52A00EDE9F2 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B6B3FD51BE1A52A00EDE9F2 /* SystemConfiguration.framework */; };
 		6B6B3FDA1BE1A9AA00EDE9F2 /* GTMOAuth2ViewTouch.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B6B3FD91BE1A9AA00EDE9F2 /* GTMOAuth2ViewTouch.xib */; };
@@ -56,6 +58,8 @@
 /* Begin PBXFileReference section */
 		3FFB43943C105DE2F96CF328 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		590EA36107CF4346B8B4FAD8 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		6B0263F51C2F3C150099BF46 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		6B0263F71C2F3F850099BF46 /* VideoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VideoViewController.xib; sourceTree = "<group>"; };
 		6B6B3FD31BE1A51C00EDE9F2 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		6B6B3FD51BE1A52A00EDE9F2 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		6B6B3FD91BE1A9AA00EDE9F2 /* GTMOAuth2ViewTouch.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GTMOAuth2ViewTouch.xib; sourceTree = "<group>"; };
@@ -142,6 +146,8 @@
 				6B6B3FE41BE1A9E500EDE9F2 /* GTLDrive.h */,
 				6BDC39D71BDF274A0036BE01 /* VideoViewController.h */,
 				6BDC39D81BDF274A0036BE01 /* VideoViewController.m */,
+				6B0263F51C2F3C150099BF46 /* MainWindow.xib */,
+				6B0263F71C2F3F850099BF46 /* VideoViewController.xib */,
 				6BDC39C91BDF22EF0036BE01 /* Main.storyboard */,
 				6BDC39CC1BDF22EF0036BE01 /* Assets.xcassets */,
 				6BDC39CE1BDF22EF0036BE01 /* LaunchScreen.storyboard */,
@@ -268,7 +274,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B6B3FDA1BE1A9AA00EDE9F2 /* GTMOAuth2ViewTouch.xib in Resources */,
+				6B0263F81C2F3F850099BF46 /* VideoViewController.xib in Resources */,
 				6BDC39D01BDF22EF0036BE01 /* LaunchScreen.storyboard in Resources */,
+				6B0263F61C2F3C150099BF46 /* MainWindow.xib in Resources */,
 				6BDC39CD1BDF22EF0036BE01 /* Assets.xcassets in Resources */,
 				6BDC39CB1BDF22EF0036BE01 /* Main.storyboard in Resources */,
 			);

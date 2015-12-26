@@ -7,8 +7,11 @@
 //
 
 #import "AppDelegate.h"
+#import "VideoViewController.h"
 
 @interface AppDelegate ()
+
+@property (nonatomic, strong) IBOutlet UINavigationController *navigationController;
 
 @end
 
@@ -17,6 +20,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+//    _window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+//    self.window.rootViewController = self.navigationController;
+//    [self.window makeKeyAndVisible];
     return YES;
 }
 
