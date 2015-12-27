@@ -20,8 +20,8 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     BOOL isAuthorized;
 }
 
-- (void)changeVideoQuality:(id)sender;
-- (void)changeFlashMode:(id)sender;
+//- (void)changeVideoQuality:(id)sender;
+//- (void)changeFlashMode:(id)sender;
 //- (void)changeCamera:(id)sender;
 
 - (void)createCamera;
@@ -49,8 +49,8 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     self.customCameraOverlayView.delegate = self;
     
     self.customCameraOverlayView.cameraSelectionButton.alpha = 0.0;
-//    flashModeButton.alpha = 0.0;
-//    recordIndicatorView.alpha = 0.0;
+    self.customCameraOverlayView.flashModeButton.alpha = 0.0;
+    self.customCameraOverlayView.recordIndicatorView.alpha = 0.0;
     
     [self createCamera];
     
@@ -105,7 +105,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     if ( [UIImagePickerController isFlashAvailableForCameraDevice:camera.cameraDevice] ) {
         camera.cameraFlashMode = UIImagePickerControllerCameraFlashModeOff;
-        flashModeButton.alpha = 1.0;
+        self.customCameraOverlayView.flashModeButton.alpha = 1.0;
         showFlashMode = YES;
     }
     
@@ -122,11 +122,6 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     }
 }
 
--(void)didChangeCamera {
-    
-    [self changeCamera];
-}
-
 - (void)toggleVideoRecording {
     if (!recording) {
         recording = YES;
@@ -137,27 +132,29 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     }
 }
 
-- (void)changeVideoQuality:(id)sender {
+#pragma Mark - CustomCameraOverlayView delegate methods
+
+- (void)didChangeVideoQuality {
     if (camera.videoQuality == UIImagePickerControllerQualityType640x480) {
         camera.videoQuality = UIImagePickerControllerQualityTypeHigh;
-        [videoQualitySelectionButton setImage:[UIImage imageNamed:@"hd-selected.png"] forState:UIControlStateNormal];
+        [self.customCameraOverlayView.videoQualitySelectionButton setImage:[UIImage imageNamed:@"hd-selected.png"] forState:UIControlStateNormal];
     } else {
         camera.videoQuality = UIImagePickerControllerQualityType640x480;
-        [videoQualitySelectionButton setImage:[UIImage imageNamed:@"sd-selected.png"] forState:UIControlStateNormal];
+        [self.customCameraOverlayView.videoQualitySelectionButton setImage:[UIImage imageNamed:@"sd-selected.png"] forState:UIControlStateNormal];
     }
 }
 
-- (void)changeFlashMode:(id)sender {
+- (void)didChangeFlashMode {
     if (camera.cameraFlashMode == UIImagePickerControllerCameraFlashModeOff) {
         camera.cameraFlashMode = UIImagePickerControllerCameraFlashModeOn;
-        [flashModeButton setImage:[UIImage imageNamed:@"flash-on.png"] forState:UIControlStateNormal];
+        [self.customCameraOverlayView.flashModeButton setImage:[UIImage imageNamed:@"flash-on.png"] forState:UIControlStateNormal];
     } else {
         camera.cameraFlashMode = UIImagePickerControllerCameraFlashModeOff;
-        [flashModeButton setImage:[UIImage imageNamed:@"flash-off.png"] forState:UIControlStateNormal];
+        [self.customCameraOverlayView.flashModeButton setImage:[UIImage imageNamed:@"flash-off.png"] forState:UIControlStateNormal];
     }
 }
 
-- (void)changeCamera {
+- (void)didChangeCamera {
     if (camera.cameraDevice == UIImagePickerControllerCameraDeviceRear) {
         camera.cameraDevice = UIImagePickerControllerCameraDeviceFront;
     } else {
@@ -165,10 +162,10 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     }
     
     if ( ![UIImagePickerController isFlashAvailableForCameraDevice:camera.cameraDevice] ) {
-        [UIView animateWithDuration:0.3 animations:^(void) {flashModeButton.alpha = 0;}];
+        [UIView animateWithDuration:0.3 animations:^(void) {self.customCameraOverlayView.flashModeButton.alpha = 0;}];
         showFlashMode = NO;
     } else {
-        [UIView animateWithDuration:0.3 animations:^(void) {flashModeButton.alpha = 1.0;}];
+        [UIView animateWithDuration:0.3 animations:^(void) {self.customCameraOverlayView.flashModeButton.alpha = 1.0;}];
         showFlashMode = YES;
     }
 }
@@ -178,9 +175,9 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     void (^hideControls)(void);
     hideControls = ^(void) {
         self.customCameraOverlayView.cameraSelectionButton.alpha = 0;
-        flashModeButton.alpha = 0;
-        videoQualitySelectionButton.alpha = 0;
-        recordIndicatorView.alpha = 1.0;
+        self.customCameraOverlayView.flashModeButton.alpha = 0;
+        self.customCameraOverlayView.videoQualitySelectionButton.alpha = 0;
+        self.customCameraOverlayView.recordIndicatorView.alpha = 1.0;
     };
     
     void (^recordMovie)(BOOL finished);
@@ -227,9 +224,9 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     void (^showControls)(void);
     showControls = ^(void) {
         if (showCameraSelection) self.customCameraOverlayView.cameraSelectionButton.alpha = 1.0;
-        if (showFlashMode) flashModeButton.alpha = 1.0;
-        videoQualitySelectionButton.alpha = 1.0;
-        recordIndicatorView.alpha = 0.0;
+        if (showFlashMode) self.customCameraOverlayView.flashModeButton.alpha = 1.0;
+        self.customCameraOverlayView.videoQualitySelectionButton.alpha = 1.0;
+        self.customCameraOverlayView.recordIndicatorView.alpha = 0.0;
     };
     
     // Show controls

@@ -11,6 +11,8 @@
 @protocol CustomCameraOverlayDelegate <NSObject>
 
 -(void)didChangeCamera;
+-(void)didChangeFlashMode;
+-(void)didChangeVideoQuality;
 
 @end
 
@@ -19,5 +21,8 @@
 @property (weak, nonatomic) id <CustomCameraOverlayDelegate> delegate;
 
 @property (weak, nonatomic) IBOutlet UIButton *cameraSelectionButton;
+@property (weak, nonatomic) IBOutlet UIButton *flashModeButton;
+@property (weak, nonatomic) IBOutlet UIButton *videoQualitySelectionButton;
+@property (weak, nonatomic) IBOutlet UIImageView *recordIndicatorView;
 
 @end

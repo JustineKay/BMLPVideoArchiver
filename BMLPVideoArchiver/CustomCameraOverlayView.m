@@ -12,11 +12,17 @@
 
 - (IBAction)cameraSelectionButtonTapped:(UIButton *)sender
 {
-    
     [self.delegate didChangeCamera];
-    NSLog(@"tapped 'change camera' button");
 }
 
+- (IBAction)flashModeButtonTapped:(UIButton *)sender
+{
+    [self.delegate didChangeFlashMode];
+}
 
+- (IBAction)videoQualitySelectionButtonTapped:(UIButton *)sender
+{
+    [self.delegate didChangeVideoQuality];
+}
 
 @end
