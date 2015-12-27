@@ -4,26 +4,11 @@
 //
 //  Created by Justine Beth Kay on 10/26/15.
 //  Copyright © 2015 Justine Beth Kay. All rights reserved.
-//
-//From ViewDidLoad
-//    CGRect screenRect = [[UIScreen mainScreen] bounds];
-//
-//    // create camera with standard settings
-//    self.camera = [[LLSimpleCamera alloc] init];
-//
-//    // camera with video recording capability
-//    self.camera =  [[LLSimpleCamera alloc] initWithVideoEnabled:YES];
-//
-//    // camera with precise quality, position and video parameters.
-//    self.camera = [[LLSimpleCamera alloc] initWithQuality:AVCaptureSessionPresetHigh
-//                                                 position:CameraPositionBack
-//                                             videoEnabled:YES];
-//    // attach to the view
-//    [self.camera attachToViewController:self withFrame:CGRectMake(0, 0, screenRect.size.width, screenRect.size.height)];
 
 
 #import "VideoViewController.h"
-#import <LLSimpleCamera/LLSimpleCamera.h>
+#import "CameraOverlayViewController.h"
+#import "CustomCameraOverlayView.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 
 #import "GTMOAuth2ViewControllerTouch.h"
@@ -49,7 +34,6 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 - (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo;
 
-//@property (nonatomic) LLSimpleCamera *LLSCamera;
 @property (nonatomic, retain) GTLServiceDrive *driveService;
 
 @end
@@ -91,26 +75,21 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    //cameraOverlayView = [[UIView alloc] init];
-    CGRect theRect = [camera.view frame];
-    [cameraOverlayView setFrame:theRect];
+//    CGRect theRect = [camera.view frame];
+//    [cameraOverlayView setFrame:theRect];
     
-     camera.cameraOverlayView = cameraOverlayView;
+    CameraOverlayViewController *overlayVC = [[CameraOverlayViewController alloc] initWithNibName:@"CameraOverlayViewController" bundle:nil];
+    CustomCameraOverlayView *overlayView = (CustomCameraOverlayView *)overlayVC.view;
+    overlayView.frame = camera.view.frame;
     
-    [self presentViewController:camera animated:animated completion:nil];
+    [self presentViewController:camera animated:animated completion:^{
+        //camera.cameraOverlayView = overlayView;
+        camera.cameraOverlayView = cameraOverlayView;
+    }];
     
-   
+    //camera.cameraOverlayView = cameraOverlayView;
     
-//    // Always display the camera UI.
-//    [self showCamera];
 }
-
-//- (void)dealloc {
-//    [recordGestureRecognizer release];
-//    
-//    [super dealloc];
-//}
-
 
 - (void)createCamera
 {
@@ -148,6 +127,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         camera.cameraDevice = UIImagePickerControllerCameraDeviceFront;
     }
     
+    
     if ( [UIImagePickerController isFlashAvailableForCameraDevice:camera.cameraDevice] ) {
         camera.cameraFlashMode = UIImagePickerControllerCameraFlashModeOff;
         flashModeButton.alpha = 1.0;
@@ -159,7 +139,15 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     camera.delegate = self;
     camera.edgesForExtendedLayout = UIRectEdgeAll;
     
-    //[self presentViewController:camera animated:YES completion:nil];
+    //customView stuff
+//    let customViewController = CustomOverlayViewController(
+//                                                           nibName:"CustomOverlayViewController",
+//                                                           bundle: nil
+//                                                           )
+//    let customView:CustomOverlayView = customViewController.view as! CustomOverlayView
+//    customView.frame = self.picker.view.frame
+    
+    
     
     if (![self isAuthorized])
     {

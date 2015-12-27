@@ -22,7 +22,7 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
-        <view opaque="NO" contentMode="scaleToFill" id="15" userLabel="Camera Overlay View" customClass="CustomInfoWindow">
+        <view opaque="NO" contentMode="scaleToFill" id="15" userLabel="Camera Overlay View">
             <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
