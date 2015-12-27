@@ -5,12 +5,8 @@
 //  Created by Justine Beth Kay on 10/26/15.
 //  Copyright © 2015 Justine Beth Kay. All rights reserved.
 
-
-#import "VideoViewController.h"
-#import "CameraOverlayViewController.h"
-#import "CustomCameraOverlayView.h"
 #import <MobileCoreServices/MobileCoreServices.h>
-
+#import "VideoViewController.h"
 #import "GTMOAuth2ViewControllerTouch.h"
 #import "GTLDrive.h"
 
@@ -26,7 +22,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 - (void)changeVideoQuality:(id)sender;
 - (void)changeFlashMode:(id)sender;
-- (void)changeCamera:(id)sender;
+//- (void)changeCamera:(id)sender;
 
 - (void)createCamera;
 - (void)startRecording;
@@ -35,6 +31,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 - (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo;
 
 @property (nonatomic, retain) GTLServiceDrive *driveService;
+@property (nonatomic) CustomCameraOverlayView *customCameraOverlayView;
 
 @end
 
@@ -46,16 +43,23 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 {
     [super viewDidLoad];
     
-    cameraSelectionButton.alpha = 0.0;
-    flashModeButton.alpha = 0.0;
-    recordIndicatorView.alpha = 0.0;
+    CameraOverlayViewController *overlayVC = [[CameraOverlayViewController alloc] initWithNibName:@"CameraOverlayViewController" bundle:nil];
+    self.customCameraOverlayView = (CustomCameraOverlayView *)overlayVC.view;
+    
+    self.customCameraOverlayView.delegate = self;
+    
+    self.customCameraOverlayView.cameraSelectionButton.alpha = 0.0;
+//    flashModeButton.alpha = 0.0;
+//    recordIndicatorView.alpha = 0.0;
     
     [self createCamera];
+    
+    self.customCameraOverlayView.frame = camera.view.frame;
     
     recordGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleVideoRecording)];
     recordGestureRecognizer.numberOfTapsRequired = 2;
     
-    [cameraOverlayView addGestureRecognizer:recordGestureRecognizer];
+    [self.customCameraOverlayView addGestureRecognizer:recordGestureRecognizer];
     
     // Initialize the drive service & load existing credentials from the keychain if available
     self.driveService = [[GTLServiceDrive alloc] init];
@@ -64,26 +68,13 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
                                                                                      clientSecret:kClientSecret];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-//    CGRect theRect = [camera.view frame];
-//    [cameraOverlayView setFrame:theRect];
-    
-//    [self presentViewController:camera animated:animated completion:nil];
-//    camera.cameraOverlayView = cameraOverlayView;
-}
-
 - (void)viewDidAppear:(BOOL)animated
 {
 //    CGRect theRect = [camera.view frame];
 //    [cameraOverlayView setFrame:theRect];
     
-    CameraOverlayViewController *overlayVC = [[CameraOverlayViewController alloc] initWithNibName:@"CameraOverlayViewController" bundle:nil];
-    CustomCameraOverlayView *overlayView = (CustomCameraOverlayView *)overlayVC.view;
-    overlayView.frame = camera.view.frame;
-    
     [self presentViewController:camera animated:animated completion:^{
-        camera.cameraOverlayView = overlayView;
+        camera.cameraOverlayView = self.customCameraOverlayView;
         //camera.cameraOverlayView = cameraOverlayView;
     }];
     
@@ -92,25 +83,11 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 - (void)createCamera
 {
     camera = [[UIImagePickerController alloc] init];
-    //if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
-    //{
-        camera.sourceType = UIImagePickerControllerSourceTypeCamera;
-    //};
-//    else
-//    {
-//        // In case we're running the iPhone simulator, fall back on the photo library instead.
-//        cameraUI.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-//        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-//        {
-//            [self showAlert:@"Error" message:@"Sorry, iPad Simulator not supported!"];
-//            return;
-//        }
-//    };
-    
+    camera.sourceType = UIImagePickerControllerSourceTypeCamera;
     
     camera.mediaTypes = [[NSArray alloc] initWithObjects:(NSString *)kUTTypeMovie, nil];
     camera.cameraCaptureMode = UIImagePickerControllerCameraCaptureModeVideo;
-    //cameraUI.allowsEditing = YES;
+    
     camera.showsCameraControls = NO;
     camera.cameraViewTransform = CGAffineTransformIdentity;
     
@@ -118,7 +95,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     if ( [UIImagePickerController isCameraDeviceAvailable: UIImagePickerControllerCameraDeviceRear] ) {
         camera.cameraDevice = UIImagePickerControllerCameraDeviceRear;
         if ( [UIImagePickerController isCameraDeviceAvailable: UIImagePickerControllerCameraDeviceFront] ) {
-            cameraSelectionButton.alpha = 1.0;
+            self.customCameraOverlayView.cameraSelectionButton.alpha = 1.0;
             showCameraSelection = YES;
         }
     } else {
@@ -132,26 +109,22 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         showFlashMode = YES;
     }
     
+    
     camera.videoQuality = UIImagePickerControllerQualityType640x480;
     
     camera.delegate = self;
     camera.edgesForExtendedLayout = UIRectEdgeAll;
-    
-    //customView stuff
-//    let customViewController = CustomOverlayViewController(
-//                                                           nibName:"CustomOverlayViewController",
-//                                                           bundle: nil
-//                                                           )
-//    let customView:CustomOverlayView = customViewController.view as! CustomOverlayView
-//    customView.frame = self.picker.view.frame
-    
-    
     
     if (![self isAuthorized])
     {
         // Not yet authorized, request authorization and push the login UI onto the navigation stack.
         [camera pushViewController:[self createAuthController] animated:YES];
     }
+}
+
+-(void)didChangeCamera {
+    
+    [self changeCamera];
 }
 
 - (void)toggleVideoRecording {
@@ -184,7 +157,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     }
 }
 
-- (void)changeCamera:(id)sender {
+- (void)changeCamera {
     if (camera.cameraDevice == UIImagePickerControllerCameraDeviceRear) {
         camera.cameraDevice = UIImagePickerControllerCameraDeviceFront;
     } else {
@@ -204,7 +177,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     void (^hideControls)(void);
     hideControls = ^(void) {
-        cameraSelectionButton.alpha = 0;
+        self.customCameraOverlayView.cameraSelectionButton.alpha = 0;
         flashModeButton.alpha = 0;
         videoQualitySelectionButton.alpha = 0;
         recordIndicatorView.alpha = 1.0;
@@ -253,7 +226,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     void (^showControls)(void);
     showControls = ^(void) {
-        if (showCameraSelection) cameraSelectionButton.alpha = 1.0;
+        if (showCameraSelection) self.customCameraOverlayView.cameraSelectionButton.alpha = 1.0;
         if (showFlashMode) flashModeButton.alpha = 1.0;
         videoQualitySelectionButton.alpha = 1.0;
         recordIndicatorView.alpha = 0.0;

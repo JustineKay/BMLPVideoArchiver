@@ -10,8 +10,16 @@
 
 #import "GTMOAuth2ViewControllerTouch.h"
 #import "GTLDrive.h"
+#import "CameraOverlayViewController.h"
+#import "CustomCameraOverlayView.h"
 
-@interface VideoViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface VideoViewController : UIViewController
+<
+UINavigationControllerDelegate,
+UIImagePickerControllerDelegate,
+CustomCameraOverlayDelegate
+>
+
 {
 IBOutlet UIButton *cameraSelectionButton;
 IBOutlet UIButton *flashModeButton;
