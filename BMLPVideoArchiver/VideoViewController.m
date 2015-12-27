@@ -66,6 +66,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     self.customCameraOverlayView.cameraSelectionButton.alpha = 0.0;
     self.customCameraOverlayView.flashModeButton.alpha = 0.0;
     self.customCameraOverlayView.recordIndicatorView.alpha = 0.0;
+    self.customCameraOverlayView.backgroundColor = [UIColor clearColor];
     
     [self createCamera];
     
@@ -179,6 +180,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         self.customCameraOverlayView.flashModeButton.alpha = 0;
         self.customCameraOverlayView.videoQualitySelectionButton.alpha = 0;
         self.customCameraOverlayView.recordIndicatorView.alpha = 1.0;
+        self.customCameraOverlayView.backgroundColor = [UIColor blackColor];
     };
     
     void (^recordMovie)(BOOL finished);
@@ -228,6 +230,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         if (showFlashMode) self.customCameraOverlayView.flashModeButton.alpha = 1.0;
         self.customCameraOverlayView.videoQualitySelectionButton.alpha = 1.0;
         self.customCameraOverlayView.recordIndicatorView.alpha = 0.0;
+        
     };
     
     // Show controls
@@ -308,11 +311,13 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
                       {
                           NSLog(@"File ID: %@", insertedFile.identifier);
                           [self showAlert:@"Google Drive" message:@"File saved!"];
+                          self.customCameraOverlayView.backgroundColor = [UIColor clearColor];
                       }
                       else
                       {
                           NSLog(@"An error occurred: %@", error);
                           [self showAlert:@"Google Drive" message:@"Sorry, an error occurred!"];
+                          self.customCameraOverlayView.backgroundColor = [UIColor clearColor];
                       }
                   }];
 }
