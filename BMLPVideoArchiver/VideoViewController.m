@@ -83,11 +83,9 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     overlayView.frame = camera.view.frame;
     
     [self presentViewController:camera animated:animated completion:^{
-        //camera.cameraOverlayView = overlayView;
-        camera.cameraOverlayView = cameraOverlayView;
+        camera.cameraOverlayView = overlayView;
+        //camera.cameraOverlayView = cameraOverlayView;
     }];
-    
-    //camera.cameraOverlayView = cameraOverlayView;
     
 }
 

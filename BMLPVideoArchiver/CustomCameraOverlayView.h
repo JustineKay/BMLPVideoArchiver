@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface CustomCameraOverlayView : UIView
+@property (weak, nonatomic) IBOutlet UIButton *cameraSelectionButton;
 
 @end
