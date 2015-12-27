@@ -21,13 +21,6 @@ CustomCameraOverlayDelegate
 >
 
 {
-IBOutlet UIButton *cameraSelectionButton;
-IBOutlet UIButton *flashModeButton;
-IBOutlet UIButton *videoQualitySelectionButton;
-IBOutlet UIImageView *recordIndicatorView;
-
-IBOutlet UIView *cameraOverlayView;
-
 UITapGestureRecognizer  *recordGestureRecognizer;
 UIImagePickerController *camera;
 BOOL                     recording;

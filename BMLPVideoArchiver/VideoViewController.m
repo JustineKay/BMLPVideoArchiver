@@ -20,10 +20,6 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     BOOL isAuthorized;
 }
 
-//- (void)changeVideoQuality:(id)sender;
-//- (void)changeFlashMode:(id)sender;
-//- (void)changeCamera:(id)sender;
-
 - (void)createCamera;
 - (void)startRecording;
 - (void)stopRecording;
@@ -43,6 +39,25 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 {
     [super viewDidLoad];
     
+    [self createCustomCamera];
+    
+    // Initialize the drive service & load existing credentials from the keychain if available
+    self.driveService = [[GTLServiceDrive alloc] init];
+    self.driveService.authorizer = [GTMOAuth2ViewControllerTouch authForGoogleFromKeychainForName:kKeychainItemName
+                                                                                         clientID:kClientID
+                                                                                     clientSecret:kClientSecret];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [self presentViewController:camera animated:animated completion:^{
+        camera.cameraOverlayView = self.customCameraOverlayView;
+    }];
+    
+}
+
+-(void)createCustomCamera
+{
     CameraOverlayViewController *overlayVC = [[CameraOverlayViewController alloc] initWithNibName:@"CameraOverlayViewController" bundle:nil];
     self.customCameraOverlayView = (CustomCameraOverlayView *)overlayVC.view;
     
@@ -60,23 +75,6 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     recordGestureRecognizer.numberOfTapsRequired = 2;
     
     [self.customCameraOverlayView addGestureRecognizer:recordGestureRecognizer];
-    
-    // Initialize the drive service & load existing credentials from the keychain if available
-    self.driveService = [[GTLServiceDrive alloc] init];
-    self.driveService.authorizer = [GTMOAuth2ViewControllerTouch authForGoogleFromKeychainForName:kKeychainItemName
-                                                                                         clientID:kClientID
-                                                                                     clientSecret:kClientSecret];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-//    CGRect theRect = [camera.view frame];
-//    [cameraOverlayView setFrame:theRect];
-    
-    [self presentViewController:camera animated:animated completion:^{
-        camera.cameraOverlayView = self.customCameraOverlayView;
-        //camera.cameraOverlayView = cameraOverlayView;
-    }];
     
 }
 
@@ -132,7 +130,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     }
 }
 
-#pragma Mark - CustomCameraOverlayView delegate methods
+#pragma Mark - CustomCameraOverlayDelegate methods
 
 - (void)didChangeVideoQuality {
     if (camera.videoQuality == UIImagePickerControllerQualityType640x480) {
@@ -169,6 +167,9 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         showFlashMode = YES;
     }
 }
+
+
+#pragma mark - UIImagePickerController camera and delegate methods
 
 - (void)startRecording {
     
@@ -239,6 +240,8 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
+#pragma Mark - Google Drive Authorization and Uploading methods
 
 // Helper to check if user is authorized
 - (BOOL)isAuthorized
