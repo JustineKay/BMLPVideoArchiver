@@ -7,9 +7,11 @@
 
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "VideoViewController.h"
+#import "LogInViewController.h"
 #import "GTMOAuth2ViewControllerTouch.h"
 #import "GTLDrive.h"
 
+static NSString *const signedInKey = @"signedIn";
 static NSString *const kKeychainItemName = @"BMLP Video Archiver";
 static NSString *const kClientID = @"749579524688-b1oaiu8cc4obq06aal4org55qie5lho2.apps.googleusercontent.com";
 static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
@@ -39,13 +41,22 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 {
     [super viewDidLoad];
     
-    [self createCustomCamera];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:signedInKey]) {
+        
+        [self createCustomCamera];
+        
+        // Initialize the drive service & load existing credentials from the keychain if available
+        self.driveService = [[GTLServiceDrive alloc] init];
+        self.driveService.authorizer = [GTMOAuth2ViewControllerTouch authForGoogleFromKeychainForName:kKeychainItemName
+                                                                                             clientID:kClientID
+                                                                                         clientSecret:kClientSecret];
+        
+    }else {
+        
+        [self presentLogInVC];
+        
+    }
     
-    // Initialize the drive service & load existing credentials from the keychain if available
-    self.driveService = [[GTLServiceDrive alloc] init];
-    self.driveService.authorizer = [GTMOAuth2ViewControllerTouch authForGoogleFromKeychainForName:kKeychainItemName
-                                                                                         clientID:kClientID
-                                                                                     clientSecret:kClientSecret];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -58,13 +69,10 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 -(void)presentLogInVC
 {
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    NSString *infoAlert = @"infoAlert";
-    if ([prefs boolForKey:infoAlert])
-        return;
-    [prefs setBool:YES forKey:infoAlert];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:signedInKey];
     
-    
+    LogInViewController *logInVC = [[LogInViewController alloc] init];
+    [self presentViewController:logInVC animated:YES completion:nil];
 }
 
 -(void)createCustomCamera
