@@ -6,7 +6,7 @@ BMLP Video Archiver is an iOS app that allows you to easily record video and imm
 This project is currently in the early stages of development.  
 
 ###Client
-Black Movement Law Project  
+Black Movement - Law Project  
 https://bmlp.org/
 
 ###Basic Functionalities   
