@@ -216,7 +216,7 @@
 				TargetAttributes = {
 					6BDC39BC1BDF22EF0036BE01 = {
 						CreatedOnToolsVersion = 7.1;
-						DevelopmentTeam = BA3X38Y2VZ;
+						DevelopmentTeam = 8338VRHY69;
 					};
 				};
 			};
@@ -467,7 +467,7 @@
 					"-ObjC",
 					"-all_load",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = nyc.c4q.justinekay.BMLPVideoArchiver;
+				PRODUCT_BUNDLE_IDENTIFIER = nyc.justinekay.BMLPVideoArchiver;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "\"/Users/justinegartner/google-api-objectivec-client/Source\"/**";
@@ -487,7 +487,7 @@
 					"-ObjC",
 					"-all_load",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = nyc.c4q.justinekay.BMLPVideoArchiver;
+				PRODUCT_BUNDLE_IDENTIFIER = nyc.justinekay.BMLPVideoArchiver;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "\"/Users/justinegartner/google-api-objectivec-client/Source\"/**";

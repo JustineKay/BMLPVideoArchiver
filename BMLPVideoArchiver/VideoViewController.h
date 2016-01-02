@@ -24,6 +24,7 @@ CustomCameraOverlayDelegate
 UITapGestureRecognizer  *recordGestureRecognizer;
 UIImagePickerController *camera;
 BOOL                     recording;
+BOOL                     endSession;
 BOOL                     showCameraSelection;
 BOOL                     showFlashMode;
 }
