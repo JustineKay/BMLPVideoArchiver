@@ -83,7 +83,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     self.customCameraOverlayView.frame = camera.view.frame;
     
-    recordGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleVideoRecording)];
+    recordGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(beginVideoRecording)];
     recordGestureRecognizer.numberOfTapsRequired = 2;
     
     [self.customCameraOverlayView addGestureRecognizer:recordGestureRecognizer];
@@ -140,7 +140,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     }
 }
 
-- (void)toggleVideoRecording
+- (void)beginVideoRecording
 {
     endSession = NO;
     
@@ -148,13 +148,8 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         
         recording = YES;
         [self startRecording];
-        //NSLog(@"recording started");
-    
-    } else {
         
-        recording = NO;
-        [self stopRecording];
-        //NSLog(@"recording stopped");
+        NSLog(@"recording started");
     
     }
 }
@@ -170,13 +165,14 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 {
     if (motion == UIEventSubtypeMotionShake)
     {
-        [camera stopVideoCapture];
-        
-        recording = NO;
-        //NSLog(@"recording stopped");
-        
-        endSession = YES;
-        //NSLog(@"session ended");
+        if (recording) {
+            
+            [self stopRecording];
+            
+            endSession = YES;
+            NSLog(@"session ended");
+            
+        }
     }
 }
 
@@ -257,7 +253,10 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 - (void)stopRecording
 {
+    recording = NO;
     [camera stopVideoCapture];
+    
+    NSLog(@"recording stopped");
 }
 
 
@@ -288,12 +287,13 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     if (!endSession) {
      
         [camera startVideoCapture];
+        NSLog(@"recording started");
     }
 }
 
 - (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
 {
-   if (!recording) {
+   if (endSession) {
         
     void (^showControls)(void);
     showControls = ^(void) {
