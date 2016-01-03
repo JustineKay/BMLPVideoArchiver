@@ -13,6 +13,8 @@
 #import "CameraOverlayViewController.h"
 #import "CustomCameraOverlayView.h"
 
+#define SignedInKey @"SignedIn"
+
 @interface VideoViewController : UIViewController
 <
 UINavigationControllerDelegate,

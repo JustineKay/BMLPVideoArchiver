@@ -8,7 +8,7 @@
         <!--Video View Controller-->
         <scene sceneID="sIN-rn-ntg">
             <objects>
-                <viewController id="Ea0-i6-a2s" customClass="VideoViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="VideoViewController" id="Ea0-i6-a2s" customClass="VideoViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="q0M-rb-zPO"/>
                         <viewControllerLayoutGuide type="bottom" id="f6w-LB-lfs"/>
@@ -26,7 +26,7 @@
         <!--Log In View Controller-->
         <scene sceneID="4ta-58-Clb">
             <objects>
-                <viewController id="mri-8H-Q4s" customClass="LogInViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LogInViewController" id="mri-8H-Q4s" customClass="LogInViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Y4j-V0-Ara"/>
                         <viewControllerLayoutGuide type="bottom" id="hgJ-BA-HqU"/>
@@ -35,20 +35,26 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BMLP Video Archiver" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lJw-JR-TCi">
-                                <rect key="frame" x="20" y="146" width="560" height="41"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Video Archiver" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lJw-JR-TCi">
+                                <rect key="frame" x="20" y="209" width="560" height="41"/>
                                 <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="30"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="In order to use BMLP Video Archiver you must sign in to your Google Drive account" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="utE-cW-5z9">
-                                <rect key="frame" x="75" y="217" width="450" height="41"/>
+                                <rect key="frame" x="75" y="280" width="450" height="41"/>
                                 <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="15"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BMLP" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yT8-VM-fEQ">
+                                <rect key="frame" x="20" y="161" width="560" height="48"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="35"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UcM-18-Gzy">
-                                <rect key="frame" x="260" y="278" width="80" height="44"/>
+                                <rect key="frame" x="260" y="341" width="80" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="80" id="7Ld-re-AWa"/>
                                     <constraint firstAttribute="height" constant="44" id="rVx-Tt-Fw5"/>
@@ -64,15 +70,26 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="utE-cW-5z9" firstAttribute="centerY" secondItem="bxy-xa-VgT" secondAttribute="centerY" id="94W-WC-WcU"/>
                             <constraint firstItem="utE-cW-5z9" firstAttribute="top" secondItem="lJw-JR-TCi" secondAttribute="bottom" constant="30" id="Afl-do-keH"/>
                             <constraint firstItem="utE-cW-5z9" firstAttribute="leading" secondItem="bxy-xa-VgT" secondAttribute="leading" constant="75" id="Cac-Qz-yPk"/>
                             <constraint firstItem="lJw-JR-TCi" firstAttribute="leading" secondItem="bxy-xa-VgT" secondAttribute="leading" constant="20" id="Kqi-wD-LYN"/>
                             <constraint firstAttribute="trailing" secondItem="utE-cW-5z9" secondAttribute="trailing" constant="75" id="Y0M-Uc-RKw"/>
                             <constraint firstItem="UcM-18-Gzy" firstAttribute="centerY" secondItem="bxy-xa-VgT" secondAttribute="centerY" id="aoU-HA-YI9"/>
                             <constraint firstItem="UcM-18-Gzy" firstAttribute="top" secondItem="utE-cW-5z9" secondAttribute="bottom" constant="20" id="d4Y-MR-LJO"/>
+                            <constraint firstAttribute="trailing" secondItem="yT8-VM-fEQ" secondAttribute="trailing" constant="20" id="dsF-Ja-ZGD"/>
+                            <constraint firstItem="yT8-VM-fEQ" firstAttribute="leading" secondItem="bxy-xa-VgT" secondAttribute="leading" constant="20" id="hWM-d7-O7L"/>
+                            <constraint firstItem="lJw-JR-TCi" firstAttribute="top" secondItem="yT8-VM-fEQ" secondAttribute="bottom" id="q1S-T8-ZrV"/>
                             <constraint firstAttribute="trailing" secondItem="lJw-JR-TCi" secondAttribute="trailing" constant="20" id="ue6-wR-egx"/>
+                            <constraint firstItem="hgJ-BA-HqU" firstAttribute="top" secondItem="UcM-18-Gzy" secondAttribute="bottom" constant="75" id="xbH-Vs-y64"/>
                             <constraint firstItem="UcM-18-Gzy" firstAttribute="centerX" secondItem="bxy-xa-VgT" secondAttribute="centerX" id="zFt-il-ZhY"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="aoU-HA-YI9"/>
+                                <exclude reference="xbH-Vs-y64"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
                         <outlet property="logInButton" destination="UcM-18-Gzy" id="3WW-qQ-5dK"/>

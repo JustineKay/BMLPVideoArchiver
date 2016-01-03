@@ -7,6 +7,7 @@
 //
 
 #import "LogInViewController.h"
+#import "VideoViewController.h"
 
 @interface LogInViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *logInButton;
@@ -25,13 +26,18 @@
     
     self.logInButton.titleLabel.textColor = [UIColor redColor];
     
-    
 }
 
 - (IBAction)logInButtonTapped:(UIButton *)sender
 {
     
-    [self dismissViewControllerAnimated:self completion:nil];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    
+    VideoViewController *videoVC = [storyboard instantiateViewControllerWithIdentifier:@"VideoViewController"];
+    
+    
+    [self presentViewController:videoVC animated:YES completion:nil];
+
 }
 
 

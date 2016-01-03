@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "VideoViewController.h"
+#import "LogInViewController.h"
 
 @interface AppDelegate ()
 
@@ -19,12 +20,30 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
     
-//    _window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-//    self.window.rootViewController = self.navigationController;
-//    [self.window makeKeyAndVisible];
-    return YES;
+    
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:SignedInKey]) {
+        
+        UIStoryboard *storyboard = self.window.rootViewController.storyboard;
+        
+        UIViewController *logInViewController = [storyboard instantiateViewControllerWithIdentifier:@"LogInViewController"];
+        
+        self.window.rootViewController = logInViewController;
+        
+        [self.window makeKeyAndVisible];
+        
+    }else {
+        
+        
+        UIStoryboard *storyboard = self.window.rootViewController.storyboard;
+        
+        VideoViewController *videoVC = [storyboard instantiateViewControllerWithIdentifier:@"VideoViewController"];
+        
+        self.window.rootViewController = videoVC;
+        
+        [self.window makeKeyAndVisible];
+        
+    }    return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
