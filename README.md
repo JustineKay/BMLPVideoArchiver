@@ -1,7 +1,7 @@
 # BMLPVideoArchiver  
 
 ###Description  
-BMLP Video Archiver is an iOS app that allows you to easily record video and immediately save the footage to your personal Google Drive account.  Your recordings will also be saved to your device.  
+BMLP Video Archiver is an iOS app that allows you to easily record video and immediately save the footage to your personal Google Drive account.  Your recordings are also saved to your device.  
 
 This project is currently in the early stages of development.  
 
