@@ -91,7 +91,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     camera.showsCameraControls = NO;
     camera.cameraViewTransform = CGAffineTransformIdentity;
-    camera.videoMaximumDuration = 60.0;
+    camera.videoMaximumDuration = 30.0;
     
     // not all devices have two cameras or a flash so just check here
     if ( [UIImagePickerController isCameraDeviceAvailable: UIImagePickerControllerCameraDeviceRear] ) {
@@ -135,11 +135,10 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 - (void)beginVideoRecording
 {
-    endSession = NO;
-    
     if (!recording) {
         
-        recording = YES;
+        sessionInProgress = YES;
+        
         [self startRecording];
         
         NSLog(@"recording started");
@@ -160,9 +159,10 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     {
         if (recording) {
             
+            sessionInProgress = NO;
+            
             [self stopRecording];
             
-            endSession = YES;
             NSLog(@"session ended");
             
         }
@@ -232,11 +232,12 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         self.customCameraOverlayView.flashModeButton.alpha = 0;
         self.customCameraOverlayView.videoQualitySelectionButton.alpha = 0;
         self.customCameraOverlayView.recordIndicatorView.alpha = 1.0;
-        //self.customCameraOverlayView.backgroundColor = [UIColor blackColor];
     };
     
     void (^recordMovie)(BOOL finished);
     recordMovie = ^(BOOL finished) {
+        
+        recording = YES;
         [camera startVideoCapture];
     };
     
@@ -277,16 +278,19 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     }
     
-    if (!endSession) {
-     
-        [camera startVideoCapture];
-        NSLog(@"recording started");
-    }
+    //Uncomment to continue recording
+//    if (sessionInProgress) {
+//        
+//        recording = YES;
+//        [camera startVideoCapture];
+//        
+//        NSLog(@"recording continued...");
+//    }
 }
 
 - (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
 {
-   if (endSession) {
+   if (!sessionInProgress) {
         
     void (^showControls)(void);
     showControls = ^(void) {
@@ -377,18 +381,20 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     [self.driveService executeQuery:query
                   completionHandler:^(GTLServiceTicket *ticket,
                                       GTLDriveFile *insertedFile, NSError *error) {
+                      
                       [waitIndicator dismissWithClickedButtonIndex:0 animated:YES];
+                      
                       if (error == nil)
                       {
                           NSLog(@"File ID: %@", insertedFile.identifier);
                           [self showAlert:@"Google Drive" message:@"File saved!"];
-                          //self.customCameraOverlayView.backgroundColor = [UIColor clearColor];
+                          
                       }
                       else
                       {
                           NSLog(@"An error occurred: %@", error);
                           [self showAlert:@"Google Drive" message:@"Sorry, an error occurred!"];
-                          //self.customCameraOverlayView.backgroundColor = [UIColor clearColor];
+                          
                       }
                   }];
 }
