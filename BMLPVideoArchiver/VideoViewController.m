@@ -8,8 +8,7 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "VideoViewController.h"
 #import "LogInViewController.h"
-#import "GTMOAuth2ViewControllerTouch.h"
-#import "GTLDrive.h"
+#import <gtm-http-fetcher/GTMHTTPUploadFetcher.h>
 
 static NSString *const kKeychainItemName = @"BMLP Video Archiver";
 static NSString *const kClientID = @"749579524688-b1oaiu8cc4obq06aal4org55qie5lho2.apps.googleusercontent.com";
@@ -376,8 +375,10 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     GTLQueryDrive *query = [GTLQueryDrive queryForFilesInsertWithObject:file
                                                        uploadParameters:uploadParameters];
     
+    GTMHTTPUploadFetcher *uploadFetcher = [GTMHTTPUploadFetcher uploadFetcherWithLocation:<#(NSURL *)#> uploadFileHandle:<#(NSFileHandle *)#> uploadMIMEType:<#(NSString *)#> chunkSize:<#(NSUInteger)#> fetcherService:<#(GTMHTTPFetcherService *)#>
     UIAlertView *waitIndicator = [self showWaitIndicator:@"Uploading to Google Drive"];
     
+
     [self.driveService executeQuery:query
                   completionHandler:^(GTLServiceTicket *ticket,
                                       GTLDriveFile *insertedFile, NSError *error) {

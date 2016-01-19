@@ -1,10 +1,24 @@
 PODS:
+  - Google-API-Client/Common (1.0.422):
+    - gtm-http-fetcher (~> 1.0.141)
+    - gtm-oauth2 (~> 1.0.125)
+  - Google-API-Client/Drive (1.0.422):
+    - Google-API-Client/Common
+    - gtm-http-fetcher (~> 1.0.141)
+    - gtm-oauth2 (~> 1.0.125)
+  - gtm-http-fetcher (1.0.141)
+  - gtm-oauth2 (1.0.126):
+    - gtm-http-fetcher (~> 1.0.141)
   - LLSimpleCamera (3.0.0)
 
 DEPENDENCIES:
+  - Google-API-Client/Drive (~> 1.0)
   - LLSimpleCamera (~> 3.0)
 
 SPEC CHECKSUMS:
+  Google-API-Client: cb712cf122f1d7fda966de4c2bc551324573366c
+  gtm-http-fetcher: 6d4617e7d343b6e4c082b777541c334eb6f5d81e
+  gtm-oauth2: 2a18b824e4f8a02df6cfe987beb59ae9d9697f9d
   LLSimpleCamera: 3c41b46917f9ca53b91ef9c0cf24a75ce0ab4cd8
 
 COCOAPODS: 0.39.0

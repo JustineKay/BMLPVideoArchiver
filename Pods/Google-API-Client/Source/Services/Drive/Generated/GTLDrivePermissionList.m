@@ -1,4 +1,4 @@
-/* Copyright (c) 2015 Google Inc.
+/* Copyright (c) 2012 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  */
 
 //
-//  GTLDrive.h
+//  GTLDrivePermissionList.m
 //
 
 // ----------------------------------------------------------------------------
@@ -25,34 +25,37 @@
 //   The API to interact with Drive.
 // Documentation:
 //   https://developers.google.com/drive/
+// Classes:
+//   GTLDrivePermissionList (0 custom class methods, 4 custom properties)
 
-#import "GTLDriveConstants.h"
-
-#import "GTLDriveAbout.h"
-#import "GTLDriveApp.h"
-#import "GTLDriveAppList.h"
-#import "GTLDriveChange.h"
-#import "GTLDriveChangeList.h"
-#import "GTLDriveChannel.h"
-#import "GTLDriveChildList.h"
-#import "GTLDriveChildReference.h"
-#import "GTLDriveComment.h"
-#import "GTLDriveCommentList.h"
-#import "GTLDriveCommentReply.h"
-#import "GTLDriveCommentReplyList.h"
-#import "GTLDriveFile.h"
-#import "GTLDriveFileList.h"
-#import "GTLDriveGeneratedIds.h"
-#import "GTLDriveParentList.h"
-#import "GTLDriveParentReference.h"
-#import "GTLDrivePermission.h"
-#import "GTLDrivePermissionId.h"
 #import "GTLDrivePermissionList.h"
-#import "GTLDriveProperty.h"
-#import "GTLDrivePropertyList.h"
-#import "GTLDriveRevision.h"
-#import "GTLDriveRevisionList.h"
-#import "GTLDriveUser.h"
 
-#import "GTLQueryDrive.h"
-#import "GTLServiceDrive.h"
+#import "GTLDrivePermission.h"
+
+// ----------------------------------------------------------------------------
+//
+//   GTLDrivePermissionList
+//
+
+@implementation GTLDrivePermissionList
+@dynamic ETag, items, kind, selfLink;
+
++ (NSDictionary *)propertyToJSONKeyMap {
+  NSDictionary *map =
+    [NSDictionary dictionaryWithObject:@"etag"
+                                forKey:@"ETag"];
+  return map;
+}
+
++ (NSDictionary *)arrayPropertyToClassMap {
+  NSDictionary *map =
+    [NSDictionary dictionaryWithObject:[GTLDrivePermission class]
+                                forKey:@"items"];
+  return map;
+}
+
++ (void)load {
+  [self registerObjectClassForKind:@"drive#permissionList"];
+}
+
+@end

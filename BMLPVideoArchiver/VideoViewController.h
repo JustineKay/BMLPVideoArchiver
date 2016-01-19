@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-#import "GTMOAuth2ViewControllerTouch.h"
-#import "GTLDrive.h"
+#import <gtm-oauth2/GTMOAuth2ViewControllerTouch.h>
+#import <Google-API-Client/GTLDrive.h>
 #import "CameraOverlayViewController.h"
 #import "CustomCameraOverlayView.h"
 
