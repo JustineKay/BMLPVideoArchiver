@@ -52,10 +52,19 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    [self presentViewController:camera animated:animated completion:^{
-        camera.cameraOverlayView = self.customCameraOverlayView;
-    }];
     
+    if (![self isAuthorized]) {
+        
+        // Not yet authorized, request authorization and push the login UI onto the navigation stack.
+        
+        [self presentViewController:[self createAuthController] animated:YES completion:nil];
+        
+    }else {
+        
+        [self presentViewController:camera animated:animated completion:^{
+            camera.cameraOverlayView = self.customCameraOverlayView;
+        }];
+    }
 }
 
 -(void)createCustomCamera
@@ -124,12 +133,6 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     camera.delegate = self;
     camera.edgesForExtendedLayout = UIRectEdgeAll;
     
-    if (![self isAuthorized]) {
-        
-        // Not yet authorized, request authorization and push the login UI onto the navigation stack.
-        [camera pushViewController:[self createAuthController] animated:YES];
-    
-    }
     
 }
 
