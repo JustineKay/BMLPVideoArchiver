@@ -23,6 +23,8 @@
 		6BDC39D01BDF22EF0036BE01 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BDC39CE1BDF22EF0036BE01 /* LaunchScreen.storyboard */; };
 		6BDC39D91BDF274A0036BE01 /* VideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDC39D81BDF274A0036BE01 /* VideoViewController.m */; };
 		6BE642461C388052003CA4A1 /* LogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE642451C388052003CA4A1 /* LogInViewController.m */; };
+		6BFF08A61C5C26890009B0BB /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BFF08A51C5C26890009B0BB /* AVFoundation.framework */; };
+		6BFF08AC1C5C26A30009B0BB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BFF08AB1C5C26A30009B0BB /* Foundation.framework */; };
 		DAA79D414D47D1DEAAA48D7F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FFB43943C105DE2F96CF328 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -84,6 +86,8 @@
 		6BDC39D81BDF274A0036BE01 /* VideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoViewController.m; sourceTree = "<group>"; };
 		6BE642441C388052003CA4A1 /* LogInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogInViewController.h; sourceTree = "<group>"; };
 		6BE642451C388052003CA4A1 /* LogInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogInViewController.m; sourceTree = "<group>"; };
+		6BFF08A51C5C26890009B0BB /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		6BFF08AB1C5C26A30009B0BB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F0EFA6533BB32EB0742FAC7B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -92,6 +96,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6BFF08AC1C5C26A30009B0BB /* Foundation.framework in Frameworks */,
+				6BFF08A61C5C26890009B0BB /* AVFoundation.framework in Frameworks */,
 				6B9B14741C1FB62200E5A662 /* MobileCoreServices.framework in Frameworks */,
 				6B6B40131BE1CEF500EDE9F2 /* libGTLTouchStaticLib.a in Frameworks */,
 				6B6B3FD61BE1A52A00EDE9F2 /* SystemConfiguration.framework in Frameworks */,
@@ -106,6 +112,8 @@
 		5F8AEF7038B6D5F6DAD271EE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6BFF08AB1C5C26A30009B0BB /* Foundation.framework */,
+				6BFF08A51C5C26890009B0BB /* AVFoundation.framework */,
 				6B9B14731C1FB62200E5A662 /* MobileCoreServices.framework */,
 				6B6B3FD51BE1A52A00EDE9F2 /* SystemConfiguration.framework */,
 				6B6B3FD31BE1A51C00EDE9F2 /* Security.framework */,

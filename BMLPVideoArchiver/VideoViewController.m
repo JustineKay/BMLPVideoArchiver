@@ -2,8 +2,8 @@
 //  VideoViewController.m
 //  BMLPVideoArchiver
 //
-//  Created by Justine Beth Kay on 10/26/15.
-//  Copyright © 2015 Justine Beth Kay. All rights reserved.
+//  Created by Justine Kay on 10/26/15.
+//  Copyright © 2015 Justine Kay. All rights reserved.
 
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "VideoViewController.h"
@@ -14,6 +14,10 @@
 static NSString *const kKeychainItemName = @"BMLP Video Archiver";
 static NSString *const kClientID = @"749579524688-b1oaiu8cc4obq06aal4org55qie5lho2.apps.googleusercontent.com";
 static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
+
+////New OAuthClientID -registered as web app
+//static NSString *const kClientID = @"109547837248-a34hl7rukge02q870cbg0tcvm7dq2v6m.apps.googleusercontent.com";
+//static NSString *const kClientSecret = @"y-WCiIpvWc8FF5GB7_mD39dK";
 
 @interface VideoViewController ()
 
@@ -29,6 +33,8 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 @property (nonatomic, retain) GTLServiceDrive *driveService;
 @property (nonatomic) CustomCameraOverlayView *customCameraOverlayView;
+@property (nonatomic) NSTimer *timer;
+@property (nonatomic) NSInteger timeInSeconds;
 
 @end
 
@@ -40,7 +46,9 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 {
     [super viewDidLoad];
     
-    [self createCustomCamera];
+    [self createCamera];
+    
+    self.timeInSeconds = 0;
     
     // Initialize the drive service & load existing credentials from the keychain if available
     self.driveService = [[GTLServiceDrive alloc] init];
@@ -56,18 +64,15 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     if (![self isAuthorized]) {
         
         // Not yet authorized, request authorization and push the login UI onto the navigation stack.
-        
         [self presentViewController:[self createAuthController] animated:YES completion:nil];
         
     }else {
         
-        [self presentViewController:camera animated:animated completion:^{
-            camera.cameraOverlayView = self.customCameraOverlayView;
-        }];
+        [self presentViewController:camera animated:animated completion:nil];
     }
 }
 
--(void)createCustomCamera
+-(void)customCameraOverlay
 {
     CameraOverlayViewController *overlayVC = [[CameraOverlayViewController alloc] initWithNibName:@"CameraOverlayViewController" bundle:nil];
     self.customCameraOverlayView = (CustomCameraOverlayView *)overlayVC.view;
@@ -78,8 +83,6 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     self.customCameraOverlayView.flashModeButton.alpha = 0.0;
     self.customCameraOverlayView.recordIndicatorView.alpha = 0.0;
     self.customCameraOverlayView.backgroundColor = [UIColor clearColor];
-    
-    [self createCamera];
     
     self.customCameraOverlayView.frame = camera.view.frame;
     
@@ -100,7 +103,10 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     camera.showsCameraControls = NO;
     camera.cameraViewTransform = CGAffineTransformIdentity;
-    camera.videoMaximumDuration = 30.0;
+    
+    //create custom overlay and apply to camera
+    [self customCameraOverlay];
+    camera.cameraOverlayView = self.customCameraOverlayView;
     
     // not all devices have two cameras or a flash so just check here
     if ( [UIImagePickerController isCameraDeviceAvailable: UIImagePickerControllerCameraDeviceRear] ) {
@@ -144,10 +150,45 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         
         [self startRecording];
         
+        //[self startVideoRecordingTimer];
+        
         NSLog(@"recording started");
     
     }
 }
+
+#pragma mark - Video Recording Timer
+
+-(void)startVideoRecordingTimer
+{
+    NSTimer *timer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(fireTimer:) userInfo:nil repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+    self.timer = timer;
+    
+}
+
+-(void)fireTimer: (NSTimer *) timer
+{
+    self.timeInSeconds += 1;
+    
+    if (self.timeInSeconds == 30) {
+        
+        [self stopRecording];
+    }
+    
+    NSLog(@"Timer Fired, time in seconds: %ld", (long)self.timeInSeconds);
+}
+
+-(void)resetTimer
+{
+    if (self.timer){
+        
+        [self.timer invalidate];
+        
+        self.timeInSeconds = 0;
+    }
+}
+
 
 #pragma mark - ShakeGesture
 
@@ -242,6 +283,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         
         recording = YES;
         [camera startVideoCapture];
+        [self startVideoRecordingTimer];
     };
     
     // Hide controls
@@ -250,7 +292,10 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 - (void)stopRecording
 {
+    [self resetTimer];
+    
     recording = NO;
+    
     [camera stopVideoCapture];
     
     NSLog(@"recording stopped");
@@ -282,13 +327,14 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     }
     
     //Uncomment to continue recording
-//    if (sessionInProgress) {
-//        
-//        recording = YES;
-//        [camera startVideoCapture];
-//        
-//        NSLog(@"recording continued...");
-//    }
+    if (sessionInProgress) {
+        
+        recording = YES;
+        [camera startVideoCapture];
+        [self startVideoRecordingTimer];
+        
+        NSLog(@"recording continued...");
+    }
 }
 
 - (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
@@ -322,7 +368,13 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 // Helper to check if user is authorized
 - (BOOL)isAuthorized
 {
-    return [((GTMOAuth2Authentication *)self.driveService.authorizer) canAuthorize];
+    
+    BOOL auth = [((GTMOAuth2Authentication *)self.driveService.authorizer) canAuthorize];
+    
+    //Set Bool for presenting LogInVC
+    [[NSUserDefaults standardUserDefaults] setBool:auth forKey:SignedInKey];
+    
+    return auth;
 }
 
 // Creates the auth controller for authorizing access to Google Drive.
@@ -352,10 +404,15 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     }
     else
     {
+        [self.parentViewController dismissViewControllerAnimated:NO completion:nil];
+        [viewController removeFromParentViewController];
+
+        //Set Bool for presenting LogInVC
+        //[[NSUserDefaults standardUserDefaults] setBool:YES forKey:SignedInKey];
+        
         self.driveService.authorizer = authResult;
         
-        //Set Bool for presenting LogInVC
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:SignedInKey];
+
 
     }
 }
