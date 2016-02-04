@@ -15,10 +15,6 @@ static NSString *const kKeychainItemName = @"BMLP Video Archiver";
 static NSString *const kClientID = @"749579524688-b1oaiu8cc4obq06aal4org55qie5lho2.apps.googleusercontent.com";
 static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
-////New OAuthClientID -registered as web app
-//static NSString *const kClientID = @"109547837248-a34hl7rukge02q870cbg0tcvm7dq2v6m.apps.googleusercontent.com";
-//static NSString *const kClientSecret = @"y-WCiIpvWc8FF5GB7_mD39dK";
-
 @interface VideoViewController ()
 
 {
@@ -149,8 +145,6 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         sessionInProgress = YES;
         
         [self startRecording];
-        
-        //[self startVideoRecordingTimer];
         
         NSLog(@"recording started");
     
@@ -371,8 +365,12 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     BOOL auth = [((GTMOAuth2Authentication *)self.driveService.authorizer) canAuthorize];
     
-    //Set Bool for presenting LogInVC
-    [[NSUserDefaults standardUserDefaults] setBool:auth forKey:SignedInKey];
+    if (auth == YES) {
+        
+        //Set Bool for presenting LogInVC
+        [[NSUserDefaults standardUserDefaults] setBool:auth forKey:SignedInKey];
+
+    }
     
     return auth;
 }
