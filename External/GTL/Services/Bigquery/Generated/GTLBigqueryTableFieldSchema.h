@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@
 // Description:
 //   A data platform for customers to create, manage, share and query data.
 // Documentation:
-//   https://developers.google.com/bigquery/docs/overview
+//   https://cloud.google.com/bigquery/
 // Classes:
 //   GTLBigqueryTableFieldSchema (0 custom class methods, 5 custom properties)
 
@@ -43,24 +43,26 @@
 
 @interface GTLBigqueryTableFieldSchema : GTLObject
 
-// [Optional] The field description.
+// [Optional] The field description. The maximum length is 16K characters.
 // Remapped to 'descriptionProperty' to avoid NSObject's 'description'.
-@property (copy) NSString *descriptionProperty;
+@property (nonatomic, copy) NSString *descriptionProperty;
 
 // [Optional] Describes the nested schema fields if the type property is set to
 // RECORD.
-@property (retain) NSArray *fields;  // of GTLBigqueryTableFieldSchema
+@property (nonatomic, retain) NSArray *fields;  // of GTLBigqueryTableFieldSchema
 
 // [Optional] The field mode. Possible values include NULLABLE, REQUIRED and
 // REPEATED. The default value is NULLABLE.
-@property (copy) NSString *mode;
+@property (nonatomic, copy) NSString *mode;
 
-// [Required] The field name.
-@property (copy) NSString *name;
+// [Required] The field name. The name must contain only letters (a-z, A-Z),
+// numbers (0-9), or underscores (_), and must start with a letter or
+// underscore. The maximum length is 128 characters.
+@property (nonatomic, copy) NSString *name;
 
 // [Required] The field data type. Possible values include STRING, INTEGER,
 // FLOAT, BOOLEAN, TIMESTAMP or RECORD (where RECORD indicates that the field
 // contains a nested schema).
-@property (copy) NSString *type;
+@property (nonatomic, copy) NSString *type;
 
 @end

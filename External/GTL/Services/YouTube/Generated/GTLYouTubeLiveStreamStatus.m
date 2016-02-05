@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,9 +26,11 @@
 // Documentation:
 //   https://developers.google.com/youtube/v3
 // Classes:
-//   GTLYouTubeLiveStreamStatus (0 custom class methods, 1 custom properties)
+//   GTLYouTubeLiveStreamStatus (0 custom class methods, 2 custom properties)
 
 #import "GTLYouTubeLiveStreamStatus.h"
+
+#import "GTLYouTubeLiveStreamHealthStatus.h"
 
 // ----------------------------------------------------------------------------
 //
@@ -36,5 +38,5 @@
 //
 
 @implementation GTLYouTubeLiveStreamStatus
-@dynamic streamStatus;
+@dynamic healthStatus, streamStatus;
 @end

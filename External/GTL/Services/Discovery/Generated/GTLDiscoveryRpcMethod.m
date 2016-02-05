@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@
 // Documentation:
 //   https://developers.google.com/discovery/
 // Classes:
-//   GTLDiscoveryRpcMethod (0 custom class methods, 13 custom properties)
+//   GTLDiscoveryRpcMethod (0 custom class methods, 14 custom properties)
 //   GTLDiscoveryRpcMethodMediaUpload (0 custom class methods, 2 custom properties)
 //   GTLDiscoveryRpcMethodParameters (0 custom class methods, 0 custom properties)
 //   GTLDiscoveryRpcMethodReturns (0 custom class methods, 1 custom properties)
@@ -44,23 +44,22 @@
 @implementation GTLDiscoveryRpcMethod
 @dynamic allowGet, descriptionProperty, etagRequired, identifier, mediaUpload,
          parameterOrder, parameters, returns, scopes, supportsMediaDownload,
-         supportsMediaUpload, supportsPatch, supportsSubscription;
+         supportsMediaUpload, supportsPatch, supportsSubscription,
+         useMediaDownloadService;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObjectsAndKeys:
-      @"description", @"descriptionProperty",
-      @"id", @"identifier",
-      nil];
+  NSDictionary *map = @{
+    @"descriptionProperty" : @"description",
+    @"identifier" : @"id"
+  };
   return map;
 }
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObjectsAndKeys:
-      [NSString class], @"parameterOrder",
-      [NSString class], @"scopes",
-      nil];
+  NSDictionary *map = @{
+    @"parameterOrder" : [NSString class],
+    @"scopes" : [NSString class]
+  };
   return map;
 }
 
@@ -76,9 +75,9 @@
 @dynamic accept, maxSize;
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:[NSString class]
-                                forKey:@"accept"];
+  NSDictionary *map = @{
+    @"accept" : [NSString class]
+  };
   return map;
 }
 
@@ -108,9 +107,9 @@
 @dynamic xRef;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"$ref"
-                                forKey:@"xRef"];
+  NSDictionary *map = @{
+    @"xRef" : @"$ref"
+  };
   return map;
 }
 

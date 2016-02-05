@@ -27,8 +27,8 @@
 - (BOOL)isBatchQuery;
 - (BOOL)shouldSkipAuthorization;
 - (void)executionDidStop;
-- (NSDictionary *)additionalHTTPHeaders;
-- (NSDictionary *)urlQueryParameters;
+- (GTL_NSDictionaryOf(NSString *, NSString *) *)additionalHTTPHeaders;
+- (GTL_NSDictionaryOf(NSString *, NSString *) *)urlQueryParameters;
 - (GTLUploadParameters *)uploadParameters;
 @end
 
@@ -39,6 +39,22 @@
 @end
 
 @class GTLServiceTicket;
+@class GTLQuery;
+
+// The test block enables testing of query execution without any network activity.
+//
+// The test block must finish by calling the response block, passing either an object
+// (GTLObject or GTLBatchResult) or an NSError.
+//
+// The query is available to the test block code as ticket.originalQuery.
+//
+// Because query execution is asynchronous, the test code must wait for a callback,
+// either with GTLService's waitForTicket:timeout:fetchedObject:error: or with XCTestCase's
+// waitForExpectationsWithTimeout:
+//
+// Example usage is available in GTLServiceTest.
+typedef void (^GTLQueryTestResponse)(id object, NSError *error);
+typedef void (^GTLQueryTestBlock)(GTLServiceTicket *testTicket, GTLQueryTestResponse testResponse);
 
 @interface GTLQuery : NSObject <GTLQueryProtocol> {
  @private
@@ -53,6 +69,7 @@
   Class expectedObjectClass_;
   BOOL skipAuthorization_;
   void (^completionBlock_)(GTLServiceTicket *ticket, id object, NSError *error);
+  GTLQueryTestBlock testBlock_;
 }
 
 // The rpc method name.
@@ -75,14 +92,14 @@
 
 // Any URL query parameters to add to the query (useful for debugging with some
 // services).
-@property (copy) NSDictionary *urlQueryParameters;
+@property (copy) GTL_NSDictionaryOf(NSString *, NSString *) *urlQueryParameters;
 
 // Any additional HTTP headers for this query.  Not valid when this query
 // is added to a batch.
 //
 // These headers override the same keys from the service object's
 // additionalHTTPHeaders.
-@property (copy) NSDictionary *additionalHTTPHeaders;
+@property (copy) GTL_NSDictionaryOf(NSString *, NSString *) *additionalHTTPHeaders;
 
 // The GTLObject subclass expected for results (used if the result doesn't
 // include a kind attribute).
@@ -108,11 +125,15 @@
 //   }
 @property (copy) void (^completionBlock)(GTLServiceTicket *ticket, id object, NSError *error);
 
-// methodName is the RPC method name to use.
-+ (id)queryWithMethodName:(NSString *)methodName GTL_NONNULL((1));
+// Apps may provide a test block on the query or service to avoid network activity
+// during testing.  See the description above for GTLQueryTestBlock.
+@property (copy) GTLQueryTestBlock testBlock;
 
 // methodName is the RPC method name to use.
-- (id)initWithMethodName:(NSString *)method GTL_NONNULL((1));
++ (instancetype)queryWithMethodName:(NSString *)methodName GTL_NONNULL((1));
+
+// methodName is the RPC method name to use.
+- (instancetype)initWithMethodName:(NSString *)method GTL_NONNULL((1));
 
 // If you need to set a parameter that is not listed as a property for a
 // query class, you can do so via this api.  If you need to clear it after

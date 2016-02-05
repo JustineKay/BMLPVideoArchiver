@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,11 +29,12 @@
 #import "GTLAnalyticsConstants.h"
 
 // Authorization scope
-NSString * const kGTLAuthScopeAnalytics            = @"https://www.googleapis.com/auth/analytics";
-NSString * const kGTLAuthScopeAnalyticsEdit        = @"https://www.googleapis.com/auth/analytics.edit";
-NSString * const kGTLAuthScopeAnalyticsManageUsers = @"https://www.googleapis.com/auth/analytics.manage.users";
-NSString * const kGTLAuthScopeAnalyticsProvision   = @"https://www.googleapis.com/auth/analytics.provision";
-NSString * const kGTLAuthScopeAnalyticsReadonly    = @"https://www.googleapis.com/auth/analytics.readonly";
+NSString * const kGTLAuthScopeAnalytics                    = @"https://www.googleapis.com/auth/analytics";
+NSString * const kGTLAuthScopeAnalyticsEdit                = @"https://www.googleapis.com/auth/analytics.edit";
+NSString * const kGTLAuthScopeAnalyticsManageUsers         = @"https://www.googleapis.com/auth/analytics.manage.users";
+NSString * const kGTLAuthScopeAnalyticsManageUsersReadonly = @"https://www.googleapis.com/auth/analytics.manage.users.readonly";
+NSString * const kGTLAuthScopeAnalyticsProvision           = @"https://www.googleapis.com/auth/analytics.provision";
+NSString * const kGTLAuthScopeAnalyticsReadonly            = @"https://www.googleapis.com/auth/analytics.readonly";
 
 // GTLQueryAnalytics - Output
 NSString * const kGTLAnalyticsOutputDataTable = @"dataTable";
@@ -43,6 +44,3 @@ NSString * const kGTLAnalyticsOutputJson      = @"json";
 NSString * const kGTLAnalyticsSamplingLevelDefault         = @"DEFAULT";
 NSString * const kGTLAnalyticsSamplingLevelFaster          = @"FASTER";
 NSString * const kGTLAnalyticsSamplingLevelHigherPrecision = @"HIGHER_PRECISION";
-
-// GTLQueryAnalytics - Type
-NSString * const kGTLAnalyticsTypeCost = @"cost";

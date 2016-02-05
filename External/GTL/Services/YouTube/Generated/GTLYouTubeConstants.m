@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,6 +30,7 @@
 
 // Authorization scope
 NSString * const kGTLAuthScopeYouTube                          = @"https://www.googleapis.com/auth/youtube";
+NSString * const kGTLAuthScopeYouTubeForceSsl                  = @"https://www.googleapis.com/auth/youtube.force-ssl";
 NSString * const kGTLAuthScopeYouTubeReadonly                  = @"https://www.googleapis.com/auth/youtube.readonly";
 NSString * const kGTLAuthScopeYouTubeUpload                    = @"https://www.googleapis.com/auth/youtube.upload";
 NSString * const kGTLAuthScopeYouTubeYoutubepartner            = @"https://www.googleapis.com/auth/youtubepartner";
@@ -56,6 +57,12 @@ NSString * const kGTLYouTubeEventTypeCompleted = @"completed";
 NSString * const kGTLYouTubeEventTypeLive      = @"live";
 NSString * const kGTLYouTubeEventTypeUpcoming  = @"upcoming";
 
+// GTLQueryYouTube - ModerationStatus
+NSString * const kGTLYouTubeModerationStatusHeldForReview = @"heldForReview";
+NSString * const kGTLYouTubeModerationStatusLikelySpam    = @"likelySpam";
+NSString * const kGTLYouTubeModerationStatusPublished     = @"published";
+NSString * const kGTLYouTubeModerationStatusRejected      = @"rejected";
+
 // GTLQueryYouTube - MyRating
 NSString * const kGTLYouTubeMyRatingDislike = @"dislike";
 NSString * const kGTLYouTubeMyRatingLike    = @"like";
@@ -65,6 +72,7 @@ NSString * const kGTLYouTubeOrderAlphabetical = @"alphabetical";
 NSString * const kGTLYouTubeOrderDate         = @"date";
 NSString * const kGTLYouTubeOrderRating       = @"rating";
 NSString * const kGTLYouTubeOrderRelevance    = @"relevance";
+NSString * const kGTLYouTubeOrderTime         = @"time";
 NSString * const kGTLYouTubeOrderTitle        = @"title";
 NSString * const kGTLYouTubeOrderUnread       = @"unread";
 NSString * const kGTLYouTubeOrderVideoCount   = @"videoCount";
@@ -79,6 +87,17 @@ NSString * const kGTLYouTubeRatingNone    = @"none";
 NSString * const kGTLYouTubeSafeSearchModerate = @"moderate";
 NSString * const kGTLYouTubeSafeSearchNone     = @"none";
 NSString * const kGTLYouTubeSafeSearchStrict   = @"strict";
+
+// GTLQueryYouTube - TextFormat
+NSString * const kGTLYouTubeTextFormatHtml      = @"html";
+NSString * const kGTLYouTubeTextFormatPlainText = @"plainText";
+
+// GTLQueryYouTube - Tfmt
+NSString * const kGTLYouTubeTfmtSbv  = @"sbv";
+NSString * const kGTLYouTubeTfmtScc  = @"scc";
+NSString * const kGTLYouTubeTfmtSrt  = @"srt";
+NSString * const kGTLYouTubeTfmtTtml = @"ttml";
+NSString * const kGTLYouTubeTfmtVtt  = @"vtt";
 
 // GTLQueryYouTube - VideoCaption
 NSString * const kGTLYouTubeVideoCaptionAny           = @"any";
@@ -148,7 +167,29 @@ NSString * const kGTLYouTubeActivitySnippet_Type_Social        = @"social";
 NSString * const kGTLYouTubeActivitySnippet_Type_Subscription  = @"subscription";
 NSString * const kGTLYouTubeActivitySnippet_Type_Upload        = @"upload";
 
+// GTLYouTubeCaptionSnippet - AudioTrackType
+NSString * const kGTLYouTubeCaptionSnippet_AudioTrackType_Commentary = @"commentary";
+NSString * const kGTLYouTubeCaptionSnippet_AudioTrackType_Descriptive = @"descriptive";
+NSString * const kGTLYouTubeCaptionSnippet_AudioTrackType_Primary = @"primary";
+NSString * const kGTLYouTubeCaptionSnippet_AudioTrackType_Unknown = @"unknown";
+
+// GTLYouTubeCaptionSnippet - FailureReason
+NSString * const kGTLYouTubeCaptionSnippet_FailureReason_ProcessingFailed = @"processingFailed";
+NSString * const kGTLYouTubeCaptionSnippet_FailureReason_UnknownFormat = @"unknownFormat";
+NSString * const kGTLYouTubeCaptionSnippet_FailureReason_UnsupportedFormat = @"unsupportedFormat";
+
+// GTLYouTubeCaptionSnippet - Status
+NSString * const kGTLYouTubeCaptionSnippet_Status_Failed  = @"failed";
+NSString * const kGTLYouTubeCaptionSnippet_Status_Serving = @"serving";
+NSString * const kGTLYouTubeCaptionSnippet_Status_Syncing = @"syncing";
+
+// GTLYouTubeCaptionSnippet - TrackKind
+NSString * const kGTLYouTubeCaptionSnippet_TrackKind_Asr      = @"ASR";
+NSString * const kGTLYouTubeCaptionSnippet_TrackKind_Forced   = @"forced";
+NSString * const kGTLYouTubeCaptionSnippet_TrackKind_Standard = @"standard";
+
 // GTLYouTubeCdnSettings - IngestionType
+NSString * const kGTLYouTubeCdnSettings_IngestionType_Dash = @"dash";
 NSString * const kGTLYouTubeCdnSettings_IngestionType_Rtmp = @"rtmp";
 
 // GTLYouTubeChannelConversionPing - Context
@@ -190,6 +231,18 @@ NSString * const kGTLYouTubeChannelStatus_LongUploadsStatus_LongUploadsUnspecifi
 NSString * const kGTLYouTubeChannelStatus_PrivacyStatus_Private = @"private";
 NSString * const kGTLYouTubeChannelStatus_PrivacyStatus_Public = @"public";
 NSString * const kGTLYouTubeChannelStatus_PrivacyStatus_Unlisted = @"unlisted";
+
+// GTLYouTubeCommentSnippet - ModerationStatus
+NSString * const kGTLYouTubeCommentSnippet_ModerationStatus_HeldForReview = @"heldForReview";
+NSString * const kGTLYouTubeCommentSnippet_ModerationStatus_LikelySpam = @"likelySpam";
+NSString * const kGTLYouTubeCommentSnippet_ModerationStatus_Published = @"published";
+NSString * const kGTLYouTubeCommentSnippet_ModerationStatus_Rejected = @"rejected";
+
+// GTLYouTubeCommentSnippet - ViewerRating
+NSString * const kGTLYouTubeCommentSnippet_ViewerRating_Dislike = @"dislike";
+NSString * const kGTLYouTubeCommentSnippet_ViewerRating_Like   = @"like";
+NSString * const kGTLYouTubeCommentSnippet_ViewerRating_None   = @"none";
+NSString * const kGTLYouTubeCommentSnippet_ViewerRating_Unspecified = @"unspecified";
 
 // GTLYouTubeContentRating - AcbRating
 NSString * const kGTLYouTubeContentRating_AcbRating_AcbC       = @"acbC";
@@ -333,7 +386,9 @@ NSString * const kGTLYouTubeContentRating_CscfRating_Cscf12    = @"cscf12";
 NSString * const kGTLYouTubeContentRating_CscfRating_Cscf16    = @"cscf16";
 NSString * const kGTLYouTubeContentRating_CscfRating_Cscf18    = @"cscf18";
 NSString * const kGTLYouTubeContentRating_CscfRating_Cscf6     = @"cscf6";
+NSString * const kGTLYouTubeContentRating_CscfRating_Cscf9     = @"cscf9";
 NSString * const kGTLYouTubeContentRating_CscfRating_CscfA     = @"cscfA";
+NSString * const kGTLYouTubeContentRating_CscfRating_CscfAl    = @"cscfAl";
 NSString * const kGTLYouTubeContentRating_CscfRating_CscfUnrated = @"cscfUnrated";
 
 // GTLYouTubeContentRating - CzfilmRating
@@ -351,6 +406,20 @@ NSString * const kGTLYouTubeContentRating_DjctqRating_Djctq16  = @"djctq16";
 NSString * const kGTLYouTubeContentRating_DjctqRating_Djctq18  = @"djctq18";
 NSString * const kGTLYouTubeContentRating_DjctqRating_DjctqL   = @"djctqL";
 NSString * const kGTLYouTubeContentRating_DjctqRating_DjctqUnrated = @"djctqUnrated";
+
+// GTLYouTubeContentRating - DjctqRatingReasons
+NSString * const kGTLYouTubeContentRating_DjctqRatingReasons_DjctqCriminalActs = @"djctqCriminalActs";
+NSString * const kGTLYouTubeContentRating_DjctqRatingReasons_DjctqDrugs = @"djctqDrugs";
+NSString * const kGTLYouTubeContentRating_DjctqRatingReasons_DjctqExplicitSex = @"djctqExplicitSex";
+NSString * const kGTLYouTubeContentRating_DjctqRatingReasons_DjctqExtremeViolence = @"djctqExtremeViolence";
+NSString * const kGTLYouTubeContentRating_DjctqRatingReasons_DjctqIllegalDrugs = @"djctqIllegalDrugs";
+NSString * const kGTLYouTubeContentRating_DjctqRatingReasons_DjctqImpactingContent = @"djctqImpactingContent";
+NSString * const kGTLYouTubeContentRating_DjctqRatingReasons_DjctqInappropriateLanguage = @"djctqInappropriateLanguage";
+NSString * const kGTLYouTubeContentRating_DjctqRatingReasons_DjctqLegalDrugs = @"djctqLegalDrugs";
+NSString * const kGTLYouTubeContentRating_DjctqRatingReasons_DjctqNudity = @"djctqNudity";
+NSString * const kGTLYouTubeContentRating_DjctqRatingReasons_DjctqSex = @"djctqSex";
+NSString * const kGTLYouTubeContentRating_DjctqRatingReasons_DjctqSexualContent = @"djctqSexualContent";
+NSString * const kGTLYouTubeContentRating_DjctqRatingReasons_DjctqViolence = @"djctqViolence";
 
 // GTLYouTubeContentRating - EefilmRating
 NSString * const kGTLYouTubeContentRating_EefilmRating_EefilmK12 = @"eefilmK12";
@@ -383,6 +452,7 @@ NSString * const kGTLYouTubeContentRating_FcbmRating_Fcbm18pl  = @"fcbm18pl";
 NSString * const kGTLYouTubeContentRating_FcbmRating_Fcbm18sg  = @"fcbm18sg";
 NSString * const kGTLYouTubeContentRating_FcbmRating_Fcbm18sx  = @"fcbm18sx";
 NSString * const kGTLYouTubeContentRating_FcbmRating_FcbmP13   = @"fcbmP13";
+NSString * const kGTLYouTubeContentRating_FcbmRating_FcbmPg13  = @"fcbmPg13";
 NSString * const kGTLYouTubeContentRating_FcbmRating_FcbmU     = @"fcbmU";
 NSString * const kGTLYouTubeContentRating_FcbmRating_FcbmUnrated = @"fcbmUnrated";
 
@@ -441,7 +511,10 @@ NSString * const kGTLYouTubeContentRating_IcaaRating_IcaaX     = @"icaaX";
 
 // GTLYouTubeContentRating - IfcoRating
 NSString * const kGTLYouTubeContentRating_IfcoRating_Ifco12    = @"ifco12";
+NSString * const kGTLYouTubeContentRating_IfcoRating_Ifco12a   = @"ifco12a";
 NSString * const kGTLYouTubeContentRating_IfcoRating_Ifco15    = @"ifco15";
+NSString * const kGTLYouTubeContentRating_IfcoRating_Ifco15a   = @"ifco15a";
+NSString * const kGTLYouTubeContentRating_IfcoRating_Ifco16    = @"ifco16";
 NSString * const kGTLYouTubeContentRating_IfcoRating_Ifco18    = @"ifco18";
 NSString * const kGTLYouTubeContentRating_IfcoRating_IfcoG     = @"ifcoG";
 NSString * const kGTLYouTubeContentRating_IfcoRating_IfcoPg    = @"ifcoPg";
@@ -472,6 +545,7 @@ NSString * const kGTLYouTubeContentRating_KfcbRating_KfcbUnrated = @"kfcbUnrated
 // GTLYouTubeContentRating - KijkwijzerRating
 NSString * const kGTLYouTubeContentRating_KijkwijzerRating_Kijkwijzer12 = @"kijkwijzer12";
 NSString * const kGTLYouTubeContentRating_KijkwijzerRating_Kijkwijzer16 = @"kijkwijzer16";
+NSString * const kGTLYouTubeContentRating_KijkwijzerRating_Kijkwijzer18 = @"kijkwijzer18";
 NSString * const kGTLYouTubeContentRating_KijkwijzerRating_Kijkwijzer6 = @"kijkwijzer6";
 NSString * const kGTLYouTubeContentRating_KijkwijzerRating_Kijkwijzer9 = @"kijkwijzer9";
 NSString * const kGTLYouTubeContentRating_KijkwijzerRating_KijkwijzerAl = @"kijkwijzerAl";
@@ -486,6 +560,9 @@ NSString * const kGTLYouTubeContentRating_KmrbRating_KmrbTeenr = @"kmrbTeenr";
 NSString * const kGTLYouTubeContentRating_KmrbRating_KmrbUnrated = @"kmrbUnrated";
 
 // GTLYouTubeContentRating - LsfRating
+NSString * const kGTLYouTubeContentRating_LsfRating_Lsf13      = @"lsf13";
+NSString * const kGTLYouTubeContentRating_LsfRating_Lsf17      = @"lsf17";
+NSString * const kGTLYouTubeContentRating_LsfRating_Lsf21      = @"lsf21";
 NSString * const kGTLYouTubeContentRating_LsfRating_LsfA       = @"lsfA";
 NSString * const kGTLYouTubeContentRating_LsfRating_LsfBo      = @"lsfBo";
 NSString * const kGTLYouTubeContentRating_LsfRating_LsfD       = @"lsfD";
@@ -758,6 +835,56 @@ NSString * const kGTLYouTubeLiveBroadcastStatus_PrivacyStatus_Unlisted = @"unlis
 NSString * const kGTLYouTubeLiveBroadcastStatus_RecordingStatus_NotRecording = @"notRecording";
 NSString * const kGTLYouTubeLiveBroadcastStatus_RecordingStatus_Recorded = @"recorded";
 NSString * const kGTLYouTubeLiveBroadcastStatus_RecordingStatus_Recording = @"recording";
+
+// GTLYouTubeLiveBroadcastTopic - Type
+NSString * const kGTLYouTubeLiveBroadcastTopic_Type_VideoGame = @"videoGame";
+
+// GTLYouTubeLiveStreamConfigurationIssue - Severity
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Severity_Error = @"error";
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Severity_Info = @"info";
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Severity_Warning = @"warning";
+
+// GTLYouTubeLiveStreamConfigurationIssue - Type
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Type_AudioBitrateHigh = @"audioBitrateHigh";
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Type_AudioBitrateLow = @"audioBitrateLow";
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Type_AudioBitrateMismatch = @"audioBitrateMismatch";
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Type_AudioCodec = @"audioCodec";
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Type_AudioCodecMismatch = @"audioCodecMismatch";
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Type_AudioSampleRate = @"audioSampleRate";
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Type_AudioSampleRateMismatch = @"audioSampleRateMismatch";
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Type_AudioStereoMismatch = @"audioStereoMismatch";
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Type_AudioTooManyChannels = @"audioTooManyChannels";
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Type_BadContainer = @"badContainer";
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Type_BitrateHigh = @"bitrateHigh";
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Type_BitrateLow = @"bitrateLow";
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Type_FrameRateHigh = @"frameRateHigh";
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Type_FramerateMismatch = @"framerateMismatch";
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Type_GopMismatch = @"gopMismatch";
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Type_GopSizeLong = @"gopSizeLong";
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Type_GopSizeOver = @"gopSizeOver";
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Type_GopSizeShort = @"gopSizeShort";
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Type_InterlacedVideo = @"interlacedVideo";
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Type_MultipleAudioStreams = @"multipleAudioStreams";
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Type_MultipleVideoStreams = @"multipleVideoStreams";
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Type_NoAudioStream = @"noAudioStream";
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Type_NoVideoStream = @"noVideoStream";
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Type_OpenGop = @"openGop";
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Type_ResolutionMismatch = @"resolutionMismatch";
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Type_VideoBitrateMismatch = @"videoBitrateMismatch";
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Type_VideoCodec = @"videoCodec";
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Type_VideoCodecMismatch = @"videoCodecMismatch";
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Type_VideoIngestionStarved = @"videoIngestionStarved";
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Type_VideoInterlaceMismatch = @"videoInterlaceMismatch";
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Type_VideoProfileMismatch = @"videoProfileMismatch";
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Type_VideoResolutionSuboptimal = @"videoResolutionSuboptimal";
+NSString * const kGTLYouTubeLiveStreamConfigurationIssue_Type_VideoResolutionUnsupported = @"videoResolutionUnsupported";
+
+// GTLYouTubeLiveStreamHealthStatus - Status
+NSString * const kGTLYouTubeLiveStreamHealthStatus_Status_Bad  = @"bad";
+NSString * const kGTLYouTubeLiveStreamHealthStatus_Status_Good = @"good";
+NSString * const kGTLYouTubeLiveStreamHealthStatus_Status_NoData = @"noData";
+NSString * const kGTLYouTubeLiveStreamHealthStatus_Status_Ok   = @"ok";
+NSString * const kGTLYouTubeLiveStreamHealthStatus_Status_Revoked = @"revoked";
 
 // GTLYouTubeLiveStreamStatus - StreamStatus
 NSString * const kGTLYouTubeLiveStreamStatus_StreamStatus_Active = @"active";

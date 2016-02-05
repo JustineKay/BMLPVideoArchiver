@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/drive/
 // Classes:
-//   GTLQueryDrive (59 custom class methods, 45 custom properties)
+//   GTLQueryDrive (60 custom class methods, 48 custom properties)
 
 #if GTL_BUILT_AS_FRAMEWORK
   #import "GTL/GTLQuery.h"
@@ -51,58 +51,60 @@
 //
 
 // Selector specifying which fields to include in a partial response.
-@property (copy) NSString *fields;
+@property (nonatomic, copy) NSString *fields;
 
 //
 // Method-specific parameters; see the comments below for more information.
 //
-@property (assign) BOOL acknowledgeAbuse;
-@property (copy) NSString *addParents;
-@property (copy) NSString *appFilterExtensions;
-@property (copy) NSString *appFilterMimeTypes;
-@property (copy) NSString *appId;
-@property (copy) NSString *baseRevision;
-@property (copy) NSString *changeId;
-@property (copy) NSString *childId;
-@property (copy) NSString *commentId;
-@property (assign) BOOL convert;
-@property (copy) NSString *corpus;
-@property (copy) NSString *email;
-@property (copy) NSString *emailMessage;
-@property (copy) NSString *fileId;
-@property (copy) NSString *folderId;
-@property (assign) BOOL includeDeleted;
-@property (assign) BOOL includeSubscribed;
-@property (copy) NSString *languageCode;
-@property (assign) long long maxChangeIdCount;
-@property (assign) NSInteger maxResults;
-@property (assign) BOOL newRevision;
-@property (assign) BOOL ocr;
-@property (copy) NSString *ocrLanguage;
-@property (copy) NSString *pageToken;
-@property (copy) NSString *parentId;
-@property (copy) NSString *permissionId;
-@property (assign) BOOL pinned;
-@property (copy) NSString *projection;
-@property (copy) NSString *propertyKey;
-@property (copy) NSString *q;
-@property (copy) NSString *removeParents;
-@property (copy) NSString *replyId;
-@property (assign) NSInteger revision;
-@property (copy) NSString *revisionId;
-@property (assign) BOOL sendNotificationEmails;
-@property (assign) BOOL setModifiedDate;
-@property (assign) long long startChangeId;
-@property (copy) NSString *timedTextLanguage;
-@property (copy) NSString *timedTextTrackName;
-@property (assign) BOOL transferOwnership;
-@property (copy) NSString *updatedMin;
-@property (assign) BOOL updateViewedDate;
-@property (assign) BOOL useContentAsIndexableText;
-@property (copy) NSString *visibility;
+@property (nonatomic, assign) BOOL acknowledgeAbuse;
+@property (nonatomic, copy) NSString *addParents;
+@property (nonatomic, copy) NSString *appFilterExtensions;
+@property (nonatomic, copy) NSString *appFilterMimeTypes;
+@property (nonatomic, copy) NSString *appId;
+@property (nonatomic, copy) NSString *baseRevision;
+@property (nonatomic, copy) NSString *changeId;
+@property (nonatomic, copy) NSString *childId;
+@property (nonatomic, copy) NSString *commentId;
+@property (nonatomic, assign) BOOL convert;
+@property (nonatomic, copy) NSString *corpus;
+@property (nonatomic, copy) NSString *email;
+@property (nonatomic, copy) NSString *emailMessage;
+@property (nonatomic, copy) NSString *fileId;
+@property (nonatomic, copy) NSString *folderId;
+@property (nonatomic, assign) BOOL includeDeleted;
+@property (nonatomic, assign) BOOL includeSubscribed;
+@property (nonatomic, copy) NSString *languageCode;
+@property (nonatomic, assign) long long maxChangeIdCount;
+@property (nonatomic, assign) NSInteger maxResults;
+@property (nonatomic, copy) NSString *modifiedDateBehavior;
+@property (nonatomic, assign) BOOL newRevision;
+@property (nonatomic, assign) BOOL ocr;
+@property (nonatomic, copy) NSString *ocrLanguage;
+@property (nonatomic, copy) NSString *pageToken;
+@property (nonatomic, copy) NSString *parentId;
+@property (nonatomic, copy) NSString *permissionId;
+@property (nonatomic, assign) BOOL pinned;
+@property (nonatomic, copy) NSString *projection;
+@property (nonatomic, copy) NSString *propertyKey;
+@property (nonatomic, copy) NSString *q;
+@property (nonatomic, copy) NSString *removeParents;
+@property (nonatomic, copy) NSString *replyId;
+@property (nonatomic, assign) NSInteger revision;
+@property (nonatomic, copy) NSString *revisionId;
+@property (nonatomic, assign) BOOL sendNotificationEmails;
+@property (nonatomic, assign) BOOL setModifiedDate;
+@property (nonatomic, copy) NSString *space;
+@property (nonatomic, copy) NSString *spaces;
+@property (nonatomic, assign) long long startChangeId;
+@property (nonatomic, copy) NSString *timedTextLanguage;
+@property (nonatomic, copy) NSString *timedTextTrackName;
+@property (nonatomic, assign) BOOL transferOwnership;
+@property (nonatomic, copy) NSString *updatedMin;
+@property (nonatomic, assign) BOOL updateViewedDate;
+@property (nonatomic, assign) BOOL useContentAsIndexableText;
+@property (nonatomic, copy) NSString *visibility;
 
-#pragma mark -
-#pragma mark "about" methods
+#pragma mark - "about" methods
 // These create a GTLQueryDrive object.
 
 // Method: drive.about.get
@@ -121,13 +123,14 @@
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveAppdata
 //   kGTLAuthScopeDriveFile
+//   kGTLAuthScopeDriveMetadata
 //   kGTLAuthScopeDriveMetadataReadonly
+//   kGTLAuthScopeDrivePhotosReadonly
 //   kGTLAuthScopeDriveReadonly
 // Fetches a GTLDriveAbout.
-+ (id)queryForAboutGet;
++ (instancetype)queryForAboutGet;
 
-#pragma mark -
-#pragma mark "apps" methods
+#pragma mark - "apps" methods
 // These create a GTLQueryDrive object.
 
 // Method: drive.apps.get
@@ -139,10 +142,11 @@
 //   kGTLAuthScopeDriveAppdata
 //   kGTLAuthScopeDriveAppsReadonly
 //   kGTLAuthScopeDriveFile
+//   kGTLAuthScopeDriveMetadata
 //   kGTLAuthScopeDriveMetadataReadonly
 //   kGTLAuthScopeDriveReadonly
 // Fetches a GTLDriveApp.
-+ (id)queryForAppsGetWithAppId:(NSString *)appId;
++ (instancetype)queryForAppsGetWithAppId:(NSString *)appId;
 
 // Method: drive.apps.list
 // Lists a user's installed apps.
@@ -163,10 +167,9 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeDriveAppsReadonly
 // Fetches a GTLDriveAppList.
-+ (id)queryForAppsList;
++ (instancetype)queryForAppsList;
 
-#pragma mark -
-#pragma mark "changes" methods
+#pragma mark - "changes" methods
 // These create a GTLQueryDrive object.
 
 // Method: drive.changes.get
@@ -178,10 +181,12 @@
 //   kGTLAuthScopeDriveAppdata
 //   kGTLAuthScopeDriveAppsReadonly
 //   kGTLAuthScopeDriveFile
+//   kGTLAuthScopeDriveMetadata
 //   kGTLAuthScopeDriveMetadataReadonly
+//   kGTLAuthScopeDrivePhotosReadonly
 //   kGTLAuthScopeDriveReadonly
 // Fetches a GTLDriveChange.
-+ (id)queryForChangesGetWithChangeId:(NSString *)changeId;
++ (instancetype)queryForChangesGetWithChangeId:(NSString *)changeId;
 
 // Method: drive.changes.list
 // Lists the changes for a user.
@@ -193,16 +198,20 @@
 //     own. (Default true)
 //   maxResults: Maximum number of changes to return. (Default 100)
 //   pageToken: Page token for changes.
+//   spaces: A comma-separated list of spaces to query. Supported values are
+//     'drive', 'appDataFolder' and 'photos'.
 //   startChangeId: Change ID to start listing changes from.
 //  Authorization scope(s):
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveAppdata
 //   kGTLAuthScopeDriveAppsReadonly
 //   kGTLAuthScopeDriveFile
+//   kGTLAuthScopeDriveMetadata
 //   kGTLAuthScopeDriveMetadataReadonly
+//   kGTLAuthScopeDrivePhotosReadonly
 //   kGTLAuthScopeDriveReadonly
 // Fetches a GTLDriveChangeList.
-+ (id)queryForChangesList;
++ (instancetype)queryForChangesList;
 
 // Method: drive.changes.watch
 // Subscribe to changes for a user.
@@ -214,19 +223,22 @@
 //     own. (Default true)
 //   maxResults: Maximum number of changes to return. (Default 100)
 //   pageToken: Page token for changes.
+//   spaces: A comma-separated list of spaces to query. Supported values are
+//     'drive', 'appDataFolder' and 'photos'.
 //   startChangeId: Change ID to start listing changes from.
 //  Authorization scope(s):
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveAppdata
 //   kGTLAuthScopeDriveAppsReadonly
 //   kGTLAuthScopeDriveFile
+//   kGTLAuthScopeDriveMetadata
 //   kGTLAuthScopeDriveMetadataReadonly
+//   kGTLAuthScopeDrivePhotosReadonly
 //   kGTLAuthScopeDriveReadonly
 // Fetches a GTLDriveChannel.
-+ (id)queryForChangesWatchWithObject:(GTLDriveChannel *)object;
++ (instancetype)queryForChangesWatchWithObject:(GTLDriveChannel *)object;
 
-#pragma mark -
-#pragma mark "channels" methods
+#pragma mark - "channels" methods
 // These create a GTLQueryDrive object.
 
 // Method: drive.channels.stop
@@ -236,12 +248,13 @@
 //   kGTLAuthScopeDriveAppdata
 //   kGTLAuthScopeDriveAppsReadonly
 //   kGTLAuthScopeDriveFile
+//   kGTLAuthScopeDriveMetadata
 //   kGTLAuthScopeDriveMetadataReadonly
+//   kGTLAuthScopeDrivePhotosReadonly
 //   kGTLAuthScopeDriveReadonly
-+ (id)queryForChannelsStopWithObject:(GTLDriveChannel *)object;
++ (instancetype)queryForChannelsStopWithObject:(GTLDriveChannel *)object;
 
-#pragma mark -
-#pragma mark "children" methods
+#pragma mark - "children" methods
 // These create a GTLQueryDrive object.
 
 // Method: drive.children.delete
@@ -252,8 +265,8 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveFile
-+ (id)queryForChildrenDeleteWithFolderId:(NSString *)folderId
-                                 childId:(NSString *)childId;
++ (instancetype)queryForChildrenDeleteWithFolderId:(NSString *)folderId
+                                           childId:(NSString *)childId;
 
 // Method: drive.children.get
 // Gets a specific child reference.
@@ -264,11 +277,13 @@
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveAppdata
 //   kGTLAuthScopeDriveFile
+//   kGTLAuthScopeDriveMetadata
 //   kGTLAuthScopeDriveMetadataReadonly
+//   kGTLAuthScopeDrivePhotosReadonly
 //   kGTLAuthScopeDriveReadonly
 // Fetches a GTLDriveChildReference.
-+ (id)queryForChildrenGetWithFolderId:(NSString *)folderId
-                              childId:(NSString *)childId;
++ (instancetype)queryForChildrenGetWithFolderId:(NSString *)folderId
+                                        childId:(NSString *)childId;
 
 // Method: drive.children.insert
 // Inserts a file into a folder.
@@ -279,8 +294,8 @@
 //   kGTLAuthScopeDriveAppdata
 //   kGTLAuthScopeDriveFile
 // Fetches a GTLDriveChildReference.
-+ (id)queryForChildrenInsertWithObject:(GTLDriveChildReference *)object
-                              folderId:(NSString *)folderId;
++ (instancetype)queryForChildrenInsertWithObject:(GTLDriveChildReference *)object
+                                        folderId:(NSString *)folderId;
 
 // Method: drive.children.list
 // Lists a folder's children.
@@ -294,13 +309,14 @@
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveAppdata
 //   kGTLAuthScopeDriveFile
+//   kGTLAuthScopeDriveMetadata
 //   kGTLAuthScopeDriveMetadataReadonly
+//   kGTLAuthScopeDrivePhotosReadonly
 //   kGTLAuthScopeDriveReadonly
 // Fetches a GTLDriveChildList.
-+ (id)queryForChildrenListWithFolderId:(NSString *)folderId;
++ (instancetype)queryForChildrenListWithFolderId:(NSString *)folderId;
 
-#pragma mark -
-#pragma mark "comments" methods
+#pragma mark - "comments" methods
 // These create a GTLQueryDrive object.
 
 // Method: drive.comments.delete
@@ -311,9 +327,8 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveFile
-//   kGTLAuthScopeDriveReadonly
-+ (id)queryForCommentsDeleteWithFileId:(NSString *)fileId
-                             commentId:(NSString *)commentId;
++ (instancetype)queryForCommentsDeleteWithFileId:(NSString *)fileId
+                                       commentId:(NSString *)commentId;
 
 // Method: drive.comments.get
 // Gets a comment by ID.
@@ -328,8 +343,8 @@
 //   kGTLAuthScopeDriveFile
 //   kGTLAuthScopeDriveReadonly
 // Fetches a GTLDriveComment.
-+ (id)queryForCommentsGetWithFileId:(NSString *)fileId
-                          commentId:(NSString *)commentId;
++ (instancetype)queryForCommentsGetWithFileId:(NSString *)fileId
+                                    commentId:(NSString *)commentId;
 
 // Method: drive.comments.insert
 // Creates a new comment on the given file.
@@ -338,10 +353,9 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveFile
-//   kGTLAuthScopeDriveReadonly
 // Fetches a GTLDriveComment.
-+ (id)queryForCommentsInsertWithObject:(GTLDriveComment *)object
-                                fileId:(NSString *)fileId;
++ (instancetype)queryForCommentsInsertWithObject:(GTLDriveComment *)object
+                                          fileId:(NSString *)fileId;
 
 // Method: drive.comments.list
 // Lists a file's comments.
@@ -363,7 +377,7 @@
 //   kGTLAuthScopeDriveFile
 //   kGTLAuthScopeDriveReadonly
 // Fetches a GTLDriveCommentList.
-+ (id)queryForCommentsListWithFileId:(NSString *)fileId;
++ (instancetype)queryForCommentsListWithFileId:(NSString *)fileId;
 
 // Method: drive.comments.patch
 // Updates an existing comment. This method supports patch semantics.
@@ -374,9 +388,9 @@
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveFile
 // Fetches a GTLDriveComment.
-+ (id)queryForCommentsPatchWithObject:(GTLDriveComment *)object
-                               fileId:(NSString *)fileId
-                            commentId:(NSString *)commentId;
++ (instancetype)queryForCommentsPatchWithObject:(GTLDriveComment *)object
+                                         fileId:(NSString *)fileId
+                                      commentId:(NSString *)commentId;
 
 // Method: drive.comments.update
 // Updates an existing comment.
@@ -387,12 +401,11 @@
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveFile
 // Fetches a GTLDriveComment.
-+ (id)queryForCommentsUpdateWithObject:(GTLDriveComment *)object
-                                fileId:(NSString *)fileId
-                             commentId:(NSString *)commentId;
++ (instancetype)queryForCommentsUpdateWithObject:(GTLDriveComment *)object
+                                          fileId:(NSString *)fileId
+                                       commentId:(NSString *)commentId;
 
-#pragma mark -
-#pragma mark "files" methods
+#pragma mark - "files" methods
 // These create a GTLQueryDrive object.
 
 // Method: drive.files.copy
@@ -405,7 +418,7 @@
 //   ocr: Whether to attempt OCR on .jpg, .png, .gif, or .pdf uploads. (Default
 //     false)
 //   ocrLanguage: If ocr is true, hints at the language to use. Valid values are
-//     ISO 639-1 codes.
+//     BCP 47 codes.
 //   pinned: Whether to pin the head revision of the new copy. A file can have a
 //     maximum of 200 pinned revisions. (Default false)
 //   timedTextLanguage: The language of the timed text.
@@ -422,25 +435,40 @@
 //   kGTLAuthScopeDriveAppdata
 //   kGTLAuthScopeDriveAppsReadonly
 //   kGTLAuthScopeDriveFile
+//   kGTLAuthScopeDrivePhotosReadonly
 // Fetches a GTLDriveFile.
-+ (id)queryForFilesCopyWithObject:(GTLDriveFile *)object
-                           fileId:(NSString *)fileId;
++ (instancetype)queryForFilesCopyWithObject:(GTLDriveFile *)object
+                                     fileId:(NSString *)fileId;
 
 // Method: drive.files.delete
-// Permanently deletes a file by ID. Skips the trash.
+// Permanently deletes a file by ID. Skips the trash. The currently
+// authenticated user must own the file.
 //  Required:
 //   fileId: The ID of the file to delete.
 //  Authorization scope(s):
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveAppdata
 //   kGTLAuthScopeDriveFile
-+ (id)queryForFilesDeleteWithFileId:(NSString *)fileId;
++ (instancetype)queryForFilesDeleteWithFileId:(NSString *)fileId;
 
 // Method: drive.files.emptyTrash
 // Permanently deletes all of the user's trashed files.
 //  Authorization scope(s):
 //   kGTLAuthScopeDrive
-+ (id)queryForFilesEmptyTrash;
++ (instancetype)queryForFilesEmptyTrash;
+
+// Method: drive.files.generateIds
+// Generates a set of file IDs which can be provided in insert requests.
+//  Optional:
+//   maxResults: Maximum number of IDs to return. (1..1000, default 10)
+//   space: The space in which the IDs can be used to create new files.
+//     Supported values are 'drive' and 'appDataFolder'. (Default drive)
+//  Authorization scope(s):
+//   kGTLAuthScopeDrive
+//   kGTLAuthScopeDriveAppdata
+//   kGTLAuthScopeDriveFile
+// Fetches a GTLDriveGeneratedIds.
++ (instancetype)queryForFilesGenerateIds;
 
 // Method: drive.files.get
 // Gets a file's metadata by ID.
@@ -452,6 +480,8 @@
 //   projection: This parameter is deprecated and has no function.
 //      kGTLDriveProjectionBasic: Deprecated
 //      kGTLDriveProjectionFull: Deprecated
+//   revisionId: Specifies the Revision ID that should be downloaded. Ignored
+//     unless alt=media is specified.
 //   updateViewedDate: Whether to update the view date after successfully
 //     retrieving the file. (Default false)
 //  Authorization scope(s):
@@ -459,10 +489,12 @@
 //   kGTLAuthScopeDriveAppdata
 //   kGTLAuthScopeDriveAppsReadonly
 //   kGTLAuthScopeDriveFile
+//   kGTLAuthScopeDriveMetadata
 //   kGTLAuthScopeDriveMetadataReadonly
+//   kGTLAuthScopeDrivePhotosReadonly
 //   kGTLAuthScopeDriveReadonly
 // Fetches a GTLDriveFile.
-+ (id)queryForFilesGetWithFileId:(NSString *)fileId;
++ (instancetype)queryForFilesGetWithFileId:(NSString *)fileId;
 
 // Method: drive.files.insert
 // Insert a new file.
@@ -472,7 +504,7 @@
 //   ocr: Whether to attempt OCR on .jpg, .png, .gif, or .pdf uploads. (Default
 //     false)
 //   ocrLanguage: If ocr is true, hints at the language to use. Valid values are
-//     ISO 639-1 codes.
+//     BCP 47 codes.
 //   pinned: Whether to pin the head revision of the uploaded file. A file can
 //     have a maximum of 200 pinned revisions. (Default false)
 //   timedTextLanguage: The language of the timed text.
@@ -494,8 +526,8 @@
 //   kGTLAuthScopeDriveAppsReadonly
 //   kGTLAuthScopeDriveFile
 // Fetches a GTLDriveFile.
-+ (id)queryForFilesInsertWithObject:(GTLDriveFile *)object
-                   uploadParameters:(GTLUploadParameters *)uploadParametersOrNil;
++ (instancetype)queryForFilesInsertWithObject:(GTLDriveFile *)object
+                             uploadParameters:(GTLUploadParameters *)uploadParametersOrNil;
 
 // Method: drive.files.list
 // Lists the user's files.
@@ -509,15 +541,19 @@
 //      kGTLDriveProjectionBasic: Deprecated
 //      kGTLDriveProjectionFull: Deprecated
 //   q: Query string for searching files.
+//   spaces: A comma-separated list of spaces to query. Supported values are
+//     'drive', 'appDataFolder' and 'photos'.
 //  Authorization scope(s):
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveAppdata
 //   kGTLAuthScopeDriveAppsReadonly
 //   kGTLAuthScopeDriveFile
+//   kGTLAuthScopeDriveMetadata
 //   kGTLAuthScopeDriveMetadataReadonly
+//   kGTLAuthScopeDrivePhotosReadonly
 //   kGTLAuthScopeDriveReadonly
 // Fetches a GTLDriveFileList.
-+ (id)queryForFilesList;
++ (instancetype)queryForFilesList;
 
 // Method: drive.files.patch
 // Updates file metadata and/or content. This method supports patch semantics.
@@ -527,15 +563,32 @@
 //   addParents: Comma-separated list of parent IDs to add.
 //   convert: Whether to convert this file to the corresponding Google Docs
 //     format. (Default false)
+//   modifiedDateBehavior: How the modifiedDate field should be updated. This
+//     overrides setModifiedDate.
+//      kGTLDriveModifiedDateBehaviorFromBody: Set modifiedDate to the value
+//        provided in the body of the request. No change if no value was
+//        provided.
+//      kGTLDriveModifiedDateBehaviorFromBodyIfNeeded: Set modifiedDate to the
+//        value provided in the body of the request depending on other contents
+//        of the update.
+//      kGTLDriveModifiedDateBehaviorFromBodyOrNow: Set modifiedDate to the
+//        value provided in the body of the request, or to the current time if
+//        no value was provided.
+//      kGTLDriveModifiedDateBehaviorNoChange: Maintain the previous value of
+//        modifiedDate.
+//      kGTLDriveModifiedDateBehaviorNow: Set modifiedDate to the current time.
+//      kGTLDriveModifiedDateBehaviorNowIfNeeded: Set modifiedDate to the
+//        current time depending on contents of the update.
 //   newRevision: Whether a blob upload should create a new revision. If false,
 //     the blob data in the current head revision is replaced. If true or not
-//     set, a new blob is created as head revision, and previous revisions are
-//     preserved (causing increased use of the user's data storage quota).
-//     (Default true)
+//     set, a new blob is created as head revision, and previous unpinned
+//     revisions are preserved for a short period of time. Pinned revisions are
+//     stored indefinitely, using additional storage quota, up to a maximum of
+//     200 revisions. (Default true)
 //   ocr: Whether to attempt OCR on .jpg, .png, .gif, or .pdf uploads. (Default
 //     false)
 //   ocrLanguage: If ocr is true, hints at the language to use. Valid values are
-//     ISO 639-1 codes.
+//     BCP 47 codes.
 //   pinned: Whether to pin the new revision. A file can have a maximum of 200
 //     pinned revisions. (Default false)
 //   removeParents: Comma-separated list of parent IDs to remove.
@@ -552,10 +605,11 @@
 //   kGTLAuthScopeDriveAppdata
 //   kGTLAuthScopeDriveAppsReadonly
 //   kGTLAuthScopeDriveFile
+//   kGTLAuthScopeDriveMetadata
 //   kGTLAuthScopeDriveScripts
 // Fetches a GTLDriveFile.
-+ (id)queryForFilesPatchWithObject:(GTLDriveFile *)object
-                            fileId:(NSString *)fileId;
++ (instancetype)queryForFilesPatchWithObject:(GTLDriveFile *)object
+                                      fileId:(NSString *)fileId;
 
 // Method: drive.files.touch
 // Set the file's updated time to the current server time.
@@ -566,19 +620,22 @@
 //   kGTLAuthScopeDriveAppdata
 //   kGTLAuthScopeDriveAppsReadonly
 //   kGTLAuthScopeDriveFile
+//   kGTLAuthScopeDriveMetadata
 // Fetches a GTLDriveFile.
-+ (id)queryForFilesTouchWithFileId:(NSString *)fileId;
++ (instancetype)queryForFilesTouchWithFileId:(NSString *)fileId;
 
 // Method: drive.files.trash
-// Moves a file to the trash.
+// Moves a file to the trash. The currently authenticated user must own the
+// file.
 //  Required:
 //   fileId: The ID of the file to trash.
 //  Authorization scope(s):
 //   kGTLAuthScopeDrive
+//   kGTLAuthScopeDriveAppdata
 //   kGTLAuthScopeDriveAppsReadonly
 //   kGTLAuthScopeDriveFile
 // Fetches a GTLDriveFile.
-+ (id)queryForFilesTrashWithFileId:(NSString *)fileId;
++ (instancetype)queryForFilesTrashWithFileId:(NSString *)fileId;
 
 // Method: drive.files.untrash
 // Restores a file from the trash.
@@ -586,10 +643,11 @@
 //   fileId: The ID of the file to untrash.
 //  Authorization scope(s):
 //   kGTLAuthScopeDrive
+//   kGTLAuthScopeDriveAppdata
 //   kGTLAuthScopeDriveAppsReadonly
 //   kGTLAuthScopeDriveFile
 // Fetches a GTLDriveFile.
-+ (id)queryForFilesUntrashWithFileId:(NSString *)fileId;
++ (instancetype)queryForFilesUntrashWithFileId:(NSString *)fileId;
 
 // Method: drive.files.update
 // Updates file metadata and/or content.
@@ -599,15 +657,32 @@
 //   addParents: Comma-separated list of parent IDs to add.
 //   convert: Whether to convert this file to the corresponding Google Docs
 //     format. (Default false)
+//   modifiedDateBehavior: How the modifiedDate field should be updated. This
+//     overrides setModifiedDate.
+//      kGTLDriveModifiedDateBehaviorFromBody: Set modifiedDate to the value
+//        provided in the body of the request. No change if no value was
+//        provided.
+//      kGTLDriveModifiedDateBehaviorFromBodyIfNeeded: Set modifiedDate to the
+//        value provided in the body of the request depending on other contents
+//        of the update.
+//      kGTLDriveModifiedDateBehaviorFromBodyOrNow: Set modifiedDate to the
+//        value provided in the body of the request, or to the current time if
+//        no value was provided.
+//      kGTLDriveModifiedDateBehaviorNoChange: Maintain the previous value of
+//        modifiedDate.
+//      kGTLDriveModifiedDateBehaviorNow: Set modifiedDate to the current time.
+//      kGTLDriveModifiedDateBehaviorNowIfNeeded: Set modifiedDate to the
+//        current time depending on contents of the update.
 //   newRevision: Whether a blob upload should create a new revision. If false,
 //     the blob data in the current head revision is replaced. If true or not
-//     set, a new blob is created as head revision, and previous revisions are
-//     preserved (causing increased use of the user's data storage quota).
-//     (Default true)
+//     set, a new blob is created as head revision, and previous unpinned
+//     revisions are preserved for a short period of time. Pinned revisions are
+//     stored indefinitely, using additional storage quota, up to a maximum of
+//     200 revisions. (Default true)
 //   ocr: Whether to attempt OCR on .jpg, .png, .gif, or .pdf uploads. (Default
 //     false)
 //   ocrLanguage: If ocr is true, hints at the language to use. Valid values are
-//     ISO 639-1 codes.
+//     BCP 47 codes.
 //   pinned: Whether to pin the new revision. A file can have a maximum of 200
 //     pinned revisions. (Default false)
 //   removeParents: Comma-separated list of parent IDs to remove.
@@ -627,11 +702,12 @@
 //   kGTLAuthScopeDriveAppdata
 //   kGTLAuthScopeDriveAppsReadonly
 //   kGTLAuthScopeDriveFile
+//   kGTLAuthScopeDriveMetadata
 //   kGTLAuthScopeDriveScripts
 // Fetches a GTLDriveFile.
-+ (id)queryForFilesUpdateWithObject:(GTLDriveFile *)object
-                             fileId:(NSString *)fileId
-                   uploadParameters:(GTLUploadParameters *)uploadParametersOrNil;
++ (instancetype)queryForFilesUpdateWithObject:(GTLDriveFile *)object
+                                       fileId:(NSString *)fileId
+                             uploadParameters:(GTLUploadParameters *)uploadParametersOrNil;
 
 // Method: drive.files.watch
 // Subscribe to changes on a file
@@ -643,6 +719,8 @@
 //   projection: This parameter is deprecated and has no function.
 //      kGTLDriveProjectionBasic: Deprecated
 //      kGTLDriveProjectionFull: Deprecated
+//   revisionId: Specifies the Revision ID that should be downloaded. Ignored
+//     unless alt=media is specified.
 //   updateViewedDate: Whether to update the view date after successfully
 //     retrieving the file. (Default false)
 //  Authorization scope(s):
@@ -650,14 +728,15 @@
 //   kGTLAuthScopeDriveAppdata
 //   kGTLAuthScopeDriveAppsReadonly
 //   kGTLAuthScopeDriveFile
+//   kGTLAuthScopeDriveMetadata
 //   kGTLAuthScopeDriveMetadataReadonly
+//   kGTLAuthScopeDrivePhotosReadonly
 //   kGTLAuthScopeDriveReadonly
 // Fetches a GTLDriveChannel.
-+ (id)queryForFilesWatchWithObject:(GTLDriveChannel *)object
-                            fileId:(NSString *)fileId;
++ (instancetype)queryForFilesWatchWithObject:(GTLDriveChannel *)object
+                                      fileId:(NSString *)fileId;
 
-#pragma mark -
-#pragma mark "parents" methods
+#pragma mark - "parents" methods
 // These create a GTLQueryDrive object.
 
 // Method: drive.parents.delete
@@ -668,8 +747,8 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveFile
-+ (id)queryForParentsDeleteWithFileId:(NSString *)fileId
-                             parentId:(NSString *)parentId;
++ (instancetype)queryForParentsDeleteWithFileId:(NSString *)fileId
+                                       parentId:(NSString *)parentId;
 
 // Method: drive.parents.get
 // Gets a specific parent reference.
@@ -680,11 +759,13 @@
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveAppdata
 //   kGTLAuthScopeDriveFile
+//   kGTLAuthScopeDriveMetadata
 //   kGTLAuthScopeDriveMetadataReadonly
+//   kGTLAuthScopeDrivePhotosReadonly
 //   kGTLAuthScopeDriveReadonly
 // Fetches a GTLDriveParentReference.
-+ (id)queryForParentsGetWithFileId:(NSString *)fileId
-                          parentId:(NSString *)parentId;
++ (instancetype)queryForParentsGetWithFileId:(NSString *)fileId
+                                    parentId:(NSString *)parentId;
 
 // Method: drive.parents.insert
 // Adds a parent folder for a file.
@@ -695,8 +776,8 @@
 //   kGTLAuthScopeDriveAppdata
 //   kGTLAuthScopeDriveFile
 // Fetches a GTLDriveParentReference.
-+ (id)queryForParentsInsertWithObject:(GTLDriveParentReference *)object
-                               fileId:(NSString *)fileId;
++ (instancetype)queryForParentsInsertWithObject:(GTLDriveParentReference *)object
+                                         fileId:(NSString *)fileId;
 
 // Method: drive.parents.list
 // Lists a file's parents.
@@ -706,13 +787,14 @@
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveAppdata
 //   kGTLAuthScopeDriveFile
+//   kGTLAuthScopeDriveMetadata
 //   kGTLAuthScopeDriveMetadataReadonly
+//   kGTLAuthScopeDrivePhotosReadonly
 //   kGTLAuthScopeDriveReadonly
 // Fetches a GTLDriveParentList.
-+ (id)queryForParentsListWithFileId:(NSString *)fileId;
++ (instancetype)queryForParentsListWithFileId:(NSString *)fileId;
 
-#pragma mark -
-#pragma mark "permissions" methods
+#pragma mark - "permissions" methods
 // These create a GTLQueryDrive object.
 
 // Method: drive.permissions.delete
@@ -723,8 +805,8 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveFile
-+ (id)queryForPermissionsDeleteWithFileId:(NSString *)fileId
-                             permissionId:(NSString *)permissionId;
++ (instancetype)queryForPermissionsDeleteWithFileId:(NSString *)fileId
+                                       permissionId:(NSString *)permissionId;
 
 // Method: drive.permissions.get
 // Gets a permission by ID.
@@ -734,11 +816,13 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveFile
+//   kGTLAuthScopeDriveMetadata
 //   kGTLAuthScopeDriveMetadataReadonly
+//   kGTLAuthScopeDrivePhotosReadonly
 //   kGTLAuthScopeDriveReadonly
 // Fetches a GTLDrivePermission.
-+ (id)queryForPermissionsGetWithFileId:(NSString *)fileId
-                          permissionId:(NSString *)permissionId;
++ (instancetype)queryForPermissionsGetWithFileId:(NSString *)fileId
+                                    permissionId:(NSString *)permissionId;
 
 // Method: drive.permissions.getIdForEmail
 // Returns the permission ID for an email address.
@@ -749,10 +833,12 @@
 //   kGTLAuthScopeDriveAppdata
 //   kGTLAuthScopeDriveAppsReadonly
 //   kGTLAuthScopeDriveFile
+//   kGTLAuthScopeDriveMetadata
 //   kGTLAuthScopeDriveMetadataReadonly
+//   kGTLAuthScopeDrivePhotosReadonly
 //   kGTLAuthScopeDriveReadonly
 // Fetches a GTLDrivePermissionId.
-+ (id)queryForPermissionsGetIdForEmailWithEmail:(NSString *)email;
++ (instancetype)queryForPermissionsGetIdForEmailWithEmail:(NSString *)email;
 
 // Method: drive.permissions.insert
 // Inserts a permission for a file.
@@ -767,8 +853,8 @@
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveFile
 // Fetches a GTLDrivePermission.
-+ (id)queryForPermissionsInsertWithObject:(GTLDrivePermission *)object
-                                   fileId:(NSString *)fileId;
++ (instancetype)queryForPermissionsInsertWithObject:(GTLDrivePermission *)object
+                                             fileId:(NSString *)fileId;
 
 // Method: drive.permissions.list
 // Lists a file's permissions.
@@ -777,10 +863,12 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveFile
+//   kGTLAuthScopeDriveMetadata
 //   kGTLAuthScopeDriveMetadataReadonly
+//   kGTLAuthScopeDrivePhotosReadonly
 //   kGTLAuthScopeDriveReadonly
 // Fetches a GTLDrivePermissionList.
-+ (id)queryForPermissionsListWithFileId:(NSString *)fileId;
++ (instancetype)queryForPermissionsListWithFileId:(NSString *)fileId;
 
 // Method: drive.permissions.patch
 // Updates a permission. This method supports patch semantics.
@@ -788,15 +876,16 @@
 //   fileId: The ID for the file.
 //   permissionId: The ID for the permission.
 //  Optional:
-//   transferOwnership: Whether changing a role to 'owner' should also downgrade
-//     the current owners to writers. (Default false)
+//   transferOwnership: Whether changing a role to 'owner' downgrades the
+//     current owners to writers. Does nothing if the specified role is not
+//     'owner'. (Default false)
 //  Authorization scope(s):
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveFile
 // Fetches a GTLDrivePermission.
-+ (id)queryForPermissionsPatchWithObject:(GTLDrivePermission *)object
-                                  fileId:(NSString *)fileId
-                            permissionId:(NSString *)permissionId;
++ (instancetype)queryForPermissionsPatchWithObject:(GTLDrivePermission *)object
+                                            fileId:(NSString *)fileId
+                                      permissionId:(NSString *)permissionId;
 
 // Method: drive.permissions.update
 // Updates a permission.
@@ -804,18 +893,18 @@
 //   fileId: The ID for the file.
 //   permissionId: The ID for the permission.
 //  Optional:
-//   transferOwnership: Whether changing a role to 'owner' should also downgrade
-//     the current owners to writers. (Default false)
+//   transferOwnership: Whether changing a role to 'owner' downgrades the
+//     current owners to writers. Does nothing if the specified role is not
+//     'owner'. (Default false)
 //  Authorization scope(s):
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveFile
 // Fetches a GTLDrivePermission.
-+ (id)queryForPermissionsUpdateWithObject:(GTLDrivePermission *)object
-                                   fileId:(NSString *)fileId
-                             permissionId:(NSString *)permissionId;
++ (instancetype)queryForPermissionsUpdateWithObject:(GTLDrivePermission *)object
+                                             fileId:(NSString *)fileId
+                                       permissionId:(NSString *)permissionId;
 
-#pragma mark -
-#pragma mark "properties" methods
+#pragma mark - "properties" methods
 // These create a GTLQueryDrive object.
 
 // Method: drive.properties.delete
@@ -829,8 +918,9 @@
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveAppdata
 //   kGTLAuthScopeDriveFile
-+ (id)queryForPropertiesDeleteWithFileId:(NSString *)fileId
-                             propertyKey:(NSString *)propertyKey;
+//   kGTLAuthScopeDriveMetadata
++ (instancetype)queryForPropertiesDeleteWithFileId:(NSString *)fileId
+                                       propertyKey:(NSString *)propertyKey;
 
 // Method: drive.properties.get
 // Gets a property by its key.
@@ -843,11 +933,13 @@
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveAppdata
 //   kGTLAuthScopeDriveFile
+//   kGTLAuthScopeDriveMetadata
 //   kGTLAuthScopeDriveMetadataReadonly
+//   kGTLAuthScopeDrivePhotosReadonly
 //   kGTLAuthScopeDriveReadonly
 // Fetches a GTLDriveProperty.
-+ (id)queryForPropertiesGetWithFileId:(NSString *)fileId
-                          propertyKey:(NSString *)propertyKey;
++ (instancetype)queryForPropertiesGetWithFileId:(NSString *)fileId
+                                    propertyKey:(NSString *)propertyKey;
 
 // Method: drive.properties.insert
 // Adds a property to a file.
@@ -857,9 +949,10 @@
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveAppdata
 //   kGTLAuthScopeDriveFile
+//   kGTLAuthScopeDriveMetadata
 // Fetches a GTLDriveProperty.
-+ (id)queryForPropertiesInsertWithObject:(GTLDriveProperty *)object
-                                  fileId:(NSString *)fileId;
++ (instancetype)queryForPropertiesInsertWithObject:(GTLDriveProperty *)object
+                                            fileId:(NSString *)fileId;
 
 // Method: drive.properties.list
 // Lists a file's properties.
@@ -869,10 +962,12 @@
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveAppdata
 //   kGTLAuthScopeDriveFile
+//   kGTLAuthScopeDriveMetadata
 //   kGTLAuthScopeDriveMetadataReadonly
+//   kGTLAuthScopeDrivePhotosReadonly
 //   kGTLAuthScopeDriveReadonly
 // Fetches a GTLDrivePropertyList.
-+ (id)queryForPropertiesListWithFileId:(NSString *)fileId;
++ (instancetype)queryForPropertiesListWithFileId:(NSString *)fileId;
 
 // Method: drive.properties.patch
 // Updates a property. This method supports patch semantics.
@@ -885,10 +980,11 @@
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveAppdata
 //   kGTLAuthScopeDriveFile
+//   kGTLAuthScopeDriveMetadata
 // Fetches a GTLDriveProperty.
-+ (id)queryForPropertiesPatchWithObject:(GTLDriveProperty *)object
-                                 fileId:(NSString *)fileId
-                            propertyKey:(NSString *)propertyKey;
++ (instancetype)queryForPropertiesPatchWithObject:(GTLDriveProperty *)object
+                                           fileId:(NSString *)fileId
+                                      propertyKey:(NSString *)propertyKey;
 
 // Method: drive.properties.update
 // Updates a property.
@@ -901,13 +997,13 @@
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveAppdata
 //   kGTLAuthScopeDriveFile
+//   kGTLAuthScopeDriveMetadata
 // Fetches a GTLDriveProperty.
-+ (id)queryForPropertiesUpdateWithObject:(GTLDriveProperty *)object
-                                  fileId:(NSString *)fileId
-                             propertyKey:(NSString *)propertyKey;
++ (instancetype)queryForPropertiesUpdateWithObject:(GTLDriveProperty *)object
+                                            fileId:(NSString *)fileId
+                                       propertyKey:(NSString *)propertyKey;
 
-#pragma mark -
-#pragma mark "realtime" methods
+#pragma mark - "realtime" methods
 // These create a GTLQueryDrive object.
 
 // Method: drive.realtime.get
@@ -925,7 +1021,7 @@
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveFile
 //   kGTLAuthScopeDriveReadonly
-+ (id)queryForRealtimeGetWithFileId:(NSString *)fileId;
++ (instancetype)queryForRealtimeGetWithFileId:(NSString *)fileId;
 
 // Method: drive.realtime.update
 // Overwrites the Realtime API data model associated with this file with the
@@ -945,11 +1041,10 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveFile
-+ (id)queryForRealtimeUpdateWithFileId:(NSString *)fileId
-                      uploadParameters:(GTLUploadParameters *)uploadParametersOrNil;
++ (instancetype)queryForRealtimeUpdateWithFileId:(NSString *)fileId
+                                uploadParameters:(GTLUploadParameters *)uploadParametersOrNil;
 
-#pragma mark -
-#pragma mark "replies" methods
+#pragma mark - "replies" methods
 // These create a GTLQueryDrive object.
 
 // Method: drive.replies.delete
@@ -961,9 +1056,9 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveFile
-+ (id)queryForRepliesDeleteWithFileId:(NSString *)fileId
-                            commentId:(NSString *)commentId
-                              replyId:(NSString *)replyId;
++ (instancetype)queryForRepliesDeleteWithFileId:(NSString *)fileId
+                                      commentId:(NSString *)commentId
+                                        replyId:(NSString *)replyId;
 
 // Method: drive.replies.get
 // Gets a reply.
@@ -979,9 +1074,9 @@
 //   kGTLAuthScopeDriveFile
 //   kGTLAuthScopeDriveReadonly
 // Fetches a GTLDriveCommentReply.
-+ (id)queryForRepliesGetWithFileId:(NSString *)fileId
-                         commentId:(NSString *)commentId
-                           replyId:(NSString *)replyId;
++ (instancetype)queryForRepliesGetWithFileId:(NSString *)fileId
+                                   commentId:(NSString *)commentId
+                                     replyId:(NSString *)replyId;
 
 // Method: drive.replies.insert
 // Creates a new reply to the given comment.
@@ -992,9 +1087,9 @@
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveFile
 // Fetches a GTLDriveCommentReply.
-+ (id)queryForRepliesInsertWithObject:(GTLDriveCommentReply *)object
-                               fileId:(NSString *)fileId
-                            commentId:(NSString *)commentId;
++ (instancetype)queryForRepliesInsertWithObject:(GTLDriveCommentReply *)object
+                                         fileId:(NSString *)fileId
+                                      commentId:(NSString *)commentId;
 
 // Method: drive.replies.list
 // Lists all of the replies to a comment.
@@ -1014,8 +1109,8 @@
 //   kGTLAuthScopeDriveFile
 //   kGTLAuthScopeDriveReadonly
 // Fetches a GTLDriveCommentReplyList.
-+ (id)queryForRepliesListWithFileId:(NSString *)fileId
-                          commentId:(NSString *)commentId;
++ (instancetype)queryForRepliesListWithFileId:(NSString *)fileId
+                                    commentId:(NSString *)commentId;
 
 // Method: drive.replies.patch
 // Updates an existing reply. This method supports patch semantics.
@@ -1027,10 +1122,10 @@
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveFile
 // Fetches a GTLDriveCommentReply.
-+ (id)queryForRepliesPatchWithObject:(GTLDriveCommentReply *)object
-                              fileId:(NSString *)fileId
-                           commentId:(NSString *)commentId
-                             replyId:(NSString *)replyId;
++ (instancetype)queryForRepliesPatchWithObject:(GTLDriveCommentReply *)object
+                                        fileId:(NSString *)fileId
+                                     commentId:(NSString *)commentId
+                                       replyId:(NSString *)replyId;
 
 // Method: drive.replies.update
 // Updates an existing reply.
@@ -1042,13 +1137,12 @@
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveFile
 // Fetches a GTLDriveCommentReply.
-+ (id)queryForRepliesUpdateWithObject:(GTLDriveCommentReply *)object
-                               fileId:(NSString *)fileId
-                            commentId:(NSString *)commentId
-                              replyId:(NSString *)replyId;
++ (instancetype)queryForRepliesUpdateWithObject:(GTLDriveCommentReply *)object
+                                         fileId:(NSString *)fileId
+                                      commentId:(NSString *)commentId
+                                        replyId:(NSString *)replyId;
 
-#pragma mark -
-#pragma mark "revisions" methods
+#pragma mark - "revisions" methods
 // These create a GTLQueryDrive object.
 
 // Method: drive.revisions.delete
@@ -1060,8 +1154,8 @@
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveAppdata
 //   kGTLAuthScopeDriveFile
-+ (id)queryForRevisionsDeleteWithFileId:(NSString *)fileId
-                             revisionId:(NSString *)revisionId;
++ (instancetype)queryForRevisionsDeleteWithFileId:(NSString *)fileId
+                                       revisionId:(NSString *)revisionId;
 
 // Method: drive.revisions.get
 // Gets a specific revision.
@@ -1072,11 +1166,13 @@
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveAppdata
 //   kGTLAuthScopeDriveFile
+//   kGTLAuthScopeDriveMetadata
 //   kGTLAuthScopeDriveMetadataReadonly
+//   kGTLAuthScopeDrivePhotosReadonly
 //   kGTLAuthScopeDriveReadonly
 // Fetches a GTLDriveRevision.
-+ (id)queryForRevisionsGetWithFileId:(NSString *)fileId
-                          revisionId:(NSString *)revisionId;
++ (instancetype)queryForRevisionsGetWithFileId:(NSString *)fileId
+                                    revisionId:(NSString *)revisionId;
 
 // Method: drive.revisions.list
 // Lists a file's revisions.
@@ -1086,10 +1182,12 @@
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveAppdata
 //   kGTLAuthScopeDriveFile
+//   kGTLAuthScopeDriveMetadata
 //   kGTLAuthScopeDriveMetadataReadonly
+//   kGTLAuthScopeDrivePhotosReadonly
 //   kGTLAuthScopeDriveReadonly
 // Fetches a GTLDriveRevisionList.
-+ (id)queryForRevisionsListWithFileId:(NSString *)fileId;
++ (instancetype)queryForRevisionsListWithFileId:(NSString *)fileId;
 
 // Method: drive.revisions.patch
 // Updates a revision. This method supports patch semantics.
@@ -1101,9 +1199,9 @@
 //   kGTLAuthScopeDriveAppdata
 //   kGTLAuthScopeDriveFile
 // Fetches a GTLDriveRevision.
-+ (id)queryForRevisionsPatchWithObject:(GTLDriveRevision *)object
-                                fileId:(NSString *)fileId
-                            revisionId:(NSString *)revisionId;
++ (instancetype)queryForRevisionsPatchWithObject:(GTLDriveRevision *)object
+                                          fileId:(NSString *)fileId
+                                      revisionId:(NSString *)revisionId;
 
 // Method: drive.revisions.update
 // Updates a revision.
@@ -1115,8 +1213,8 @@
 //   kGTLAuthScopeDriveAppdata
 //   kGTLAuthScopeDriveFile
 // Fetches a GTLDriveRevision.
-+ (id)queryForRevisionsUpdateWithObject:(GTLDriveRevision *)object
-                                 fileId:(NSString *)fileId
-                             revisionId:(NSString *)revisionId;
++ (instancetype)queryForRevisionsUpdateWithObject:(GTLDriveRevision *)object
+                                           fileId:(NSString *)fileId
+                                       revisionId:(NSString *)revisionId;
 
 @end

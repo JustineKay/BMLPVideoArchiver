@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,11 +27,12 @@
 //   https://developers.google.com/+/domains/
 // Classes:
 //   GTLPlusDomainsComment (0 custom class methods, 11 custom properties)
-//   GTLPlusDomainsCommentActor (0 custom class methods, 4 custom properties)
+//   GTLPlusDomainsCommentActor (0 custom class methods, 5 custom properties)
 //   GTLPlusDomainsCommentInReplyToItem (0 custom class methods, 2 custom properties)
 //   GTLPlusDomainsCommentObject (0 custom class methods, 3 custom properties)
 //   GTLPlusDomainsCommentPlusoners (0 custom class methods, 1 custom properties)
 //   GTLPlusDomainsCommentActorImage (0 custom class methods, 1 custom properties)
+//   GTLPlusDomainsCommentActorVerification (0 custom class methods, 1 custom properties)
 
 #import "GTLPlusDomainsComment.h"
 
@@ -45,18 +46,17 @@
          selfLink, updated, verb;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObjectsAndKeys:
-      @"etag", @"ETag",
-      @"id", @"identifier",
-      nil];
+  NSDictionary *map = @{
+    @"ETag" : @"etag",
+    @"identifier" : @"id"
+  };
   return map;
 }
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:[GTLPlusDomainsCommentInReplyToItem class]
-                                forKey:@"inReplyTo"];
+  NSDictionary *map = @{
+    @"inReplyTo" : [GTLPlusDomainsCommentInReplyToItem class]
+  };
   return map;
 }
 
@@ -73,12 +73,12 @@
 //
 
 @implementation GTLPlusDomainsCommentActor
-@dynamic displayName, identifier, image, url;
+@dynamic displayName, identifier, image, url, verification;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"id"
-                                forKey:@"identifier"];
+  NSDictionary *map = @{
+    @"identifier" : @"id"
+  };
   return map;
 }
 
@@ -94,9 +94,9 @@
 @dynamic identifier, url;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"id"
-                                forKey:@"identifier"];
+  NSDictionary *map = @{
+    @"identifier" : @"id"
+  };
   return map;
 }
 
@@ -130,4 +130,14 @@
 
 @implementation GTLPlusDomainsCommentActorImage
 @dynamic url;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLPlusDomainsCommentActorVerification
+//
+
+@implementation GTLPlusDomainsCommentActorVerification
+@dynamic adHocVerified;
 @end

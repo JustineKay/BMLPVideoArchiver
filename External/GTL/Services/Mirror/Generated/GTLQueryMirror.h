@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,28 +46,27 @@
 //
 
 // Selector specifying which fields to include in a partial response.
-@property (copy) NSString *fields;
+@property (nonatomic, copy) NSString *fields;
 
 //
 // Method-specific parameters; see the comments below for more information.
 //
-@property (copy) NSString *accountName;
-@property (copy) NSString *accountType;
-@property (copy) NSString *attachmentId;
-@property (copy) NSString *bundleId;
+@property (nonatomic, copy) NSString *accountName;
+@property (nonatomic, copy) NSString *accountType;
+@property (nonatomic, copy) NSString *attachmentId;
+@property (nonatomic, copy) NSString *bundleId;
 // identifier property maps to 'id' in JSON (to avoid Objective C's 'id').
-@property (copy) NSString *identifier;
-@property (assign) BOOL includeDeleted;
-@property (copy) NSString *itemId;
-@property (assign) NSUInteger maxResults;
-@property (copy) NSString *orderBy;
-@property (copy) NSString *pageToken;
-@property (assign) BOOL pinnedOnly;
-@property (copy) NSString *sourceItemId;
-@property (copy) NSString *userToken;
+@property (nonatomic, copy) NSString *identifier;
+@property (nonatomic, assign) BOOL includeDeleted;
+@property (nonatomic, copy) NSString *itemId;
+@property (nonatomic, assign) NSUInteger maxResults;
+@property (nonatomic, copy) NSString *orderBy;
+@property (nonatomic, copy) NSString *pageToken;
+@property (nonatomic, assign) BOOL pinnedOnly;
+@property (nonatomic, copy) NSString *sourceItemId;
+@property (nonatomic, copy) NSString *userToken;
 
-#pragma mark -
-#pragma mark "accounts" methods
+#pragma mark - "accounts" methods
 // These create a GTLQueryMirror object.
 
 // Method: mirror.accounts.insert
@@ -78,13 +77,12 @@
 //   accountName: The name of the account to be passed to the Android Account
 //     Manager.
 // Fetches a GTLMirrorAccount.
-+ (id)queryForAccountsInsertWithObject:(GTLMirrorAccount *)object
-                             userToken:(NSString *)userToken
-                           accountType:(NSString *)accountType
-                           accountName:(NSString *)accountName;
++ (instancetype)queryForAccountsInsertWithObject:(GTLMirrorAccount *)object
+                                       userToken:(NSString *)userToken
+                                     accountType:(NSString *)accountType
+                                     accountName:(NSString *)accountName;
 
-#pragma mark -
-#pragma mark "contacts" methods
+#pragma mark - "contacts" methods
 // These create a GTLQueryMirror object.
 
 // Method: mirror.contacts.delete
@@ -93,7 +91,7 @@
 //   identifier: The ID of the contact.
 //  Authorization scope(s):
 //   kGTLAuthScopeMirrorGlassTimeline
-+ (id)queryForContactsDeleteWithIdentifier:(NSString *)identifier;
++ (instancetype)queryForContactsDeleteWithIdentifier:(NSString *)identifier;
 
 // Method: mirror.contacts.get
 // Gets a single contact by ID.
@@ -102,21 +100,21 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeMirrorGlassTimeline
 // Fetches a GTLMirrorContact.
-+ (id)queryForContactsGetWithIdentifier:(NSString *)identifier;
++ (instancetype)queryForContactsGetWithIdentifier:(NSString *)identifier;
 
 // Method: mirror.contacts.insert
 // Inserts a new contact.
 //  Authorization scope(s):
 //   kGTLAuthScopeMirrorGlassTimeline
 // Fetches a GTLMirrorContact.
-+ (id)queryForContactsInsertWithObject:(GTLMirrorContact *)object;
++ (instancetype)queryForContactsInsertWithObject:(GTLMirrorContact *)object;
 
 // Method: mirror.contacts.list
 // Retrieves a list of contacts for the authenticated user.
 //  Authorization scope(s):
 //   kGTLAuthScopeMirrorGlassTimeline
 // Fetches a GTLMirrorContactsListResponse.
-+ (id)queryForContactsList;
++ (instancetype)queryForContactsList;
 
 // Method: mirror.contacts.patch
 // Updates a contact in place. This method supports patch semantics.
@@ -125,8 +123,8 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeMirrorGlassTimeline
 // Fetches a GTLMirrorContact.
-+ (id)queryForContactsPatchWithObject:(GTLMirrorContact *)object
-                           identifier:(NSString *)identifier;
++ (instancetype)queryForContactsPatchWithObject:(GTLMirrorContact *)object
+                                     identifier:(NSString *)identifier;
 
 // Method: mirror.contacts.update
 // Updates a contact in place.
@@ -135,11 +133,10 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeMirrorGlassTimeline
 // Fetches a GTLMirrorContact.
-+ (id)queryForContactsUpdateWithObject:(GTLMirrorContact *)object
-                            identifier:(NSString *)identifier;
++ (instancetype)queryForContactsUpdateWithObject:(GTLMirrorContact *)object
+                                      identifier:(NSString *)identifier;
 
-#pragma mark -
-#pragma mark "locations" methods
+#pragma mark - "locations" methods
 // These create a GTLQueryMirror object.
 
 // Method: mirror.locations.get
@@ -150,7 +147,7 @@
 //   kGTLAuthScopeMirrorGlassLocation
 //   kGTLAuthScopeMirrorGlassTimeline
 // Fetches a GTLMirrorLocation.
-+ (id)queryForLocationsGetWithIdentifier:(NSString *)identifier;
++ (instancetype)queryForLocationsGetWithIdentifier:(NSString *)identifier;
 
 // Method: mirror.locations.list
 // Retrieves a list of locations for the user.
@@ -158,10 +155,9 @@
 //   kGTLAuthScopeMirrorGlassLocation
 //   kGTLAuthScopeMirrorGlassTimeline
 // Fetches a GTLMirrorLocationsListResponse.
-+ (id)queryForLocationsList;
++ (instancetype)queryForLocationsList;
 
-#pragma mark -
-#pragma mark "settings" methods
+#pragma mark - "settings" methods
 // These create a GTLQueryMirror object.
 
 // Method: mirror.settings.get
@@ -175,10 +171,9 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeMirrorGlassTimeline
 // Fetches a GTLMirrorSetting.
-+ (id)queryForSettingsGetWithIdentifier:(NSString *)identifier;
++ (instancetype)queryForSettingsGetWithIdentifier:(NSString *)identifier;
 
-#pragma mark -
-#pragma mark "subscriptions" methods
+#pragma mark - "subscriptions" methods
 // These create a GTLQueryMirror object.
 
 // Method: mirror.subscriptions.delete
@@ -187,21 +182,21 @@
 //   identifier: The ID of the subscription.
 //  Authorization scope(s):
 //   kGTLAuthScopeMirrorGlassTimeline
-+ (id)queryForSubscriptionsDeleteWithIdentifier:(NSString *)identifier;
++ (instancetype)queryForSubscriptionsDeleteWithIdentifier:(NSString *)identifier;
 
 // Method: mirror.subscriptions.insert
 // Creates a new subscription.
 //  Authorization scope(s):
 //   kGTLAuthScopeMirrorGlassTimeline
 // Fetches a GTLMirrorSubscription.
-+ (id)queryForSubscriptionsInsertWithObject:(GTLMirrorSubscription *)object;
++ (instancetype)queryForSubscriptionsInsertWithObject:(GTLMirrorSubscription *)object;
 
 // Method: mirror.subscriptions.list
 // Retrieves a list of subscriptions for the authenticated user and service.
 //  Authorization scope(s):
 //   kGTLAuthScopeMirrorGlassTimeline
 // Fetches a GTLMirrorSubscriptionsListResponse.
-+ (id)queryForSubscriptionsList;
++ (instancetype)queryForSubscriptionsList;
 
 // Method: mirror.subscriptions.update
 // Updates an existing subscription in place.
@@ -210,11 +205,10 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeMirrorGlassTimeline
 // Fetches a GTLMirrorSubscription.
-+ (id)queryForSubscriptionsUpdateWithObject:(GTLMirrorSubscription *)object
-                                 identifier:(NSString *)identifier;
++ (instancetype)queryForSubscriptionsUpdateWithObject:(GTLMirrorSubscription *)object
+                                           identifier:(NSString *)identifier;
 
-#pragma mark -
-#pragma mark "timeline.attachments" methods
+#pragma mark - "timeline.attachments" methods
 // These create a GTLQueryMirror object.
 
 // Method: mirror.timeline.attachments.delete
@@ -224,8 +218,8 @@
 //   attachmentId: The ID of the attachment.
 //  Authorization scope(s):
 //   kGTLAuthScopeMirrorGlassTimeline
-+ (id)queryForTimelineAttachmentsDeleteWithItemId:(NSString *)itemId
-                                     attachmentId:(NSString *)attachmentId;
++ (instancetype)queryForTimelineAttachmentsDeleteWithItemId:(NSString *)itemId
+                                               attachmentId:(NSString *)attachmentId;
 
 // Method: mirror.timeline.attachments.get
 // Retrieves an attachment on a timeline item by item ID and attachment ID.
@@ -235,8 +229,8 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeMirrorGlassTimeline
 // Fetches a GTLMirrorAttachment.
-+ (id)queryForTimelineAttachmentsGetWithItemId:(NSString *)itemId
-                                  attachmentId:(NSString *)attachmentId;
++ (instancetype)queryForTimelineAttachmentsGetWithItemId:(NSString *)itemId
+                                            attachmentId:(NSString *)attachmentId;
 
 // Method: mirror.timeline.attachments.insert
 // Adds a new attachment to a timeline item.
@@ -248,8 +242,8 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeMirrorGlassTimeline
 // Fetches a GTLMirrorAttachment.
-+ (id)queryForTimelineAttachmentsInsertWithItemId:(NSString *)itemId
-                                 uploadParameters:(GTLUploadParameters *)uploadParametersOrNil;
++ (instancetype)queryForTimelineAttachmentsInsertWithItemId:(NSString *)itemId
+                                           uploadParameters:(GTLUploadParameters *)uploadParametersOrNil;
 
 // Method: mirror.timeline.attachments.list
 // Returns a list of attachments for a timeline item.
@@ -258,10 +252,9 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeMirrorGlassTimeline
 // Fetches a GTLMirrorAttachmentsListResponse.
-+ (id)queryForTimelineAttachmentsListWithItemId:(NSString *)itemId;
++ (instancetype)queryForTimelineAttachmentsListWithItemId:(NSString *)itemId;
 
-#pragma mark -
-#pragma mark "timeline" methods
+#pragma mark - "timeline" methods
 // These create a GTLQueryMirror object.
 
 // Method: mirror.timeline.delete
@@ -271,7 +264,7 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeMirrorGlassLocation
 //   kGTLAuthScopeMirrorGlassTimeline
-+ (id)queryForTimelineDeleteWithIdentifier:(NSString *)identifier;
++ (instancetype)queryForTimelineDeleteWithIdentifier:(NSString *)identifier;
 
 // Method: mirror.timeline.get
 // Gets a single timeline item by ID.
@@ -281,7 +274,7 @@
 //   kGTLAuthScopeMirrorGlassLocation
 //   kGTLAuthScopeMirrorGlassTimeline
 // Fetches a GTLMirrorTimelineItem.
-+ (id)queryForTimelineGetWithIdentifier:(NSString *)identifier;
++ (instancetype)queryForTimelineGetWithIdentifier:(NSString *)identifier;
 
 // Method: mirror.timeline.insert
 // Inserts a new item into the timeline.
@@ -292,8 +285,8 @@
 //   kGTLAuthScopeMirrorGlassLocation
 //   kGTLAuthScopeMirrorGlassTimeline
 // Fetches a GTLMirrorTimelineItem.
-+ (id)queryForTimelineInsertWithObject:(GTLMirrorTimelineItem *)object
-                      uploadParameters:(GTLUploadParameters *)uploadParametersOrNil;
++ (instancetype)queryForTimelineInsertWithObject:(GTLMirrorTimelineItem *)object
+                                uploadParameters:(GTLUploadParameters *)uploadParametersOrNil;
 
 // Method: mirror.timeline.list
 // Retrieves a list of timeline items for the authenticated user.
@@ -317,7 +310,7 @@
 //   kGTLAuthScopeMirrorGlassLocation
 //   kGTLAuthScopeMirrorGlassTimeline
 // Fetches a GTLMirrorTimelineListResponse.
-+ (id)queryForTimelineList;
++ (instancetype)queryForTimelineList;
 
 // Method: mirror.timeline.patch
 // Updates a timeline item in place. This method supports patch semantics.
@@ -327,8 +320,8 @@
 //   kGTLAuthScopeMirrorGlassLocation
 //   kGTLAuthScopeMirrorGlassTimeline
 // Fetches a GTLMirrorTimelineItem.
-+ (id)queryForTimelinePatchWithObject:(GTLMirrorTimelineItem *)object
-                           identifier:(NSString *)identifier;
++ (instancetype)queryForTimelinePatchWithObject:(GTLMirrorTimelineItem *)object
+                                     identifier:(NSString *)identifier;
 
 // Method: mirror.timeline.update
 // Updates a timeline item in place.
@@ -341,8 +334,8 @@
 //   kGTLAuthScopeMirrorGlassLocation
 //   kGTLAuthScopeMirrorGlassTimeline
 // Fetches a GTLMirrorTimelineItem.
-+ (id)queryForTimelineUpdateWithObject:(GTLMirrorTimelineItem *)object
-                            identifier:(NSString *)identifier
-                      uploadParameters:(GTLUploadParameters *)uploadParametersOrNil;
++ (instancetype)queryForTimelineUpdateWithObject:(GTLMirrorTimelineItem *)object
+                                      identifier:(NSString *)identifier
+                                uploadParameters:(GTLUploadParameters *)uploadParametersOrNil;
 
 @end

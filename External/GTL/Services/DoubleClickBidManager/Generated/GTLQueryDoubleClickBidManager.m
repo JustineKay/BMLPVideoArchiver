@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,49 +43,47 @@
          timezoneCode;
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:[NSNumber class]
-                                forKey:@"filterIds"];
+  NSDictionary *map = @{
+    @"filterIds" : [NSNumber class]
+  };
   return map;
 }
 
-#pragma mark -
-#pragma mark "lineitems" methods
+#pragma mark - "lineitems" methods
 // These create a GTLQueryDoubleClickBidManager object.
 
-+ (id)queryForLineitemsDownloadlineitems {
++ (instancetype)queryForLineitemsDownloadlineitems {
   NSString *methodName = @"doubleclickbidmanager.lineitems.downloadlineitems";
   GTLQueryDoubleClickBidManager *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLDoubleClickBidManagerDownloadLineItemsResponse class];
   return query;
 }
 
-+ (id)queryForLineitemsUploadlineitems {
++ (instancetype)queryForLineitemsUploadlineitems {
   NSString *methodName = @"doubleclickbidmanager.lineitems.uploadlineitems";
   GTLQueryDoubleClickBidManager *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLDoubleClickBidManagerUploadLineItemsResponse class];
   return query;
 }
 
-#pragma mark -
-#pragma mark "queries" methods
+#pragma mark - "queries" methods
 // These create a GTLQueryDoubleClickBidManager object.
 
-+ (id)queryForQueriesCreatequery {
++ (instancetype)queryForQueriesCreatequery {
   NSString *methodName = @"doubleclickbidmanager.queries.createquery";
   GTLQueryDoubleClickBidManager *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLDoubleClickBidManagerQuery class];
   return query;
 }
 
-+ (id)queryForQueriesDeletequeryWithQueryId:(long long)queryId {
++ (instancetype)queryForQueriesDeletequeryWithQueryId:(long long)queryId {
   NSString *methodName = @"doubleclickbidmanager.queries.deletequery";
   GTLQueryDoubleClickBidManager *query = [self queryWithMethodName:methodName];
   query.queryId = queryId;
   return query;
 }
 
-+ (id)queryForQueriesGetqueryWithQueryId:(long long)queryId {
++ (instancetype)queryForQueriesGetqueryWithQueryId:(long long)queryId {
   NSString *methodName = @"doubleclickbidmanager.queries.getquery";
   GTLQueryDoubleClickBidManager *query = [self queryWithMethodName:methodName];
   query.queryId = queryId;
@@ -93,25 +91,24 @@
   return query;
 }
 
-+ (id)queryForQueriesListqueries {
++ (instancetype)queryForQueriesListqueries {
   NSString *methodName = @"doubleclickbidmanager.queries.listqueries";
   GTLQueryDoubleClickBidManager *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLDoubleClickBidManagerListQueriesResponse class];
   return query;
 }
 
-+ (id)queryForQueriesRunqueryWithQueryId:(long long)queryId {
++ (instancetype)queryForQueriesRunqueryWithQueryId:(long long)queryId {
   NSString *methodName = @"doubleclickbidmanager.queries.runquery";
   GTLQueryDoubleClickBidManager *query = [self queryWithMethodName:methodName];
   query.queryId = queryId;
   return query;
 }
 
-#pragma mark -
-#pragma mark "reports" methods
+#pragma mark - "reports" methods
 // These create a GTLQueryDoubleClickBidManager object.
 
-+ (id)queryForReportsListreportsWithQueryId:(long long)queryId {
++ (instancetype)queryForReportsListreportsWithQueryId:(long long)queryId {
   NSString *methodName = @"doubleclickbidmanager.reports.listreports";
   GTLQueryDoubleClickBidManager *query = [self queryWithMethodName:methodName];
   query.queryId = queryId;

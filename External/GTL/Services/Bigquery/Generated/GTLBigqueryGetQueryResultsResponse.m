@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,12 +24,13 @@
 // Description:
 //   A data platform for customers to create, manage, share and query data.
 // Documentation:
-//   https://developers.google.com/bigquery/docs/overview
+//   https://cloud.google.com/bigquery/
 // Classes:
-//   GTLBigqueryGetQueryResultsResponse (0 custom class methods, 9 custom properties)
+//   GTLBigqueryGetQueryResultsResponse (0 custom class methods, 11 custom properties)
 
 #import "GTLBigqueryGetQueryResultsResponse.h"
 
+#import "GTLBigqueryErrorProto.h"
 #import "GTLBigqueryJobReference.h"
 #import "GTLBigqueryTableRow.h"
 #import "GTLBigqueryTableSchema.h"
@@ -40,20 +41,21 @@
 //
 
 @implementation GTLBigqueryGetQueryResultsResponse
-@dynamic cacheHit, ETag, jobComplete, jobReference, kind, pageToken, rows,
-         schema, totalRows;
+@dynamic cacheHit, errors, ETag, jobComplete, jobReference, kind, pageToken,
+         rows, schema, totalBytesProcessed, totalRows;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"etag"
-                                forKey:@"ETag"];
+  NSDictionary *map = @{
+    @"ETag" : @"etag"
+  };
   return map;
 }
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:[GTLBigqueryTableRow class]
-                                forKey:@"rows"];
+  NSDictionary *map = @{
+    @"errors" : [GTLBigqueryErrorProto class],
+    @"rows" : [GTLBigqueryTableRow class]
+  };
   return map;
 }
 

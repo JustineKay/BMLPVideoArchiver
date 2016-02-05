@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@
 // Description:
 //   A data platform for customers to create, manage, share and query data.
 // Documentation:
-//   https://developers.google.com/bigquery/docs/overview
+//   https://cloud.google.com/bigquery/
 // Classes:
 //   GTLBigqueryProjectReference (0 custom class methods, 1 custom properties)
 
@@ -43,6 +43,6 @@
 
 // [Required] ID of the project. Can be either the numeric ID or the assigned ID
 // of the project.
-@property (copy) NSString *projectId;
+@property (nonatomic, copy) NSString *projectId;
 
 @end

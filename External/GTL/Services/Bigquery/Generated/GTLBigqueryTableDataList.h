@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@
 // Description:
 //   A data platform for customers to create, manage, share and query data.
 // Documentation:
-//   https://developers.google.com/bigquery/docs/overview
+//   https://cloud.google.com/bigquery/
 // Classes:
 //   GTLBigqueryTableDataList (0 custom class methods, 5 custom properties)
 
@@ -44,20 +44,20 @@
 @interface GTLBigqueryTableDataList : GTLObject
 
 // A hash of this page of results.
-@property (copy) NSString *ETag;
+@property (nonatomic, copy) NSString *ETag;
 
 // The resource type of the response.
-@property (copy) NSString *kind;
+@property (nonatomic, copy) NSString *kind;
 
 // A token used for paging results. Providing this token instead of the
 // startIndex parameter can help you retrieve stable results when an underlying
 // table is changing.
-@property (copy) NSString *pageToken;
+@property (nonatomic, copy) NSString *pageToken;
 
 // Rows of results.
-@property (retain) NSArray *rows;  // of GTLBigqueryTableRow
+@property (nonatomic, retain) NSArray *rows;  // of GTLBigqueryTableRow
 
 // The total number of rows in the complete table.
-@property (retain) NSNumber *totalRows;  // longLongValue
+@property (nonatomic, retain) NSNumber *totalRows;  // longLongValue
 
 @end

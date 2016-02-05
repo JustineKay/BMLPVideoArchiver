@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,16 +27,19 @@
 // Description:
 //   A data platform for customers to create, manage, share and query data.
 // Documentation:
-//   https://developers.google.com/bigquery/docs/overview
+//   https://cloud.google.com/bigquery/
 
 #import "GTLBigqueryConstants.m"
 
+#import "GTLBigqueryCsvOptions.m"
 #import "GTLBigqueryDataset.m"
 #import "GTLBigqueryDatasetList.m"
 #import "GTLBigqueryDatasetReference.m"
 #import "GTLBigqueryErrorProto.m"
+#import "GTLBigqueryExternalDataConfiguration.m"
 #import "GTLBigqueryGetQueryResultsResponse.m"
 #import "GTLBigqueryJob.m"
+#import "GTLBigqueryJobCancelResponse.m"
 #import "GTLBigqueryJobConfiguration.m"
 #import "GTLBigqueryJobConfigurationExtract.m"
 #import "GTLBigqueryJobConfigurationLink.m"
@@ -48,6 +51,7 @@
 #import "GTLBigqueryJobStatistics.m"
 #import "GTLBigqueryJobStatistics2.m"
 #import "GTLBigqueryJobStatistics3.m"
+#import "GTLBigqueryJobStatistics4.m"
 #import "GTLBigqueryJobStatus.m"
 #import "GTLBigqueryJsonObject.m"
 #import "GTLBigqueryProjectList.m"
@@ -62,6 +66,7 @@
 #import "GTLBigqueryTableReference.m"
 #import "GTLBigqueryTableRow.m"
 #import "GTLBigqueryTableSchema.m"
+#import "GTLBigqueryUserDefinedFunctionResource.m"
 #import "GTLBigqueryViewDefinition.m"
 
 #import "GTLQueryBigquery.m"

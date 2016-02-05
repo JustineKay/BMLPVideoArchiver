@@ -1,4 +1,4 @@
-/* Copyright (c) 2011 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@
 // Description:
 //   Lets you create, inspect, and manage goo.gl short URLs
 // Documentation:
-//   http://code.google.com/apis/urlshortener/v1/getting_started.html
+//   https://developers.google.com/url-shortener/v1/getting_started
 // Classes:
 //   GTLQueryUrlshortener (3 custom class methods, 4 custom properties)
 
@@ -38,17 +38,16 @@
 @dynamic fields, projection, shortUrl, startToken;
 
 + (NSDictionary *)parameterNameMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"start-token"
-                                forKey:@"startToken"];
+  NSDictionary *map = @{
+    @"startToken" : @"start-token"
+  };
   return map;
 }
 
-#pragma mark -
-#pragma mark "url" methods
+#pragma mark - "url" methods
 // These create a GTLQueryUrlshortener object.
 
-+ (id)queryForUrlGetWithShortUrl:(NSString *)shortUrl {
++ (instancetype)queryForUrlGetWithShortUrl:(NSString *)shortUrl {
   NSString *methodName = @"urlshortener.url.get";
   GTLQueryUrlshortener *query = [self queryWithMethodName:methodName];
   query.shortUrl = shortUrl;
@@ -56,7 +55,7 @@
   return query;
 }
 
-+ (id)queryForUrlInsertWithObject:(GTLUrlshortenerUrl *)object {
++ (instancetype)queryForUrlInsertWithObject:(GTLUrlshortenerUrl *)object {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -68,7 +67,7 @@
   return query;
 }
 
-+ (id)queryForUrlList {
++ (instancetype)queryForUrlList {
   NSString *methodName = @"urlshortener.url.list";
   GTLQueryUrlshortener *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLUrlshortenerUrlHistory class];

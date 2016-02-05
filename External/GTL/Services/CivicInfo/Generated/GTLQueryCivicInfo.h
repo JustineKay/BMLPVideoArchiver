@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,23 +41,22 @@
 //
 
 // Selector specifying which fields to include in a partial response.
-@property (copy) NSString *fields;
+@property (nonatomic, copy) NSString *fields;
 
 //
 // Method-specific parameters; see the comments below for more information.
 //
-@property (copy) NSString *address;
-@property (assign) long long electionId;
-@property (assign) BOOL includeOffices;
-@property (retain) NSArray *levels;  // of NSString
-@property (copy) NSString *ocdId;
-@property (assign) BOOL officialOnly;
-@property (copy) NSString *query;
-@property (assign) BOOL recursive;
-@property (retain) NSArray *roles;  // of NSString
+@property (nonatomic, copy) NSString *address;
+@property (nonatomic, assign) long long electionId;
+@property (nonatomic, assign) BOOL includeOffices;
+@property (nonatomic, retain) NSArray *levels;  // of NSString
+@property (nonatomic, copy) NSString *ocdId;
+@property (nonatomic, assign) BOOL officialOnly;
+@property (nonatomic, copy) NSString *query;
+@property (nonatomic, assign) BOOL recursive;
+@property (nonatomic, retain) NSArray *roles;  // of NSString
 
-#pragma mark -
-#pragma mark "divisions" methods
+#pragma mark - "divisions" methods
 // These create a GTLQueryCivicInfo object.
 
 // Method: civicinfo.divisions.search
@@ -69,16 +68,15 @@
 //     Apache Lucene library are supported. See
 //     http://lucene.apache.org/core/2_9_4/queryparsersyntax.html
 // Fetches a GTLCivicInfoDivisionSearchResponse.
-+ (id)queryForDivisionsSearch;
++ (instancetype)queryForDivisionsSearch;
 
-#pragma mark -
-#pragma mark "elections" methods
+#pragma mark - "elections" methods
 // These create a GTLQueryCivicInfo object.
 
 // Method: civicinfo.elections.electionQuery
 // List of available elections to query.
 // Fetches a GTLCivicInfoElectionsQueryResponse.
-+ (id)queryForElectionsElectionQuery;
++ (instancetype)queryForElectionsElectionQuery;
 
 // Method: civicinfo.elections.voterInfoQuery
 // Looks up information relevant to a voter based on the voter's registered
@@ -92,10 +90,9 @@
 //   officialOnly: If set to true, only data from official state sources will be
 //     returned. (Default false)
 // Fetches a GTLCivicInfoVoterInfoResponse.
-+ (id)queryForElectionsVoterInfoQueryWithAddress:(NSString *)address;
++ (instancetype)queryForElectionsVoterInfoQueryWithAddress:(NSString *)address;
 
-#pragma mark -
-#pragma mark "representatives" methods
+#pragma mark - "representatives" methods
 // These create a GTLQueryCivicInfo object.
 
 // Method: civicinfo.representatives.representativeInfoByAddress
@@ -134,7 +131,7 @@
 //      kGTLCivicInfoRolesSchoolBoard: "schoolBoard"
 //      kGTLCivicInfoRolesSpecialPurposeOfficer: "specialPurposeOfficer"
 // Fetches a GTLCivicInfoRepresentativeInfoResponse.
-+ (id)queryForRepresentativesRepresentativeInfoByAddress;
++ (instancetype)queryForRepresentativesRepresentativeInfoByAddress;
 
 // Method: civicinfo.representatives.representativeInfoByDivision
 // Looks up representative information for a single geographic division.
@@ -172,6 +169,6 @@
 //      kGTLCivicInfoRolesSchoolBoard: "schoolBoard"
 //      kGTLCivicInfoRolesSpecialPurposeOfficer: "specialPurposeOfficer"
 // Fetches a GTLCivicInfoRepresentativeInfoData.
-+ (id)queryForRepresentativesRepresentativeInfoByDivisionWithOcdId:(NSString *)ocdId;
++ (instancetype)queryForRepresentativesRepresentativeInfoByDivisionWithOcdId:(NSString *)ocdId;
 
 @end

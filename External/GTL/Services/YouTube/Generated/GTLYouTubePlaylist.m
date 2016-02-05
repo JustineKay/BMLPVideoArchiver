@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,11 +26,13 @@
 // Documentation:
 //   https://developers.google.com/youtube/v3
 // Classes:
-//   GTLYouTubePlaylist (0 custom class methods, 7 custom properties)
+//   GTLYouTubePlaylist (0 custom class methods, 8 custom properties)
+//   GTLYouTubePlaylistLocalizations (0 custom class methods, 0 custom properties)
 
 #import "GTLYouTubePlaylist.h"
 
 #import "GTLYouTubePlaylistContentDetails.h"
+#import "GTLYouTubePlaylistLocalization.h"
 #import "GTLYouTubePlaylistPlayer.h"
 #import "GTLYouTubePlaylistSnippet.h"
 #import "GTLYouTubePlaylistStatus.h"
@@ -41,19 +43,33 @@
 //
 
 @implementation GTLYouTubePlaylist
-@dynamic contentDetails, ETag, identifier, kind, player, snippet, status;
+@dynamic contentDetails, ETag, identifier, kind, localizations, player, snippet,
+         status;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObjectsAndKeys:
-      @"etag", @"ETag",
-      @"id", @"identifier",
-      nil];
+  NSDictionary *map = @{
+    @"ETag" : @"etag",
+    @"identifier" : @"id"
+  };
   return map;
 }
 
 + (void)load {
   [self registerObjectClassForKind:@"youtube#playlist"];
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLYouTubePlaylistLocalizations
+//
+
+@implementation GTLYouTubePlaylistLocalizations
+
++ (Class)classForAdditionalProperties {
+  return [GTLYouTubePlaylistLocalization class];
 }
 
 @end

@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@
 // Description:
 //   A data platform for customers to create, manage, share and query data.
 // Documentation:
-//   https://developers.google.com/bigquery/docs/overview
+//   https://cloud.google.com/bigquery/
 // Classes:
 //   GTLBigqueryProjectList (0 custom class methods, 5 custom properties)
 //   GTLBigqueryProjectListProjectsItem (0 custom class methods, 5 custom properties)
@@ -46,19 +46,19 @@
 @interface GTLBigqueryProjectList : GTLObject
 
 // A hash of the page of results
-@property (copy) NSString *ETag;
+@property (nonatomic, copy) NSString *ETag;
 
 // The type of list.
-@property (copy) NSString *kind;
+@property (nonatomic, copy) NSString *kind;
 
 // A token to request the next page of results.
-@property (copy) NSString *nextPageToken;
+@property (nonatomic, copy) NSString *nextPageToken;
 
 // Projects to which you have at least READ access.
-@property (retain) NSArray *projects;  // of GTLBigqueryProjectListProjectsItem
+@property (nonatomic, retain) NSArray *projects;  // of GTLBigqueryProjectListProjectsItem
 
 // The total number of projects in the list.
-@property (retain) NSNumber *totalItems;  // intValue
+@property (nonatomic, retain) NSNumber *totalItems;  // intValue
 
 @end
 
@@ -71,19 +71,19 @@
 @interface GTLBigqueryProjectListProjectsItem : GTLObject
 
 // A descriptive name for this project.
-@property (copy) NSString *friendlyName;
+@property (nonatomic, copy) NSString *friendlyName;
 
 // An opaque ID of this project.
 // identifier property maps to 'id' in JSON (to avoid Objective C's 'id').
-@property (copy) NSString *identifier;
+@property (nonatomic, copy) NSString *identifier;
 
 // The resource type.
-@property (copy) NSString *kind;
+@property (nonatomic, copy) NSString *kind;
 
 // The numeric ID of this project.
-@property (retain) NSNumber *numericId;  // unsignedLongLongValue
+@property (nonatomic, retain) NSNumber *numericId;  // unsignedLongLongValue
 
 // A unique reference to this project.
-@property (retain) GTLBigqueryProjectReference *projectReference;
+@property (nonatomic, retain) GTLBigqueryProjectReference *projectReference;
 
 @end

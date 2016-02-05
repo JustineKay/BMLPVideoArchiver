@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -75,29 +75,26 @@
          request, role, search, select, tableId, tags, type, version, where;
 
 + (NSDictionary *)parameterNameMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObjectsAndKeys:
-      @"gx_ids", @"gxIds",
-      @"id", @"identifier",
-      nil];
+  NSDictionary *map = @{
+    @"gxIds" : @"gx_ids",
+    @"identifier" : @"id"
+  };
   return map;
 }
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObjectsAndKeys:
-      [GTLMapsEngineFeature class], @"features",
-      [NSString class], @"gx_ids",
-      [NSString class], @"primaryKeys",
-      nil];
+  NSDictionary *map = @{
+    @"features" : [GTLMapsEngineFeature class],
+    @"gx_ids" : [NSString class],
+    @"primaryKeys" : [NSString class]
+  };
   return map;
 }
 
-#pragma mark -
-#pragma mark "assets" methods
+#pragma mark - "assets" methods
 // These create a GTLQueryMapsEngine object.
 
-+ (id)queryForAssetsGetWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForAssetsGetWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.assets.get";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -105,18 +102,17 @@
   return query;
 }
 
-+ (id)queryForAssetsList {
++ (instancetype)queryForAssetsList {
   NSString *methodName = @"mapsengine.assets.list";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLMapsEngineAssetsListResponse class];
   return query;
 }
 
-#pragma mark -
-#pragma mark "assets.parents" methods
+#pragma mark - "assets.parents" methods
 // These create a GTLQueryMapsEngine object.
 
-+ (id)queryForAssetsParentsListWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForAssetsParentsListWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.assets.parents.list";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -124,11 +120,10 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "assets.permissions" methods
+#pragma mark - "assets.permissions" methods
 // These create a GTLQueryMapsEngine object.
 
-+ (id)queryForAssetsPermissionsListWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForAssetsPermissionsListWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.assets.permissions.list";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -136,11 +131,10 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "layers" methods
+#pragma mark - "layers" methods
 // These create a GTLQueryMapsEngine object.
 
-+ (id)queryForLayersCancelProcessingWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForLayersCancelProcessingWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.layers.cancelProcessing";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -148,21 +142,21 @@
   return query;
 }
 
-+ (id)queryForLayersCreate {
++ (instancetype)queryForLayersCreate {
   NSString *methodName = @"mapsengine.layers.create";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLMapsEngineLayer class];
   return query;
 }
 
-+ (id)queryForLayersDeleteWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForLayersDeleteWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.layers.delete";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
   return query;
 }
 
-+ (id)queryForLayersGetWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForLayersGetWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.layers.get";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -170,7 +164,7 @@
   return query;
 }
 
-+ (id)queryForLayersGetPublishedWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForLayersGetPublishedWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.layers.getPublished";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -178,25 +172,24 @@
   return query;
 }
 
-+ (id)queryForLayersList {
++ (instancetype)queryForLayersList {
   NSString *methodName = @"mapsengine.layers.list";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLMapsEngineLayersListResponse class];
   return query;
 }
 
-+ (id)queryForLayersListPublished {
++ (instancetype)queryForLayersListPublished {
   NSString *methodName = @"mapsengine.layers.listPublished";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLMapsEnginePublishedLayersListResponse class];
   return query;
 }
 
-#pragma mark -
-#pragma mark "layers.parents" methods
+#pragma mark - "layers.parents" methods
 // These create a GTLQueryMapsEngine object.
 
-+ (id)queryForLayersParentsListWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForLayersParentsListWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.layers.parents.list";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -204,22 +197,20 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "layers" methods
+#pragma mark - "layers" methods
 // These create a GTLQueryMapsEngine object.
 
-+ (id)queryForLayersPatchWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForLayersPatchWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.layers.patch";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
   return query;
 }
 
-#pragma mark -
-#pragma mark "layers.permissions" methods
+#pragma mark - "layers.permissions" methods
 // These create a GTLQueryMapsEngine object.
 
-+ (id)queryForLayersPermissionsBatchDeleteWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForLayersPermissionsBatchDeleteWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.layers.permissions.batchDelete";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -227,7 +218,7 @@
   return query;
 }
 
-+ (id)queryForLayersPermissionsBatchUpdateWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForLayersPermissionsBatchUpdateWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.layers.permissions.batchUpdate";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -235,7 +226,7 @@
   return query;
 }
 
-+ (id)queryForLayersPermissionsListWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForLayersPermissionsListWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.layers.permissions.list";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -243,11 +234,10 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "layers" methods
+#pragma mark - "layers" methods
 // These create a GTLQueryMapsEngine object.
 
-+ (id)queryForLayersProcessWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForLayersProcessWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.layers.process";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -255,7 +245,7 @@
   return query;
 }
 
-+ (id)queryForLayersPublishWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForLayersPublishWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.layers.publish";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -263,7 +253,7 @@
   return query;
 }
 
-+ (id)queryForLayersUnpublishWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForLayersUnpublishWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.layers.unpublish";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -271,25 +261,24 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "maps" methods
+#pragma mark - "maps" methods
 // These create a GTLQueryMapsEngine object.
 
-+ (id)queryForMapsCreate {
++ (instancetype)queryForMapsCreate {
   NSString *methodName = @"mapsengine.maps.create";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLMapsEngineMap class];
   return query;
 }
 
-+ (id)queryForMapsDeleteWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForMapsDeleteWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.maps.delete";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
   return query;
 }
 
-+ (id)queryForMapsGetWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForMapsGetWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.maps.get";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -297,7 +286,7 @@
   return query;
 }
 
-+ (id)queryForMapsGetPublishedWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForMapsGetPublishedWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.maps.getPublished";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -305,32 +294,31 @@
   return query;
 }
 
-+ (id)queryForMapsList {
++ (instancetype)queryForMapsList {
   NSString *methodName = @"mapsengine.maps.list";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLMapsEngineMapsListResponse class];
   return query;
 }
 
-+ (id)queryForMapsListPublished {
++ (instancetype)queryForMapsListPublished {
   NSString *methodName = @"mapsengine.maps.listPublished";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLMapsEnginePublishedMapsListResponse class];
   return query;
 }
 
-+ (id)queryForMapsPatchWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForMapsPatchWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.maps.patch";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
   return query;
 }
 
-#pragma mark -
-#pragma mark "maps.permissions" methods
+#pragma mark - "maps.permissions" methods
 // These create a GTLQueryMapsEngine object.
 
-+ (id)queryForMapsPermissionsBatchDeleteWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForMapsPermissionsBatchDeleteWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.maps.permissions.batchDelete";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -338,7 +326,7 @@
   return query;
 }
 
-+ (id)queryForMapsPermissionsBatchUpdateWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForMapsPermissionsBatchUpdateWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.maps.permissions.batchUpdate";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -346,7 +334,7 @@
   return query;
 }
 
-+ (id)queryForMapsPermissionsListWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForMapsPermissionsListWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.maps.permissions.list";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -354,11 +342,10 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "maps" methods
+#pragma mark - "maps" methods
 // These create a GTLQueryMapsEngine object.
 
-+ (id)queryForMapsPublishWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForMapsPublishWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.maps.publish";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -366,7 +353,7 @@
   return query;
 }
 
-+ (id)queryForMapsUnpublishWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForMapsUnpublishWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.maps.unpublish";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -374,12 +361,11 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "projects.icons" methods
+#pragma mark - "projects.icons" methods
 // These create a GTLQueryMapsEngine object.
 
-+ (id)queryForProjectsIconsCreateWithProjectId:(NSString *)projectId
-                              uploadParameters:(GTLUploadParameters *)uploadParametersOrNil {
++ (instancetype)queryForProjectsIconsCreateWithProjectId:(NSString *)projectId
+                                        uploadParameters:(GTLUploadParameters *)uploadParametersOrNil {
   NSString *methodName = @"mapsengine.projects.icons.create";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.projectId = projectId;
@@ -388,8 +374,8 @@
   return query;
 }
 
-+ (id)queryForProjectsIconsGetWithProjectId:(NSString *)projectId
-                                 identifier:(NSString *)identifier {
++ (instancetype)queryForProjectsIconsGetWithProjectId:(NSString *)projectId
+                                           identifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.projects.icons.get";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.projectId = projectId;
@@ -398,7 +384,7 @@
   return query;
 }
 
-+ (id)queryForProjectsIconsListWithProjectId:(NSString *)projectId {
++ (instancetype)queryForProjectsIconsListWithProjectId:(NSString *)projectId {
   NSString *methodName = @"mapsengine.projects.icons.list";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.projectId = projectId;
@@ -406,22 +392,20 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "projects" methods
+#pragma mark - "projects" methods
 // These create a GTLQueryMapsEngine object.
 
-+ (id)queryForProjectsList {
++ (instancetype)queryForProjectsList {
   NSString *methodName = @"mapsengine.projects.list";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLMapsEngineProjectsListResponse class];
   return query;
 }
 
-#pragma mark -
-#pragma mark "rasterCollections" methods
+#pragma mark - "rasterCollections" methods
 // These create a GTLQueryMapsEngine object.
 
-+ (id)queryForRasterCollectionsCancelProcessingWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForRasterCollectionsCancelProcessingWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.rasterCollections.cancelProcessing";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -429,21 +413,21 @@
   return query;
 }
 
-+ (id)queryForRasterCollectionsCreate {
++ (instancetype)queryForRasterCollectionsCreate {
   NSString *methodName = @"mapsengine.rasterCollections.create";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLMapsEngineRasterCollection class];
   return query;
 }
 
-+ (id)queryForRasterCollectionsDeleteWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForRasterCollectionsDeleteWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.rasterCollections.delete";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
   return query;
 }
 
-+ (id)queryForRasterCollectionsGetWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForRasterCollectionsGetWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.rasterCollections.get";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -451,18 +435,17 @@
   return query;
 }
 
-+ (id)queryForRasterCollectionsList {
++ (instancetype)queryForRasterCollectionsList {
   NSString *methodName = @"mapsengine.rasterCollections.list";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLMapsEngineRasterCollectionsListResponse class];
   return query;
 }
 
-#pragma mark -
-#pragma mark "rasterCollections.parents" methods
+#pragma mark - "rasterCollections.parents" methods
 // These create a GTLQueryMapsEngine object.
 
-+ (id)queryForRasterCollectionsParentsListWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForRasterCollectionsParentsListWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.rasterCollections.parents.list";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -470,22 +453,20 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "rasterCollections" methods
+#pragma mark - "rasterCollections" methods
 // These create a GTLQueryMapsEngine object.
 
-+ (id)queryForRasterCollectionsPatchWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForRasterCollectionsPatchWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.rasterCollections.patch";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
   return query;
 }
 
-#pragma mark -
-#pragma mark "rasterCollections.permissions" methods
+#pragma mark - "rasterCollections.permissions" methods
 // These create a GTLQueryMapsEngine object.
 
-+ (id)queryForRasterCollectionsPermissionsBatchDeleteWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForRasterCollectionsPermissionsBatchDeleteWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.rasterCollections.permissions.batchDelete";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -493,7 +474,7 @@
   return query;
 }
 
-+ (id)queryForRasterCollectionsPermissionsBatchUpdateWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForRasterCollectionsPermissionsBatchUpdateWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.rasterCollections.permissions.batchUpdate";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -501,7 +482,7 @@
   return query;
 }
 
-+ (id)queryForRasterCollectionsPermissionsListWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForRasterCollectionsPermissionsListWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.rasterCollections.permissions.list";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -509,11 +490,10 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "rasterCollections" methods
+#pragma mark - "rasterCollections" methods
 // These create a GTLQueryMapsEngine object.
 
-+ (id)queryForRasterCollectionsProcessWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForRasterCollectionsProcessWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.rasterCollections.process";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -521,11 +501,10 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "rasterCollections.rasters" methods
+#pragma mark - "rasterCollections.rasters" methods
 // These create a GTLQueryMapsEngine object.
 
-+ (id)queryForRasterCollectionsRastersBatchDeleteWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForRasterCollectionsRastersBatchDeleteWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.rasterCollections.rasters.batchDelete";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -533,7 +512,7 @@
   return query;
 }
 
-+ (id)queryForRasterCollectionsRastersBatchInsertWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForRasterCollectionsRastersBatchInsertWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.rasterCollections.rasters.batchInsert";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -541,7 +520,7 @@
   return query;
 }
 
-+ (id)queryForRasterCollectionsRastersListWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForRasterCollectionsRastersListWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.rasterCollections.rasters.list";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -549,24 +528,22 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "rasters" methods
+#pragma mark - "rasters" methods
 // These create a GTLQueryMapsEngine object.
 
-+ (id)queryForRastersDeleteWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForRastersDeleteWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.rasters.delete";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
   return query;
 }
 
-#pragma mark -
-#pragma mark "rasters.files" methods
+#pragma mark - "rasters.files" methods
 // These create a GTLQueryMapsEngine object.
 
-+ (id)queryForRastersFilesInsertWithIdentifier:(NSString *)identifier
-                                      filename:(NSString *)filename
-                              uploadParameters:(GTLUploadParameters *)uploadParametersOrNil {
++ (instancetype)queryForRastersFilesInsertWithIdentifier:(NSString *)identifier
+                                                filename:(NSString *)filename
+                                        uploadParameters:(GTLUploadParameters *)uploadParametersOrNil {
   NSString *methodName = @"mapsengine.rasters.files.insert";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -575,11 +552,10 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "rasters" methods
+#pragma mark - "rasters" methods
 // These create a GTLQueryMapsEngine object.
 
-+ (id)queryForRastersGetWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForRastersGetWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.rasters.get";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -587,7 +563,7 @@
   return query;
 }
 
-+ (id)queryForRastersListWithProjectId:(NSString *)projectId {
++ (instancetype)queryForRastersListWithProjectId:(NSString *)projectId {
   NSString *methodName = @"mapsengine.rasters.list";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.projectId = projectId;
@@ -595,11 +571,10 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "rasters.parents" methods
+#pragma mark - "rasters.parents" methods
 // These create a GTLQueryMapsEngine object.
 
-+ (id)queryForRastersParentsListWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForRastersParentsListWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.rasters.parents.list";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -607,22 +582,20 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "rasters" methods
+#pragma mark - "rasters" methods
 // These create a GTLQueryMapsEngine object.
 
-+ (id)queryForRastersPatchWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForRastersPatchWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.rasters.patch";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
   return query;
 }
 
-#pragma mark -
-#pragma mark "rasters.permissions" methods
+#pragma mark - "rasters.permissions" methods
 // These create a GTLQueryMapsEngine object.
 
-+ (id)queryForRastersPermissionsBatchDeleteWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForRastersPermissionsBatchDeleteWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.rasters.permissions.batchDelete";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -630,7 +603,7 @@
   return query;
 }
 
-+ (id)queryForRastersPermissionsBatchUpdateWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForRastersPermissionsBatchUpdateWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.rasters.permissions.batchUpdate";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -638,7 +611,7 @@
   return query;
 }
 
-+ (id)queryForRastersPermissionsListWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForRastersPermissionsListWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.rasters.permissions.list";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -646,11 +619,10 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "rasters" methods
+#pragma mark - "rasters" methods
 // These create a GTLQueryMapsEngine object.
 
-+ (id)queryForRastersProcessWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForRastersProcessWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.rasters.process";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -658,57 +630,55 @@
   return query;
 }
 
-+ (id)queryForRastersUpload {
++ (instancetype)queryForRastersUpload {
   NSString *methodName = @"mapsengine.rasters.upload";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLMapsEngineRaster class];
   return query;
 }
 
-#pragma mark -
-#pragma mark "tables" methods
+#pragma mark - "tables" methods
 // These create a GTLQueryMapsEngine object.
 
-+ (id)queryForTablesCreate {
++ (instancetype)queryForTablesCreate {
   NSString *methodName = @"mapsengine.tables.create";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLMapsEngineTable class];
   return query;
 }
 
-+ (id)queryForTablesDeleteWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForTablesDeleteWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.tables.delete";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
   return query;
 }
 
-#pragma mark -
-#pragma mark "tables.features" methods
+#pragma mark - "tables.features" methods
 // These create a GTLQueryMapsEngine object.
 
-+ (id)queryForTablesFeaturesBatchDeleteWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForTablesFeaturesBatchDeleteWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.tables.features.batchDelete";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
   return query;
 }
 
-+ (id)queryForTablesFeaturesBatchInsertWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForTablesFeaturesBatchInsertWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.tables.features.batchInsert";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
   return query;
 }
 
-+ (id)queryForTablesFeaturesBatchPatchWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForTablesFeaturesBatchPatchWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.tables.features.batchPatch";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
   return query;
 }
 
-+ (id)queryForTablesFeaturesGetWithTableId:(NSString *)tableId {
++ (instancetype)queryForTablesFeaturesGetWithTableId:(NSString *)tableId {
   NSString *methodName = @"mapsengine.tables.features.get";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.tableId = tableId;
@@ -716,7 +686,7 @@
   return query;
 }
 
-+ (id)queryForTablesFeaturesListWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForTablesFeaturesListWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.tables.features.list";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -724,13 +694,12 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "tables.files" methods
+#pragma mark - "tables.files" methods
 // These create a GTLQueryMapsEngine object.
 
-+ (id)queryForTablesFilesInsertWithIdentifier:(NSString *)identifier
-                                     filename:(NSString *)filename
-                             uploadParameters:(GTLUploadParameters *)uploadParametersOrNil {
++ (instancetype)queryForTablesFilesInsertWithIdentifier:(NSString *)identifier
+                                               filename:(NSString *)filename
+                                       uploadParameters:(GTLUploadParameters *)uploadParametersOrNil {
   NSString *methodName = @"mapsengine.tables.files.insert";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -739,11 +708,10 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "tables" methods
+#pragma mark - "tables" methods
 // These create a GTLQueryMapsEngine object.
 
-+ (id)queryForTablesGetWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForTablesGetWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.tables.get";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -751,18 +719,17 @@
   return query;
 }
 
-+ (id)queryForTablesList {
++ (instancetype)queryForTablesList {
   NSString *methodName = @"mapsengine.tables.list";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLMapsEngineTablesListResponse class];
   return query;
 }
 
-#pragma mark -
-#pragma mark "tables.parents" methods
+#pragma mark - "tables.parents" methods
 // These create a GTLQueryMapsEngine object.
 
-+ (id)queryForTablesParentsListWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForTablesParentsListWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.tables.parents.list";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -770,22 +737,20 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "tables" methods
+#pragma mark - "tables" methods
 // These create a GTLQueryMapsEngine object.
 
-+ (id)queryForTablesPatchWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForTablesPatchWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.tables.patch";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
   return query;
 }
 
-#pragma mark -
-#pragma mark "tables.permissions" methods
+#pragma mark - "tables.permissions" methods
 // These create a GTLQueryMapsEngine object.
 
-+ (id)queryForTablesPermissionsBatchDeleteWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForTablesPermissionsBatchDeleteWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.tables.permissions.batchDelete";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -793,7 +758,7 @@
   return query;
 }
 
-+ (id)queryForTablesPermissionsBatchUpdateWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForTablesPermissionsBatchUpdateWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.tables.permissions.batchUpdate";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -801,7 +766,7 @@
   return query;
 }
 
-+ (id)queryForTablesPermissionsListWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForTablesPermissionsListWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.tables.permissions.list";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -809,11 +774,10 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "tables" methods
+#pragma mark - "tables" methods
 // These create a GTLQueryMapsEngine object.
 
-+ (id)queryForTablesProcessWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForTablesProcessWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mapsengine.tables.process";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -821,7 +785,7 @@
   return query;
 }
 
-+ (id)queryForTablesUpload {
++ (instancetype)queryForTablesUpload {
   NSString *methodName = @"mapsengine.tables.upload";
   GTLQueryMapsEngine *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLMapsEngineTable class];

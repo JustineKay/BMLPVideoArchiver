@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,10 +26,11 @@
 // Documentation:
 //   https://developers.google.com/youtube/v3
 // Classes:
-//   GTLYouTubeChannelSnippet (0 custom class methods, 4 custom properties)
+//   GTLYouTubeChannelSnippet (0 custom class methods, 7 custom properties)
 
 #import "GTLYouTubeChannelSnippet.h"
 
+#import "GTLYouTubeChannelLocalization.h"
 #import "GTLYouTubeThumbnailDetails.h"
 
 // ----------------------------------------------------------------------------
@@ -38,12 +39,13 @@
 //
 
 @implementation GTLYouTubeChannelSnippet
-@dynamic descriptionProperty, publishedAt, thumbnails, title;
+@dynamic country, defaultLanguage, descriptionProperty, localized, publishedAt,
+         thumbnails, title;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"description"
-                                forKey:@"descriptionProperty"];
+  NSDictionary *map = @{
+    @"descriptionProperty" : @"description"
+  };
   return map;
 }
 

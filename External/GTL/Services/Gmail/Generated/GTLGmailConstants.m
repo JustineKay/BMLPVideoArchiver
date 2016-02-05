@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,8 +31,11 @@
 // Authorization scope
 NSString * const kGTLAuthScopeGmail         = @"https://mail.google.com/";
 NSString * const kGTLAuthScopeGmailCompose  = @"https://www.googleapis.com/auth/gmail.compose";
+NSString * const kGTLAuthScopeGmailInsert   = @"https://www.googleapis.com/auth/gmail.insert";
+NSString * const kGTLAuthScopeGmailLabels   = @"https://www.googleapis.com/auth/gmail.labels";
 NSString * const kGTLAuthScopeGmailModify   = @"https://www.googleapis.com/auth/gmail.modify";
 NSString * const kGTLAuthScopeGmailReadonly = @"https://www.googleapis.com/auth/gmail.readonly";
+NSString * const kGTLAuthScopeGmailSend     = @"https://www.googleapis.com/auth/gmail.send";
 
 // GTLGmailLabel - LabelListVisibility
 NSString * const kGTLGmailLabel_LabelListVisibility_LabelHide  = @"labelHide";
@@ -56,3 +59,7 @@ NSString * const kGTLGmailFormatRaw      = @"raw";
 // GTLQueryGmail - InternalDateSource
 NSString * const kGTLGmailInternalDateSourceDateHeader   = @"dateHeader";
 NSString * const kGTLGmailInternalDateSourceReceivedTime = @"receivedTime";
+
+// GTLQueryGmail - LabelFilterAction
+NSString * const kGTLGmailLabelFilterActionExclude = @"exclude";
+NSString * const kGTLGmailLabelFilterActionInclude = @"include";

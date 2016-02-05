@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,6 +37,9 @@
 // Authorization scope
 // View and manage your data across Google Cloud Platform services
 GTL_EXTERN NSString * const kGTLAuthScopeStorageCloudPlatform;  // "https://www.googleapis.com/auth/cloud-platform"
+// MESSAGE UNDER CONSTRUCTION View your data across Google Cloud Platform
+// services
+GTL_EXTERN NSString * const kGTLAuthScopeStorageCloudPlatformReadOnly;  // "https://www.googleapis.com/auth/cloud-platform.read-only"
 // Manage your data and permissions in Google Cloud Storage
 GTL_EXTERN NSString * const kGTLAuthScopeStorageDevstorageFullControl;  // "https://www.googleapis.com/auth/devstorage.full_control"
 // View your data in Google Cloud Storage
@@ -60,6 +63,14 @@ GTL_EXTERN NSString * const kGTLStoragePredefinedAclPrivate;    // "private"
 GTL_EXTERN NSString * const kGTLStoragePredefinedAclProjectPrivate;  // "projectPrivate"
 GTL_EXTERN NSString * const kGTLStoragePredefinedAclPublicRead;  // "publicRead"
 GTL_EXTERN NSString * const kGTLStoragePredefinedAclPublicReadWrite;  // "publicReadWrite"
+
+// GTLQueryStorage - PredefinedDefaultObjectAcl
+GTL_EXTERN NSString * const kGTLStoragePredefinedDefaultObjectAclAuthenticatedRead;  // "authenticatedRead"
+GTL_EXTERN NSString * const kGTLStoragePredefinedDefaultObjectAclBucketOwnerFullControl;  // "bucketOwnerFullControl"
+GTL_EXTERN NSString * const kGTLStoragePredefinedDefaultObjectAclBucketOwnerRead;  // "bucketOwnerRead"
+GTL_EXTERN NSString * const kGTLStoragePredefinedDefaultObjectAclPrivate;  // "private"
+GTL_EXTERN NSString * const kGTLStoragePredefinedDefaultObjectAclProjectPrivate;  // "projectPrivate"
+GTL_EXTERN NSString * const kGTLStoragePredefinedDefaultObjectAclPublicRead;  // "publicRead"
 
 // GTLQueryStorage - Projection
 GTL_EXTERN NSString * const kGTLStorageProjectionFull;   // "full"

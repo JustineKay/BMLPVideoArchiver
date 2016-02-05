@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,9 +24,9 @@
 // Description:
 //   A data platform for customers to create, manage, share and query data.
 // Documentation:
-//   https://developers.google.com/bigquery/docs/overview
+//   https://cloud.google.com/bigquery/
 // Classes:
-//   GTLBigqueryJob (0 custom class methods, 8 custom properties)
+//   GTLBigqueryJob (0 custom class methods, 9 custom properties)
 
 #import "GTLBigqueryJob.h"
 
@@ -42,14 +42,14 @@
 
 @implementation GTLBigqueryJob
 @dynamic configuration, ETag, identifier, jobReference, kind, selfLink,
-         statistics, status;
+         statistics, status, userEmail;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObjectsAndKeys:
-      @"etag", @"ETag",
-      @"id", @"identifier",
-      nil];
+  NSDictionary *map = @{
+    @"ETag" : @"etag",
+    @"identifier" : @"id",
+    @"userEmail" : @"user_email"
+  };
   return map;
 }
 

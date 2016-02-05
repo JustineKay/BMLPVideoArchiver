@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/drive/
 // Classes:
-//   GTLQueryDrive (59 custom class methods, 45 custom properties)
+//   GTLQueryDrive (60 custom class methods, 48 custom properties)
 
 #import "GTLQueryDrive.h"
 
@@ -44,6 +44,7 @@
 #import "GTLDriveCommentReplyList.h"
 #import "GTLDriveFile.h"
 #import "GTLDriveFileList.h"
+#import "GTLDriveGeneratedIds.h"
 #import "GTLDriveParentList.h"
 #import "GTLDriveParentReference.h"
 #import "GTLDrivePermission.h"
@@ -60,28 +61,27 @@
          appId, baseRevision, changeId, childId, commentId, convert, corpus,
          email, emailMessage, fields, fileId, folderId, includeDeleted,
          includeSubscribed, languageCode, maxChangeIdCount, maxResults,
-         newRevision, ocr, ocrLanguage, pageToken, parentId, permissionId,
-         pinned, projection, propertyKey, q, removeParents, replyId, revision,
-         revisionId, sendNotificationEmails, setModifiedDate, startChangeId,
-         timedTextLanguage, timedTextTrackName, transferOwnership, updatedMin,
-         updateViewedDate, useContentAsIndexableText, visibility;
+         modifiedDateBehavior, newRevision, ocr, ocrLanguage, pageToken,
+         parentId, permissionId, pinned, projection, propertyKey, q,
+         removeParents, replyId, revision, revisionId, sendNotificationEmails,
+         setModifiedDate, space, spaces, startChangeId, timedTextLanguage,
+         timedTextTrackName, transferOwnership, updatedMin, updateViewedDate,
+         useContentAsIndexableText, visibility;
 
-#pragma mark -
-#pragma mark "about" methods
+#pragma mark - "about" methods
 // These create a GTLQueryDrive object.
 
-+ (id)queryForAboutGet {
++ (instancetype)queryForAboutGet {
   NSString *methodName = @"drive.about.get";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLDriveAbout class];
   return query;
 }
 
-#pragma mark -
-#pragma mark "apps" methods
+#pragma mark - "apps" methods
 // These create a GTLQueryDrive object.
 
-+ (id)queryForAppsGetWithAppId:(NSString *)appId {
++ (instancetype)queryForAppsGetWithAppId:(NSString *)appId {
   NSString *methodName = @"drive.apps.get";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.appId = appId;
@@ -89,18 +89,17 @@
   return query;
 }
 
-+ (id)queryForAppsList {
++ (instancetype)queryForAppsList {
   NSString *methodName = @"drive.apps.list";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLDriveAppList class];
   return query;
 }
 
-#pragma mark -
-#pragma mark "changes" methods
+#pragma mark - "changes" methods
 // These create a GTLQueryDrive object.
 
-+ (id)queryForChangesGetWithChangeId:(NSString *)changeId {
++ (instancetype)queryForChangesGetWithChangeId:(NSString *)changeId {
   NSString *methodName = @"drive.changes.get";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.changeId = changeId;
@@ -108,14 +107,14 @@
   return query;
 }
 
-+ (id)queryForChangesList {
++ (instancetype)queryForChangesList {
   NSString *methodName = @"drive.changes.list";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLDriveChangeList class];
   return query;
 }
 
-+ (id)queryForChangesWatchWithObject:(GTLDriveChannel *)object {
++ (instancetype)queryForChangesWatchWithObject:(GTLDriveChannel *)object {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -127,11 +126,10 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "channels" methods
+#pragma mark - "channels" methods
 // These create a GTLQueryDrive object.
 
-+ (id)queryForChannelsStopWithObject:(GTLDriveChannel *)object {
++ (instancetype)queryForChannelsStopWithObject:(GTLDriveChannel *)object {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -142,12 +140,11 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "children" methods
+#pragma mark - "children" methods
 // These create a GTLQueryDrive object.
 
-+ (id)queryForChildrenDeleteWithFolderId:(NSString *)folderId
-                                 childId:(NSString *)childId {
++ (instancetype)queryForChildrenDeleteWithFolderId:(NSString *)folderId
+                                           childId:(NSString *)childId {
   NSString *methodName = @"drive.children.delete";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.folderId = folderId;
@@ -155,8 +152,8 @@
   return query;
 }
 
-+ (id)queryForChildrenGetWithFolderId:(NSString *)folderId
-                              childId:(NSString *)childId {
++ (instancetype)queryForChildrenGetWithFolderId:(NSString *)folderId
+                                        childId:(NSString *)childId {
   NSString *methodName = @"drive.children.get";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.folderId = folderId;
@@ -165,8 +162,8 @@
   return query;
 }
 
-+ (id)queryForChildrenInsertWithObject:(GTLDriveChildReference *)object
-                              folderId:(NSString *)folderId {
++ (instancetype)queryForChildrenInsertWithObject:(GTLDriveChildReference *)object
+                                        folderId:(NSString *)folderId {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -179,7 +176,7 @@
   return query;
 }
 
-+ (id)queryForChildrenListWithFolderId:(NSString *)folderId {
++ (instancetype)queryForChildrenListWithFolderId:(NSString *)folderId {
   NSString *methodName = @"drive.children.list";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.folderId = folderId;
@@ -187,12 +184,11 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "comments" methods
+#pragma mark - "comments" methods
 // These create a GTLQueryDrive object.
 
-+ (id)queryForCommentsDeleteWithFileId:(NSString *)fileId
-                             commentId:(NSString *)commentId {
++ (instancetype)queryForCommentsDeleteWithFileId:(NSString *)fileId
+                                       commentId:(NSString *)commentId {
   NSString *methodName = @"drive.comments.delete";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.fileId = fileId;
@@ -200,8 +196,8 @@
   return query;
 }
 
-+ (id)queryForCommentsGetWithFileId:(NSString *)fileId
-                          commentId:(NSString *)commentId {
++ (instancetype)queryForCommentsGetWithFileId:(NSString *)fileId
+                                    commentId:(NSString *)commentId {
   NSString *methodName = @"drive.comments.get";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.fileId = fileId;
@@ -210,8 +206,8 @@
   return query;
 }
 
-+ (id)queryForCommentsInsertWithObject:(GTLDriveComment *)object
-                                fileId:(NSString *)fileId {
++ (instancetype)queryForCommentsInsertWithObject:(GTLDriveComment *)object
+                                          fileId:(NSString *)fileId {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -224,7 +220,7 @@
   return query;
 }
 
-+ (id)queryForCommentsListWithFileId:(NSString *)fileId {
++ (instancetype)queryForCommentsListWithFileId:(NSString *)fileId {
   NSString *methodName = @"drive.comments.list";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.fileId = fileId;
@@ -232,9 +228,9 @@
   return query;
 }
 
-+ (id)queryForCommentsPatchWithObject:(GTLDriveComment *)object
-                               fileId:(NSString *)fileId
-                            commentId:(NSString *)commentId {
++ (instancetype)queryForCommentsPatchWithObject:(GTLDriveComment *)object
+                                         fileId:(NSString *)fileId
+                                      commentId:(NSString *)commentId {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -248,9 +244,9 @@
   return query;
 }
 
-+ (id)queryForCommentsUpdateWithObject:(GTLDriveComment *)object
-                                fileId:(NSString *)fileId
-                             commentId:(NSString *)commentId {
++ (instancetype)queryForCommentsUpdateWithObject:(GTLDriveComment *)object
+                                          fileId:(NSString *)fileId
+                                       commentId:(NSString *)commentId {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -264,12 +260,11 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "files" methods
+#pragma mark - "files" methods
 // These create a GTLQueryDrive object.
 
-+ (id)queryForFilesCopyWithObject:(GTLDriveFile *)object
-                           fileId:(NSString *)fileId {
++ (instancetype)queryForFilesCopyWithObject:(GTLDriveFile *)object
+                                     fileId:(NSString *)fileId {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -282,20 +277,27 @@
   return query;
 }
 
-+ (id)queryForFilesDeleteWithFileId:(NSString *)fileId {
++ (instancetype)queryForFilesDeleteWithFileId:(NSString *)fileId {
   NSString *methodName = @"drive.files.delete";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.fileId = fileId;
   return query;
 }
 
-+ (id)queryForFilesEmptyTrash {
++ (instancetype)queryForFilesEmptyTrash {
   NSString *methodName = @"drive.files.emptyTrash";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   return query;
 }
 
-+ (id)queryForFilesGetWithFileId:(NSString *)fileId {
++ (instancetype)queryForFilesGenerateIds {
+  NSString *methodName = @"drive.files.generateIds";
+  GTLQueryDrive *query = [self queryWithMethodName:methodName];
+  query.expectedObjectClass = [GTLDriveGeneratedIds class];
+  return query;
+}
+
++ (instancetype)queryForFilesGetWithFileId:(NSString *)fileId {
   NSString *methodName = @"drive.files.get";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.fileId = fileId;
@@ -303,8 +305,8 @@
   return query;
 }
 
-+ (id)queryForFilesInsertWithObject:(GTLDriveFile *)object
-                   uploadParameters:(GTLUploadParameters *)uploadParametersOrNil {
++ (instancetype)queryForFilesInsertWithObject:(GTLDriveFile *)object
+                             uploadParameters:(GTLUploadParameters *)uploadParametersOrNil {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -317,15 +319,15 @@
   return query;
 }
 
-+ (id)queryForFilesList {
++ (instancetype)queryForFilesList {
   NSString *methodName = @"drive.files.list";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLDriveFileList class];
   return query;
 }
 
-+ (id)queryForFilesPatchWithObject:(GTLDriveFile *)object
-                            fileId:(NSString *)fileId {
++ (instancetype)queryForFilesPatchWithObject:(GTLDriveFile *)object
+                                      fileId:(NSString *)fileId {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -338,7 +340,7 @@
   return query;
 }
 
-+ (id)queryForFilesTouchWithFileId:(NSString *)fileId {
++ (instancetype)queryForFilesTouchWithFileId:(NSString *)fileId {
   NSString *methodName = @"drive.files.touch";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.fileId = fileId;
@@ -346,7 +348,7 @@
   return query;
 }
 
-+ (id)queryForFilesTrashWithFileId:(NSString *)fileId {
++ (instancetype)queryForFilesTrashWithFileId:(NSString *)fileId {
   NSString *methodName = @"drive.files.trash";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.fileId = fileId;
@@ -354,7 +356,7 @@
   return query;
 }
 
-+ (id)queryForFilesUntrashWithFileId:(NSString *)fileId {
++ (instancetype)queryForFilesUntrashWithFileId:(NSString *)fileId {
   NSString *methodName = @"drive.files.untrash";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.fileId = fileId;
@@ -362,9 +364,9 @@
   return query;
 }
 
-+ (id)queryForFilesUpdateWithObject:(GTLDriveFile *)object
-                             fileId:(NSString *)fileId
-                   uploadParameters:(GTLUploadParameters *)uploadParametersOrNil {
++ (instancetype)queryForFilesUpdateWithObject:(GTLDriveFile *)object
+                                       fileId:(NSString *)fileId
+                             uploadParameters:(GTLUploadParameters *)uploadParametersOrNil {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -378,8 +380,8 @@
   return query;
 }
 
-+ (id)queryForFilesWatchWithObject:(GTLDriveChannel *)object
-                            fileId:(NSString *)fileId {
++ (instancetype)queryForFilesWatchWithObject:(GTLDriveChannel *)object
+                                      fileId:(NSString *)fileId {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -392,12 +394,11 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "parents" methods
+#pragma mark - "parents" methods
 // These create a GTLQueryDrive object.
 
-+ (id)queryForParentsDeleteWithFileId:(NSString *)fileId
-                             parentId:(NSString *)parentId {
++ (instancetype)queryForParentsDeleteWithFileId:(NSString *)fileId
+                                       parentId:(NSString *)parentId {
   NSString *methodName = @"drive.parents.delete";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.fileId = fileId;
@@ -405,8 +406,8 @@
   return query;
 }
 
-+ (id)queryForParentsGetWithFileId:(NSString *)fileId
-                          parentId:(NSString *)parentId {
++ (instancetype)queryForParentsGetWithFileId:(NSString *)fileId
+                                    parentId:(NSString *)parentId {
   NSString *methodName = @"drive.parents.get";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.fileId = fileId;
@@ -415,8 +416,8 @@
   return query;
 }
 
-+ (id)queryForParentsInsertWithObject:(GTLDriveParentReference *)object
-                               fileId:(NSString *)fileId {
++ (instancetype)queryForParentsInsertWithObject:(GTLDriveParentReference *)object
+                                         fileId:(NSString *)fileId {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -429,7 +430,7 @@
   return query;
 }
 
-+ (id)queryForParentsListWithFileId:(NSString *)fileId {
++ (instancetype)queryForParentsListWithFileId:(NSString *)fileId {
   NSString *methodName = @"drive.parents.list";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.fileId = fileId;
@@ -437,12 +438,11 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "permissions" methods
+#pragma mark - "permissions" methods
 // These create a GTLQueryDrive object.
 
-+ (id)queryForPermissionsDeleteWithFileId:(NSString *)fileId
-                             permissionId:(NSString *)permissionId {
++ (instancetype)queryForPermissionsDeleteWithFileId:(NSString *)fileId
+                                       permissionId:(NSString *)permissionId {
   NSString *methodName = @"drive.permissions.delete";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.fileId = fileId;
@@ -450,8 +450,8 @@
   return query;
 }
 
-+ (id)queryForPermissionsGetWithFileId:(NSString *)fileId
-                          permissionId:(NSString *)permissionId {
++ (instancetype)queryForPermissionsGetWithFileId:(NSString *)fileId
+                                    permissionId:(NSString *)permissionId {
   NSString *methodName = @"drive.permissions.get";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.fileId = fileId;
@@ -460,7 +460,7 @@
   return query;
 }
 
-+ (id)queryForPermissionsGetIdForEmailWithEmail:(NSString *)email {
++ (instancetype)queryForPermissionsGetIdForEmailWithEmail:(NSString *)email {
   NSString *methodName = @"drive.permissions.getIdForEmail";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.email = email;
@@ -468,8 +468,8 @@
   return query;
 }
 
-+ (id)queryForPermissionsInsertWithObject:(GTLDrivePermission *)object
-                                   fileId:(NSString *)fileId {
++ (instancetype)queryForPermissionsInsertWithObject:(GTLDrivePermission *)object
+                                             fileId:(NSString *)fileId {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -482,7 +482,7 @@
   return query;
 }
 
-+ (id)queryForPermissionsListWithFileId:(NSString *)fileId {
++ (instancetype)queryForPermissionsListWithFileId:(NSString *)fileId {
   NSString *methodName = @"drive.permissions.list";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.fileId = fileId;
@@ -490,9 +490,9 @@
   return query;
 }
 
-+ (id)queryForPermissionsPatchWithObject:(GTLDrivePermission *)object
-                                  fileId:(NSString *)fileId
-                            permissionId:(NSString *)permissionId {
++ (instancetype)queryForPermissionsPatchWithObject:(GTLDrivePermission *)object
+                                            fileId:(NSString *)fileId
+                                      permissionId:(NSString *)permissionId {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -506,9 +506,9 @@
   return query;
 }
 
-+ (id)queryForPermissionsUpdateWithObject:(GTLDrivePermission *)object
-                                   fileId:(NSString *)fileId
-                             permissionId:(NSString *)permissionId {
++ (instancetype)queryForPermissionsUpdateWithObject:(GTLDrivePermission *)object
+                                             fileId:(NSString *)fileId
+                                       permissionId:(NSString *)permissionId {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -522,12 +522,11 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "properties" methods
+#pragma mark - "properties" methods
 // These create a GTLQueryDrive object.
 
-+ (id)queryForPropertiesDeleteWithFileId:(NSString *)fileId
-                             propertyKey:(NSString *)propertyKey {
++ (instancetype)queryForPropertiesDeleteWithFileId:(NSString *)fileId
+                                       propertyKey:(NSString *)propertyKey {
   NSString *methodName = @"drive.properties.delete";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.fileId = fileId;
@@ -535,8 +534,8 @@
   return query;
 }
 
-+ (id)queryForPropertiesGetWithFileId:(NSString *)fileId
-                          propertyKey:(NSString *)propertyKey {
++ (instancetype)queryForPropertiesGetWithFileId:(NSString *)fileId
+                                    propertyKey:(NSString *)propertyKey {
   NSString *methodName = @"drive.properties.get";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.fileId = fileId;
@@ -545,8 +544,8 @@
   return query;
 }
 
-+ (id)queryForPropertiesInsertWithObject:(GTLDriveProperty *)object
-                                  fileId:(NSString *)fileId {
++ (instancetype)queryForPropertiesInsertWithObject:(GTLDriveProperty *)object
+                                            fileId:(NSString *)fileId {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -559,7 +558,7 @@
   return query;
 }
 
-+ (id)queryForPropertiesListWithFileId:(NSString *)fileId {
++ (instancetype)queryForPropertiesListWithFileId:(NSString *)fileId {
   NSString *methodName = @"drive.properties.list";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.fileId = fileId;
@@ -567,9 +566,9 @@
   return query;
 }
 
-+ (id)queryForPropertiesPatchWithObject:(GTLDriveProperty *)object
-                                 fileId:(NSString *)fileId
-                            propertyKey:(NSString *)propertyKey {
++ (instancetype)queryForPropertiesPatchWithObject:(GTLDriveProperty *)object
+                                           fileId:(NSString *)fileId
+                                      propertyKey:(NSString *)propertyKey {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -583,9 +582,9 @@
   return query;
 }
 
-+ (id)queryForPropertiesUpdateWithObject:(GTLDriveProperty *)object
-                                  fileId:(NSString *)fileId
-                             propertyKey:(NSString *)propertyKey {
++ (instancetype)queryForPropertiesUpdateWithObject:(GTLDriveProperty *)object
+                                            fileId:(NSString *)fileId
+                                       propertyKey:(NSString *)propertyKey {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -599,19 +598,18 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "realtime" methods
+#pragma mark - "realtime" methods
 // These create a GTLQueryDrive object.
 
-+ (id)queryForRealtimeGetWithFileId:(NSString *)fileId {
++ (instancetype)queryForRealtimeGetWithFileId:(NSString *)fileId {
   NSString *methodName = @"drive.realtime.get";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.fileId = fileId;
   return query;
 }
 
-+ (id)queryForRealtimeUpdateWithFileId:(NSString *)fileId
-                      uploadParameters:(GTLUploadParameters *)uploadParametersOrNil {
++ (instancetype)queryForRealtimeUpdateWithFileId:(NSString *)fileId
+                                uploadParameters:(GTLUploadParameters *)uploadParametersOrNil {
   NSString *methodName = @"drive.realtime.update";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.fileId = fileId;
@@ -619,13 +617,12 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "replies" methods
+#pragma mark - "replies" methods
 // These create a GTLQueryDrive object.
 
-+ (id)queryForRepliesDeleteWithFileId:(NSString *)fileId
-                            commentId:(NSString *)commentId
-                              replyId:(NSString *)replyId {
++ (instancetype)queryForRepliesDeleteWithFileId:(NSString *)fileId
+                                      commentId:(NSString *)commentId
+                                        replyId:(NSString *)replyId {
   NSString *methodName = @"drive.replies.delete";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.fileId = fileId;
@@ -634,9 +631,9 @@
   return query;
 }
 
-+ (id)queryForRepliesGetWithFileId:(NSString *)fileId
-                         commentId:(NSString *)commentId
-                           replyId:(NSString *)replyId {
++ (instancetype)queryForRepliesGetWithFileId:(NSString *)fileId
+                                   commentId:(NSString *)commentId
+                                     replyId:(NSString *)replyId {
   NSString *methodName = @"drive.replies.get";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.fileId = fileId;
@@ -646,9 +643,9 @@
   return query;
 }
 
-+ (id)queryForRepliesInsertWithObject:(GTLDriveCommentReply *)object
-                               fileId:(NSString *)fileId
-                            commentId:(NSString *)commentId {
++ (instancetype)queryForRepliesInsertWithObject:(GTLDriveCommentReply *)object
+                                         fileId:(NSString *)fileId
+                                      commentId:(NSString *)commentId {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -662,8 +659,8 @@
   return query;
 }
 
-+ (id)queryForRepliesListWithFileId:(NSString *)fileId
-                          commentId:(NSString *)commentId {
++ (instancetype)queryForRepliesListWithFileId:(NSString *)fileId
+                                    commentId:(NSString *)commentId {
   NSString *methodName = @"drive.replies.list";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.fileId = fileId;
@@ -672,10 +669,10 @@
   return query;
 }
 
-+ (id)queryForRepliesPatchWithObject:(GTLDriveCommentReply *)object
-                              fileId:(NSString *)fileId
-                           commentId:(NSString *)commentId
-                             replyId:(NSString *)replyId {
++ (instancetype)queryForRepliesPatchWithObject:(GTLDriveCommentReply *)object
+                                        fileId:(NSString *)fileId
+                                     commentId:(NSString *)commentId
+                                       replyId:(NSString *)replyId {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -690,10 +687,10 @@
   return query;
 }
 
-+ (id)queryForRepliesUpdateWithObject:(GTLDriveCommentReply *)object
-                               fileId:(NSString *)fileId
-                            commentId:(NSString *)commentId
-                              replyId:(NSString *)replyId {
++ (instancetype)queryForRepliesUpdateWithObject:(GTLDriveCommentReply *)object
+                                         fileId:(NSString *)fileId
+                                      commentId:(NSString *)commentId
+                                        replyId:(NSString *)replyId {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -708,12 +705,11 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "revisions" methods
+#pragma mark - "revisions" methods
 // These create a GTLQueryDrive object.
 
-+ (id)queryForRevisionsDeleteWithFileId:(NSString *)fileId
-                             revisionId:(NSString *)revisionId {
++ (instancetype)queryForRevisionsDeleteWithFileId:(NSString *)fileId
+                                       revisionId:(NSString *)revisionId {
   NSString *methodName = @"drive.revisions.delete";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.fileId = fileId;
@@ -721,8 +717,8 @@
   return query;
 }
 
-+ (id)queryForRevisionsGetWithFileId:(NSString *)fileId
-                          revisionId:(NSString *)revisionId {
++ (instancetype)queryForRevisionsGetWithFileId:(NSString *)fileId
+                                    revisionId:(NSString *)revisionId {
   NSString *methodName = @"drive.revisions.get";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.fileId = fileId;
@@ -731,7 +727,7 @@
   return query;
 }
 
-+ (id)queryForRevisionsListWithFileId:(NSString *)fileId {
++ (instancetype)queryForRevisionsListWithFileId:(NSString *)fileId {
   NSString *methodName = @"drive.revisions.list";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.fileId = fileId;
@@ -739,9 +735,9 @@
   return query;
 }
 
-+ (id)queryForRevisionsPatchWithObject:(GTLDriveRevision *)object
-                                fileId:(NSString *)fileId
-                            revisionId:(NSString *)revisionId {
++ (instancetype)queryForRevisionsPatchWithObject:(GTLDriveRevision *)object
+                                          fileId:(NSString *)fileId
+                                      revisionId:(NSString *)revisionId {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -755,9 +751,9 @@
   return query;
 }
 
-+ (id)queryForRevisionsUpdateWithObject:(GTLDriveRevision *)object
-                                 fileId:(NSString *)fileId
-                             revisionId:(NSString *)revisionId {
++ (instancetype)queryForRevisionsUpdateWithObject:(GTLDriveRevision *)object
+                                           fileId:(NSString *)fileId
+                                       revisionId:(NSString *)revisionId {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;

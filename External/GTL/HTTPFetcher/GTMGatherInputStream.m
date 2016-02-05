@@ -19,8 +19,6 @@
 
 + (NSInputStream *)streamWithArray:(NSArray *)dataArray {
   return [[(GTMGatherInputStream*)[self alloc] initWithArray:dataArray] autorelease];
-    
-    //return [[self alloc]initWithArray:dataArray];
 }
 
 - (id)initWithArray:(NSArray *)dataArray {

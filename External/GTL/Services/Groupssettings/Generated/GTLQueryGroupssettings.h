@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,15 +43,14 @@
 //
 
 // Selector specifying which fields to include in a partial response.
-@property (copy) NSString *fields;
+@property (nonatomic, copy) NSString *fields;
 
 //
 // Method-specific parameters; see the comments below for more information.
 //
-@property (copy) NSString *groupUniqueId;
+@property (nonatomic, copy) NSString *groupUniqueId;
 
-#pragma mark -
-#pragma mark "groups" methods
+#pragma mark - "groups" methods
 // These create a GTLQueryGroupssettings object.
 
 // Method: groupsSettings.groups.get
@@ -61,7 +60,7 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeGroupssettingsAppsGroupsSettings
 // Fetches a GTLGroupssettingsGroups.
-+ (id)queryForGroupsGetWithGroupUniqueId:(NSString *)groupUniqueId;
++ (instancetype)queryForGroupsGetWithGroupUniqueId:(NSString *)groupUniqueId;
 
 // Method: groupsSettings.groups.patch
 // Updates an existing resource. This method supports patch semantics.
@@ -70,8 +69,8 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeGroupssettingsAppsGroupsSettings
 // Fetches a GTLGroupssettingsGroups.
-+ (id)queryForGroupsPatchWithObject:(GTLGroupssettingsGroups *)object
-                      groupUniqueId:(NSString *)groupUniqueId;
++ (instancetype)queryForGroupsPatchWithObject:(GTLGroupssettingsGroups *)object
+                                groupUniqueId:(NSString *)groupUniqueId;
 
 // Method: groupsSettings.groups.update
 // Updates an existing resource.
@@ -80,7 +79,7 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeGroupssettingsAppsGroupsSettings
 // Fetches a GTLGroupssettingsGroups.
-+ (id)queryForGroupsUpdateWithObject:(GTLGroupssettingsGroups *)object
-                       groupUniqueId:(NSString *)groupUniqueId;
++ (instancetype)queryForGroupsUpdateWithObject:(GTLGroupssettingsGroups *)object
+                                 groupUniqueId:(NSString *)groupUniqueId;
 
 @end

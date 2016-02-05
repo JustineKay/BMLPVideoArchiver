@@ -24,16 +24,17 @@ typedef enum {
 } FHGeneratorHandlerMessageType;
 
 
-@interface FHGenerator : NSObject 
+@interface FHGenerator : NSObject
 
 @property (readonly, retain) GTLDiscoveryRpcDescription* api;
 @property (readonly, assign) NSUInteger verboseLevel;
 @property (readonly, assign) BOOL allowRootURLOverrides;
 
-+ (id)generatorForApi:(GTLDiscoveryRpcDescription *)api
-         verboseLevel:(NSUInteger)verboseLevel
-allowRootURLOverrides:(BOOL)allowRootURLOverrides
-formattedNameOverride:(NSString *)formattedNameOverride;
++ (instancetype)generatorForApi:(GTLDiscoveryRpcDescription *)api
+                   verboseLevel:(NSUInteger)verboseLevel
+          allowRootURLOverrides:(BOOL)allowRootURLOverrides
+          formattedNameOverride:(NSString *)formattedNameOverride
+               skipIfLikelyREST:(BOOL)skipIfLikelyREST;
 
 // Keys are the file names; values are the contents of the files.
 - (NSDictionary *)generateFilesWithHandler:(void (^)(FHGeneratorHandlerMessageType msgType,
@@ -41,5 +42,8 @@ formattedNameOverride:(NSString *)formattedNameOverride;
 
 // The API name formatted for use as a directory name.
 - (NSString *)formattedApiName;
+
+// If this is likely REST only (and hence can't be generated).
+- (BOOL)likelyRESTOnlyAPI;
 
 @end

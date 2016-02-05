@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,6 +30,10 @@
 
 #import "GTLGmailDraft.h"
 #import "GTLGmailHistory.h"
+#import "GTLGmailHistoryLabelAdded.h"
+#import "GTLGmailHistoryLabelRemoved.h"
+#import "GTLGmailHistoryMessageAdded.h"
+#import "GTLGmailHistoryMessageDeleted.h"
 #import "GTLGmailLabel.h"
 #import "GTLGmailListDraftsResponse.h"
 #import "GTLGmailListHistoryResponse.h"
@@ -42,6 +46,7 @@
 #import "GTLGmailMessagePartHeader.h"
 #import "GTLGmailProfile.h"
 #import "GTLGmailThread.h"
+#import "GTLGmailWatchResponse.h"
 
 #import "GTLQueryGmail.h"
 #import "GTLServiceGmail.h"

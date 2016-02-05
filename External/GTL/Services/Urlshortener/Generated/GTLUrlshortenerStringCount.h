@@ -1,4 +1,4 @@
-/* Copyright (c) 2011 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@
 // Description:
 //   Lets you create, inspect, and manage goo.gl short URLs
 // Documentation:
-//   http://code.google.com/apis/urlshortener/v1/getting_started.html
+//   https://developers.google.com/url-shortener/v1/getting_started
 // Classes:
 //   GTLUrlshortenerStringCount (0 custom class methods, 2 custom properties)
 
@@ -43,10 +43,10 @@
 
 // Number of clicks for this top entry, e.g. for this particular country or
 // browser.
-@property (retain) NSNumber *count;  // longLongValue
+@property (nonatomic, retain) NSNumber *count;  // longLongValue
 
 // Label assigned to this top entry, e.g. "US" or "Chrome".
 // identifier property maps to 'id' in JSON (to avoid Objective C's 'id').
-@property (copy) NSString *identifier;
+@property (nonatomic, copy) NSString *identifier;
 
 @end

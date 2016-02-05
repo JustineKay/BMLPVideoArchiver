@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,8 +49,9 @@ NSString * const kGTLBooksActionScroll   = @"scroll";
 NSString * const kGTLBooksActionSearch   = @"search";
 
 // GTLQueryBooks - Association
-NSString * const kGTLBooksAssociationEndOfSample = @"end-of-sample";
-NSString * const kGTLBooksAssociationEndOfVolume = @"end-of-volume";
+NSString * const kGTLBooksAssociationEndOfSample    = @"end-of-sample";
+NSString * const kGTLBooksAssociationEndOfVolume    = @"end-of-volume";
+NSString * const kGTLBooksAssociationRelatedForPlay = @"related-for-play";
 
 // GTLQueryBooks - Download
 NSString * const kGTLBooksDownloadEpub = @"epub";
@@ -74,6 +75,10 @@ NSString * const kGTLBooksLicenseTypesBoth       = @"BOTH";
 NSString * const kGTLBooksLicenseTypesConcurrent = @"CONCURRENT";
 NSString * const kGTLBooksLicenseTypesDownload   = @"DOWNLOAD";
 
+// GTLQueryBooks - MaxAllowedMaturityRating
+NSString * const kGTLBooksMaxAllowedMaturityRatingMature    = @"mature";
+NSString * const kGTLBooksMaxAllowedMaturityRatingNotMature = @"not-mature";
+
 // GTLQueryBooks - OrderBy
 NSString * const kGTLBooksOrderByNewest    = @"newest";
 NSString * const kGTLBooksOrderByRelevance = @"relevance";
@@ -95,3 +100,8 @@ NSString * const kGTLBooksProjectionLite = @"lite";
 // GTLQueryBooks - Rating
 NSString * const kGTLBooksRatingHaveIt        = @"HAVE_IT";
 NSString * const kGTLBooksRatingNotInterested = @"NOT_INTERESTED";
+
+// GTLQueryBooks - Reason
+NSString * const kGTLBooksReasonIosPrex    = @"IOS_PREX";
+NSString * const kGTLBooksReasonIosSearch  = @"IOS_SEARCH";
+NSString * const kGTLBooksReasonOnboarding = @"ONBOARDING";

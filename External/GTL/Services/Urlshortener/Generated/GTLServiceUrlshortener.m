@@ -1,4 +1,4 @@
-/* Copyright (c) 2011 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@
 // Description:
 //   Lets you create, inspect, and manage goo.gl short URLs
 // Documentation:
-//   http://code.google.com/apis/urlshortener/v1/getting_started.html
+//   https://developers.google.com/url-shortener/v1/getting_started
 // Classes:
 //   GTLServiceUrlshortener (0 custom class methods, 0 custom properties)
 
@@ -36,19 +36,19 @@
 // Method compiled in debug builds just to check that all the needed support
 // classes are present at link time.
 + (NSArray *)checkClasses {
-  NSArray *classes = [NSArray arrayWithObjects:
-                      [GTLQueryUrlshortener class],
-                      [GTLUrlshortenerAnalyticsSnapshot class],
-                      [GTLUrlshortenerAnalyticsSummary class],
-                      [GTLUrlshortenerStringCount class],
-                      [GTLUrlshortenerUrl class],
-                      [GTLUrlshortenerUrlHistory class],
-                      nil];
+  NSArray *classes = @[
+    [GTLQueryUrlshortener class],
+    [GTLUrlshortenerAnalyticsSnapshot class],
+    [GTLUrlshortenerAnalyticsSummary class],
+    [GTLUrlshortenerStringCount class],
+    [GTLUrlshortenerUrl class],
+    [GTLUrlshortenerUrlHistory class]
+  ];
   return classes;
 }
 #endif  // DEBUG
 
-- (id)init {
+- (instancetype)init {
   self = [super init];
   if (self) {
     // Version from discovery.

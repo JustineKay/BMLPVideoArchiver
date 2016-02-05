@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,14 +24,17 @@
 // Description:
 //   A data platform for customers to create, manage, share and query data.
 // Documentation:
-//   https://developers.google.com/bigquery/docs/overview
+//   https://cloud.google.com/bigquery/
 // Classes:
-//   GTLBigqueryJobConfigurationQuery (0 custom class methods, 10 custom properties)
+//   GTLBigqueryJobConfigurationQuery (0 custom class methods, 12 custom properties)
+//   GTLBigqueryJobConfigurationQueryTableDefinitions (0 custom class methods, 0 custom properties)
 
 #import "GTLBigqueryJobConfigurationQuery.h"
 
 #import "GTLBigqueryDatasetReference.h"
+#import "GTLBigqueryExternalDataConfiguration.h"
 #import "GTLBigqueryTableReference.h"
+#import "GTLBigqueryUserDefinedFunctionResource.h"
 
 // ----------------------------------------------------------------------------
 //
@@ -40,6 +43,28 @@
 
 @implementation GTLBigqueryJobConfigurationQuery
 @dynamic allowLargeResults, createDisposition, defaultDataset, destinationTable,
-         flattenResults, preserveNulls, priority, query, useQueryCache,
-         writeDisposition;
+         flattenResults, preserveNulls, priority, query, tableDefinitions,
+         useQueryCache, userDefinedFunctionResources, writeDisposition;
+
++ (NSDictionary *)arrayPropertyToClassMap {
+  NSDictionary *map = @{
+    @"userDefinedFunctionResources" : [GTLBigqueryUserDefinedFunctionResource class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLBigqueryJobConfigurationQueryTableDefinitions
+//
+
+@implementation GTLBigqueryJobConfigurationQueryTableDefinitions
+
++ (Class)classForAdditionalProperties {
+  return [GTLBigqueryExternalDataConfiguration class];
+}
+
 @end

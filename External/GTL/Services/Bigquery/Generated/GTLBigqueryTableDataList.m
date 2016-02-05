@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@
 // Description:
 //   A data platform for customers to create, manage, share and query data.
 // Documentation:
-//   https://developers.google.com/bigquery/docs/overview
+//   https://cloud.google.com/bigquery/
 // Classes:
 //   GTLBigqueryTableDataList (0 custom class methods, 5 custom properties)
 
@@ -41,16 +41,16 @@
 @dynamic ETag, kind, pageToken, rows, totalRows;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"etag"
-                                forKey:@"ETag"];
+  NSDictionary *map = @{
+    @"ETag" : @"etag"
+  };
   return map;
 }
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:[GTLBigqueryTableRow class]
-                                forKey:@"rows"];
+  NSDictionary *map = @{
+    @"rows" : [GTLBigqueryTableRow class]
+  };
   return map;
 }
 

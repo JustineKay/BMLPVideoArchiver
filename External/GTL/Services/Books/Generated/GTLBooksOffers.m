@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@
 //   https://developers.google.com/books/docs/v1/getting_started
 // Classes:
 //   GTLBooksOffers (0 custom class methods, 2 custom properties)
-//   GTLBooksOffersItemsItem (0 custom class methods, 3 custom properties)
+//   GTLBooksOffersItemsItem (0 custom class methods, 4 custom properties)
 //   GTLBooksOffersItemsItemItemsItem (0 custom class methods, 6 custom properties)
 
 #import "GTLBooksOffers.h"
@@ -41,9 +41,9 @@
 @dynamic items, kind;
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:[GTLBooksOffersItemsItem class]
-                                forKey:@"items"];
+  NSDictionary *map = @{
+    @"items" : [GTLBooksOffersItemsItem class]
+  };
   return map;
 }
 
@@ -60,19 +60,19 @@
 //
 
 @implementation GTLBooksOffersItemsItem
-@dynamic artUrl, identifier, items;
+@dynamic artUrl, gservicesKey, identifier, items;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"id"
-                                forKey:@"identifier"];
+  NSDictionary *map = @{
+    @"identifier" : @"id"
+  };
   return map;
 }
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:[GTLBooksOffersItemsItemItemsItem class]
-                                forKey:@"items"];
+  NSDictionary *map = @{
+    @"items" : [GTLBooksOffersItemsItemItemsItem class]
+  };
   return map;
 }
 
@@ -89,9 +89,9 @@
          volumeId;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"description"
-                                forKey:@"descriptionProperty"];
+  NSDictionary *map = @{
+    @"descriptionProperty" : @"description"
+  };
   return map;
 }
 

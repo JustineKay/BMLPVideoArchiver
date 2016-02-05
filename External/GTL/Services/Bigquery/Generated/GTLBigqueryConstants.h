@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@
 // Description:
 //   A data platform for customers to create, manage, share and query data.
 // Documentation:
-//   https://developers.google.com/bigquery/docs/overview
+//   https://cloud.google.com/bigquery/
 
 #import <Foundation/Foundation.h>
 
@@ -39,6 +39,9 @@
 GTL_EXTERN NSString * const kGTLAuthScopeBigquery;              // "https://www.googleapis.com/auth/bigquery"
 // View and manage your data across Google Cloud Platform services
 GTL_EXTERN NSString * const kGTLAuthScopeBigqueryCloudPlatform;  // "https://www.googleapis.com/auth/cloud-platform"
+// MESSAGE UNDER CONSTRUCTION View your data across Google Cloud Platform
+// services
+GTL_EXTERN NSString * const kGTLAuthScopeBigqueryCloudPlatformReadOnly;  // "https://www.googleapis.com/auth/cloud-platform.read-only"
 // Manage your data and permissions in Google Cloud Storage
 GTL_EXTERN NSString * const kGTLAuthScopeBigqueryDevstorageFullControl;  // "https://www.googleapis.com/auth/devstorage.full_control"
 // View your data in Google Cloud Storage

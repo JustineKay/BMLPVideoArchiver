@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@
 // Description:
 //   A data platform for customers to create, manage, share and query data.
 // Documentation:
-//   https://developers.google.com/bigquery/docs/overview
+//   https://cloud.google.com/bigquery/
 // Classes:
 //   GTLBigqueryTableFieldSchema (0 custom class methods, 5 custom properties)
 
@@ -39,16 +39,16 @@
 @dynamic descriptionProperty, fields, mode, name, type;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"description"
-                                forKey:@"descriptionProperty"];
+  NSDictionary *map = @{
+    @"descriptionProperty" : @"description"
+  };
   return map;
 }
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:[GTLBigqueryTableFieldSchema class]
-                                forKey:@"fields"];
+  NSDictionary *map = @{
+    @"fields" : [GTLBigqueryTableFieldSchema class]
+  };
   return map;
 }
 

@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,12 +24,13 @@
 // Description:
 //   A data platform for customers to create, manage, share and query data.
 // Documentation:
-//   https://developers.google.com/bigquery/docs/overview
+//   https://cloud.google.com/bigquery/
 // Classes:
-//   GTLBigqueryTable (0 custom class methods, 15 custom properties)
+//   GTLBigqueryTable (0 custom class methods, 17 custom properties)
 
 #import "GTLBigqueryTable.h"
 
+#import "GTLBigqueryExternalDataConfiguration.h"
 #import "GTLBigqueryTableReference.h"
 #import "GTLBigqueryTableSchema.h"
 #import "GTLBigqueryViewDefinition.h"
@@ -40,17 +41,17 @@
 //
 
 @implementation GTLBigqueryTable
-@dynamic creationTime, descriptionProperty, ETag, expirationTime, friendlyName,
-         identifier, kind, lastModifiedTime, numBytes, numRows, schema,
-         selfLink, tableReference, type, view;
+@dynamic creationTime, descriptionProperty, ETag, expirationTime,
+         externalDataConfiguration, friendlyName, identifier, kind,
+         lastModifiedTime, location, numBytes, numRows, schema, selfLink,
+         tableReference, type, view;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObjectsAndKeys:
-      @"description", @"descriptionProperty",
-      @"etag", @"ETag",
-      @"id", @"identifier",
-      nil];
+  NSDictionary *map = @{
+    @"descriptionProperty" : @"description",
+    @"ETag" : @"etag",
+    @"identifier" : @"id"
+  };
   return map;
 }
 

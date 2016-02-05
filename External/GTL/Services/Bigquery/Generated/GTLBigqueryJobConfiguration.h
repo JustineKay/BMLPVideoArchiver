@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@
 // Description:
 //   A data platform for customers to create, manage, share and query data.
 // Documentation:
-//   https://developers.google.com/bigquery/docs/overview
+//   https://cloud.google.com/bigquery/
 // Classes:
 //   GTLBigqueryJobConfiguration (0 custom class methods, 6 custom properties)
 
@@ -49,24 +49,24 @@
 
 // [Pick one] Copies a table.
 // Remapped to 'copyProperty' to avoid NSObject's 'copy'.
-@property (retain) GTLBigqueryJobConfigurationTableCopy *copyProperty NS_RETURNS_NOT_RETAINED;
+@property (nonatomic, retain) GTLBigqueryJobConfigurationTableCopy *copyProperty NS_RETURNS_NOT_RETAINED;
 
 // [Optional] If set, don't actually run this job. A valid query will return a
 // mostly empty response with some processing statistics, while an invalid query
 // will return the same error it would if it wasn't a dry run. Behavior of
 // non-query jobs is undefined.
-@property (retain) NSNumber *dryRun;  // boolValue
+@property (nonatomic, retain) NSNumber *dryRun;  // boolValue
 
 // [Pick one] Configures an extract job.
-@property (retain) GTLBigqueryJobConfigurationExtract *extract;
+@property (nonatomic, retain) GTLBigqueryJobConfigurationExtract *extract;
 
 // [Pick one] Configures a link job.
-@property (retain) GTLBigqueryJobConfigurationLink *link;
+@property (nonatomic, retain) GTLBigqueryJobConfigurationLink *link;
 
 // [Pick one] Configures a load job.
-@property (retain) GTLBigqueryJobConfigurationLoad *load;
+@property (nonatomic, retain) GTLBigqueryJobConfigurationLoad *load;
 
 // [Pick one] Configures a query job.
-@property (retain) GTLBigqueryJobConfigurationQuery *query;
+@property (nonatomic, retain) GTLBigqueryJobConfigurationQuery *query;
 
 @end

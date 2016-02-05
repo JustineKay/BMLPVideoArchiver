@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,9 +24,9 @@
 // Description:
 //   A data platform for customers to create, manage, share and query data.
 // Documentation:
-//   https://developers.google.com/bigquery/docs/overview
+//   https://cloud.google.com/bigquery/
 // Classes:
-//   GTLQueryBigquery (20 custom class methods, 21 custom properties)
+//   GTLQueryBigquery (21 custom class methods, 23 custom properties)
 //   GTLBigqueryTabledataInsertAllRowsItem (0 custom class methods, 2 custom properties)
 
 #if GTL_BUILT_AS_FRAMEWORK
@@ -38,6 +38,7 @@
 @class GTLBigqueryDataset;
 @class GTLBigqueryDatasetReference;
 @class GTLBigqueryJob;
+@class GTLBigqueryJsonObject;
 @class GTLBigqueryTable;
 @class GTLBigqueryTabledataInsertAllRowsItem;
 
@@ -48,34 +49,35 @@
 //
 
 // Selector specifying which fields to include in a partial response.
-@property (copy) NSString *fields;
+@property (nonatomic, copy) NSString *fields;
 
 //
 // Method-specific parameters; see the comments below for more information.
 //
-@property (assign) BOOL all;
-@property (assign) BOOL allUsers;
-@property (copy) NSString *datasetId;
-@property (retain) GTLBigqueryDatasetReference *defaultDataset;
-@property (assign) BOOL deleteContents;
-@property (assign) BOOL dryRun;
-@property (copy) NSString *jobId;
-@property (copy) NSString *kind;
-@property (assign) NSUInteger maxResults;
-@property (copy) NSString *pageToken;
-@property (assign) BOOL preserveNulls;
-@property (copy) NSString *projectId;
-@property (copy) NSString *projection;
-@property (copy) NSString *query;
-@property (retain) NSArray *rows;  // of GTLBigqueryTabledataInsertAllRowsItem
-@property (assign) unsigned long long startIndex;
-@property (retain) NSArray *stateFilter;  // of NSString
-@property (copy) NSString *tableId;
-@property (assign) NSUInteger timeoutMs;
-@property (assign) BOOL useQueryCache;
+@property (nonatomic, assign) BOOL all;
+@property (nonatomic, assign) BOOL allUsers;
+@property (nonatomic, copy) NSString *datasetId;
+@property (nonatomic, retain) GTLBigqueryDatasetReference *defaultDataset;
+@property (nonatomic, assign) BOOL deleteContents;
+@property (nonatomic, assign) BOOL dryRun;
+@property (nonatomic, assign) BOOL ignoreUnknownValues;
+@property (nonatomic, copy) NSString *jobId;
+@property (nonatomic, copy) NSString *kind;
+@property (nonatomic, assign) NSUInteger maxResults;
+@property (nonatomic, copy) NSString *pageToken;
+@property (nonatomic, assign) BOOL preserveNulls;
+@property (nonatomic, copy) NSString *projectId;
+@property (nonatomic, copy) NSString *projection;
+@property (nonatomic, copy) NSString *query;
+@property (nonatomic, retain) NSArray *rows;  // of GTLBigqueryTabledataInsertAllRowsItem
+@property (nonatomic, assign) BOOL skipInvalidRows;
+@property (nonatomic, assign) unsigned long long startIndex;
+@property (nonatomic, retain) NSArray *stateFilter;  // of NSString
+@property (nonatomic, copy) NSString *tableId;
+@property (nonatomic, assign) NSUInteger timeoutMs;
+@property (nonatomic, assign) BOOL useQueryCache;
 
-#pragma mark -
-#pragma mark "datasets" methods
+#pragma mark - "datasets" methods
 // These create a GTLQueryBigquery object.
 
 // Method: bigquery.datasets.delete
@@ -92,8 +94,8 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeBigquery
 //   kGTLAuthScopeBigqueryCloudPlatform
-+ (id)queryForDatasetsDeleteWithProjectId:(NSString *)projectId
-                                datasetId:(NSString *)datasetId;
++ (instancetype)queryForDatasetsDeleteWithProjectId:(NSString *)projectId
+                                          datasetId:(NSString *)datasetId;
 
 // Method: bigquery.datasets.get
 // Returns the dataset specified by datasetID.
@@ -103,9 +105,10 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeBigquery
 //   kGTLAuthScopeBigqueryCloudPlatform
+//   kGTLAuthScopeBigqueryCloudPlatformReadOnly
 // Fetches a GTLBigqueryDataset.
-+ (id)queryForDatasetsGetWithProjectId:(NSString *)projectId
-                             datasetId:(NSString *)datasetId;
++ (instancetype)queryForDatasetsGetWithProjectId:(NSString *)projectId
+                                       datasetId:(NSString *)datasetId;
 
 // Method: bigquery.datasets.insert
 // Creates a new empty dataset.
@@ -115,12 +118,11 @@
 //   kGTLAuthScopeBigquery
 //   kGTLAuthScopeBigqueryCloudPlatform
 // Fetches a GTLBigqueryDataset.
-+ (id)queryForDatasetsInsertWithObject:(GTLBigqueryDataset *)object;
++ (instancetype)queryForDatasetsInsertWithObject:(GTLBigqueryDataset *)object;
 
 // Method: bigquery.datasets.list
-// Lists all the datasets in the specified project to which the caller has read
-// access; however, a project owner can list (but not necessarily get) all
-// datasets in his project.
+// Lists all datasets in the specified project to which you have been granted
+// the READER dataset role.
 //  Required:
 //   projectId: Project ID of the datasets to be listed
 //  Optional:
@@ -131,8 +133,9 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeBigquery
 //   kGTLAuthScopeBigqueryCloudPlatform
+//   kGTLAuthScopeBigqueryCloudPlatformReadOnly
 // Fetches a GTLBigqueryDatasetList.
-+ (id)queryForDatasetsListWithProjectId:(NSString *)projectId;
++ (instancetype)queryForDatasetsListWithProjectId:(NSString *)projectId;
 
 // Method: bigquery.datasets.patch
 // Updates information in an existing dataset. The update method replaces the
@@ -146,9 +149,9 @@
 //   kGTLAuthScopeBigquery
 //   kGTLAuthScopeBigqueryCloudPlatform
 // Fetches a GTLBigqueryDataset.
-+ (id)queryForDatasetsPatchWithObject:(GTLBigqueryDataset *)object
-                            projectId:(NSString *)projectId
-                            datasetId:(NSString *)datasetId;
++ (instancetype)queryForDatasetsPatchWithObject:(GTLBigqueryDataset *)object
+                                      projectId:(NSString *)projectId
+                                      datasetId:(NSString *)datasetId;
 
 // Method: bigquery.datasets.update
 // Updates information in an existing dataset. The update method replaces the
@@ -161,23 +164,39 @@
 //   kGTLAuthScopeBigquery
 //   kGTLAuthScopeBigqueryCloudPlatform
 // Fetches a GTLBigqueryDataset.
-+ (id)queryForDatasetsUpdateWithObject:(GTLBigqueryDataset *)object;
++ (instancetype)queryForDatasetsUpdateWithObject:(GTLBigqueryDataset *)object;
 
-#pragma mark -
-#pragma mark "jobs" methods
+#pragma mark - "jobs" methods
 // These create a GTLQueryBigquery object.
 
+// Method: bigquery.jobs.cancel
+// Requests that a job be cancelled. This call will return immediately, and the
+// client will need to poll for the job status to see if the cancel completed
+// successfully.
+//  Required:
+//   projectId: Project ID of the job to cancel
+//   jobId: Job ID of the job to cancel
+//  Authorization scope(s):
+//   kGTLAuthScopeBigquery
+//   kGTLAuthScopeBigqueryCloudPlatform
+// Fetches a GTLBigqueryJobCancelResponse.
++ (instancetype)queryForJobsCancelWithProjectId:(NSString *)projectId
+                                          jobId:(NSString *)jobId;
+
 // Method: bigquery.jobs.get
-// Retrieves the specified job by ID.
+// Returns information about a specific job. Job information is available for a
+// six month period after creation. Requires that you're the person who ran the
+// job, or have the Is Owner project role.
 //  Required:
 //   projectId: Project ID of the requested job
 //   jobId: Job ID of the requested job
 //  Authorization scope(s):
 //   kGTLAuthScopeBigquery
 //   kGTLAuthScopeBigqueryCloudPlatform
+//   kGTLAuthScopeBigqueryCloudPlatformReadOnly
 // Fetches a GTLBigqueryJob.
-+ (id)queryForJobsGetWithProjectId:(NSString *)projectId
-                             jobId:(NSString *)jobId;
++ (instancetype)queryForJobsGetWithProjectId:(NSString *)projectId
+                                       jobId:(NSString *)jobId;
 
 // Method: bigquery.jobs.getQueryResults
 // Retrieves the results of a query job.
@@ -190,17 +209,18 @@
 //     page of results
 //   startIndex: Zero-based index of the starting row
 //   timeoutMs: How long to wait for the query to complete, in milliseconds,
-//     before returning. Default is to return immediately. If the timeout passes
-//     before the job completes, the request will fail with a TIMEOUT error
+//     before returning. Default is 10 seconds. If the timeout passes before the
+//     job completes, the 'jobComplete' field in the response will be false
 //  Authorization scope(s):
 //   kGTLAuthScopeBigquery
 //   kGTLAuthScopeBigqueryCloudPlatform
+//   kGTLAuthScopeBigqueryCloudPlatformReadOnly
 // Fetches a GTLBigqueryGetQueryResultsResponse.
-+ (id)queryForJobsGetQueryResultsWithProjectId:(NSString *)projectId
-                                         jobId:(NSString *)jobId;
++ (instancetype)queryForJobsGetQueryResultsWithProjectId:(NSString *)projectId
+                                                   jobId:(NSString *)jobId;
 
 // Method: bigquery.jobs.insert
-// Starts a new asynchronous job.
+// Starts a new asynchronous job. Requires the Can View project role.
 //  Optional:
 //   projectId: Project ID of the project that will be billed for the job
 //  Upload Parameters:
@@ -212,13 +232,14 @@
 //   kGTLAuthScopeBigqueryDevstorageReadOnly
 //   kGTLAuthScopeBigqueryDevstorageReadWrite
 // Fetches a GTLBigqueryJob.
-+ (id)queryForJobsInsertWithObject:(GTLBigqueryJob *)object
-                  uploadParameters:(GTLUploadParameters *)uploadParametersOrNil;
++ (instancetype)queryForJobsInsertWithObject:(GTLBigqueryJob *)object
+                            uploadParameters:(GTLUploadParameters *)uploadParametersOrNil;
 
 // Method: bigquery.jobs.list
-// Lists all the Jobs in the specified project that were started by the user.
-// The job list returns in reverse chronological order of when the jobs were
-// created, starting with the most recent job created.
+// Lists all jobs that you started in the specified project. Job information is
+// available for a six month period after creation. The job list is sorted in
+// reverse chronological order, by job creation time. Requires the Can View
+// project role, or the Is Owner project role if you set the allUsers property.
 //  Required:
 //   projectId: Project ID of the jobs to list
 //  Optional:
@@ -237,8 +258,9 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeBigquery
 //   kGTLAuthScopeBigqueryCloudPlatform
+//   kGTLAuthScopeBigqueryCloudPlatformReadOnly
 // Fetches a GTLBigqueryJobList.
-+ (id)queryForJobsListWithProjectId:(NSString *)projectId;
++ (instancetype)queryForJobsListWithProjectId:(NSString *)projectId;
 
 // Method: bigquery.jobs.query
 // Runs a BigQuery SQL query synchronously and returns query results if the
@@ -253,9 +275,10 @@
 //     assume for any unqualified table names in the query. If not set, all
 //     table names in the query string must be qualified in the format
 //     'datasetId.tableId'.
-//   dryRun: [Optional] If set, don't actually run the query. A valid query will
-//     return an empty response, while an invalid query will return the same
-//     error it would if it wasn't a dry run. The default value is false.
+//   dryRun: [Optional] If set to true, BigQuery doesn't run the job. Instead,
+//     if the query is valid, BigQuery returns statistics about the job such as
+//     how many bytes would be processed. If the query is invalid, an error
+//     returns. The default value is false.
 //   kind: The resource type of the request. (Default bigquery#queryRequest)
 //   maxResults: [Optional] The maximum number of rows of data to return per
 //     page of results. Setting this flag to a small value such as 1000 and then
@@ -274,19 +297,20 @@
 //   useQueryCache: [Optional] Whether to look for the result in the query
 //     cache. The query cache is a best-effort cache that will be flushed
 //     whenever tables in the query are modified. The default value is true.
+//     (Default true)
 //  Authorization scope(s):
 //   kGTLAuthScopeBigquery
 //   kGTLAuthScopeBigqueryCloudPlatform
+//   kGTLAuthScopeBigqueryCloudPlatformReadOnly
 // Fetches a GTLBigqueryQueryResponse.
-+ (id)queryForJobsQueryWithProjectId:(NSString *)projectId
-                               query:(NSString *)query;
++ (instancetype)queryForJobsQueryWithProjectId:(NSString *)projectId
+                                         query:(NSString *)query;
 
-#pragma mark -
-#pragma mark "projects" methods
+#pragma mark - "projects" methods
 // These create a GTLQueryBigquery object.
 
 // Method: bigquery.projects.list
-// Lists the projects to which you have at least read access.
+// Lists all projects to which you have been granted any project role.
 //  Optional:
 //   maxResults: Maximum number of results to return
 //   pageToken: Page token, returned by a previous call, to request the next
@@ -294,35 +318,42 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeBigquery
 //   kGTLAuthScopeBigqueryCloudPlatform
+//   kGTLAuthScopeBigqueryCloudPlatformReadOnly
 // Fetches a GTLBigqueryProjectList.
-+ (id)queryForProjectsList;
++ (instancetype)queryForProjectsList;
 
-#pragma mark -
-#pragma mark "tabledata" methods
+#pragma mark - "tabledata" methods
 // These create a GTLQueryBigquery object.
 
 // Method: bigquery.tabledata.insertAll
 // Streams data into BigQuery one record at a time without needing to run a load
-// job.
+// job. Requires the WRITER dataset role.
 //  Required:
 //   projectId: Project ID of the destination table.
 //   datasetId: Dataset ID of the destination table.
 //   tableId: Table ID of the destination table.
 //  Optional:
+//   ignoreUnknownValues: [Optional] Accept rows that contain values that do not
+//     match the schema. The unknown values are ignored. Default is false, which
+//     treats unknown values as errors.
 //   kind: The resource type of the response. (Default
 //     bigquery#tableDataInsertAllRequest)
 //   rows: The rows to insert.
+//   skipInvalidRows: [Optional] Insert all valid rows of a request, even if
+//     invalid rows exist. The default value is false, which causes the entire
+//     request to fail if any invalid rows exist.
 //  Authorization scope(s):
 //   kGTLAuthScopeBigquery
 //   kGTLAuthScopeBigqueryCloudPlatform
 //   kGTLAuthScopeBigqueryInsertdata
 // Fetches a GTLBigqueryTableDataInsertAllResponse.
-+ (id)queryForTabledataInsertAllWithProjectId:(NSString *)projectId
-                                    datasetId:(NSString *)datasetId
-                                      tableId:(NSString *)tableId;
++ (instancetype)queryForTabledataInsertAllWithProjectId:(NSString *)projectId
+                                              datasetId:(NSString *)datasetId
+                                                tableId:(NSString *)tableId;
 
 // Method: bigquery.tabledata.list
-// Retrieves table data from a specified set of rows.
+// Retrieves table data from a specified set of rows. Requires the READER
+// dataset role.
 //  Required:
 //   projectId: Project ID of the table to read
 //   datasetId: Dataset ID of the table to read
@@ -335,13 +366,13 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeBigquery
 //   kGTLAuthScopeBigqueryCloudPlatform
+//   kGTLAuthScopeBigqueryCloudPlatformReadOnly
 // Fetches a GTLBigqueryTableDataList.
-+ (id)queryForTabledataListWithProjectId:(NSString *)projectId
-                               datasetId:(NSString *)datasetId
-                                 tableId:(NSString *)tableId;
++ (instancetype)queryForTabledataListWithProjectId:(NSString *)projectId
+                                         datasetId:(NSString *)datasetId
+                                           tableId:(NSString *)tableId;
 
-#pragma mark -
-#pragma mark "tables" methods
+#pragma mark - "tables" methods
 // These create a GTLQueryBigquery object.
 
 // Method: bigquery.tables.delete
@@ -354,9 +385,9 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeBigquery
 //   kGTLAuthScopeBigqueryCloudPlatform
-+ (id)queryForTablesDeleteWithProjectId:(NSString *)projectId
-                              datasetId:(NSString *)datasetId
-                                tableId:(NSString *)tableId;
++ (instancetype)queryForTablesDeleteWithProjectId:(NSString *)projectId
+                                        datasetId:(NSString *)datasetId
+                                          tableId:(NSString *)tableId;
 
 // Method: bigquery.tables.get
 // Gets the specified table resource by table ID. This method does not return
@@ -369,10 +400,11 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeBigquery
 //   kGTLAuthScopeBigqueryCloudPlatform
+//   kGTLAuthScopeBigqueryCloudPlatformReadOnly
 // Fetches a GTLBigqueryTable.
-+ (id)queryForTablesGetWithProjectId:(NSString *)projectId
-                           datasetId:(NSString *)datasetId
-                             tableId:(NSString *)tableId;
++ (instancetype)queryForTablesGetWithProjectId:(NSString *)projectId
+                                     datasetId:(NSString *)datasetId
+                                       tableId:(NSString *)tableId;
 
 // Method: bigquery.tables.insert
 // Creates a new, empty table in the dataset.
@@ -383,10 +415,10 @@
 //   kGTLAuthScopeBigquery
 //   kGTLAuthScopeBigqueryCloudPlatform
 // Fetches a GTLBigqueryTable.
-+ (id)queryForTablesInsertWithObject:(GTLBigqueryTable *)object;
++ (instancetype)queryForTablesInsertWithObject:(GTLBigqueryTable *)object;
 
 // Method: bigquery.tables.list
-// Lists all tables in the specified dataset.
+// Lists all tables in the specified dataset. Requires the READER dataset role.
 //  Required:
 //   projectId: Project ID of the tables to list
 //   datasetId: Dataset ID of the tables to list
@@ -397,9 +429,10 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeBigquery
 //   kGTLAuthScopeBigqueryCloudPlatform
+//   kGTLAuthScopeBigqueryCloudPlatformReadOnly
 // Fetches a GTLBigqueryTableList.
-+ (id)queryForTablesListWithProjectId:(NSString *)projectId
-                            datasetId:(NSString *)datasetId;
++ (instancetype)queryForTablesListWithProjectId:(NSString *)projectId
+                                      datasetId:(NSString *)datasetId;
 
 // Method: bigquery.tables.patch
 // Updates information in an existing table. The update method replaces the
@@ -414,10 +447,10 @@
 //   kGTLAuthScopeBigquery
 //   kGTLAuthScopeBigqueryCloudPlatform
 // Fetches a GTLBigqueryTable.
-+ (id)queryForTablesPatchWithObject:(GTLBigqueryTable *)object
-                          projectId:(NSString *)projectId
-                          datasetId:(NSString *)datasetId
-                            tableId:(NSString *)tableId;
++ (instancetype)queryForTablesPatchWithObject:(GTLBigqueryTable *)object
+                                    projectId:(NSString *)projectId
+                                    datasetId:(NSString *)datasetId
+                                      tableId:(NSString *)tableId;
 
 // Method: bigquery.tables.update
 // Updates information in an existing table. The update method replaces the
@@ -431,32 +464,29 @@
 //   kGTLAuthScopeBigquery
 //   kGTLAuthScopeBigqueryCloudPlatform
 // Fetches a GTLBigqueryTable.
-+ (id)queryForTablesUpdateWithObject:(GTLBigqueryTable *)object;
++ (instancetype)queryForTablesUpdateWithObject:(GTLBigqueryTable *)object;
 
 @end
 
-#pragma mark -
-#pragma mark method parameter objects
+#pragma mark - method parameter objects
 // These object are used only to pass a collection of parameters to a
 // method as a single item.
-
-@class GTLBigqueryJsonObject;
 
 // ----------------------------------------------------------------------------
 //
 //   GTLBigqueryTabledataInsertAllRowsItem
 //
 
-// Used for 'item' parameter on '(null)'.
+// Used for 'rows' parameter on 'bigquery.tabledata.insertAll'.
 
 @interface GTLBigqueryTabledataInsertAllRowsItem : GTLObject
 
 // [Optional] A unique ID for each row. BigQuery uses this property to detect
 // duplicate insertion requests on a best-effort basis.
-@property (copy) NSString *insertId;
+@property (nonatomic, copy) NSString *insertId;
 
 // [Required] A JSON object that contains a row of data. The object's properties
 // and values must match the destination table's schema.
-@property (retain) GTLBigqueryJsonObject *json;
+@property (nonatomic, retain) GTLBigqueryJsonObject *json;
 
 @end

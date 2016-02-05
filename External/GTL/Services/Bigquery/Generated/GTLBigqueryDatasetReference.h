@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@
 // Description:
 //   A data platform for customers to create, manage, share and query data.
 // Documentation:
-//   https://developers.google.com/bigquery/docs/overview
+//   https://cloud.google.com/bigquery/
 // Classes:
 //   GTLBigqueryDatasetReference (0 custom class methods, 2 custom properties)
 
@@ -41,10 +41,12 @@
 
 @interface GTLBigqueryDatasetReference : GTLObject
 
-// [Required] A unique ID for this dataset, without the project name.
-@property (copy) NSString *datasetId;
+// [Required] A unique ID for this dataset, without the project name. The ID
+// must contain only letters (a-z, A-Z), numbers (0-9), or underscores (_). The
+// maximum length is 1,024 characters.
+@property (nonatomic, copy) NSString *datasetId;
 
-// [Optional] The ID of the container project.
-@property (copy) NSString *projectId;
+// [Optional] The ID of the project containing this dataset.
+@property (nonatomic, copy) NSString *projectId;
 
 @end

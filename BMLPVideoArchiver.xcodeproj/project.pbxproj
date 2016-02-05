@@ -501,7 +501,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = nyc.justinekay.BMLPVideoArchiver;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				USER_HEADER_SEARCH_PATHS = "\"/Users/justinegartner/google-api-objectivec-client/Source\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/External/GTL\"/**";
 			};
 			name = Debug;
 		};
@@ -522,7 +522,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = nyc.justinekay.BMLPVideoArchiver;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				USER_HEADER_SEARCH_PATHS = "\"/Users/justinegartner/google-api-objectivec-client/Source\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/External/GTL\"/**";
 			};
 			name = Release;
 		};

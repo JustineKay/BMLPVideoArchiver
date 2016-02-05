@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@
 // Description:
 //   A data platform for customers to create, manage, share and query data.
 // Documentation:
-//   https://developers.google.com/bigquery/docs/overview
+//   https://cloud.google.com/bigquery/
 // Classes:
 //   GTLBigqueryDatasetList (0 custom class methods, 4 custom properties)
 //   GTLBigqueryDatasetListDatasetsItem (0 custom class methods, 4 custom properties)
@@ -42,16 +42,16 @@
 @dynamic datasets, ETag, kind, nextPageToken;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"etag"
-                                forKey:@"ETag"];
+  NSDictionary *map = @{
+    @"ETag" : @"etag"
+  };
   return map;
 }
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:[GTLBigqueryDatasetListDatasetsItem class]
-                                forKey:@"datasets"];
+  NSDictionary *map = @{
+    @"datasets" : [GTLBigqueryDatasetListDatasetsItem class]
+  };
   return map;
 }
 
@@ -71,9 +71,9 @@
 @dynamic datasetReference, friendlyName, identifier, kind;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"id"
-                                forKey:@"identifier"];
+  NSDictionary *map = @{
+    @"identifier" : @"id"
+  };
   return map;
 }
 

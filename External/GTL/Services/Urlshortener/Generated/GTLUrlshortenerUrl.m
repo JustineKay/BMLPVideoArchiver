@@ -1,4 +1,4 @@
-/* Copyright (c) 2011 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@
 // Description:
 //   Lets you create, inspect, and manage goo.gl short URLs
 // Documentation:
-//   http://code.google.com/apis/urlshortener/v1/getting_started.html
+//   https://developers.google.com/url-shortener/v1/getting_started
 // Classes:
 //   GTLUrlshortenerUrl (0 custom class methods, 6 custom properties)
 
@@ -41,9 +41,9 @@
 @dynamic analytics, created, identifier, kind, longUrl, status;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"id"
-                                forKey:@"identifier"];
+  NSDictionary *map = @{
+    @"identifier" : @"id"
+  };
   return map;
 }
 

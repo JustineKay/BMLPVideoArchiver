@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/youtube/v3
 // Classes:
-//   GTLYouTubePlaylistSnippet (0 custom class methods, 7 custom properties)
+//   GTLYouTubePlaylistSnippet (0 custom class methods, 9 custom properties)
 
 #if GTL_BUILT_AS_FRAMEWORK
   #import "GTL/GTLObject.h"
@@ -34,6 +34,7 @@
   #import "GTLObject.h"
 #endif
 
+@class GTLYouTubePlaylistLocalization;
 @class GTLYouTubeThumbnailDetails;
 
 // ----------------------------------------------------------------------------
@@ -47,28 +48,34 @@
 
 // The ID that YouTube uses to uniquely identify the channel that published the
 // playlist.
-@property (copy) NSString *channelId;
+@property (nonatomic, copy) NSString *channelId;
 
 // The channel title of the channel that the video belongs to.
-@property (copy) NSString *channelTitle;
+@property (nonatomic, copy) NSString *channelTitle;
+
+// The language of the playlist's default title and description.
+@property (nonatomic, copy) NSString *defaultLanguage;
 
 // The playlist's description.
 // Remapped to 'descriptionProperty' to avoid NSObject's 'description'.
-@property (copy) NSString *descriptionProperty;
+@property (nonatomic, copy) NSString *descriptionProperty;
+
+// Localized title and description, read-only.
+@property (nonatomic, retain) GTLYouTubePlaylistLocalization *localized;
 
 // The date and time that the playlist was created. The value is specified in
 // ISO 8601 (YYYY-MM-DDThh:mm:ss.sZ) format.
-@property (retain) GTLDateTime *publishedAt;
+@property (nonatomic, retain) GTLDateTime *publishedAt;
 
 // Keyword tags associated with the playlist.
-@property (retain) NSArray *tags;  // of NSString
+@property (nonatomic, retain) NSArray *tags;  // of NSString
 
 // A map of thumbnail images associated with the playlist. For each object in
 // the map, the key is the name of the thumbnail image, and the value is an
 // object that contains other information about the thumbnail.
-@property (retain) GTLYouTubeThumbnailDetails *thumbnails;
+@property (nonatomic, retain) GTLYouTubeThumbnailDetails *thumbnails;
 
 // The playlist's title.
-@property (copy) NSString *title;
+@property (nonatomic, copy) NSString *title;
 
 @end

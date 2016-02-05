@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,6 +30,7 @@
 
 // Authorization scope
 NSString * const kGTLAuthScopeStorageCloudPlatform         = @"https://www.googleapis.com/auth/cloud-platform";
+NSString * const kGTLAuthScopeStorageCloudPlatformReadOnly = @"https://www.googleapis.com/auth/cloud-platform.read-only";
 NSString * const kGTLAuthScopeStorageDevstorageFullControl = @"https://www.googleapis.com/auth/devstorage.full_control";
 NSString * const kGTLAuthScopeStorageDevstorageReadOnly    = @"https://www.googleapis.com/auth/devstorage.read_only";
 NSString * const kGTLAuthScopeStorageDevstorageReadWrite   = @"https://www.googleapis.com/auth/devstorage.read_write";
@@ -50,6 +51,14 @@ NSString * const kGTLStoragePredefinedAclPrivate               = @"private";
 NSString * const kGTLStoragePredefinedAclProjectPrivate        = @"projectPrivate";
 NSString * const kGTLStoragePredefinedAclPublicRead            = @"publicRead";
 NSString * const kGTLStoragePredefinedAclPublicReadWrite       = @"publicReadWrite";
+
+// GTLQueryStorage - PredefinedDefaultObjectAcl
+NSString * const kGTLStoragePredefinedDefaultObjectAclAuthenticatedRead = @"authenticatedRead";
+NSString * const kGTLStoragePredefinedDefaultObjectAclBucketOwnerFullControl = @"bucketOwnerFullControl";
+NSString * const kGTLStoragePredefinedDefaultObjectAclBucketOwnerRead = @"bucketOwnerRead";
+NSString * const kGTLStoragePredefinedDefaultObjectAclPrivate  = @"private";
+NSString * const kGTLStoragePredefinedDefaultObjectAclProjectPrivate = @"projectPrivate";
+NSString * const kGTLStoragePredefinedDefaultObjectAclPublicRead = @"publicRead";
 
 // GTLQueryStorage - Projection
 NSString * const kGTLStorageProjectionFull  = @"full";

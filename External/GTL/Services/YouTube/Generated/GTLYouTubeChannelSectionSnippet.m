@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,9 +26,11 @@
 // Documentation:
 //   https://developers.google.com/youtube/v3
 // Classes:
-//   GTLYouTubeChannelSectionSnippet (0 custom class methods, 5 custom properties)
+//   GTLYouTubeChannelSectionSnippet (0 custom class methods, 7 custom properties)
 
 #import "GTLYouTubeChannelSectionSnippet.h"
+
+#import "GTLYouTubeChannelSectionLocalization.h"
 
 // ----------------------------------------------------------------------------
 //
@@ -36,5 +38,5 @@
 //
 
 @implementation GTLYouTubeChannelSectionSnippet
-@dynamic channelId, position, style, title, type;
+@dynamic channelId, defaultLanguage, localized, position, style, title, type;
 @end

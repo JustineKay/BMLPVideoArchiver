@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,10 +39,16 @@
 GTL_EXTERN NSString * const kGTLAuthScopeGmail;          // "https://mail.google.com/"
 // Manage drafts and send emails
 GTL_EXTERN NSString * const kGTLAuthScopeGmailCompose;   // "https://www.googleapis.com/auth/gmail.compose"
+// Insert mail into your mailbox
+GTL_EXTERN NSString * const kGTLAuthScopeGmailInsert;    // "https://www.googleapis.com/auth/gmail.insert"
+// Manage mailbox labels
+GTL_EXTERN NSString * const kGTLAuthScopeGmailLabels;    // "https://www.googleapis.com/auth/gmail.labels"
 // View and modify but not delete your email
 GTL_EXTERN NSString * const kGTLAuthScopeGmailModify;    // "https://www.googleapis.com/auth/gmail.modify"
 // View your emails messages and settings
 GTL_EXTERN NSString * const kGTLAuthScopeGmailReadonly;  // "https://www.googleapis.com/auth/gmail.readonly"
+// Send email on your behalf
+GTL_EXTERN NSString * const kGTLAuthScopeGmailSend;      // "https://www.googleapis.com/auth/gmail.send"
 
 // GTLGmailLabel - LabelListVisibility
 GTL_EXTERN NSString * const kGTLGmailLabel_LabelListVisibility_LabelHide;  // "labelHide"
@@ -66,3 +72,7 @@ GTL_EXTERN NSString * const kGTLGmailFormatRaw;       // "raw"
 // GTLQueryGmail - InternalDateSource
 GTL_EXTERN NSString * const kGTLGmailInternalDateSourceDateHeader;  // "dateHeader"
 GTL_EXTERN NSString * const kGTLGmailInternalDateSourceReceivedTime;  // "receivedTime"
+
+// GTLQueryGmail - LabelFilterAction
+GTL_EXTERN NSString * const kGTLGmailLabelFilterActionExclude;  // "exclude"
+GTL_EXTERN NSString * const kGTLGmailLabelFilterActionInclude;  // "include"

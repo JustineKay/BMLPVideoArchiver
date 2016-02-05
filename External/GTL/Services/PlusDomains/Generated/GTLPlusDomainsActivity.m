@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,18 +27,20 @@
 //   https://developers.google.com/+/domains/
 // Classes:
 //   GTLPlusDomainsActivity (0 custom class methods, 20 custom properties)
-//   GTLPlusDomainsActivityActor (0 custom class methods, 5 custom properties)
+//   GTLPlusDomainsActivityActor (0 custom class methods, 6 custom properties)
 //   GTLPlusDomainsActivityObject (0 custom class methods, 11 custom properties)
 //   GTLPlusDomainsActivityProvider (0 custom class methods, 1 custom properties)
 //   GTLPlusDomainsActivityActorImage (0 custom class methods, 1 custom properties)
 //   GTLPlusDomainsActivityActorName (0 custom class methods, 2 custom properties)
-//   GTLPlusDomainsActivityObjectActor (0 custom class methods, 4 custom properties)
+//   GTLPlusDomainsActivityActorVerification (0 custom class methods, 1 custom properties)
+//   GTLPlusDomainsActivityObjectActor (0 custom class methods, 5 custom properties)
 //   GTLPlusDomainsActivityObjectAttachmentsItem (0 custom class methods, 10 custom properties)
 //   GTLPlusDomainsActivityObjectPlusoners (0 custom class methods, 2 custom properties)
 //   GTLPlusDomainsActivityObjectReplies (0 custom class methods, 2 custom properties)
 //   GTLPlusDomainsActivityObjectResharers (0 custom class methods, 2 custom properties)
 //   GTLPlusDomainsActivityObjectStatusForViewer (0 custom class methods, 5 custom properties)
 //   GTLPlusDomainsActivityObjectActorImage (0 custom class methods, 1 custom properties)
+//   GTLPlusDomainsActivityObjectActorVerification (0 custom class methods, 1 custom properties)
 //   GTLPlusDomainsActivityObjectAttachmentsItemEmbed (0 custom class methods, 2 custom properties)
 //   GTLPlusDomainsActivityObjectAttachmentsItemFullImage (0 custom class methods, 4 custom properties)
 //   GTLPlusDomainsActivityObjectAttachmentsItemImage (0 custom class methods, 4 custom properties)
@@ -62,11 +64,10 @@
          published, radius, title, updated, url, verb;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObjectsAndKeys:
-      @"etag", @"ETag",
-      @"id", @"identifier",
-      nil];
+  NSDictionary *map = @{
+    @"ETag" : @"etag",
+    @"identifier" : @"id"
+  };
   return map;
 }
 
@@ -83,12 +84,12 @@
 //
 
 @implementation GTLPlusDomainsActivityActor
-@dynamic displayName, identifier, image, name, url;
+@dynamic displayName, identifier, image, name, url, verification;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"id"
-                                forKey:@"identifier"];
+  NSDictionary *map = @{
+    @"identifier" : @"id"
+  };
   return map;
 }
 
@@ -105,16 +106,16 @@
          plusoners, replies, resharers, statusForViewer, url;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"id"
-                                forKey:@"identifier"];
+  NSDictionary *map = @{
+    @"identifier" : @"id"
+  };
   return map;
 }
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:[GTLPlusDomainsActivityObjectAttachmentsItem class]
-                                forKey:@"attachments"];
+  NSDictionary *map = @{
+    @"attachments" : [GTLPlusDomainsActivityObjectAttachmentsItem class]
+  };
   return map;
 }
 
@@ -153,16 +154,26 @@
 
 // ----------------------------------------------------------------------------
 //
+//   GTLPlusDomainsActivityActorVerification
+//
+
+@implementation GTLPlusDomainsActivityActorVerification
+@dynamic adHocVerified;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLPlusDomainsActivityObjectActor
 //
 
 @implementation GTLPlusDomainsActivityObjectActor
-@dynamic displayName, identifier, image, url;
+@dynamic displayName, identifier, image, url, verification;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"id"
-                                forKey:@"identifier"];
+  NSDictionary *map = @{
+    @"identifier" : @"id"
+  };
   return map;
 }
 
@@ -179,18 +190,17 @@
          previewThumbnails, thumbnails, url;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"id"
-                                forKey:@"identifier"];
+  NSDictionary *map = @{
+    @"identifier" : @"id"
+  };
   return map;
 }
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObjectsAndKeys:
-      [GTLPlusDomainsActivityObjectAttachmentsItemPreviewThumbnailsItem class], @"previewThumbnails",
-      [GTLPlusDomainsActivityObjectAttachmentsItemThumbnailsItem class], @"thumbnails",
-      nil];
+  NSDictionary *map = @{
+    @"previewThumbnails" : [GTLPlusDomainsActivityObjectAttachmentsItemPreviewThumbnailsItem class],
+    @"thumbnails" : [GTLPlusDomainsActivityObjectAttachmentsItemThumbnailsItem class]
+  };
   return map;
 }
 
@@ -249,6 +259,16 @@
 
 // ----------------------------------------------------------------------------
 //
+//   GTLPlusDomainsActivityObjectActorVerification
+//
+
+@implementation GTLPlusDomainsActivityObjectActorVerification
+@dynamic adHocVerified;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLPlusDomainsActivityObjectAttachmentsItemEmbed
 //
 
@@ -296,9 +316,9 @@
 @dynamic descriptionProperty, image, url;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"description"
-                                forKey:@"descriptionProperty"];
+  NSDictionary *map = @{
+    @"descriptionProperty" : @"description"
+  };
   return map;
 }
 

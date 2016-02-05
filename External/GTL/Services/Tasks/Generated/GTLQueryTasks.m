@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,18 +41,17 @@
          pageToken, parent, previous, showCompleted, showDeleted, showHidden,
          task, tasklist, updatedMin;
 
-#pragma mark -
-#pragma mark "tasklists" methods
+#pragma mark - "tasklists" methods
 // These create a GTLQueryTasks object.
 
-+ (id)queryForTasklistsDeleteWithTasklist:(NSString *)tasklist {
++ (instancetype)queryForTasklistsDeleteWithTasklist:(NSString *)tasklist {
   NSString *methodName = @"tasks.tasklists.delete";
   GTLQueryTasks *query = [self queryWithMethodName:methodName];
   query.tasklist = tasklist;
   return query;
 }
 
-+ (id)queryForTasklistsGetWithTasklist:(NSString *)tasklist {
++ (instancetype)queryForTasklistsGetWithTasklist:(NSString *)tasklist {
   NSString *methodName = @"tasks.tasklists.get";
   GTLQueryTasks *query = [self queryWithMethodName:methodName];
   query.tasklist = tasklist;
@@ -60,7 +59,7 @@
   return query;
 }
 
-+ (id)queryForTasklistsInsertWithObject:(GTLTasksTaskList *)object {
++ (instancetype)queryForTasklistsInsertWithObject:(GTLTasksTaskList *)object {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -72,15 +71,15 @@
   return query;
 }
 
-+ (id)queryForTasklistsList {
++ (instancetype)queryForTasklistsList {
   NSString *methodName = @"tasks.tasklists.list";
   GTLQueryTasks *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLTasksTaskLists class];
   return query;
 }
 
-+ (id)queryForTasklistsPatchWithObject:(GTLTasksTaskList *)object
-                              tasklist:(NSString *)tasklist {
++ (instancetype)queryForTasklistsPatchWithObject:(GTLTasksTaskList *)object
+                                        tasklist:(NSString *)tasklist {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -93,8 +92,8 @@
   return query;
 }
 
-+ (id)queryForTasklistsUpdateWithObject:(GTLTasksTaskList *)object
-                               tasklist:(NSString *)tasklist {
++ (instancetype)queryForTasklistsUpdateWithObject:(GTLTasksTaskList *)object
+                                         tasklist:(NSString *)tasklist {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -107,19 +106,18 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "tasks" methods
+#pragma mark - "tasks" methods
 // These create a GTLQueryTasks object.
 
-+ (id)queryForTasksClearWithTasklist:(NSString *)tasklist {
++ (instancetype)queryForTasksClearWithTasklist:(NSString *)tasklist {
   NSString *methodName = @"tasks.tasks.clear";
   GTLQueryTasks *query = [self queryWithMethodName:methodName];
   query.tasklist = tasklist;
   return query;
 }
 
-+ (id)queryForTasksDeleteWithTasklist:(NSString *)tasklist
-                                 task:(NSString *)task {
++ (instancetype)queryForTasksDeleteWithTasklist:(NSString *)tasklist
+                                           task:(NSString *)task {
   NSString *methodName = @"tasks.tasks.delete";
   GTLQueryTasks *query = [self queryWithMethodName:methodName];
   query.tasklist = tasklist;
@@ -127,8 +125,8 @@
   return query;
 }
 
-+ (id)queryForTasksGetWithTasklist:(NSString *)tasklist
-                              task:(NSString *)task {
++ (instancetype)queryForTasksGetWithTasklist:(NSString *)tasklist
+                                        task:(NSString *)task {
   NSString *methodName = @"tasks.tasks.get";
   GTLQueryTasks *query = [self queryWithMethodName:methodName];
   query.tasklist = tasklist;
@@ -137,8 +135,8 @@
   return query;
 }
 
-+ (id)queryForTasksInsertWithObject:(GTLTasksTask *)object
-                           tasklist:(NSString *)tasklist {
++ (instancetype)queryForTasksInsertWithObject:(GTLTasksTask *)object
+                                     tasklist:(NSString *)tasklist {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -151,7 +149,7 @@
   return query;
 }
 
-+ (id)queryForTasksListWithTasklist:(NSString *)tasklist {
++ (instancetype)queryForTasksListWithTasklist:(NSString *)tasklist {
   NSString *methodName = @"tasks.tasks.list";
   GTLQueryTasks *query = [self queryWithMethodName:methodName];
   query.tasklist = tasklist;
@@ -159,8 +157,8 @@
   return query;
 }
 
-+ (id)queryForTasksMoveWithTasklist:(NSString *)tasklist
-                               task:(NSString *)task {
++ (instancetype)queryForTasksMoveWithTasklist:(NSString *)tasklist
+                                         task:(NSString *)task {
   NSString *methodName = @"tasks.tasks.move";
   GTLQueryTasks *query = [self queryWithMethodName:methodName];
   query.tasklist = tasklist;
@@ -169,9 +167,9 @@
   return query;
 }
 
-+ (id)queryForTasksPatchWithObject:(GTLTasksTask *)object
-                          tasklist:(NSString *)tasklist
-                              task:(NSString *)task {
++ (instancetype)queryForTasksPatchWithObject:(GTLTasksTask *)object
+                                    tasklist:(NSString *)tasklist
+                                        task:(NSString *)task {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -185,9 +183,9 @@
   return query;
 }
 
-+ (id)queryForTasksUpdateWithObject:(GTLTasksTask *)object
-                           tasklist:(NSString *)tasklist
-                               task:(NSString *)task {
++ (instancetype)queryForTasksUpdateWithObject:(GTLTasksTask *)object
+                                     tasklist:(NSString *)tasklist
+                                         task:(NSString *)task {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;

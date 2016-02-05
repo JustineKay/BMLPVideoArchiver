@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/youtube/v3
 // Classes:
-//   GTLYouTubeChannelSectionSnippet (0 custom class methods, 5 custom properties)
+//   GTLYouTubeChannelSectionSnippet (0 custom class methods, 7 custom properties)
 
 #if GTL_BUILT_AS_FRAMEWORK
   #import "GTL/GTLObject.h"
@@ -34,29 +34,37 @@
   #import "GTLObject.h"
 #endif
 
+@class GTLYouTubeChannelSectionLocalization;
+
 // ----------------------------------------------------------------------------
 //
 //   GTLYouTubeChannelSectionSnippet
 //
 
-// Basic details about a channelsection, including title, style and position.
+// Basic details about a channel section, including title, style and position.
 
 @interface GTLYouTubeChannelSectionSnippet : GTLObject
 
 // The ID that YouTube uses to uniquely identify the channel that published the
-// channelSection.
-@property (copy) NSString *channelId;
+// channel section.
+@property (nonatomic, copy) NSString *channelId;
 
-// The position of the channelSection in the channel.
-@property (retain) NSNumber *position;  // unsignedIntValue
+// The language of the channel section's default title and description.
+@property (nonatomic, copy) NSString *defaultLanguage;
 
-// The style of the channelSection.
-@property (copy) NSString *style;
+// Localized title, read-only.
+@property (nonatomic, retain) GTLYouTubeChannelSectionLocalization *localized;
 
-// The channelSection's title for multiple_playlists and multiple_channels.
-@property (copy) NSString *title;
+// The position of the channel section in the channel.
+@property (nonatomic, retain) NSNumber *position;  // unsignedIntValue
 
-// The type of the channelSection.
-@property (copy) NSString *type;
+// The style of the channel section.
+@property (nonatomic, copy) NSString *style;
+
+// The channel section's title for multiple_playlists and multiple_channels.
+@property (nonatomic, copy) NSString *title;
+
+// The type of the channel section.
+@property (nonatomic, copy) NSString *type;
 
 @end

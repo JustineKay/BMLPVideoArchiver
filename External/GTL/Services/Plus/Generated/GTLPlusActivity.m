@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,17 +27,19 @@
 //   https://developers.google.com/+/api/
 // Classes:
 //   GTLPlusActivity (0 custom class methods, 20 custom properties)
-//   GTLPlusActivityActor (0 custom class methods, 5 custom properties)
+//   GTLPlusActivityActor (0 custom class methods, 6 custom properties)
 //   GTLPlusActivityObject (0 custom class methods, 10 custom properties)
 //   GTLPlusActivityProvider (0 custom class methods, 1 custom properties)
 //   GTLPlusActivityActorImage (0 custom class methods, 1 custom properties)
 //   GTLPlusActivityActorName (0 custom class methods, 2 custom properties)
-//   GTLPlusActivityObjectActor (0 custom class methods, 4 custom properties)
+//   GTLPlusActivityActorVerification (0 custom class methods, 1 custom properties)
+//   GTLPlusActivityObjectActor (0 custom class methods, 5 custom properties)
 //   GTLPlusActivityObjectAttachmentsItem (0 custom class methods, 9 custom properties)
 //   GTLPlusActivityObjectPlusoners (0 custom class methods, 2 custom properties)
 //   GTLPlusActivityObjectReplies (0 custom class methods, 2 custom properties)
 //   GTLPlusActivityObjectResharers (0 custom class methods, 2 custom properties)
 //   GTLPlusActivityObjectActorImage (0 custom class methods, 1 custom properties)
+//   GTLPlusActivityObjectActorVerification (0 custom class methods, 1 custom properties)
 //   GTLPlusActivityObjectAttachmentsItemEmbed (0 custom class methods, 2 custom properties)
 //   GTLPlusActivityObjectAttachmentsItemFullImage (0 custom class methods, 4 custom properties)
 //   GTLPlusActivityObjectAttachmentsItemImage (0 custom class methods, 4 custom properties)
@@ -60,11 +62,10 @@
          published, radius, title, updated, url, verb;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObjectsAndKeys:
-      @"etag", @"ETag",
-      @"id", @"identifier",
-      nil];
+  NSDictionary *map = @{
+    @"ETag" : @"etag",
+    @"identifier" : @"id"
+  };
   return map;
 }
 
@@ -81,12 +82,12 @@
 //
 
 @implementation GTLPlusActivityActor
-@dynamic displayName, identifier, image, name, url;
+@dynamic displayName, identifier, image, name, url, verification;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"id"
-                                forKey:@"identifier"];
+  NSDictionary *map = @{
+    @"identifier" : @"id"
+  };
   return map;
 }
 
@@ -103,16 +104,16 @@
          plusoners, replies, resharers, url;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"id"
-                                forKey:@"identifier"];
+  NSDictionary *map = @{
+    @"identifier" : @"id"
+  };
   return map;
 }
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:[GTLPlusActivityObjectAttachmentsItem class]
-                                forKey:@"attachments"];
+  NSDictionary *map = @{
+    @"attachments" : [GTLPlusActivityObjectAttachmentsItem class]
+  };
   return map;
 }
 
@@ -151,16 +152,26 @@
 
 // ----------------------------------------------------------------------------
 //
+//   GTLPlusActivityActorVerification
+//
+
+@implementation GTLPlusActivityActorVerification
+@dynamic adHocVerified;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLPlusActivityObjectActor
 //
 
 @implementation GTLPlusActivityObjectActor
-@dynamic displayName, identifier, image, url;
+@dynamic displayName, identifier, image, url, verification;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"id"
-                                forKey:@"identifier"];
+  NSDictionary *map = @{
+    @"identifier" : @"id"
+  };
   return map;
 }
 
@@ -177,16 +188,16 @@
          thumbnails, url;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"id"
-                                forKey:@"identifier"];
+  NSDictionary *map = @{
+    @"identifier" : @"id"
+  };
   return map;
 }
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:[GTLPlusActivityObjectAttachmentsItemThumbnailsItem class]
-                                forKey:@"thumbnails"];
+  NSDictionary *map = @{
+    @"thumbnails" : [GTLPlusActivityObjectAttachmentsItemThumbnailsItem class]
+  };
   return map;
 }
 
@@ -235,6 +246,16 @@
 
 // ----------------------------------------------------------------------------
 //
+//   GTLPlusActivityObjectActorVerification
+//
+
+@implementation GTLPlusActivityObjectActorVerification
+@dynamic adHocVerified;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLPlusActivityObjectAttachmentsItemEmbed
 //
 
@@ -272,9 +293,9 @@
 @dynamic descriptionProperty, image, url;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"description"
-                                forKey:@"descriptionProperty"];
+  NSDictionary *map = @{
+    @"descriptionProperty" : @"description"
+  };
   return map;
 }
 

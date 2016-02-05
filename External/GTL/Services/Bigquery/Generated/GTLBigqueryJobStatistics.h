@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,9 +24,9 @@
 // Description:
 //   A data platform for customers to create, manage, share and query data.
 // Documentation:
-//   https://developers.google.com/bigquery/docs/overview
+//   https://cloud.google.com/bigquery/
 // Classes:
-//   GTLBigqueryJobStatistics (0 custom class methods, 6 custom properties)
+//   GTLBigqueryJobStatistics (0 custom class methods, 7 custom properties)
 
 #if GTL_BUILT_AS_FRAMEWORK
   #import "GTL/GTLObject.h"
@@ -36,6 +36,7 @@
 
 @class GTLBigqueryJobStatistics2;
 @class GTLBigqueryJobStatistics3;
+@class GTLBigqueryJobStatistics4;
 
 // ----------------------------------------------------------------------------
 //
@@ -46,25 +47,28 @@
 
 // [Output-only] Creation time of this job, in milliseconds since the epoch.
 // This field will be present on all jobs.
-@property (retain) NSNumber *creationTime;  // longLongValue
+@property (nonatomic, retain) NSNumber *creationTime;  // longLongValue
 
 // [Output-only] End time of this job, in milliseconds since the epoch. This
 // field will be present whenever a job is in the DONE state.
-@property (retain) NSNumber *endTime;  // longLongValue
+@property (nonatomic, retain) NSNumber *endTime;  // longLongValue
+
+// [Output-only] Statistics for an extract job.
+@property (nonatomic, retain) GTLBigqueryJobStatistics4 *extract;
 
 // [Output-only] Statistics for a load job.
-@property (retain) GTLBigqueryJobStatistics3 *load;
+@property (nonatomic, retain) GTLBigqueryJobStatistics3 *load;
 
 // [Output-only] Statistics for a query job.
-@property (retain) GTLBigqueryJobStatistics2 *query;
+@property (nonatomic, retain) GTLBigqueryJobStatistics2 *query;
 
 // [Output-only] Start time of this job, in milliseconds since the epoch. This
 // field will be present when the job transitions from the PENDING state to
 // either RUNNING or DONE.
-@property (retain) NSNumber *startTime;  // longLongValue
+@property (nonatomic, retain) NSNumber *startTime;  // longLongValue
 
 // [Output-only] [Deprecated] Use the bytes processed in the query statistics
 // instead.
-@property (retain) NSNumber *totalBytesProcessed;  // longLongValue
+@property (nonatomic, retain) NSNumber *totalBytesProcessed;  // longLongValue
 
 @end

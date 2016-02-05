@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@
 // Description:
 //   A data platform for customers to create, manage, share and query data.
 // Documentation:
-//   https://developers.google.com/bigquery/docs/overview
+//   https://cloud.google.com/bigquery/
 // Classes:
 //   GTLBigqueryTableCell (0 custom class methods, 1 custom properties)
 
@@ -39,10 +39,6 @@
 //   GTLBigqueryTableCell
 //
 
-// Represents a single cell in the result set. Users of the java client can
-// detect whether their value result is null by calling
-// 'com.google.api.client.util.Data.isNull(cell.getV())'.
-
 @interface GTLBigqueryTableCell : GTLObject
-@property (retain) id v;
+@property (nonatomic, retain) id v;
 @end

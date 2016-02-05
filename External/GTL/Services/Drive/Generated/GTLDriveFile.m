@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/drive/
 // Classes:
-//   GTLDriveFile (0 custom class methods, 50 custom properties)
+//   GTLDriveFile (0 custom class methods, 55 custom properties)
 //   GTLDriveFileExportLinks (0 custom class methods, 0 custom properties)
 //   GTLDriveFileImageMediaMetadata (0 custom class methods, 21 custom properties)
 //   GTLDriveFileIndexableText (0 custom class methods, 1 custom properties)
@@ -49,37 +49,37 @@
 //
 
 @implementation GTLDriveFile
-@dynamic alternateLink, appDataContents, copyable, createdDate,
+@dynamic alternateLink, appDataContents, canComment, copyable, createdDate,
          defaultOpenWithLink, descriptionProperty, downloadUrl, editable,
          embedLink, ETag, explicitlyTrashed, exportLinks, fileExtension,
-         fileSize, headRevisionId, iconLink, identifier, imageMediaMetadata,
-         indexableText, kind, labels, lastModifyingUser, lastModifyingUserName,
-         lastViewedByMeDate, markedViewedByMeDate, md5Checksum, mimeType,
-         modifiedByMeDate, modifiedDate, openWithLinks, originalFilename,
-         ownerNames, owners, parents, permissions, properties, quotaBytesUsed,
-         selfLink, shared, sharedWithMeDate, sharingUser, thumbnail,
-         thumbnailLink, title, userPermission, version, videoMediaMetadata,
-         webContentLink, webViewLink, writersCanShare;
+         fileSize, folderColorRgb, headRevisionId, iconLink, identifier,
+         imageMediaMetadata, indexableText, kind, labels, lastModifyingUser,
+         lastModifyingUserName, lastViewedByMeDate, markedViewedByMeDate,
+         md5Checksum, mimeType, modifiedByMeDate, modifiedDate, openWithLinks,
+         originalFilename, ownedByMe, ownerNames, owners, parents, permissions,
+         properties, quotaBytesUsed, selfLink, shareable, shared,
+         sharedWithMeDate, sharingUser, spaces, thumbnail, thumbnailLink, title,
+         userPermission, version, videoMediaMetadata, webContentLink,
+         webViewLink, writersCanShare;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObjectsAndKeys:
-      @"description", @"descriptionProperty",
-      @"etag", @"ETag",
-      @"id", @"identifier",
-      nil];
+  NSDictionary *map = @{
+    @"descriptionProperty" : @"description",
+    @"ETag" : @"etag",
+    @"identifier" : @"id"
+  };
   return map;
 }
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObjectsAndKeys:
-      [NSString class], @"ownerNames",
-      [GTLDriveUser class], @"owners",
-      [GTLDriveParentReference class], @"parents",
-      [GTLDrivePermission class], @"permissions",
-      [GTLDriveProperty class], @"properties",
-      nil];
+  NSDictionary *map = @{
+    @"ownerNames" : [NSString class],
+    @"owners" : [GTLDriveUser class],
+    @"parents" : [GTLDriveParentReference class],
+    @"permissions" : [GTLDrivePermission class],
+    @"properties" : [GTLDriveProperty class],
+    @"spaces" : [NSString class]
+  };
   return map;
 }
 

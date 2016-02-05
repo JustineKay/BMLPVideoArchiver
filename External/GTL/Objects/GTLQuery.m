@@ -45,13 +45,14 @@
             additionalHTTPHeaders = additionalHTTPHeaders_,
             expectedObjectClass = expectedObjectClass_,
             shouldSkipAuthorization = skipAuthorization_,
-            completionBlock = completionBlock_;
+            completionBlock = completionBlock_,
+            testBlock = testBlock_;
 
-+ (id)queryWithMethodName:(NSString *)methodName {
++ (instancetype)queryWithMethodName:(NSString *)methodName {
   return [[[self alloc] initWithMethodName:methodName] autorelease];
 }
 
-- (id)initWithMethodName:(NSString *)methodName {
+- (instancetype)initWithMethodName:(NSString *)methodName {
   self = [super init];
   if (self) {
     requestID_ = [[[self class] nextRequestID] retain];
@@ -75,6 +76,7 @@
   [urlQueryParameters_ release];
   [additionalHTTPHeaders_ release];
   [completionBlock_ release];
+  [testBlock_ release];
 
   [super dealloc];
 }
@@ -98,6 +100,7 @@
   query.expectedObjectClass = self.expectedObjectClass;
   query.shouldSkipAuthorization = self.shouldSkipAuthorization;
   query.completionBlock = self.completionBlock;
+  query.testBlock = self.testBlock;
   return query;
 }
 
@@ -145,6 +148,7 @@
 
 - (void)executionDidStop {
   self.completionBlock = nil;
+  self.testBlock = nil;
 }
 
 + (NSString *)nextRequestID {
@@ -211,10 +215,10 @@ static NSMutableDictionary *gQueryArrayPropertyToClassMapCache = nil;
   // note that initialize is guaranteed by the runtime to be called in a
   // thread-safe manner
   if (gQueryParameterNameMapCache == nil) {
-    gQueryParameterNameMapCache = [GTLUtilities newStaticDictionary];
+    gQueryParameterNameMapCache = [[NSMutableDictionary alloc] init];
   }
   if (gQueryArrayPropertyToClassMapCache == nil) {
-    gQueryArrayPropertyToClassMapCache = [GTLUtilities newStaticDictionary];
+    gQueryArrayPropertyToClassMapCache = [[NSMutableDictionary alloc] init];
   }
 }
 

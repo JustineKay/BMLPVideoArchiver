@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/youtube/v3
 // Classes:
-//   GTLYouTubeVideoGetRatingResponse (0 custom class methods, 3 custom properties)
+//   GTLYouTubeVideoGetRatingResponse (0 custom class methods, 5 custom properties)
 
 #import "GTLYouTubeVideoGetRatingResponse.h"
 
@@ -38,19 +38,19 @@
 //
 
 @implementation GTLYouTubeVideoGetRatingResponse
-@dynamic ETag, items, kind;
+@dynamic ETag, eventId, items, kind, visitorId;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"etag"
-                                forKey:@"ETag"];
+  NSDictionary *map = @{
+    @"ETag" : @"etag"
+  };
   return map;
 }
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:[GTLYouTubeVideoRating class]
-                                forKey:@"items"];
+  NSDictionary *map = @{
+    @"items" : [GTLYouTubeVideoRating class]
+  };
   return map;
 }
 

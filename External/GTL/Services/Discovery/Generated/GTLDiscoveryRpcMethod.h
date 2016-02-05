@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@
 // Documentation:
 //   https://developers.google.com/discovery/
 // Classes:
-//   GTLDiscoveryRpcMethod (0 custom class methods, 13 custom properties)
+//   GTLDiscoveryRpcMethod (0 custom class methods, 14 custom properties)
 //   GTLDiscoveryRpcMethodMediaUpload (0 custom class methods, 2 custom properties)
 //   GTLDiscoveryRpcMethodParameters (0 custom class methods, 0 custom properties)
 //   GTLDiscoveryRpcMethodReturns (0 custom class methods, 1 custom properties)
@@ -51,48 +51,52 @@
 @interface GTLDiscoveryRpcMethod : GTLObject
 
 // Whether the method can be made using an HTTP GET JSON-RPC request.
-@property (retain) NSNumber *allowGet;  // boolValue
+@property (nonatomic, retain) NSNumber *allowGet;  // boolValue
 
 // Description of this method.
 // Remapped to 'descriptionProperty' to avoid NSObject's 'description'.
-@property (copy) NSString *descriptionProperty;
+@property (nonatomic, copy) NSString *descriptionProperty;
 
 // Does this method require sending the ETag along with the request.
-@property (retain) NSNumber *etagRequired;  // boolValue
+@property (nonatomic, retain) NSNumber *etagRequired;  // boolValue
 
 // A unique ID for this method. This property can be used to match methods
 // between different versions of Discovery.
 // identifier property maps to 'id' in JSON (to avoid Objective C's 'id').
-@property (copy) NSString *identifier;
+@property (nonatomic, copy) NSString *identifier;
 
 // Media upload parameters.
-@property (retain) GTLDiscoveryRpcMethodMediaUpload *mediaUpload;
+@property (nonatomic, retain) GTLDiscoveryRpcMethodMediaUpload *mediaUpload;
 
 // Ordered list of required parameters, serves as a hint to clients on how to
 // structure their method signatures. The array is ordered such that the
 // "most-significant" parameter appears first.
-@property (retain) NSArray *parameterOrder;  // of NSString
+@property (nonatomic, retain) NSArray *parameterOrder;  // of NSString
 
 // Description for all parameters in this method.
-@property (retain) GTLDiscoveryRpcMethodParameters *parameters;
+@property (nonatomic, retain) GTLDiscoveryRpcMethodParameters *parameters;
 
 // The schema for the response.
-@property (retain) GTLDiscoveryRpcMethodReturns *returns;
+@property (nonatomic, retain) GTLDiscoveryRpcMethodReturns *returns;
 
 // OAuth 2.0 scopes applicable to this method.
-@property (retain) NSArray *scopes;  // of NSString
+@property (nonatomic, retain) NSArray *scopes;  // of NSString
 
 // Whether this method supports media download.
-@property (retain) NSNumber *supportsMediaDownload;  // boolValue
+@property (nonatomic, retain) NSNumber *supportsMediaDownload;  // boolValue
 
 // Whether this method supports media upload.
-@property (retain) NSNumber *supportsMediaUpload;  // boolValue
+@property (nonatomic, retain) NSNumber *supportsMediaUpload;  // boolValue
 
 // Whether this method supports patch semantics.
-@property (retain) NSNumber *supportsPatch;  // boolValue
+@property (nonatomic, retain) NSNumber *supportsPatch;  // boolValue
 
 // Whether this method supports subscriptions.
-@property (retain) NSNumber *supportsSubscription;  // boolValue
+@property (nonatomic, retain) NSNumber *supportsSubscription;  // boolValue
+
+// Indicates that downloads from this method should use the download service URL
+// (i.e. "/download"). Only applies if the method supports media download.
+@property (nonatomic, retain) NSNumber *useMediaDownloadService;  // boolValue
 
 @end
 
@@ -105,10 +109,10 @@
 @interface GTLDiscoveryRpcMethodMediaUpload : GTLObject
 
 // MIME Media Ranges for acceptable media uploads to this method.
-@property (retain) NSArray *accept;  // of NSString
+@property (nonatomic, retain) NSArray *accept;  // of NSString
 
 // Maximum size of a media upload, such as "1MB", "2GB" or "3TB".
-@property (copy) NSString *maxSize;
+@property (nonatomic, copy) NSString *maxSize;
 
 @end
 
@@ -134,6 +138,6 @@
 @interface GTLDiscoveryRpcMethodReturns : GTLObject
 
 // Schema ID for the response schema.
-@property (copy) NSString *xRef;
+@property (nonatomic, copy) NSString *xRef;
 
 @end

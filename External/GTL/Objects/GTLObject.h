@@ -26,19 +26,19 @@
 #import "GTLUtilities.h"
 #import "GTLDateTime.h"
 
+@class GTLObject;
+
 @protocol GTLCollectionProtocol
 @optional
-@property (retain) NSArray *items;
+@property (retain) GTL_NSArrayOf(GTLObject *) *items;
 @end
 
 @protocol GTLBatchItemCreationProtocol
 - (void)createItemsWithClassMap:(NSDictionary *)batchClassMap;
 @end
 
-@interface GTLObject : NSObject <NSCopying> {
-
+@interface GTLObject : NSObject <NSCopying, NSSecureCoding> {
  @private
-
   NSMutableDictionary *json_;
 
   // Used when creating the subobjects from this one.
@@ -54,9 +54,9 @@
   NSMutableDictionary *userProperties_;
 }
 
-@property (nonatomic, retain) NSMutableDictionary *JSON;
-@property (nonatomic, retain) NSDictionary *surrogates;
-@property (nonatomic, retain) NSMutableDictionary *userProperties;
+@property (nonatomic, retain) GTL_NSMutableDictionaryOf(id, id) *JSON;
+@property (nonatomic, retain) GTL_NSDictionaryOf(Class, Class) *surrogates;
+@property (nonatomic, retain) GTL_NSMutableDictionaryOf(NSString *, id) *userProperties;
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -65,8 +65,8 @@
 // These methods are intended for users of the library
 //
 
-+ (id)object;
-+ (id)objectWithJSON:(NSMutableDictionary *)dict;
++ (instancetype)object;
++ (instancetype)objectWithJSON:(NSMutableDictionary *)dict;
 
 - (id)copyWithZone:(NSZone *)zone;
 
@@ -78,13 +78,13 @@
 
 // Returns the list of keys in this object's JSON that aren't listed as
 // properties on the object.
-- (NSArray *)additionalJSONKeys;
+- (GTL_NSArrayOf(NSString *) *)additionalJSONKeys;
 
 // Any keys in the JSON that aren't listed as @properties on the object
 // are counted as "additional properties".  These allow you to get/set them.
 - (id)additionalPropertyForName:(NSString *)name;
 - (void)setAdditionalProperty:(id)obj forName:(NSString *)name GTL_NONNULL((2));
-- (NSDictionary *)additionalProperties;
+- (GTL_NSDictionaryOf(NSString *, id) *)additionalProperties;
 
 // User properties are supported for client convenience, but are not copied by
 // copyWithZone.  User Properties keys beginning with _ are reserved by the library.
@@ -186,7 +186,7 @@
 @end
 
 @interface GTLCollectionObject (DynamicMethods)
-- (NSArray *)items;
+- (GTL_NSArrayOf(GTLObject *) *)items;
 @end
 
 // Base object use for when an service method directly returns an array instead

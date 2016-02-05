@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,8 @@
 // Documentation:
 //   https://developers.google.com/youtube/v3
 // Classes:
-//   GTLYouTubePlaylist (0 custom class methods, 7 custom properties)
+//   GTLYouTubePlaylist (0 custom class methods, 8 custom properties)
+//   GTLYouTubePlaylistLocalizations (0 custom class methods, 0 custom properties)
 
 #if GTL_BUILT_AS_FRAMEWORK
   #import "GTL/GTLObject.h"
@@ -35,6 +36,8 @@
 #endif
 
 @class GTLYouTubePlaylistContentDetails;
+@class GTLYouTubePlaylistLocalization;
+@class GTLYouTubePlaylistLocalizations;
 @class GTLYouTubePlaylistPlayer;
 @class GTLYouTubePlaylistSnippet;
 @class GTLYouTubePlaylistStatus;
@@ -66,28 +69,44 @@
 @interface GTLYouTubePlaylist : GTLObject
 
 // The contentDetails object contains information like video count.
-@property (retain) GTLYouTubePlaylistContentDetails *contentDetails;
+@property (nonatomic, retain) GTLYouTubePlaylistContentDetails *contentDetails;
 
 // Etag of this resource.
-@property (copy) NSString *ETag;
+@property (nonatomic, copy) NSString *ETag;
 
 // The ID that YouTube uses to uniquely identify the playlist.
 // identifier property maps to 'id' in JSON (to avoid Objective C's 'id').
-@property (copy) NSString *identifier;
+@property (nonatomic, copy) NSString *identifier;
 
 // Identifies what kind of resource this is. Value: the fixed string
 // "youtube#playlist".
-@property (copy) NSString *kind;
+@property (nonatomic, copy) NSString *kind;
+
+// Localizations for different languages
+@property (nonatomic, retain) GTLYouTubePlaylistLocalizations *localizations;
 
 // The player object contains information that you would use to play the
 // playlist in an embedded player.
-@property (retain) GTLYouTubePlaylistPlayer *player;
+@property (nonatomic, retain) GTLYouTubePlaylistPlayer *player;
 
 // The snippet object contains basic details about the playlist, such as its
 // title and description.
-@property (retain) GTLYouTubePlaylistSnippet *snippet;
+@property (nonatomic, retain) GTLYouTubePlaylistSnippet *snippet;
 
 // The status object contains status information for the playlist.
-@property (retain) GTLYouTubePlaylistStatus *status;
+@property (nonatomic, retain) GTLYouTubePlaylistStatus *status;
 
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLYouTubePlaylistLocalizations
+//
+
+@interface GTLYouTubePlaylistLocalizations : GTLObject
+// This object is documented as having more properties that are
+// GTLYouTubePlaylistLocalization. Use -additionalJSONKeys and
+// -additionalPropertyForName: to get the list of properties and then fetch
+// them; or -additionalProperties to fetch them all at once.
 @end

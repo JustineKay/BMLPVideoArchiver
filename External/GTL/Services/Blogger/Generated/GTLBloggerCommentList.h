@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/blogger/docs/3.0/getting_started
 // Classes:
-//   GTLBloggerCommentList (0 custom class methods, 4 custom properties)
+//   GTLBloggerCommentList (0 custom class methods, 5 custom properties)
 
 #if GTL_BUILT_AS_FRAMEWORK
   #import "GTL/GTLObject.h"
@@ -46,16 +46,19 @@
 
 @interface GTLBloggerCommentList : GTLCollectionObject
 
+// Etag of the response.
+@property (nonatomic, copy) NSString *ETag;
+
 // The List of Comments for a Post.
-@property (retain) NSArray *items;  // of GTLBloggerComment
+@property (nonatomic, retain) NSArray *items;  // of GTLBloggerComment
 
 // The kind of this entry. Always blogger#commentList
-@property (copy) NSString *kind;
+@property (nonatomic, copy) NSString *kind;
 
 // Pagination token to fetch the next page, if one exists.
-@property (copy) NSString *nextPageToken;
+@property (nonatomic, copy) NSString *nextPageToken;
 
 // Pagination token to fetch the previous page, if one exists.
-@property (copy) NSString *prevPageToken;
+@property (nonatomic, copy) NSString *prevPageToken;
 
 @end

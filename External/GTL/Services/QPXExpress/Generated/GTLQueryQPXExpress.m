@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,11 +38,10 @@
 
 @dynamic fields, request;
 
-#pragma mark -
-#pragma mark "trips" methods
+#pragma mark - "trips" methods
 // These create a GTLQueryQPXExpress object.
 
-+ (id)queryForTripsSearch {
++ (instancetype)queryForTripsSearch {
   NSString *methodName = @"qpxExpress.trips.search";
   GTLQueryQPXExpress *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLQPXExpressTripsSearchResponse class];

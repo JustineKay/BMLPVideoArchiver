@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/analytics/
 // Classes:
-//   GTLAnalyticsFilterExpression (0 custom class methods, 5 custom properties)
+//   GTLAnalyticsFilterExpression (0 custom class methods, 6 custom properties)
 
 #if GTL_BUILT_AS_FRAMEWORK
   #import "GTL/GTLObject.h"
@@ -44,14 +44,12 @@
 @interface GTLAnalyticsFilterExpression : GTLObject
 
 // Determines if the filter is case sensitive.
-@property (retain) NSNumber *caseSensitive;  // boolValue
+@property (nonatomic, retain) NSNumber *caseSensitive;  // boolValue
 
 // Filter expression value
-@property (copy) NSString *expressionValue;
+@property (nonatomic, copy) NSString *expressionValue;
 
 // Field to filter. Possible values:
-// - Reserved
-// - UNUSED,
 // - Content and Traffic
 // - PAGE_REQUEST_URI,
 // - PAGE_HOSTNAME,
@@ -91,7 +89,7 @@
 // - LANGUAGE,
 // - SCREEN_RESOLUTION,
 // - SCREEN_COLORS,
-// - JAVA_ENABLED,
+// - JAVA_ENABLED (Boolean Field),
 // - FLASH_VERSION,
 // - GEO_SPEED (Connection speed),
 // - VISITOR_TYPE,
@@ -117,16 +115,17 @@
 // - APP_NAME,
 // - APP_VERSION,
 // - SCREEN,
-// - IS_APP,
-// - IS_FATAL_EXCEPTION,
+// - IS_APP (Boolean Field),
+// - IS_FATAL_EXCEPTION (Boolean Field),
 // - EXCEPTION_DESCRIPTION,
 // - Mobile device
-// - IS_MOBILE,
-// - IS_TABLET,
-// - MOBILE_HAS_QWERTY_KEYBOARD,
-// - MOBILE_HAS_NFC_SUPPORT,
-// - MOBILE_HAS_CELLULAR_RADIO,
-// - MOBILE_HAS_WIFI_SUPPORT,
+// - IS_MOBILE (Boolean Field, Deprecated. Use DEVICE_CATEGORY=mobile),
+// - IS_TABLET (Boolean Field, Deprecated. Use DEVICE_CATEGORY=tablet),
+// - DEVICE_CATEGORY,
+// - MOBILE_HAS_QWERTY_KEYBOARD (Boolean Field),
+// - MOBILE_HAS_NFC_SUPPORT (Boolean Field),
+// - MOBILE_HAS_CELLULAR_RADIO (Boolean Field),
+// - MOBILE_HAS_WIFI_SUPPORT (Boolean Field),
 // - MOBILE_BRAND_NAME,
 // - MOBILE_MODEL_NAME,
 // - MOBILE_MARKETING_NAME,
@@ -135,10 +134,16 @@
 // - SOCIAL_NETWORK,
 // - SOCIAL_ACTION,
 // - SOCIAL_ACTION_TARGET,
-@property (copy) NSString *field;
+// - Custom dimension
+// - CUSTOM_DIMENSION (See accompanying field index),
+@property (nonatomic, copy) NSString *field;
+
+// The Index of the custom dimension. Set only if the field is a is
+// CUSTOM_DIMENSION.
+@property (nonatomic, retain) NSNumber *fieldIndex;  // intValue
 
 // Kind value for filter expression
-@property (copy) NSString *kind;
+@property (nonatomic, copy) NSString *kind;
 
 // Match type for this filter. Possible values are BEGINS_WITH, EQUAL,
 // ENDS_WITH, CONTAINS, MATCHES. Include and Exclude filters can use any match
@@ -146,6 +151,6 @@
 // Search and Replace expressions in the Search and Replace filter and all
 // filter expressions in the Advanced filter default to MATCHES. User should not
 // set match type for those filters.
-@property (copy) NSString *matchType;
+@property (nonatomic, copy) NSString *matchType;
 
 @end

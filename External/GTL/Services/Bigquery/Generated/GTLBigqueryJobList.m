@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,9 +24,9 @@
 // Description:
 //   A data platform for customers to create, manage, share and query data.
 // Documentation:
-//   https://developers.google.com/bigquery/docs/overview
+//   https://cloud.google.com/bigquery/
 // Classes:
-//   GTLBigqueryJobList (0 custom class methods, 5 custom properties)
+//   GTLBigqueryJobList (0 custom class methods, 4 custom properties)
 //   GTLBigqueryJobListJobsItem (0 custom class methods, 9 custom properties)
 
 #import "GTLBigqueryJobList.h"
@@ -43,19 +43,19 @@
 //
 
 @implementation GTLBigqueryJobList
-@dynamic ETag, jobs, kind, nextPageToken, totalItems;
+@dynamic ETag, jobs, kind, nextPageToken;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"etag"
-                                forKey:@"ETag"];
+  NSDictionary *map = @{
+    @"ETag" : @"etag"
+  };
   return map;
 }
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:[GTLBigqueryJobListJobsItem class]
-                                forKey:@"jobs"];
+  NSDictionary *map = @{
+    @"jobs" : [GTLBigqueryJobListJobsItem class]
+  };
   return map;
 }
 
@@ -76,11 +76,10 @@
          statistics, status, userEmail;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObjectsAndKeys:
-      @"id", @"identifier",
-      @"user_email", @"userEmail",
-      nil];
+  NSDictionary *map = @{
+    @"identifier" : @"id",
+    @"userEmail" : @"user_email"
+  };
   return map;
 }
 

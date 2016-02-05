@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,17 +47,16 @@
          orderBy, pageToken, preview, sortOrder, userId;
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:[NSString class]
-                                forKey:@"email"];
+  NSDictionary *map = @{
+    @"email" : [NSString class]
+  };
   return map;
 }
 
-#pragma mark -
-#pragma mark "activities" methods
+#pragma mark - "activities" methods
 // These create a GTLQueryPlusDomains object.
 
-+ (id)queryForActivitiesGetWithActivityId:(NSString *)activityId {
++ (instancetype)queryForActivitiesGetWithActivityId:(NSString *)activityId {
   NSString *methodName = @"plusDomains.activities.get";
   GTLQueryPlusDomains *query = [self queryWithMethodName:methodName];
   query.activityId = activityId;
@@ -65,8 +64,8 @@
   return query;
 }
 
-+ (id)queryForActivitiesInsertWithObject:(GTLPlusDomainsActivity *)object
-                                  userId:(NSString *)userId {
++ (instancetype)queryForActivitiesInsertWithObject:(GTLPlusDomainsActivity *)object
+                                            userId:(NSString *)userId {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -79,8 +78,8 @@
   return query;
 }
 
-+ (id)queryForActivitiesListWithUserId:(NSString *)userId
-                            collection:(NSString *)collection {
++ (instancetype)queryForActivitiesListWithUserId:(NSString *)userId
+                                      collection:(NSString *)collection {
   NSString *methodName = @"plusDomains.activities.list";
   GTLQueryPlusDomains *query = [self queryWithMethodName:methodName];
   query.userId = userId;
@@ -89,11 +88,10 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "audiences" methods
+#pragma mark - "audiences" methods
 // These create a GTLQueryPlusDomains object.
 
-+ (id)queryForAudiencesListWithUserId:(NSString *)userId {
++ (instancetype)queryForAudiencesListWithUserId:(NSString *)userId {
   NSString *methodName = @"plusDomains.audiences.list";
   GTLQueryPlusDomains *query = [self queryWithMethodName:methodName];
   query.userId = userId;
@@ -101,11 +99,10 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "circles" methods
+#pragma mark - "circles" methods
 // These create a GTLQueryPlusDomains object.
 
-+ (id)queryForCirclesAddPeopleWithCircleId:(NSString *)circleId {
++ (instancetype)queryForCirclesAddPeopleWithCircleId:(NSString *)circleId {
   NSString *methodName = @"plusDomains.circles.addPeople";
   GTLQueryPlusDomains *query = [self queryWithMethodName:methodName];
   query.circleId = circleId;
@@ -113,7 +110,7 @@
   return query;
 }
 
-+ (id)queryForCirclesGetWithCircleId:(NSString *)circleId {
++ (instancetype)queryForCirclesGetWithCircleId:(NSString *)circleId {
   NSString *methodName = @"plusDomains.circles.get";
   GTLQueryPlusDomains *query = [self queryWithMethodName:methodName];
   query.circleId = circleId;
@@ -121,8 +118,8 @@
   return query;
 }
 
-+ (id)queryForCirclesInsertWithObject:(GTLPlusDomainsCircle *)object
-                               userId:(NSString *)userId {
++ (instancetype)queryForCirclesInsertWithObject:(GTLPlusDomainsCircle *)object
+                                         userId:(NSString *)userId {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -135,7 +132,7 @@
   return query;
 }
 
-+ (id)queryForCirclesListWithUserId:(NSString *)userId {
++ (instancetype)queryForCirclesListWithUserId:(NSString *)userId {
   NSString *methodName = @"plusDomains.circles.list";
   GTLQueryPlusDomains *query = [self queryWithMethodName:methodName];
   query.userId = userId;
@@ -143,8 +140,8 @@
   return query;
 }
 
-+ (id)queryForCirclesPatchWithObject:(GTLPlusDomainsCircle *)object
-                            circleId:(NSString *)circleId {
++ (instancetype)queryForCirclesPatchWithObject:(GTLPlusDomainsCircle *)object
+                                      circleId:(NSString *)circleId {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -157,22 +154,22 @@
   return query;
 }
 
-+ (id)queryForCirclesRemoveWithCircleId:(NSString *)circleId {
++ (instancetype)queryForCirclesRemoveWithCircleId:(NSString *)circleId {
   NSString *methodName = @"plusDomains.circles.remove";
   GTLQueryPlusDomains *query = [self queryWithMethodName:methodName];
   query.circleId = circleId;
   return query;
 }
 
-+ (id)queryForCirclesRemovePeopleWithCircleId:(NSString *)circleId {
++ (instancetype)queryForCirclesRemovePeopleWithCircleId:(NSString *)circleId {
   NSString *methodName = @"plusDomains.circles.removePeople";
   GTLQueryPlusDomains *query = [self queryWithMethodName:methodName];
   query.circleId = circleId;
   return query;
 }
 
-+ (id)queryForCirclesUpdateWithObject:(GTLPlusDomainsCircle *)object
-                             circleId:(NSString *)circleId {
++ (instancetype)queryForCirclesUpdateWithObject:(GTLPlusDomainsCircle *)object
+                                       circleId:(NSString *)circleId {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -185,11 +182,10 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "comments" methods
+#pragma mark - "comments" methods
 // These create a GTLQueryPlusDomains object.
 
-+ (id)queryForCommentsGetWithCommentId:(NSString *)commentId {
++ (instancetype)queryForCommentsGetWithCommentId:(NSString *)commentId {
   NSString *methodName = @"plusDomains.comments.get";
   GTLQueryPlusDomains *query = [self queryWithMethodName:methodName];
   query.commentId = commentId;
@@ -197,8 +193,8 @@
   return query;
 }
 
-+ (id)queryForCommentsInsertWithObject:(GTLPlusDomainsComment *)object
-                            activityId:(NSString *)activityId {
++ (instancetype)queryForCommentsInsertWithObject:(GTLPlusDomainsComment *)object
+                                      activityId:(NSString *)activityId {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -211,7 +207,7 @@
   return query;
 }
 
-+ (id)queryForCommentsListWithActivityId:(NSString *)activityId {
++ (instancetype)queryForCommentsListWithActivityId:(NSString *)activityId {
   NSString *methodName = @"plusDomains.comments.list";
   GTLQueryPlusDomains *query = [self queryWithMethodName:methodName];
   query.activityId = activityId;
@@ -219,14 +215,13 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "media" methods
+#pragma mark - "media" methods
 // These create a GTLQueryPlusDomains object.
 
-+ (id)queryForMediaInsertWithObject:(GTLPlusDomainsMedia *)object
-                             userId:(NSString *)userId
-                         collection:(NSString *)collection
-                   uploadParameters:(GTLUploadParameters *)uploadParametersOrNil {
++ (instancetype)queryForMediaInsertWithObject:(GTLPlusDomainsMedia *)object
+                                       userId:(NSString *)userId
+                                   collection:(NSString *)collection
+                             uploadParameters:(GTLUploadParameters *)uploadParametersOrNil {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -241,11 +236,10 @@
   return query;
 }
 
-#pragma mark -
-#pragma mark "people" methods
+#pragma mark - "people" methods
 // These create a GTLQueryPlusDomains object.
 
-+ (id)queryForPeopleGetWithUserId:(NSString *)userId {
++ (instancetype)queryForPeopleGetWithUserId:(NSString *)userId {
   NSString *methodName = @"plusDomains.people.get";
   GTLQueryPlusDomains *query = [self queryWithMethodName:methodName];
   query.userId = userId;
@@ -253,8 +247,8 @@
   return query;
 }
 
-+ (id)queryForPeopleListWithUserId:(NSString *)userId
-                        collection:(NSString *)collection {
++ (instancetype)queryForPeopleListWithUserId:(NSString *)userId
+                                  collection:(NSString *)collection {
   NSString *methodName = @"plusDomains.people.list";
   GTLQueryPlusDomains *query = [self queryWithMethodName:methodName];
   query.userId = userId;
@@ -263,8 +257,8 @@
   return query;
 }
 
-+ (id)queryForPeopleListByActivityWithActivityId:(NSString *)activityId
-                                      collection:(NSString *)collection {
++ (instancetype)queryForPeopleListByActivityWithActivityId:(NSString *)activityId
+                                                collection:(NSString *)collection {
   NSString *methodName = @"plusDomains.people.listByActivity";
   GTLQueryPlusDomains *query = [self queryWithMethodName:methodName];
   query.activityId = activityId;
@@ -273,7 +267,7 @@
   return query;
 }
 
-+ (id)queryForPeopleListByCircleWithCircleId:(NSString *)circleId {
++ (instancetype)queryForPeopleListByCircleWithCircleId:(NSString *)circleId {
   NSString *methodName = @"plusDomains.people.listByCircle";
   GTLQueryPlusDomains *query = [self queryWithMethodName:methodName];
   query.circleId = circleId;

@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/blogger/docs/3.0/getting_started
 // Classes:
-//   GTLBloggerPostList (0 custom class methods, 3 custom properties)
+//   GTLBloggerPostList (0 custom class methods, 4 custom properties)
 
 #if GTL_BUILT_AS_FRAMEWORK
   #import "GTL/GTLObject.h"
@@ -46,13 +46,16 @@
 
 @interface GTLBloggerPostList : GTLCollectionObject
 
+// Etag of the response.
+@property (nonatomic, copy) NSString *ETag;
+
 // The list of Posts for this Blog.
-@property (retain) NSArray *items;  // of GTLBloggerPost
+@property (nonatomic, retain) NSArray *items;  // of GTLBloggerPost
 
 // The kind of this entity. Always blogger#postList
-@property (copy) NSString *kind;
+@property (nonatomic, copy) NSString *kind;
 
 // Pagination token to fetch the next page, if one exists.
-@property (copy) NSString *nextPageToken;
+@property (nonatomic, copy) NSString *nextPageToken;
 
 @end

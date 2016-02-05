@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,8 @@
 // Documentation:
 //   https://developers.google.com/youtube/v3
 // Classes:
-//   GTLYouTubeChannel (0 custom class methods, 13 custom properties)
+//   GTLYouTubeChannel (0 custom class methods, 14 custom properties)
+//   GTLYouTubeChannelLocalizations (0 custom class methods, 0 custom properties)
 
 #import "GTLYouTubeChannel.h"
 
@@ -35,6 +36,7 @@
 #import "GTLYouTubeChannelContentDetails.h"
 #import "GTLYouTubeChannelContentOwnerDetails.h"
 #import "GTLYouTubeChannelConversionPings.h"
+#import "GTLYouTubeChannelLocalization.h"
 #import "GTLYouTubeChannelSnippet.h"
 #import "GTLYouTubeChannelStatistics.h"
 #import "GTLYouTubeChannelStatus.h"
@@ -48,20 +50,33 @@
 
 @implementation GTLYouTubeChannel
 @dynamic auditDetails, brandingSettings, contentDetails, contentOwnerDetails,
-         conversionPings, ETag, identifier, invideoPromotion, kind, snippet,
-         statistics, status, topicDetails;
+         conversionPings, ETag, identifier, invideoPromotion, kind,
+         localizations, snippet, statistics, status, topicDetails;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObjectsAndKeys:
-      @"etag", @"ETag",
-      @"id", @"identifier",
-      nil];
+  NSDictionary *map = @{
+    @"ETag" : @"etag",
+    @"identifier" : @"id"
+  };
   return map;
 }
 
 + (void)load {
   [self registerObjectClassForKind:@"youtube#channel"];
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLYouTubeChannelLocalizations
+//
+
+@implementation GTLYouTubeChannelLocalizations
+
++ (Class)classForAdditionalProperties {
+  return [GTLYouTubeChannelLocalization class];
 }
 
 @end

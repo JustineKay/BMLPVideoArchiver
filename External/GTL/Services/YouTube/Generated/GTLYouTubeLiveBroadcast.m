@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,13 +26,15 @@
 // Documentation:
 //   https://developers.google.com/youtube/v3
 // Classes:
-//   GTLYouTubeLiveBroadcast (0 custom class methods, 6 custom properties)
+//   GTLYouTubeLiveBroadcast (0 custom class methods, 8 custom properties)
 
 #import "GTLYouTubeLiveBroadcast.h"
 
 #import "GTLYouTubeLiveBroadcastContentDetails.h"
 #import "GTLYouTubeLiveBroadcastSnippet.h"
+#import "GTLYouTubeLiveBroadcastStatistics.h"
 #import "GTLYouTubeLiveBroadcastStatus.h"
+#import "GTLYouTubeLiveBroadcastTopicDetails.h"
 
 // ----------------------------------------------------------------------------
 //
@@ -40,14 +42,14 @@
 //
 
 @implementation GTLYouTubeLiveBroadcast
-@dynamic contentDetails, ETag, identifier, kind, snippet, status;
+@dynamic contentDetails, ETag, identifier, kind, snippet, statistics, status,
+         topicDetails;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObjectsAndKeys:
-      @"etag", @"ETag",
-      @"id", @"identifier",
-      nil];
+  NSDictionary *map = @{
+    @"ETag" : @"etag",
+    @"identifier" : @"id"
+  };
   return map;
 }
 

@@ -23,14 +23,15 @@
 
 @synthesize shouldSkipAuthorization = skipAuthorization_,
             additionalHTTPHeaders = additionalHTTPHeaders_,
-            urlQueryParameters = urlQueryParameters_;
+            urlQueryParameters = urlQueryParameters_,
+            testBlock = testBlock_;
 
-+ (id)batchQuery {
++ (instancetype)batchQuery {
   GTLBatchQuery *obj = [[[self alloc] init] autorelease];
   return obj;
 }
 
-+ (id)batchQueryWithQueries:(NSArray *)queries {
++ (instancetype)batchQueryWithQueries:(NSArray *)queries {
   GTLBatchQuery *obj = [self batchQuery];
   obj.queries = queries;
   return obj;
@@ -44,6 +45,7 @@
   newBatch.queries = copiesOfQueries;
   newBatch.shouldSkipAuthorization = self.shouldSkipAuthorization;
   newBatch.additionalHTTPHeaders = self.additionalHTTPHeaders;
+  newBatch.testBlock = self.testBlock;
   return newBatch;
 }
 
@@ -52,6 +54,7 @@
   [additionalHTTPHeaders_ release];
   [urlQueryParameters_ release];
   [requestIDMap_ release];
+  [testBlock_ release];
 
   [super dealloc];
 }

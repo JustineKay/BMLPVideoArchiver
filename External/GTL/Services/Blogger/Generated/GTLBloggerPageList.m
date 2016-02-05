@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/blogger/docs/3.0/getting_started
 // Classes:
-//   GTLBloggerPageList (0 custom class methods, 2 custom properties)
+//   GTLBloggerPageList (0 custom class methods, 4 custom properties)
 
 #import "GTLBloggerPageList.h"
 
@@ -38,12 +38,19 @@
 //
 
 @implementation GTLBloggerPageList
-@dynamic items, kind;
+@dynamic ETag, items, kind, nextPageToken;
+
++ (NSDictionary *)propertyToJSONKeyMap {
+  NSDictionary *map = @{
+    @"ETag" : @"etag"
+  };
+  return map;
+}
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:[GTLBloggerPage class]
-                                forKey:@"items"];
+  NSDictionary *map = @{
+    @"items" : [GTLBloggerPage class]
+  };
   return map;
 }
 

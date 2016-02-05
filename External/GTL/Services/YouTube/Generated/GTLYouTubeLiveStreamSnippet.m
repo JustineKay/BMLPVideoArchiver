@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/youtube/v3
 // Classes:
-//   GTLYouTubeLiveStreamSnippet (0 custom class methods, 4 custom properties)
+//   GTLYouTubeLiveStreamSnippet (0 custom class methods, 5 custom properties)
 
 #import "GTLYouTubeLiveStreamSnippet.h"
 
@@ -36,12 +36,12 @@
 //
 
 @implementation GTLYouTubeLiveStreamSnippet
-@dynamic channelId, descriptionProperty, publishedAt, title;
+@dynamic channelId, descriptionProperty, isDefaultStream, publishedAt, title;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"description"
-                                forKey:@"descriptionProperty"];
+  NSDictionary *map = @{
+    @"descriptionProperty" : @"description"
+  };
   return map;
 }
 

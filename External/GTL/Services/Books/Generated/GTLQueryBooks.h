@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/books/docs/v1/getting_started
 // Classes:
-//   GTLQueryBooks (40 custom class methods, 65 custom properties)
+//   GTLQueryBooks (44 custom class methods, 70 custom properties)
 
 #if GTL_BUILT_AS_FRAMEWORK
   #import "GTL/GTLQuery.h"
@@ -36,6 +36,7 @@
 
 @class GTLBooksAnnotation;
 @class GTLBooksCloudloadingResource;
+@class GTLBooksUsersettings;
 
 @interface GTLQueryBooks : GTLQuery
 
@@ -44,82 +45,86 @@
 //
 
 // Selector specifying which fields to include in a partial response.
-@property (copy) NSString *fields;
+@property (nonatomic, copy) NSString *fields;
 
 //
 // Method-specific parameters; see the comments below for more information.
 //
-@property (retain) NSArray *acquireMethod;  // of NSString
-@property (copy) NSString *action;
-@property (assign) BOOL allowWebDefinitions;
-@property (copy) NSString *androidId;
+@property (nonatomic, retain) NSArray *acquireMethod;  // of NSString
+@property (nonatomic, copy) NSString *action;
+@property (nonatomic, assign) BOOL allowWebDefinitions;
+@property (nonatomic, copy) NSString *androidId;
 // "annotationDataId" has different types for some query methods; see the
 // documentation for the right type for each query method.
-@property (retain) id annotationDataId;
-@property (copy) NSString *annotationId;
-@property (copy) NSString *association;
-@property (copy) NSString *contentVersion;
-@property (copy) NSString *country;
-@property (copy) NSString *cpksver;
-@property (copy) NSString *device;
-@property (copy) NSString *deviceCookie;
-@property (copy) NSString *download;
-@property (copy) NSString *driveDocumentId;
-@property (copy) NSString *endOffset;
-@property (copy) NSString *endPosition;
-@property (retain) NSArray *features;  // of NSString
-@property (copy) NSString *filter;
-@property (assign) NSInteger h;
-@property (copy) NSString *langRestrict;
-@property (copy) NSString *layerId;
-@property (retain) NSArray *layerIds;  // of NSString
-@property (copy) NSString *libraryRestrict;
-@property (copy) NSString *licenseTypes;
-@property (copy) NSString *locale;
-@property (copy) NSString *manufacturer;
-@property (assign) NSUInteger maxResults;
-@property (copy) NSString *mimeType;
-@property (copy) NSString *model;
-@property (copy) NSString *name;
-@property (copy) NSString *nonce;
-@property (copy) NSString *offerId;
-@property (copy) NSString *orderBy;
-@property (retain) NSArray *pageIds;  // of NSString
-@property (copy) NSString *pageToken;
-@property (copy) NSString *partner;
-@property (copy) NSString *position;
-@property (copy) NSString *printType;
-@property (retain) NSArray *processingState;  // of NSString
-@property (copy) NSString *product;
-@property (copy) NSString *projection;
-@property (copy) NSString *q;
-@property (copy) NSString *rating;
-@property (assign) NSInteger scale;
-@property (copy) NSString *serial;
-@property (copy) NSString *shelf;
-@property (assign) BOOL showDeleted;
-@property (assign) BOOL showOnlySummaryInResponse;
-@property (assign) BOOL showPreorders;
-@property (copy) NSString *source;
-@property (assign) NSUInteger startIndex;
-@property (copy) NSString *startOffset;
-@property (copy) NSString *startPosition;
-@property (copy) NSString *summaryId;
-@property (copy) NSString *timestamp;
-@property (copy) NSString *updatedMax;
-@property (copy) NSString *updatedMin;
-@property (copy) NSString *uploadClientToken;
-@property (copy) NSString *userId;
-@property (copy) NSString *volumeAnnotationsVersion;
+@property (nonatomic, retain) id annotationDataId;
+@property (nonatomic, copy) NSString *annotationId;
+@property (nonatomic, copy) NSString *association;
+@property (nonatomic, retain) NSArray *categoryId;  // of NSString
+@property (nonatomic, copy) NSString *contentVersion;
+@property (nonatomic, copy) NSString *country;
+@property (nonatomic, copy) NSString *cpksver;
+@property (nonatomic, copy) NSString *device;
+@property (nonatomic, copy) NSString *deviceCookie;
+@property (nonatomic, copy) NSString *download;
+@property (nonatomic, copy) NSString *driveDocumentId;
+@property (nonatomic, copy) NSString *endOffset;
+@property (nonatomic, copy) NSString *endPosition;
+@property (nonatomic, retain) NSArray *features;  // of NSString
+@property (nonatomic, copy) NSString *filter;
+@property (nonatomic, assign) NSInteger h;
+@property (nonatomic, copy) NSString *langRestrict;
+@property (nonatomic, copy) NSString *layerId;
+@property (nonatomic, retain) NSArray *layerIds;  // of NSString
+@property (nonatomic, copy) NSString *libraryRestrict;
+@property (nonatomic, copy) NSString *licenseTypes;
+@property (nonatomic, copy) NSString *locale;
+@property (nonatomic, copy) NSString *manufacturer;
+@property (nonatomic, copy) NSString *maxAllowedMaturityRating;
+@property (nonatomic, assign) NSUInteger maxResults;
+@property (nonatomic, copy) NSString *mimeType;
+@property (nonatomic, copy) NSString *model;
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *nonce;
+@property (nonatomic, copy) NSString *offerId;
+@property (nonatomic, copy) NSString *orderBy;
+@property (nonatomic, assign) NSUInteger pageSize;
+@property (nonatomic, copy) NSString *pageToken;
+@property (nonatomic, copy) NSString *partner;
+@property (nonatomic, copy) NSString *position;
+@property (nonatomic, copy) NSString *printType;
+@property (nonatomic, retain) NSArray *processingState;  // of NSString
+@property (nonatomic, copy) NSString *product;
+@property (nonatomic, copy) NSString *projection;
+@property (nonatomic, copy) NSString *q;
+@property (nonatomic, copy) NSString *rating;
+@property (nonatomic, copy) NSString *reason;
+@property (nonatomic, assign) NSInteger scale;
+@property (nonatomic, copy) NSString *serial;
+@property (nonatomic, retain) GTLBooksUsersettings *settings;
+@property (nonatomic, copy) NSString *shelf;
+@property (nonatomic, assign) BOOL showDeleted;
+@property (nonatomic, assign) BOOL showOnlySummaryInResponse;
+@property (nonatomic, assign) BOOL showPreorders;
+@property (nonatomic, copy) NSString *source;
+@property (nonatomic, assign) NSUInteger startIndex;
+@property (nonatomic, copy) NSString *startOffset;
+@property (nonatomic, copy) NSString *startPosition;
+@property (nonatomic, copy) NSString *summaryId;
+@property (nonatomic, copy) NSString *timestamp;
+@property (nonatomic, copy) NSString *updatedMax;
+@property (nonatomic, copy) NSString *updatedMin;
+@property (nonatomic, copy) NSString *uploadClientToken;
+@property (nonatomic, assign) BOOL userLibraryConsistentRead;
+@property (nonatomic, copy) NSString *userId;
+@property (nonatomic, copy) NSString *volumeAnnotationsVersion;
 // "volumeId" has different types for some query methods; see the documentation
 // for the right type for each query method.
-@property (retain) id volumeId;
-@property (retain) NSArray *volumeIds;  // of NSString
-@property (assign) NSInteger volumePosition;
-@property (assign) NSInteger w;
+@property (nonatomic, retain) id volumeId;
+@property (nonatomic, retain) NSArray *volumeIds;  // of NSString
+@property (nonatomic, assign) NSInteger volumePosition;
+@property (nonatomic, assign) NSInteger w;
 
-#pragma mark -
-#pragma mark "bookshelves" methods
+#pragma mark - "bookshelves" methods
 // These create a GTLQueryBooks object.
 
 // Method: books.bookshelves.get
@@ -132,8 +137,8 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
 // Fetches a GTLBooksBookshelf.
-+ (id)queryForBookshelvesGetWithUserId:(NSString *)userId
-                                 shelf:(NSString *)shelf;
++ (instancetype)queryForBookshelvesGetWithUserId:(NSString *)userId
+                                           shelf:(NSString *)shelf;
 
 // Method: books.bookshelves.list
 // Retrieves a list of public bookshelves for the specified user.
@@ -144,10 +149,9 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
 // Fetches a GTLBooksBookshelves.
-+ (id)queryForBookshelvesListWithUserId:(NSString *)userId;
++ (instancetype)queryForBookshelvesListWithUserId:(NSString *)userId;
 
-#pragma mark -
-#pragma mark "bookshelves.volumes" methods
+#pragma mark - "bookshelves.volumes" methods
 // These create a GTLQueryBooks object.
 
 // Method: books.bookshelves.volumes.list
@@ -163,11 +167,10 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
 // Fetches a GTLBooksVolumes.
-+ (id)queryForBookshelvesVolumesListWithUserId:(NSString *)userId
-                                         shelf:(NSString *)shelf;
++ (instancetype)queryForBookshelvesVolumesListWithUserId:(NSString *)userId
+                                                   shelf:(NSString *)shelf;
 
-#pragma mark -
-#pragma mark "cloudloading" methods
+#pragma mark - "cloudloading" methods
 // These create a GTLQueryBooks object.
 
 // Method: books.cloudloading.addBook
@@ -183,7 +186,7 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
 // Fetches a GTLBooksCloudloadingResource.
-+ (id)queryForCloudloadingAddBook;
++ (instancetype)queryForCloudloadingAddBook;
 
 // Method: books.cloudloading.deleteBook
 // Remove the book and its contents
@@ -191,17 +194,28 @@
 //   volumeId: The id of the book to be removed.
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
-+ (id)queryForCloudloadingDeleteBookWithVolumeId:(NSString *)volumeId;
++ (instancetype)queryForCloudloadingDeleteBookWithVolumeId:(NSString *)volumeId;
 
 // Method: books.cloudloading.updateBook
 
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
 // Fetches a GTLBooksCloudloadingResource.
-+ (id)queryForCloudloadingUpdateBookWithObject:(GTLBooksCloudloadingResource *)object;
++ (instancetype)queryForCloudloadingUpdateBookWithObject:(GTLBooksCloudloadingResource *)object;
 
-#pragma mark -
-#pragma mark "layers.annotationData" methods
+#pragma mark - "dictionary" methods
+// These create a GTLQueryBooks object.
+
+// Method: books.dictionary.listOfflineMetadata
+// Returns a list of offline dictionary meatadata available
+//  Required:
+//   cpksver: The device/version ID from which to request the data.
+//  Authorization scope(s):
+//   kGTLAuthScopeBooks
+// Fetches a GTLBooksMetadata.
++ (instancetype)queryForDictionaryListOfflineMetadataWithCpksver:(NSString *)cpksver;
+
+#pragma mark - "layers.annotationData" methods
 // These create a GTLQueryBooks object.
 
 // Method: books.layers.annotationData.get
@@ -226,10 +240,10 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
 // Fetches a GTLBooksAnnotationdata.
-+ (id)queryForLayersAnnotationDataGetWithVolumeId:(NSString *)volumeId
-                                          layerId:(NSString *)layerId
-                                 annotationDataId:(NSString *)annotationDataId
-                                   contentVersion:(NSString *)contentVersion;
++ (instancetype)queryForLayersAnnotationDataGetWithVolumeId:(NSString *)volumeId
+                                                    layerId:(NSString *)layerId
+                                           annotationDataId:(NSString *)annotationDataId
+                                             contentVersion:(NSString *)contentVersion;
 
 // Method: books.layers.annotationData.list
 // Gets the annotation data for a volume and layer.
@@ -240,7 +254,8 @@
 //  Optional:
 //   annotationDataId: The list of Annotation Data Ids to retrieve. Pagination
 //     is ignored if this is set.
-//     Note: For this method, "annotationDataId" should be of type NSArray.
+//     Note: For this method, "annotationDataId" should be of type
+//     NSArray<NSString>.
 //   h: The requested pixel height for any images. If height is provided width
 //     must also be provided.
 //   locale: The locale information for the data. ISO-639-1 language and
@@ -258,12 +273,11 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
 // Fetches a GTLBooksAnnotationsdata.
-+ (id)queryForLayersAnnotationDataListWithVolumeId:(NSString *)volumeId
-                                           layerId:(NSString *)layerId
-                                    contentVersion:(NSString *)contentVersion;
++ (instancetype)queryForLayersAnnotationDataListWithVolumeId:(NSString *)volumeId
+                                                     layerId:(NSString *)layerId
+                                              contentVersion:(NSString *)contentVersion;
 
-#pragma mark -
-#pragma mark "layers" methods
+#pragma mark - "layers" methods
 // These create a GTLQueryBooks object.
 
 // Method: books.layers.get
@@ -277,8 +291,8 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
 // Fetches a GTLBooksLayersummary.
-+ (id)queryForLayersGetWithVolumeId:(NSString *)volumeId
-                          summaryId:(NSString *)summaryId;
++ (instancetype)queryForLayersGetWithVolumeId:(NSString *)volumeId
+                                    summaryId:(NSString *)summaryId;
 
 // Method: books.layers.list
 // List the layer summaries for a volume.
@@ -292,10 +306,9 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
 // Fetches a GTLBooksLayersummaries.
-+ (id)queryForLayersListWithVolumeId:(NSString *)volumeId;
++ (instancetype)queryForLayersListWithVolumeId:(NSString *)volumeId;
 
-#pragma mark -
-#pragma mark "layers.volumeAnnotations" methods
+#pragma mark - "layers.volumeAnnotations" methods
 // These create a GTLQueryBooks object.
 
 // Method: books.layers.volumeAnnotations.get
@@ -311,9 +324,9 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
 // Fetches a GTLBooksVolumeannotation.
-+ (id)queryForLayersVolumeAnnotationsGetWithVolumeId:(NSString *)volumeId
-                                             layerId:(NSString *)layerId
-                                        annotationId:(NSString *)annotationId;
++ (instancetype)queryForLayersVolumeAnnotationsGetWithVolumeId:(NSString *)volumeId
+                                                       layerId:(NSString *)layerId
+                                                  annotationId:(NSString *)annotationId;
 
 // Method: books.layers.volumeAnnotations.list
 // Gets the volume annotations for a volume and layer.
@@ -342,13 +355,19 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
 // Fetches a GTLBooksVolumeannotations.
-+ (id)queryForLayersVolumeAnnotationsListWithVolumeId:(NSString *)volumeId
-                                              layerId:(NSString *)layerId
-                                       contentVersion:(NSString *)contentVersion;
++ (instancetype)queryForLayersVolumeAnnotationsListWithVolumeId:(NSString *)volumeId
+                                                        layerId:(NSString *)layerId
+                                                 contentVersion:(NSString *)contentVersion;
 
-#pragma mark -
-#pragma mark "myconfig" methods
+#pragma mark - "myconfig" methods
 // These create a GTLQueryBooks object.
+
+// Method: books.myconfig.getUserSettings
+// Gets the current settings for the user.
+//  Authorization scope(s):
+//   kGTLAuthScopeBooks
+// Fetches a GTLBooksUsersettings.
++ (instancetype)queryForMyconfigGetUserSettings;
 
 // Method: books.myconfig.releaseDownloadAccess
 // Release downloaded content access restriction.
@@ -361,8 +380,8 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
 // Fetches a GTLBooksDownloadAccesses.
-+ (id)queryForMyconfigReleaseDownloadAccessWithVolumeIds:(NSArray *)volumeIds
-                                                 cpksver:(NSString *)cpksver;
++ (instancetype)queryForMyconfigReleaseDownloadAccessWithVolumeIds:(NSArray *)volumeIds
+                                                           cpksver:(NSString *)cpksver;
 
 // Method: books.myconfig.requestAccess
 // Request concurrent and download access restrictions.
@@ -381,10 +400,10 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
 // Fetches a GTLBooksRequestAccess.
-+ (id)queryForMyconfigRequestAccessWithSource:(NSString *)source
-                                     volumeId:(NSString *)volumeId
-                                        nonce:(NSString *)nonce
-                                      cpksver:(NSString *)cpksver;
++ (instancetype)queryForMyconfigRequestAccessWithSource:(NSString *)source
+                                               volumeId:(NSString *)volumeId
+                                                  nonce:(NSString *)nonce
+                                                cpksver:(NSString *)cpksver;
 
 // Method: books.myconfig.syncVolumeLicenses
 // Request downloaded content access for specified volumes on the My eBooks
@@ -402,12 +421,22 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
 // Fetches a GTLBooksVolumes.
-+ (id)queryForMyconfigSyncVolumeLicensesWithSource:(NSString *)source
-                                             nonce:(NSString *)nonce
-                                           cpksver:(NSString *)cpksver;
++ (instancetype)queryForMyconfigSyncVolumeLicensesWithSource:(NSString *)source
+                                                       nonce:(NSString *)nonce
+                                                     cpksver:(NSString *)cpksver;
 
-#pragma mark -
-#pragma mark "mylibrary.annotations" methods
+// Method: books.myconfig.updateUserSettings
+// Sets the settings for the user. If a sub-object is specified, it will
+// overwrite the existing sub-object stored in the server. Unspecified
+// sub-objects will retain the existing value.
+//  Optional:
+//   settings: GTLBooksUsersettings
+//  Authorization scope(s):
+//   kGTLAuthScopeBooks
+// Fetches a GTLBooksUsersettings.
++ (instancetype)queryForMyconfigUpdateUserSettings;
+
+#pragma mark - "mylibrary.annotations" methods
 // These create a GTLQueryBooks object.
 
 // Method: books.mylibrary.annotations.delete
@@ -418,29 +447,19 @@
 //   source: String to identify the originator of this request.
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
-+ (id)queryForMylibraryAnnotationsDeleteWithAnnotationId:(NSString *)annotationId;
-
-// Method: books.mylibrary.annotations.get
-// Gets an annotation by its ID.
-//  Required:
-//   annotationId: The ID for the annotation to retrieve.
-//  Optional:
-//   source: String to identify the originator of this request.
-//  Authorization scope(s):
-//   kGTLAuthScopeBooks
-// Fetches a GTLBooksAnnotation.
-+ (id)queryForMylibraryAnnotationsGetWithAnnotationId:(NSString *)annotationId;
++ (instancetype)queryForMylibraryAnnotationsDeleteWithAnnotationId:(NSString *)annotationId;
 
 // Method: books.mylibrary.annotations.insert
 // Inserts a new annotation.
 //  Optional:
+//   country: ISO-3166-1 code to override the IP-based location.
 //   showOnlySummaryInResponse: Requests that only the summary of the specified
 //     layer be provided in the response.
 //   source: String to identify the originator of this request.
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
 // Fetches a GTLBooksAnnotation.
-+ (id)queryForMylibraryAnnotationsInsertWithObject:(GTLBooksAnnotation *)object;
++ (instancetype)queryForMylibraryAnnotationsInsertWithObject:(GTLBooksAnnotation *)object;
 
 // Method: books.mylibrary.annotations.list
 // Retrieves a list of annotations, possibly filtered.
@@ -449,7 +468,6 @@
 //   layerId: The layer ID to limit annotation by.
 //   layerIds: The layer ID(s) to limit annotation by.
 //   maxResults: Maximum number of results to return (0..40)
-//   pageIds: The page ID(s) for the volume that is being queried.
 //   pageToken: The value of the nextToken from the previous page.
 //   showDeleted: Set to true to return deleted annotations. updatedMin must be
 //     in the request to use this. Defaults to false.
@@ -463,7 +481,7 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
 // Fetches a GTLBooksAnnotations.
-+ (id)queryForMylibraryAnnotationsList;
++ (instancetype)queryForMylibraryAnnotationsList;
 
 // Method: books.mylibrary.annotations.summary
 // Gets the summary of specified layers.
@@ -473,8 +491,8 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
 // Fetches a GTLBooksAnnotationsSummary.
-+ (id)queryForMylibraryAnnotationsSummaryWithLayerIds:(NSArray *)layerIds
-                                             volumeId:(NSString *)volumeId;
++ (instancetype)queryForMylibraryAnnotationsSummaryWithLayerIds:(NSArray *)layerIds
+                                                       volumeId:(NSString *)volumeId;
 
 // Method: books.mylibrary.annotations.update
 // Updates an existing annotation.
@@ -485,11 +503,10 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
 // Fetches a GTLBooksAnnotation.
-+ (id)queryForMylibraryAnnotationsUpdateWithObject:(GTLBooksAnnotation *)object
-                                      annotationId:(NSString *)annotationId;
++ (instancetype)queryForMylibraryAnnotationsUpdateWithObject:(GTLBooksAnnotation *)object
+                                                annotationId:(NSString *)annotationId;
 
-#pragma mark -
-#pragma mark "mylibrary.bookshelves" methods
+#pragma mark - "mylibrary.bookshelves" methods
 // These create a GTLQueryBooks object.
 
 // Method: books.mylibrary.bookshelves.addVolume
@@ -498,11 +515,15 @@
 //   shelf: ID of bookshelf to which to add a volume.
 //   volumeId: ID of volume to add.
 //  Optional:
+//   reason: The reason for which the book is added to the library.
+//      kGTLBooksReasonIosPrex: Volumes added from the PREX flow on iOS.
+//      kGTLBooksReasonIosSearch: Volumes added from the Search flow on iOS.
+//      kGTLBooksReasonOnboarding: Volumes added from the Onboarding flow.
 //   source: String to identify the originator of this request.
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
-+ (id)queryForMylibraryBookshelvesAddVolumeWithShelf:(NSString *)shelf
-                                            volumeId:(NSString *)volumeId;
++ (instancetype)queryForMylibraryBookshelvesAddVolumeWithShelf:(NSString *)shelf
+                                                      volumeId:(NSString *)volumeId;
 
 // Method: books.mylibrary.bookshelves.clearVolumes
 // Clears all volumes from a bookshelf.
@@ -512,7 +533,7 @@
 //   source: String to identify the originator of this request.
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
-+ (id)queryForMylibraryBookshelvesClearVolumesWithShelf:(NSString *)shelf;
++ (instancetype)queryForMylibraryBookshelvesClearVolumesWithShelf:(NSString *)shelf;
 
 // Method: books.mylibrary.bookshelves.get
 // Retrieves metadata for a specific bookshelf belonging to the authenticated
@@ -524,7 +545,7 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
 // Fetches a GTLBooksBookshelf.
-+ (id)queryForMylibraryBookshelvesGetWithShelf:(NSString *)shelf;
++ (instancetype)queryForMylibraryBookshelvesGetWithShelf:(NSString *)shelf;
 
 // Method: books.mylibrary.bookshelves.list
 // Retrieves a list of bookshelves belonging to the authenticated user.
@@ -533,7 +554,7 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
 // Fetches a GTLBooksBookshelves.
-+ (id)queryForMylibraryBookshelvesList;
++ (instancetype)queryForMylibraryBookshelvesList;
 
 // Method: books.mylibrary.bookshelves.moveVolume
 // Moves a volume within a bookshelf.
@@ -547,9 +568,9 @@
 //   source: String to identify the originator of this request.
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
-+ (id)queryForMylibraryBookshelvesMoveVolumeWithShelf:(NSString *)shelf
-                                             volumeId:(NSString *)volumeId
-                                       volumePosition:(NSInteger)volumePosition;
++ (instancetype)queryForMylibraryBookshelvesMoveVolumeWithShelf:(NSString *)shelf
+                                                       volumeId:(NSString *)volumeId
+                                                 volumePosition:(NSInteger)volumePosition;
 
 // Method: books.mylibrary.bookshelves.removeVolume
 // Removes a volume from a bookshelf.
@@ -557,14 +578,15 @@
 //   shelf: ID of bookshelf from which to remove a volume.
 //   volumeId: ID of volume to remove.
 //  Optional:
+//   reason: The reason for which the book is removed from the library.
+//      kGTLBooksReasonOnboarding: Samples removed from the Onboarding flow.
 //   source: String to identify the originator of this request.
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
-+ (id)queryForMylibraryBookshelvesRemoveVolumeWithShelf:(NSString *)shelf
-                                               volumeId:(NSString *)volumeId;
++ (instancetype)queryForMylibraryBookshelvesRemoveVolumeWithShelf:(NSString *)shelf
+                                                         volumeId:(NSString *)volumeId;
 
-#pragma mark -
-#pragma mark "mylibrary.bookshelves.volumes" methods
+#pragma mark - "mylibrary.bookshelves.volumes" methods
 // These create a GTLQueryBooks object.
 
 // Method: books.mylibrary.bookshelves.volumes.list
@@ -585,10 +607,9 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
 // Fetches a GTLBooksVolumes.
-+ (id)queryForMylibraryBookshelvesVolumesListWithShelf:(NSString *)shelf;
++ (instancetype)queryForMylibraryBookshelvesVolumesListWithShelf:(NSString *)shelf;
 
-#pragma mark -
-#pragma mark "mylibrary.readingpositions" methods
+#pragma mark - "mylibrary.readingpositions" methods
 // These create a GTLQueryBooks object.
 
 // Method: books.mylibrary.readingpositions.get
@@ -602,7 +623,7 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
 // Fetches a GTLBooksReadingPosition.
-+ (id)queryForMylibraryReadingpositionsGetWithVolumeId:(NSString *)volumeId;
++ (instancetype)queryForMylibraryReadingpositionsGetWithVolumeId:(NSString *)volumeId;
 
 // Method: books.mylibrary.readingpositions.setPosition
 // Sets my reading position information for a volume.
@@ -625,12 +646,44 @@
 //   source: String to identify the originator of this request.
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
-+ (id)queryForMylibraryReadingpositionsSetPositionWithVolumeId:(NSString *)volumeId
-                                                     timestamp:(NSString *)timestamp
-                                                      position:(NSString *)position;
++ (instancetype)queryForMylibraryReadingpositionsSetPositionWithVolumeId:(NSString *)volumeId
+                                                               timestamp:(NSString *)timestamp
+                                                                position:(NSString *)position;
 
-#pragma mark -
-#pragma mark "promooffer" methods
+#pragma mark - "onboarding" methods
+// These create a GTLQueryBooks object.
+
+// Method: books.onboarding.listCategories
+// List categories for onboarding experience.
+//  Optional:
+//   locale: ISO-639-1 language and ISO-3166-1 country code. Default is en-US if
+//     unset.
+//  Authorization scope(s):
+//   kGTLAuthScopeBooks
+// Fetches a GTLBooksCategory.
++ (instancetype)queryForOnboardingListCategories;
+
+// Method: books.onboarding.listCategoryVolumes
+// List available volumes under categories for onboarding experience.
+//  Optional:
+//   categoryId: List of category ids requested.
+//   locale: ISO-639-1 language and ISO-3166-1 country code. Default is en-US if
+//     unset.
+//   maxAllowedMaturityRating: The maximum allowed maturity rating of returned
+//     volumes. Books with a higher maturity rating are filtered out.
+//      kGTLBooksMaxAllowedMaturityRatingMature: Show books which are rated
+//        mature or lower.
+//      kGTLBooksMaxAllowedMaturityRatingNotMature: Show books which are rated
+//        not mature.
+//   pageSize: Number of maximum results per page to be included in the
+//     response.
+//   pageToken: The value of the nextToken from the previous page.
+//  Authorization scope(s):
+//   kGTLAuthScopeBooks
+// Fetches a GTLBooksVolume2.
++ (instancetype)queryForOnboardingListCategoryVolumes;
+
+#pragma mark - "promooffer" methods
 // These create a GTLQueryBooks object.
 
 // Method: books.promooffer.accept
@@ -647,7 +700,7 @@
 //     Note: For this method, "volumeId" should be of type NSString.
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
-+ (id)queryForPromoofferAccept;
++ (instancetype)queryForPromoofferAccept;
 
 // Method: books.promooffer.dismiss
 
@@ -661,7 +714,7 @@
 //   serial: device serial
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
-+ (id)queryForPromoofferDismiss;
++ (instancetype)queryForPromoofferDismiss;
 
 // Method: books.promooffer.get
 // Returns a list of promo offers available to the user
@@ -675,10 +728,9 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
 // Fetches a GTLBooksOffers.
-+ (id)queryForPromoofferGet;
++ (instancetype)queryForPromoofferGet;
 
-#pragma mark -
-#pragma mark "volumes.associated" methods
+#pragma mark - "volumes.associated" methods
 // These create a GTLQueryBooks object.
 
 // Method: books.volumes.associated.list
@@ -691,16 +743,22 @@
 //        end-of-sample.
 //      kGTLBooksAssociationEndOfVolume: Recommendations for display
 //        end-of-volume.
+//      kGTLBooksAssociationRelatedForPlay: Related volumes for Play Store.
 //   locale: ISO-639-1 language and ISO-3166-1 country code. Ex: 'en_US'. Used
 //     for generating recommendations.
+//   maxAllowedMaturityRating: The maximum allowed maturity rating of returned
+//     recommendations. Books with a higher maturity rating are filtered out.
+//      kGTLBooksMaxAllowedMaturityRatingMature: Show books which are rated
+//        mature or lower.
+//      kGTLBooksMaxAllowedMaturityRatingNotMature: Show books which are rated
+//        not mature.
 //   source: String to identify the originator of this request.
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
 // Fetches a GTLBooksVolumes.
-+ (id)queryForVolumesAssociatedListWithVolumeId:(NSString *)volumeId;
++ (instancetype)queryForVolumesAssociatedListWithVolumeId:(NSString *)volumeId;
 
-#pragma mark -
-#pragma mark "volumes" methods
+#pragma mark - "volumes" methods
 // These create a GTLQueryBooks object.
 
 // Method: books.volumes.get
@@ -715,10 +773,11 @@
 //      kGTLBooksProjectionLite: Includes a subset of fields in volumeInfo and
 //        accessInfo.
 //   source: String to identify the originator of this request.
+//   userLibraryConsistentRead: BOOL
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
 // Fetches a GTLBooksVolume.
-+ (id)queryForVolumesGetWithVolumeId:(NSString *)volumeId;
++ (instancetype)queryForVolumesGetWithVolumeId:(NSString *)volumeId;
 
 // Method: books.volumes.list
 // Performs a book search.
@@ -760,10 +819,9 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
 // Fetches a GTLBooksVolumes.
-+ (id)queryForVolumesListWithQ:(NSString *)q;
++ (instancetype)queryForVolumesListWithQ:(NSString *)q;
 
-#pragma mark -
-#pragma mark "volumes.mybooks" methods
+#pragma mark - "volumes.mybooks" methods
 // These create a GTLQueryBooks object.
 
 // Method: books.volumes.mybooks.list
@@ -794,10 +852,9 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
 // Fetches a GTLBooksVolumes.
-+ (id)queryForVolumesMybooksList;
++ (instancetype)queryForVolumesMybooksList;
 
-#pragma mark -
-#pragma mark "volumes.recommended" methods
+#pragma mark - "volumes.recommended" methods
 // These create a GTLQueryBooks object.
 
 // Method: books.volumes.recommended.list
@@ -805,11 +862,17 @@
 //  Optional:
 //   locale: ISO-639-1 language and ISO-3166-1 country code. Ex: 'en_US'. Used
 //     for generating recommendations.
+//   maxAllowedMaturityRating: The maximum allowed maturity rating of returned
+//     recommendations. Books with a higher maturity rating are filtered out.
+//      kGTLBooksMaxAllowedMaturityRatingMature: Show books which are rated
+//        mature or lower.
+//      kGTLBooksMaxAllowedMaturityRatingNotMature: Show books which are rated
+//        not mature.
 //   source: String to identify the originator of this request.
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
 // Fetches a GTLBooksVolumes.
-+ (id)queryForVolumesRecommendedList;
++ (instancetype)queryForVolumesRecommendedList;
 
 // Method: books.volumes.recommended.rate
 // Rate a recommended book for the current user.
@@ -826,11 +889,10 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
 // Fetches a GTLBooksVolumesRecommendedRateResponse.
-+ (id)queryForVolumesRecommendedRateWithRating:(NSString *)rating
-                                      volumeId:(NSString *)volumeId;
++ (instancetype)queryForVolumesRecommendedRateWithRating:(NSString *)rating
+                                                volumeId:(NSString *)volumeId;
 
-#pragma mark -
-#pragma mark "volumes.useruploaded" methods
+#pragma mark - "volumes.useruploaded" methods
 // These create a GTLQueryBooks object.
 
 // Method: books.volumes.useruploaded.list
@@ -850,10 +912,10 @@
 //   startIndex: Index of the first result to return (starts at 0)
 //   volumeId: The ids of the volumes to be returned. If not specified all that
 //     match the processingState are returned.
-//     Note: For this method, "volumeId" should be of type NSArray.
+//     Note: For this method, "volumeId" should be of type NSArray<NSString>.
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
 // Fetches a GTLBooksVolumes.
-+ (id)queryForVolumesUseruploadedList;
++ (instancetype)queryForVolumesUseruploadedList;
 
 @end

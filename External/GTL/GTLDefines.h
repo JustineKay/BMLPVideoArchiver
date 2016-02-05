@@ -131,14 +131,32 @@
   #define __has_attribute(x) 0
 #endif
 
-#if 1
-  // We will start using nonnull declarations once the static analyzer seems
-  // to support it without false positives.
-  #define GTL_NONNULL(x)
-#else
+#ifndef GTL_NONNULL
   #if __has_attribute(nonnull)
     #define GTL_NONNULL(x) __attribute__((nonnull x))
   #else
     #define GTL_NONNULL(x)
   #endif
 #endif
+
+#ifndef GTL_DECLARE_GENERICS
+  #if __has_feature(objc_generics) \
+    && ((!TARGET_OS_IPHONE && defined(MAC_OS_X_VERSION_10_11) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_11) \
+      || (TARGET_OS_IPHONE && defined(__IPHONE_9_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0))
+    #define GTL_DECLARE_GENERICS 1
+  #else
+    #define GTL_DECLARE_GENERICS 0
+  #endif
+#endif
+
+#ifndef GTL_NSArrayOf
+  #if GTL_DECLARE_GENERICS
+    #define GTL_NSArrayOf(value) NSArray<value>
+    #define GTL_NSDictionaryOf(key, value) NSDictionary<key, value>
+    #define GTL_NSMutableDictionaryOf(key, value) NSMutableDictionary<key, value>
+  #else
+    #define GTL_NSArrayOf(value) NSArray
+    #define GTL_NSDictionaryOf(key, value) NSDictionary
+    #define GTL_NSMutableDictionaryOf(key, value) NSMutableDictionary
+  #endif // GTL_DECLARE_GENERICS
+#endif  // GTL_NSArrayOf

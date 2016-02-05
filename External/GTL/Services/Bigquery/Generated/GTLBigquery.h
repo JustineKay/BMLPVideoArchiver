@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,16 +24,19 @@
 // Description:
 //   A data platform for customers to create, manage, share and query data.
 // Documentation:
-//   https://developers.google.com/bigquery/docs/overview
+//   https://cloud.google.com/bigquery/
 
 #import "GTLBigqueryConstants.h"
 
+#import "GTLBigqueryCsvOptions.h"
 #import "GTLBigqueryDataset.h"
 #import "GTLBigqueryDatasetList.h"
 #import "GTLBigqueryDatasetReference.h"
 #import "GTLBigqueryErrorProto.h"
+#import "GTLBigqueryExternalDataConfiguration.h"
 #import "GTLBigqueryGetQueryResultsResponse.h"
 #import "GTLBigqueryJob.h"
+#import "GTLBigqueryJobCancelResponse.h"
 #import "GTLBigqueryJobConfiguration.h"
 #import "GTLBigqueryJobConfigurationExtract.h"
 #import "GTLBigqueryJobConfigurationLink.h"
@@ -45,6 +48,7 @@
 #import "GTLBigqueryJobStatistics.h"
 #import "GTLBigqueryJobStatistics2.h"
 #import "GTLBigqueryJobStatistics3.h"
+#import "GTLBigqueryJobStatistics4.h"
 #import "GTLBigqueryJobStatus.h"
 #import "GTLBigqueryJsonObject.h"
 #import "GTLBigqueryProjectList.h"
@@ -59,6 +63,7 @@
 #import "GTLBigqueryTableReference.h"
 #import "GTLBigqueryTableRow.h"
 #import "GTLBigqueryTableSchema.h"
+#import "GTLBigqueryUserDefinedFunctionResource.h"
 #import "GTLBigqueryViewDefinition.h"
 
 #import "GTLQueryBigquery.h"

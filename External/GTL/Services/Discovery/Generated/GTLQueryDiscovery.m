@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,12 +39,11 @@
 
 @dynamic api, fields, name, preferred, version;
 
-#pragma mark -
-#pragma mark "apis" methods
+#pragma mark - "apis" methods
 // These create a GTLQueryDiscovery object.
 
-+ (id)queryForApisGetRestWithApi:(NSString *)api
-                         version:(NSString *)version {
++ (instancetype)queryForApisGetRestWithApi:(NSString *)api
+                                   version:(NSString *)version {
   NSString *methodName = @"discovery.apis.getRest";
   GTLQueryDiscovery *query = [self queryWithMethodName:methodName];
   query.api = api;
@@ -53,8 +52,8 @@
   return query;
 }
 
-+ (id)queryForApisGetRpcWithApi:(NSString *)api
-                        version:(NSString *)version {
++ (instancetype)queryForApisGetRpcWithApi:(NSString *)api
+                                  version:(NSString *)version {
   NSString *methodName = @"discovery.apis.getRpc";
   GTLQueryDiscovery *query = [self queryWithMethodName:methodName];
   query.api = api;
@@ -63,7 +62,7 @@
   return query;
 }
 
-+ (id)queryForApisList {
++ (instancetype)queryForApisList {
   NSString *methodName = @"discovery.apis.list";
   GTLQueryDiscovery *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLDiscoveryDirectoryList class];
