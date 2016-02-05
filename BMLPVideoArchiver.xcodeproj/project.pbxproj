@@ -14,7 +14,6 @@
 		6B6B3FD61BE1A52A00EDE9F2 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B6B3FD51BE1A52A00EDE9F2 /* SystemConfiguration.framework */; };
 		6B6B3FDA1BE1A9AA00EDE9F2 /* GTMOAuth2ViewTouch.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B6B3FD91BE1A9AA00EDE9F2 /* GTMOAuth2ViewTouch.xib */; };
 		6B6B3FE51BE1A9E500EDE9F2 /* GTLDrive_Sources.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B6B3FE31BE1A9E500EDE9F2 /* GTLDrive_Sources.m */; };
-		6B6B40131BE1CEF500EDE9F2 /* libGTLTouchStaticLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B6B400E1BE1CE7C00EDE9F2 /* libGTLTouchStaticLib.a */; };
 		6B9B14741C1FB62200E5A662 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B9B14731C1FB62200E5A662 /* MobileCoreServices.framework */; };
 		6BDC39C21BDF22EF0036BE01 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDC39C11BDF22EF0036BE01 /* main.m */; };
 		6BDC39C51BDF22EF0036BE01 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDC39C41BDF22EF0036BE01 /* AppDelegate.m */; };
@@ -23,36 +22,37 @@
 		6BDC39D01BDF22EF0036BE01 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BDC39CE1BDF22EF0036BE01 /* LaunchScreen.storyboard */; };
 		6BDC39D91BDF274A0036BE01 /* VideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDC39D81BDF274A0036BE01 /* VideoViewController.m */; };
 		6BE642461C388052003CA4A1 /* LogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE642451C388052003CA4A1 /* LogInViewController.m */; };
+		6BE9135F1C644F2C000F0240 /* libGTLTouchStaticLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE913491C644EEE000F0240 /* libGTLTouchStaticLib.a */; };
 		6BFF08A61C5C26890009B0BB /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BFF08A51C5C26890009B0BB /* AVFoundation.framework */; };
 		6BFF08AC1C5C26A30009B0BB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BFF08AB1C5C26A30009B0BB /* Foundation.framework */; };
 		DAA79D414D47D1DEAAA48D7F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FFB43943C105DE2F96CF328 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		6B6B400B1BE1CE7C00EDE9F2 /* PBXContainerItemProxy */ = {
+		6BE913461C644EEE000F0240 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 6B6B40041BE1CE7B00EDE9F2 /* GTL.xcodeproj */;
+			containerPortal = 6BE908F31C644EE9000F0240 /* GTL.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 4F38F6A60B66E91D00B24B81;
 			remoteInfo = GTLFramework;
 		};
-		6B6B400D1BE1CE7C00EDE9F2 /* PBXContainerItemProxy */ = {
+		6BE913481C644EEE000F0240 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 6B6B40041BE1CE7B00EDE9F2 /* GTL.xcodeproj */;
+			containerPortal = 6BE908F31C644EE9000F0240 /* GTL.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 4F12027C11A4CA2F00BEB470;
 			remoteInfo = GTLTouchStaticLib;
 		};
-		6B6B400F1BE1CE7C00EDE9F2 /* PBXContainerItemProxy */ = {
+		6BE9134A1C644EEE000F0240 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 6B6B40041BE1CE7B00EDE9F2 /* GTL.xcodeproj */;
+			containerPortal = 6BE908F31C644EE9000F0240 /* GTL.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 4F12027D11A4CA2F00BEB470;
 			remoteInfo = GTLUnitTests;
 		};
-		6B6B40111BE1CE7C00EDE9F2 /* PBXContainerItemProxy */ = {
+		6BE9134C1C644EEE000F0240 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 6B6B40041BE1CE7B00EDE9F2 /* GTL.xcodeproj */;
+			containerPortal = 6BE908F31C644EE9000F0240 /* GTL.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 4F1AD9020B71603F00DC0485;
 			remoteInfo = DevelopmentTestTool;
@@ -72,7 +72,6 @@
 		6B6B3FD91BE1A9AA00EDE9F2 /* GTMOAuth2ViewTouch.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GTMOAuth2ViewTouch.xib; sourceTree = "<group>"; };
 		6B6B3FE31BE1A9E500EDE9F2 /* GTLDrive_Sources.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTLDrive_Sources.m; sourceTree = "<group>"; };
 		6B6B3FE41BE1A9E500EDE9F2 /* GTLDrive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTLDrive.h; sourceTree = "<group>"; };
-		6B6B40041BE1CE7B00EDE9F2 /* GTL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GTL.xcodeproj; path = "../../../google-api-objectivec-client/Source/GTL.xcodeproj"; sourceTree = "<group>"; };
 		6B9B14731C1FB62200E5A662 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		6BDC39BD1BDF22EF0036BE01 /* BMLPVideoArchiver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BMLPVideoArchiver.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BDC39C11BDF22EF0036BE01 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -86,6 +85,7 @@
 		6BDC39D81BDF274A0036BE01 /* VideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoViewController.m; sourceTree = "<group>"; };
 		6BE642441C388052003CA4A1 /* LogInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogInViewController.h; sourceTree = "<group>"; };
 		6BE642451C388052003CA4A1 /* LogInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogInViewController.m; sourceTree = "<group>"; };
+		6BE908F31C644EE9000F0240 /* GTL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = GTL.xcodeproj; sourceTree = "<group>"; };
 		6BFF08A51C5C26890009B0BB /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		6BFF08AB1C5C26A30009B0BB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F0EFA6533BB32EB0742FAC7B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -96,10 +96,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6BE9135F1C644F2C000F0240 /* libGTLTouchStaticLib.a in Frameworks */,
 				6BFF08AC1C5C26A30009B0BB /* Foundation.framework in Frameworks */,
 				6BFF08A61C5C26890009B0BB /* AVFoundation.framework in Frameworks */,
 				6B9B14741C1FB62200E5A662 /* MobileCoreServices.framework in Frameworks */,
-				6B6B40131BE1CEF500EDE9F2 /* libGTLTouchStaticLib.a in Frameworks */,
 				6B6B3FD61BE1A52A00EDE9F2 /* SystemConfiguration.framework in Frameworks */,
 				6B6B3FD41BE1A51C00EDE9F2 /* Security.framework in Frameworks */,
 				DAA79D414D47D1DEAAA48D7F /* libPods.a in Frameworks */,
@@ -122,21 +122,10 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		6B6B40051BE1CE7B00EDE9F2 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				6B6B400C1BE1CE7C00EDE9F2 /* GTL.framework */,
-				6B6B400E1BE1CE7C00EDE9F2 /* libGTLTouchStaticLib.a */,
-				6B6B40101BE1CE7C00EDE9F2 /* GTLUnitTests.xctest */,
-				6B6B40121BE1CE7C00EDE9F2 /* DevelopmentTestTool */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		6BDC39B41BDF22EF0036BE01 = {
 			isa = PBXGroup;
 			children = (
-				6B6B40041BE1CE7B00EDE9F2 /* GTL.xcodeproj */,
+				6BE908F11C644EE9000F0240 /* External */,
 				6BDC39BF1BDF22EF0036BE01 /* BMLPVideoArchiver */,
 				6BDC39BE1BDF22EF0036BE01 /* Products */,
 				94A0C3E83FCED1247673026B /* Pods */,
@@ -184,6 +173,33 @@
 				6BDC39C11BDF22EF0036BE01 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6BE908F11C644EE9000F0240 /* External */ = {
+			isa = PBXGroup;
+			children = (
+				6BE908F21C644EE9000F0240 /* GTL */,
+			);
+			path = External;
+			sourceTree = "<group>";
+		};
+		6BE908F21C644EE9000F0240 /* GTL */ = {
+			isa = PBXGroup;
+			children = (
+				6BE908F31C644EE9000F0240 /* GTL.xcodeproj */,
+			);
+			path = GTL;
+			sourceTree = "<group>";
+		};
+		6BE908F41C644EE9000F0240 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6BE913471C644EEE000F0240 /* GTL.framework */,
+				6BE913491C644EEE000F0240 /* libGTLTouchStaticLib.a */,
+				6BE9134B1C644EEE000F0240 /* GTLUnitTests.xctest */,
+				6BE9134D1C644EEE000F0240 /* DevelopmentTestTool */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		94A0C3E83FCED1247673026B /* Pods */ = {
@@ -246,8 +262,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 6B6B40051BE1CE7B00EDE9F2 /* Products */;
-					ProjectRef = 6B6B40041BE1CE7B00EDE9F2 /* GTL.xcodeproj */;
+					ProductGroup = 6BE908F41C644EE9000F0240 /* Products */;
+					ProjectRef = 6BE908F31C644EE9000F0240 /* GTL.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -258,32 +274,32 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		6B6B400C1BE1CE7C00EDE9F2 /* GTL.framework */ = {
+		6BE913471C644EEE000F0240 /* GTL.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = GTL.framework;
-			remoteRef = 6B6B400B1BE1CE7C00EDE9F2 /* PBXContainerItemProxy */;
+			remoteRef = 6BE913461C644EEE000F0240 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		6B6B400E1BE1CE7C00EDE9F2 /* libGTLTouchStaticLib.a */ = {
+		6BE913491C644EEE000F0240 /* libGTLTouchStaticLib.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libGTLTouchStaticLib.a;
-			remoteRef = 6B6B400D1BE1CE7C00EDE9F2 /* PBXContainerItemProxy */;
+			remoteRef = 6BE913481C644EEE000F0240 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		6B6B40101BE1CE7C00EDE9F2 /* GTLUnitTests.xctest */ = {
+		6BE9134B1C644EEE000F0240 /* GTLUnitTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = GTLUnitTests.xctest;
-			remoteRef = 6B6B400F1BE1CE7C00EDE9F2 /* PBXContainerItemProxy */;
+			remoteRef = 6BE9134A1C644EEE000F0240 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		6B6B40121BE1CE7C00EDE9F2 /* DevelopmentTestTool */ = {
+		6BE9134D1C644EEE000F0240 /* DevelopmentTestTool */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
 			path = DevelopmentTestTool;
-			remoteRef = 6B6B40111BE1CE7C00EDE9F2 /* PBXContainerItemProxy */;
+			remoteRef = 6BE9134C1C644EEE000F0240 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
