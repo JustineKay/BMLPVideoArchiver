@@ -10,6 +10,7 @@
 #import "LogInViewController.h"
 #import "GTMOAuth2ViewControllerTouch.h"
 #import "GTLDrive.h"
+#import "SCLAlertView.h"
 
 static NSString *const kKeychainItemName = @"BMLP Video Archiver";
 static NSString *const kClientID = @"749579524688-b1oaiu8cc4obq06aal4org55qie5lho2.apps.googleusercontent.com";
@@ -434,13 +435,12 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     GTLQueryDrive *query = [GTLQueryDrive queryForFilesInsertWithObject:file
                                                        uploadParameters:uploadParameters];
     
-    UIAlertView *waitIndicator = [self showWaitIndicator:@"Uploading to Google Drive"];
+    [self showWaitIndicator:@"Uploading to Google Drive"];
     
     [self.driveService executeQuery:query
                   completionHandler:^(GTLServiceTicket *ticket,
                                       GTLDriveFile *insertedFile, NSError *error) {
                       
-                      [waitIndicator dismissWithClickedButtonIndex:0 animated:YES];
                       
                       if (error == nil)
                       {
@@ -458,36 +458,21 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 }
 
 // Helper for showing a wait indicator in a popup
-- (UIAlertView*)showWaitIndicator:(NSString *)title
+- (void)showWaitIndicator:(NSString *)title
 {
-    UIAlertView *progressAlert;
-    progressAlert = [[UIAlertView alloc] initWithTitle:title
-                                               message:@"Please wait..."
-                                              delegate:nil
-                                     cancelButtonTitle:nil
-                                     otherButtonTitles:nil];
-    [progressAlert show];
+    SCLAlertView *alert = [[SCLAlertView alloc] init];
     
-    UIActivityIndicatorView *activityView;
-    activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-    activityView.center = CGPointMake(progressAlert.bounds.size.width / 2,
-                                      progressAlert.bounds.size.height - 45);
-    
-    [progressAlert addSubview:activityView];
-    [activityView startAnimating];
-    return progressAlert;
+    [alert showWaiting:self title:title subTitle:@"Blah de blah de blah, blah. Blah de blah de" closeButtonTitle:nil duration:5.0f];
+
 }
 
 // Helper for showing an alert
 - (void)showAlert:(NSString *)title message:(NSString *)message
 {
-    UIAlertView *alert;
-    alert = [[UIAlertView alloc] initWithTitle: title
-                                       message: message
-                                      delegate: nil
-                             cancelButtonTitle: @"OK"
-                             otherButtonTitles: nil];
-    [alert show];
+
+    SCLAlertView *alert = [[SCLAlertView alloc] init];
+    [alert showInfo:self title:title subTitle:message closeButtonTitle:nil duration:3.0f];
 }
+
 
 @end
