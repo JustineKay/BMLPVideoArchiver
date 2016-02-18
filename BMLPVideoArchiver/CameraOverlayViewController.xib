@@ -55,14 +55,32 @@
                         <constraint firstAttribute="height" constant="26" id="HfC-Ub-OW0"/>
                     </constraints>
                 </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Uploading to Google Drive..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ujz-iM-Ual">
+                    <rect key="frame" x="0.0" y="414" width="320" height="24"/>
+                    <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="File Saved" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QJA-aF-8Pe">
+                    <rect key="frame" x="0.0" y="414" width="320" height="24"/>
+                    <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="gUe-kh-0MD" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="8" id="2dg-ht-v55"/>
+                <constraint firstAttribute="trailing" secondItem="QJA-aF-8Pe" secondAttribute="trailing" id="5mO-WD-mrA"/>
+                <constraint firstAttribute="bottom" secondItem="Ujz-iM-Ual" secondAttribute="bottom" constant="42" id="8zl-O5-Jff"/>
+                <constraint firstAttribute="trailing" secondItem="Ujz-iM-Ual" secondAttribute="trailing" id="HSZ-2d-4aO"/>
                 <constraint firstItem="MBk-Rp-tQf" firstAttribute="leading" secondItem="gUe-kh-0MD" secondAttribute="trailing" constant="8" id="JLa-MX-C9k"/>
                 <constraint firstItem="GEA-E4-3gc" firstAttribute="centerX" secondItem="9tF-S8-azH" secondAttribute="centerX" id="M8S-qy-owu"/>
+                <constraint firstItem="QJA-aF-8Pe" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="XqS-B5-VLi"/>
+                <constraint firstItem="Ujz-iM-Ual" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Y5z-Dw-SAB"/>
                 <constraint firstItem="gUe-kh-0MD" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="YiR-oy-2EC"/>
                 <constraint firstItem="GEA-E4-3gc" firstAttribute="centerY" secondItem="9tF-S8-azH" secondAttribute="centerY" id="gnu-dl-8sc"/>
+                <constraint firstAttribute="bottom" secondItem="QJA-aF-8Pe" secondAttribute="bottom" constant="42" id="goW-2Z-hTJ"/>
                 <constraint firstItem="MBk-Rp-tQf" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="8" id="kZ4-ef-kwh"/>
                 <constraint firstItem="9tF-S8-azH" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="8" id="n86-iy-Okg"/>
                 <constraint firstAttribute="trailing" secondItem="9tF-S8-azH" secondAttribute="trailing" constant="15" id="tMQ-PY-b1Z"/>
@@ -71,8 +89,10 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="cameraSelectionButton" destination="gUe-kh-0MD" id="qFb-uZ-wq8"/>
+                <outlet property="fileSavedLabel" destination="QJA-aF-8Pe" id="aCj-sv-HxV"/>
                 <outlet property="flashModeButton" destination="MBk-Rp-tQf" id="HRl-pc-QEB"/>
                 <outlet property="recordIndicatorView" destination="GEA-E4-3gc" id="yW1-nv-Ts8"/>
+                <outlet property="uploadingLabel" destination="Ujz-iM-Ual" id="UbH-ec-n6A"/>
                 <outlet property="videoQualitySelectionButton" destination="9tF-S8-azH" id="ekF-yU-p0j"/>
             </connections>
             <point key="canvasLocation" x="149" y="210"/>

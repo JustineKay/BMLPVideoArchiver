@@ -79,6 +79,8 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     self.customCameraOverlayView.cameraSelectionButton.alpha = 0.0;
     self.customCameraOverlayView.flashModeButton.alpha = 0.0;
     self.customCameraOverlayView.recordIndicatorView.alpha = 0.0;
+    self.customCameraOverlayView.uploadingLabel.alpha = 0.0;
+    self.customCameraOverlayView.fileSavedLabel.alpha = 0.0;
     self.customCameraOverlayView.backgroundColor = [UIColor clearColor];
     
     self.customCameraOverlayView.frame = camera.view.frame;
@@ -398,16 +400,14 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 {
     if (error != nil)
     {
-        [self showAlert:@"Authentication Error" message:error.localizedDescription];
+        NSString *errorMessage = [NSString stringWithFormat:@"Authentication Error: %@", error];
+        [self fadeInFadeOutInfoLabel:self.customCameraOverlayView.uploadingLabel WithMessage:errorMessage];
         self.driveService.authorizer = nil;
     }
     else
     {
         [self.parentViewController dismissViewControllerAnimated:NO completion:nil];
         [viewController removeFromParentViewController];
-
-        //Set Bool for presenting LogInVC
-        //[[NSUserDefaults standardUserDefaults] setBool:YES forKey:SignedInKey];
         
         self.driveService.authorizer = authResult;
         
@@ -435,7 +435,8 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     GTLQueryDrive *query = [GTLQueryDrive queryForFilesInsertWithObject:file
                                                        uploadParameters:uploadParameters];
     
-    [self showWaitIndicator:@"Uploading to Google Drive"];
+    
+    [self fadeInFadeOutInfoLabel:self.customCameraOverlayView.uploadingLabel WithMessage:@"Uploading to Google Drive"];
     
     [self.driveService executeQuery:query
                   completionHandler:^(GTLServiceTicket *ticket,
@@ -445,33 +446,45 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
                       if (error == nil)
                       {
                           NSLog(@"File ID: %@", insertedFile.identifier);
-                          [self showAlert:@"Google Drive" message:@"File saved!"];
+                          
+                          [self fadeInFadeOutInfoLabel:self.customCameraOverlayView.uploadingLabel WithMessage:@"File Saved"];
                           
                       }
                       else
                       {
                           NSLog(@"An error occurred: %@", error);
-                          [self showAlert:@"Google Drive" message:@"Sorry, an error occurred!"];
+                          
+                          [self fadeInFadeOutInfoLabel:self.customCameraOverlayView.uploadingLabel WithMessage:@"Sorry an error occurred."];
                           
                       }
                   }];
 }
 
-// Helper for showing a wait indicator in a popup
-- (void)showWaitIndicator:(NSString *)title
-{
-    SCLAlertView *alert = [[SCLAlertView alloc] init];
+
+// Helper for showing Info Label
+
+-(void)fadeInFadeOutInfoLabel:(UILabel *)label WithMessage: (NSString *) message{
+
     
-    [alert showWaiting:self title:title subTitle:@"Blah de blah de blah, blah. Blah de blah de" closeButtonTitle:nil duration:5.0f];
+    label.text = message;
+    label.backgroundColor = [UIColor blackColor];
+    label.textColor = [UIColor whiteColor];
 
-}
+    //fade in
+    [UIView animateWithDuration:0.5f animations:^{
 
-// Helper for showing an alert
-- (void)showAlert:(NSString *)title message:(NSString *)message
-{
+        [label setAlpha:1.0f];
 
-    SCLAlertView *alert = [[SCLAlertView alloc] init];
-    [alert showInfo:self title:title subTitle:message closeButtonTitle:nil duration:3.0f];
+    } completion:^(BOOL finished) {
+
+        //fade out
+        [UIView animateWithDuration:5.0f animations:^{
+
+            [label setAlpha:0.0f];
+
+        } completion:nil];
+
+    }];
 }
 
 
