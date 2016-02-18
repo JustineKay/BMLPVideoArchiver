@@ -10,7 +10,6 @@
 #import "LogInViewController.h"
 #import "GTMOAuth2ViewControllerTouch.h"
 #import "GTLDrive.h"
-#import "SCLAlertView.h"
 
 static NSString *const kKeychainItemName = @"BMLP Video Archiver";
 static NSString *const kClientID = @"749579524688-b1oaiu8cc4obq06aal4org55qie5lho2.apps.googleusercontent.com";

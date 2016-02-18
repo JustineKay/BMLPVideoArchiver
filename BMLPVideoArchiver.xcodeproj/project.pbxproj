@@ -10,14 +10,6 @@
 		6B0263FC1C2F62EF0099BF46 /* CameraOverlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0263FA1C2F62EF0099BF46 /* CameraOverlayViewController.m */; };
 		6B0263FD1C2F62EF0099BF46 /* CameraOverlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B0263FB1C2F62EF0099BF46 /* CameraOverlayViewController.xib */; };
 		6B0264001C2F632A0099BF46 /* CustomCameraOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0263FF1C2F632A0099BF46 /* CustomCameraOverlayView.m */; };
-		6B2312501C757D490017FDA4 /* SCLAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2312401C757D490017FDA4 /* SCLAlertView.m */; };
-		6B2312511C757D490017FDA4 /* SCLAlertViewResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2312421C757D490017FDA4 /* SCLAlertViewResponder.m */; };
-		6B2312521C757D490017FDA4 /* SCLAlertViewStyleKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2312441C757D490017FDA4 /* SCLAlertViewStyleKit.m */; };
-		6B2312531C757D490017FDA4 /* SCLButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2312461C757D490017FDA4 /* SCLButton.m */; };
-		6B2312541C757D490017FDA4 /* SCLSwitchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2312491C757D490017FDA4 /* SCLSwitchView.m */; };
-		6B2312551C757D490017FDA4 /* SCLTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B23124B1C757D490017FDA4 /* SCLTextView.m */; };
-		6B2312561C757D490017FDA4 /* SCLTimerDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B23124D1C757D490017FDA4 /* SCLTimerDisplay.m */; };
-		6B2312571C757D490017FDA4 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B23124F1C757D490017FDA4 /* UIImage+ImageEffects.m */; };
 		6B6B3FD41BE1A51C00EDE9F2 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B6B3FD31BE1A51C00EDE9F2 /* Security.framework */; };
 		6B6B3FD61BE1A52A00EDE9F2 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B6B3FD51BE1A52A00EDE9F2 /* SystemConfiguration.framework */; };
 		6B6B3FDA1BE1A9AA00EDE9F2 /* GTMOAuth2ViewTouch.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B6B3FD91BE1A9AA00EDE9F2 /* GTMOAuth2ViewTouch.xib */; };
@@ -75,23 +67,6 @@
 		6B0263FB1C2F62EF0099BF46 /* CameraOverlayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraOverlayViewController.xib; sourceTree = "<group>"; };
 		6B0263FE1C2F632A0099BF46 /* CustomCameraOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCameraOverlayView.h; sourceTree = "<group>"; };
 		6B0263FF1C2F632A0099BF46 /* CustomCameraOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCameraOverlayView.m; sourceTree = "<group>"; };
-		6B23123F1C757D490017FDA4 /* SCLAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLAlertView.h; sourceTree = "<group>"; };
-		6B2312401C757D490017FDA4 /* SCLAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLAlertView.m; sourceTree = "<group>"; };
-		6B2312411C757D490017FDA4 /* SCLAlertViewResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLAlertViewResponder.h; sourceTree = "<group>"; };
-		6B2312421C757D490017FDA4 /* SCLAlertViewResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLAlertViewResponder.m; sourceTree = "<group>"; };
-		6B2312431C757D490017FDA4 /* SCLAlertViewStyleKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLAlertViewStyleKit.h; sourceTree = "<group>"; };
-		6B2312441C757D490017FDA4 /* SCLAlertViewStyleKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLAlertViewStyleKit.m; sourceTree = "<group>"; };
-		6B2312451C757D490017FDA4 /* SCLButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLButton.h; sourceTree = "<group>"; };
-		6B2312461C757D490017FDA4 /* SCLButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLButton.m; sourceTree = "<group>"; };
-		6B2312471C757D490017FDA4 /* SCLMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLMacros.h; sourceTree = "<group>"; };
-		6B2312481C757D490017FDA4 /* SCLSwitchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLSwitchView.h; sourceTree = "<group>"; };
-		6B2312491C757D490017FDA4 /* SCLSwitchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLSwitchView.m; sourceTree = "<group>"; };
-		6B23124A1C757D490017FDA4 /* SCLTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLTextView.h; sourceTree = "<group>"; };
-		6B23124B1C757D490017FDA4 /* SCLTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLTextView.m; sourceTree = "<group>"; };
-		6B23124C1C757D490017FDA4 /* SCLTimerDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLTimerDisplay.h; sourceTree = "<group>"; };
-		6B23124D1C757D490017FDA4 /* SCLTimerDisplay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLTimerDisplay.m; sourceTree = "<group>"; };
-		6B23124E1C757D490017FDA4 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
-		6B23124F1C757D490017FDA4 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		6B6B3FD31BE1A51C00EDE9F2 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		6B6B3FD51BE1A52A00EDE9F2 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		6B6B3FD91BE1A9AA00EDE9F2 /* GTMOAuth2ViewTouch.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GTMOAuth2ViewTouch.xib; sourceTree = "<group>"; };
@@ -147,30 +122,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		6B23123E1C757D490017FDA4 /* SCLAlertView */ = {
-			isa = PBXGroup;
-			children = (
-				6B23123F1C757D490017FDA4 /* SCLAlertView.h */,
-				6B2312401C757D490017FDA4 /* SCLAlertView.m */,
-				6B2312411C757D490017FDA4 /* SCLAlertViewResponder.h */,
-				6B2312421C757D490017FDA4 /* SCLAlertViewResponder.m */,
-				6B2312431C757D490017FDA4 /* SCLAlertViewStyleKit.h */,
-				6B2312441C757D490017FDA4 /* SCLAlertViewStyleKit.m */,
-				6B2312451C757D490017FDA4 /* SCLButton.h */,
-				6B2312461C757D490017FDA4 /* SCLButton.m */,
-				6B2312471C757D490017FDA4 /* SCLMacros.h */,
-				6B2312481C757D490017FDA4 /* SCLSwitchView.h */,
-				6B2312491C757D490017FDA4 /* SCLSwitchView.m */,
-				6B23124A1C757D490017FDA4 /* SCLTextView.h */,
-				6B23124B1C757D490017FDA4 /* SCLTextView.m */,
-				6B23124C1C757D490017FDA4 /* SCLTimerDisplay.h */,
-				6B23124D1C757D490017FDA4 /* SCLTimerDisplay.m */,
-				6B23124E1C757D490017FDA4 /* UIImage+ImageEffects.h */,
-				6B23124F1C757D490017FDA4 /* UIImage+ImageEffects.m */,
-			);
-			path = SCLAlertView;
-			sourceTree = "<group>";
-		};
 		6BDC39B41BDF22EF0036BE01 = {
 			isa = PBXGroup;
 			children = (
@@ -193,7 +144,6 @@
 		6BDC39BF1BDF22EF0036BE01 /* BMLPVideoArchiver */ = {
 			isa = PBXGroup;
 			children = (
-				6B23123E1C757D490017FDA4 /* SCLAlertView */,
 				6BDC39C31BDF22EF0036BE01 /* AppDelegate.h */,
 				6BDC39C41BDF22EF0036BE01 /* AppDelegate.m */,
 				6B6B3FE31BE1A9E500EDE9F2 /* GTLDrive_Sources.m */,
@@ -427,16 +377,8 @@
 				6B6B3FE51BE1A9E500EDE9F2 /* GTLDrive_Sources.m in Sources */,
 				6BDC39C21BDF22EF0036BE01 /* main.m in Sources */,
 				6BDC39D91BDF274A0036BE01 /* VideoViewController.m in Sources */,
-				6B2312551C757D490017FDA4 /* SCLTextView.m in Sources */,
-				6B2312541C757D490017FDA4 /* SCLSwitchView.m in Sources */,
-				6B2312521C757D490017FDA4 /* SCLAlertViewStyleKit.m in Sources */,
-				6B2312511C757D490017FDA4 /* SCLAlertViewResponder.m in Sources */,
 				6B0264001C2F632A0099BF46 /* CustomCameraOverlayView.m in Sources */,
-				6B2312531C757D490017FDA4 /* SCLButton.m in Sources */,
-				6B2312571C757D490017FDA4 /* UIImage+ImageEffects.m in Sources */,
-				6B2312501C757D490017FDA4 /* SCLAlertView.m in Sources */,
 				6B0263FC1C2F62EF0099BF46 /* CameraOverlayViewController.m in Sources */,
-				6B2312561C757D490017FDA4 /* SCLTimerDisplay.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
