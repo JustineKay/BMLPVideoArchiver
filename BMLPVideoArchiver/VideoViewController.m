@@ -112,6 +112,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         camera.cameraDevice = UIImagePickerControllerCameraDeviceRear;
         
         if ( [UIImagePickerController isCameraDeviceAvailable: UIImagePickerControllerCameraDeviceFront] ) {
+            
             [self.customCameraOverlayView.cameraSelectionButton setImage:[UIImage imageNamed:@"camera-toggle"] forState:UIControlStateNormal];
             self.customCameraOverlayView.cameraSelectionButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
             self.customCameraOverlayView.cameraSelectionButton.alpha = 1.0;
@@ -215,16 +216,16 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 #pragma Mark - CustomCameraOverlayDelegate methods
 
-- (void)didChangeVideoQuality
-{
-    if (camera.videoQuality == UIImagePickerControllerQualityType640x480) {
-        camera.videoQuality = UIImagePickerControllerQualityTypeHigh;
-        [self.customCameraOverlayView.videoQualitySelectionButton setImage:[UIImage imageNamed:@"hd-selected.png"] forState:UIControlStateNormal];
-    } else {
-        camera.videoQuality = UIImagePickerControllerQualityType640x480;
-        [self.customCameraOverlayView.videoQualitySelectionButton setImage:[UIImage imageNamed:@"sd-selected.png"] forState:UIControlStateNormal];
-    }
-}
+//- (void)didChangeVideoQuality
+//{
+//    if (camera.videoQuality == UIImagePickerControllerQualityType640x480) {
+//        camera.videoQuality = UIImagePickerControllerQualityTypeHigh;
+//        [self.customCameraOverlayView.videoQualitySelectionButton setImage:[UIImage imageNamed:@"hd-selected.png"] forState:UIControlStateNormal];
+//    } else {
+//        camera.videoQuality = UIImagePickerControllerQualityType640x480;
+//        [self.customCameraOverlayView.videoQualitySelectionButton setImage:[UIImage imageNamed:@"sd-selected.png"] forState:UIControlStateNormal];
+//    }
+//}
 
 - (void)didChangeFlashMode
 {
@@ -439,10 +440,9 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
                                                        uploadParameters:uploadParameters];
     
     
-    //[self fadeInFadeOutInfoLabel:self.customCameraOverlayView.uploadingLabel WithMessage:@"Uploading to Google Drive"];
+    //create animation
     CABasicAnimation *animation = [self animateOpacity];
     
-    //Assign the animation to your UIImage layer and the
     //animation will start immediately
     [self.customCameraOverlayView.uploadingLabel.layer addAnimation:animation forKey:@"animateOpacity"];
     
@@ -504,10 +504,6 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 -(CABasicAnimation *)animateOpacity
 {
-//    label.text = message;
-//    label.backgroundColor = [UIColor blackColor];
-//    label.textColor =  [UIColor whiteColor];
-
     //Create an animation with pulsating effect
     CABasicAnimation *theAnimation;
     

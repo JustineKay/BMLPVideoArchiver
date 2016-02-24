@@ -20,9 +20,9 @@
     [self.delegate didChangeFlashMode];
 }
 
-- (IBAction)videoQualitySelectionButtonTapped:(UIButton *)sender
-{
-    [self.delegate didChangeVideoQuality];
-}
+//- (IBAction)videoQualitySelectionButtonTapped:(UIButton *)sender
+//{
+//    [self.delegate didChangeVideoQuality];
+//}
 
 @end

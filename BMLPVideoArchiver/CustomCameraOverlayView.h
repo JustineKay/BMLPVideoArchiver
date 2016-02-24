@@ -12,7 +12,7 @@
 
 -(void)didChangeCamera;
 -(void)didChangeFlashMode;
--(void)didChangeVideoQuality;
+//-(void)didChangeVideoQuality;
 
 @end
 
