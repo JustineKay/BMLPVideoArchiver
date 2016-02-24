@@ -112,6 +112,8 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         camera.cameraDevice = UIImagePickerControllerCameraDeviceRear;
         
         if ( [UIImagePickerController isCameraDeviceAvailable: UIImagePickerControllerCameraDeviceFront] ) {
+            [self.customCameraOverlayView.cameraSelectionButton setImage:[UIImage imageNamed:@"camera-toggle"] forState:UIControlStateNormal];
+            self.customCameraOverlayView.cameraSelectionButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
             self.customCameraOverlayView.cameraSelectionButton.alpha = 1.0;
             showCameraSelection = YES;
         }
@@ -126,6 +128,8 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     if ( [UIImagePickerController isFlashAvailableForCameraDevice:camera.cameraDevice] ) {
         
         camera.cameraFlashMode = UIImagePickerControllerCameraFlashModeOff;
+        [self.customCameraOverlayView.flashModeButton setImage:[UIImage imageNamed:@"flash-off.png"] forState:UIControlStateNormal];
+        self.customCameraOverlayView.flashModeButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
         self.customCameraOverlayView.flashModeButton.alpha = 1.0;
         showFlashMode = YES;
     
@@ -322,7 +326,6 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     }
     
-    //Uncomment to continue recording
     if (sessionInProgress) {
         
         recording = YES;
@@ -400,7 +403,8 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     if (error != nil)
     {
         NSString *errorMessage = [NSString stringWithFormat:@"Authentication Error: %@", error];
-        [self fadeInFadeOutInfoLabel:self.customCameraOverlayView.uploadingLabel WithMessage:errorMessage];
+        NSLog( @"%@", errorMessage);
+        //[self fadeInFadeOutInfoLabel:self.customCameraOverlayView.uploadingLabel WithMessage:errorMessage];
         self.driveService.authorizer = nil;
     }
     else
@@ -435,7 +439,12 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
                                                        uploadParameters:uploadParameters];
     
     
-    [self fadeInFadeOutInfoLabel:self.customCameraOverlayView.uploadingLabel WithMessage:@"Uploading to Google Drive"];
+    //[self fadeInFadeOutInfoLabel:self.customCameraOverlayView.uploadingLabel WithMessage:@"Uploading to Google Drive"];
+    CABasicAnimation *animation = [self animateOpacity];
+    
+    //Assign the animation to your UIImage layer and the
+    //animation will start immediately
+    [self.customCameraOverlayView.uploadingLabel.layer addAnimation:animation forKey:@"animateOpacity"];
     
     [self.driveService executeQuery:query
                   completionHandler:^(GTLServiceTicket *ticket,
@@ -446,14 +455,21 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
                       {
                           NSLog(@"File ID: %@", insertedFile.identifier);
                           
-                          [self fadeInFadeOutInfoLabel:self.customCameraOverlayView.uploadingLabel WithMessage:@"File Saved"];
+                          [self.customCameraOverlayView.uploadingLabel.layer removeAllAnimations];
+                          self.customCameraOverlayView.uploadingLabel.alpha = 0.0;
+                          
+                          [self fadeInFadeOutInfoLabel:self.customCameraOverlayView.fileSavedLabel WithMessage:@"File Saved"];
+                          
                           
                       }
                       else
                       {
                           NSLog(@"An error occurred: %@", error);
                           
-                          [self fadeInFadeOutInfoLabel:self.customCameraOverlayView.uploadingLabel WithMessage:@"Sorry an error occurred."];
+                          [self.customCameraOverlayView.uploadingLabel.layer removeAllAnimations];
+                          self.customCameraOverlayView.uploadingLabel.alpha = 0.0;
+                          
+                          [self fadeInFadeOutInfoLabel:self.customCameraOverlayView.fileSavedLabel WithMessage:@"Sorry an error occurred."];
                           
                       }
                   }];
@@ -484,6 +500,36 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         } completion:nil];
 
     }];
+}
+
+-(CABasicAnimation *)animateOpacity
+{
+//    label.text = message;
+//    label.backgroundColor = [UIColor blackColor];
+//    label.textColor =  [UIColor whiteColor];
+
+    //Create an animation with pulsating effect
+    CABasicAnimation *theAnimation;
+    
+    //within the animation we will adjust the "opacity"
+    //value of the layer
+    theAnimation=[CABasicAnimation animationWithKeyPath:@"opacity"];
+    
+    //animation lasts 0.7 seconds
+    theAnimation.duration=0.7;
+    
+    //and it repeats forever
+    theAnimation.repeatCount= HUGE_VALF;
+    
+    //we want a reverse animation
+    theAnimation.autoreverses=YES;
+    
+    //justify the opacity as you like (1=fully visible, 0=unvisible)
+    theAnimation.fromValue=[NSNumber numberWithFloat:1.0];
+    theAnimation.toValue=[NSNumber numberWithFloat:0.1];
+    
+    return theAnimation;
+    
 }
 
 
