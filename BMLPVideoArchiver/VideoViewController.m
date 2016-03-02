@@ -42,6 +42,8 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 {
     [super viewDidLoad];
     
+    self.navigationController.navigationBarHidden = YES;
+    
     [self createCamera];
     
     self.timeInSeconds = 0;
@@ -216,16 +218,26 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 #pragma Mark - CustomCameraOverlayDelegate methods
 
-//- (void)didChangeVideoQuality
-//{
-//    if (camera.videoQuality == UIImagePickerControllerQualityType640x480) {
-//        camera.videoQuality = UIImagePickerControllerQualityTypeHigh;
-//        [self.customCameraOverlayView.videoQualitySelectionButton setImage:[UIImage imageNamed:@"hd-selected.png"] forState:UIControlStateNormal];
-//    } else {
-//        camera.videoQuality = UIImagePickerControllerQualityType640x480;
-//        [self.customCameraOverlayView.videoQualitySelectionButton setImage:[UIImage imageNamed:@"sd-selected.png"] forState:UIControlStateNormal];
-//    }
-//}
+-(void)didSignOut
+{
+    [GTMOAuth2ViewControllerTouch removeAuthFromKeychainForName:kKeychainItemName];
+    
+    LogInViewController *logInVC = [[LogInViewController alloc] init];
+    
+    [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController pushViewController:logInVC animated:YES];
+    
+//    [self dismissViewControllerAnimated:YES completion:^{
+//        
+//        [self presentViewController:logInVC animated:YES completion:nil];
+//        
+//    }];
+    
+    
+    
+    
+
+}
 
 - (void)didChangeFlashMode
 {
@@ -275,7 +287,6 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     hideControls = ^(void) {
         self.customCameraOverlayView.cameraSelectionButton.alpha = 0;
         self.customCameraOverlayView.flashModeButton.alpha = 0;
-        self.customCameraOverlayView.videoQualitySelectionButton.alpha = 0;
         self.customCameraOverlayView.recordIndicatorView.alpha = 1.0;
     };
     
@@ -345,7 +356,6 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     showControls = ^(void) {
         if (showCameraSelection) self.customCameraOverlayView.cameraSelectionButton.alpha = 1.0;
         if (showFlashMode) self.customCameraOverlayView.flashModeButton.alpha = 1.0;
-        self.customCameraOverlayView.videoQualitySelectionButton.alpha = 1.0;
         self.customCameraOverlayView.recordIndicatorView.alpha = 0.0;
         
     };

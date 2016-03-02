@@ -43,7 +43,7 @@
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Uploading to Google Drive..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ujz-iM-Ual">
-                    <rect key="frame" x="0.0" y="403" width="320" height="35"/>
+                    <rect key="frame" x="0.0" y="433" width="320" height="35"/>
                     <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
@@ -54,7 +54,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="File Saved" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QJA-aF-8Pe">
-                    <rect key="frame" x="0.0" y="403" width="320" height="35"/>
+                    <rect key="frame" x="0.0" y="397" width="320" height="35"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
@@ -64,20 +64,29 @@
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HSx-mZ-rTo">
+                    <rect key="frame" x="250" y="49" width="55" height="30"/>
+                    <state key="normal" title="sign out"/>
+                    <connections>
+                        <action selector="menuButtonTapped:" destination="i5M-Pr-FkT" eventType="touchUpInside" id="726-3d-i0j"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="GEA-E4-3gc" secondAttribute="trailing" constant="12" id="1XQ-a5-k6E"/>
                 <constraint firstItem="gUe-kh-0MD" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="8" id="2dg-ht-v55"/>
                 <constraint firstAttribute="trailing" secondItem="QJA-aF-8Pe" secondAttribute="trailing" id="5mO-WD-mrA"/>
-                <constraint firstAttribute="bottom" secondItem="Ujz-iM-Ual" secondAttribute="bottom" constant="42" id="8zl-O5-Jff"/>
+                <constraint firstAttribute="bottom" secondItem="Ujz-iM-Ual" secondAttribute="bottom" constant="12" id="8zl-O5-Jff"/>
                 <constraint firstItem="GEA-E4-3gc" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="15" id="9SF-4K-G9B"/>
                 <constraint firstAttribute="trailing" secondItem="Ujz-iM-Ual" secondAttribute="trailing" id="HSZ-2d-4aO"/>
                 <constraint firstItem="MBk-Rp-tQf" firstAttribute="leading" secondItem="gUe-kh-0MD" secondAttribute="trailing" constant="8" id="JLa-MX-C9k"/>
                 <constraint firstItem="QJA-aF-8Pe" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="XqS-B5-VLi"/>
                 <constraint firstItem="Ujz-iM-Ual" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Y5z-Dw-SAB"/>
                 <constraint firstItem="gUe-kh-0MD" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="YiR-oy-2EC"/>
-                <constraint firstAttribute="bottom" secondItem="QJA-aF-8Pe" secondAttribute="bottom" constant="42" id="goW-2Z-hTJ"/>
+                <constraint firstAttribute="trailing" secondItem="HSx-mZ-rTo" secondAttribute="trailing" constant="15" id="dgj-jX-cxk"/>
+                <constraint firstItem="HSx-mZ-rTo" firstAttribute="top" secondItem="GEA-E4-3gc" secondAttribute="bottom" constant="8" id="fN4-HA-3yG"/>
+                <constraint firstAttribute="bottom" secondItem="QJA-aF-8Pe" secondAttribute="bottom" constant="48" id="goW-2Z-hTJ"/>
                 <constraint firstItem="MBk-Rp-tQf" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="8" id="kZ4-ef-kwh"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
@@ -86,6 +95,7 @@
                 <outlet property="cameraSelectionButton" destination="gUe-kh-0MD" id="qFb-uZ-wq8"/>
                 <outlet property="fileSavedLabel" destination="QJA-aF-8Pe" id="aCj-sv-HxV"/>
                 <outlet property="flashModeButton" destination="MBk-Rp-tQf" id="HRl-pc-QEB"/>
+                <outlet property="menuButton" destination="HSx-mZ-rTo" id="pOl-ai-28g"/>
                 <outlet property="recordIndicatorView" destination="GEA-E4-3gc" id="yW1-nv-Ts8"/>
                 <outlet property="uploadingLabel" destination="Ujz-iM-Ual" id="UbH-ec-n6A"/>
             </connections>

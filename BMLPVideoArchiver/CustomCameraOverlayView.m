@@ -20,9 +20,10 @@
     [self.delegate didChangeFlashMode];
 }
 
-//- (IBAction)videoQualitySelectionButtonTapped:(UIButton *)sender
-//{
-//    [self.delegate didChangeVideoQuality];
-//}
+- (IBAction)menuButtonTapped:(id)sender
+{
+    [self.delegate didSignOut];
+    
+}
 
 @end

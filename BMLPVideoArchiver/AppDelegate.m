@@ -21,29 +21,43 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    UINavigationController *navigationController = (UINavigationController *) self.window.rootViewController;
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    
     
     if (![[NSUserDefaults standardUserDefaults] boolForKey:SignedInKey]) {
         
-        UIStoryboard *storyboard = self.window.rootViewController.storyboard;
+//        UIStoryboard *storyboard = self.window.rootViewController.storyboard;
+//        
+//        UIViewController *logInViewController = [storyboard instantiateViewControllerWithIdentifier:@"LogInViewController"];
+//        
+//        [(UINavigationController *)self.window.rootViewController pushViewController:logInViewController animated:YES];
+//        
+//        [self.window makeKeyAndVisible];
         
-        UIViewController *logInViewController = [storyboard instantiateViewControllerWithIdentifier:@"LogInViewController"];
-        
-        self.window.rootViewController = logInViewController;
-        
-        [self.window makeKeyAndVisible];
+        [navigationController pushViewController:[storyboard instantiateViewControllerWithIdentifier:@"LogInViewController"] animated:NO];
         
     }else {
         
+        [navigationController pushViewController:[storyboard instantiateViewControllerWithIdentifier:@"VideoViewController"] animated:NO];
         
-        UIStoryboard *storyboard = self.window.rootViewController.storyboard;
+//        UIStoryboard *storyboard = self.window.rootViewController.storyboard;
+//        
+//        UINavigationController *navController = (UINavigationController *)[storyboard instantiateViewControllerWithIdentifier:@"MainNavigationController"];
+//        
+//        VideoViewController *videoVC = [[VideoViewController alloc] init];
+//        
+////        VideoViewController *videoVC = [storyboard instantiateViewControllerWithIdentifier:@"VideoViewController"];
+////        
+////        [(UINavigationController *)self.window.rootViewController pushViewController: videoVC animated:YES];
+//        
+//        [navController pushViewController:videoVC animated:YES];
+//        
+//        //[self.window makeKeyAndVisible];
         
-        VideoViewController *videoVC = [storyboard instantiateViewControllerWithIdentifier:@"VideoViewController"];
-        
-        self.window.rootViewController = videoVC;
-        
-        [self.window makeKeyAndVisible];
-        
-    }    return YES;
+    }
+    
+    return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

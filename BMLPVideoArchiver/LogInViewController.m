@@ -31,12 +31,18 @@
 - (IBAction)logInButtonTapped:(UIButton *)sender
 {
     
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    //UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
-    VideoViewController *videoVC = [storyboard instantiateViewControllerWithIdentifier:@"VideoViewController"];
+    //UINavigationController *navController = [[UINavigationController alloc] init];
     
+    VideoViewController *videoVC =[[VideoViewController alloc] init];
     
-    [self presentViewController:videoVC animated:YES completion:nil];
+    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.navigationController pushViewController:videoVC animated:YES];
+//    
+//    [navController pushViewController:videoVC animated:YES];
+//  
+//    [self presentViewController:navController animated:YES completion:nil];
 
 }
 
