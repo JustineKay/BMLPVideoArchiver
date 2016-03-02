@@ -220,7 +220,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 -(void)didSignOut
 {
-    //[GTMOAuth2ViewControllerTouch removeAuthFromKeychainForName:kKeychainItemName];
+    [GTMOAuth2ViewControllerTouch removeAuthFromKeychainForName:kKeychainItemName];
     
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:SignedInKey];
     
