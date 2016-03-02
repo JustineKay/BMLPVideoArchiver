@@ -220,16 +220,50 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 -(void)didSignOut
 {
-    [GTMOAuth2ViewControllerTouch removeAuthFromKeychainForName:kKeychainItemName];
+    //[GTMOAuth2ViewControllerTouch removeAuthFromKeychainForName:kKeychainItemName];
+    
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:SignedInKey];
     
     LogInViewController *logInVC = [[LogInViewController alloc] init];
     
-    [self.navigationController popViewControllerAnimated:YES];
-    [self.navigationController pushViewController:logInVC animated:YES];
+    UINavigationController *navigationController = self.navigationController;
+    
+    //Get all view controllers in navigation controller currently
+    NSMutableArray *controllers=[[NSMutableArray alloc] initWithArray:navigationController.viewControllers] ;
+    
+    //Remove the last view controller
+    [controllers removeLastObject];
+    
+    //set the new set of view controllers
+    [navigationController setViewControllers:controllers];
+    
+    [camera dismissViewControllerAnimated:NO completion:^{
+        
+        //UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        [navigationController popToRootViewControllerAnimated:NO];
+        //[navigationController pushViewController:[storyboard instantiateViewControllerWithIdentifier:@"LogInViewController"] animated:NO];
+//        //Push a new view controller
+//        [navigationController pushViewController:logInVC animated:YES];
+    }];
+    
+    
+    //[navigationController popToViewController:navigationController.viewControllers[0] animated:NO];
+    //[navigationController popToRootViewControllerAnimated:NO];
+    
+    NSLog(@"Sign Out button tapped.");
+    
+    
+    
+//    navigationController pushViewController:<#(nonnull UIViewController *)#> animated:<#(BOOL)#>[storyboard instantiateInitialViewController];
+    
+//    [self.navigationController popToRootViewControllerAnimated:NO];
+//    [self.navigationController pushViewController:[storyboard instantiateViewControllerWithIdentifier:@"LogInViewController"] animated:YES];
+
     
 //    [self dismissViewControllerAnimated:YES completion:^{
 //        
-//        [self presentViewController:logInVC animated:YES completion:nil];
+//        [self.navigationController popToRootViewControllerAnimated:YES];
+//        [self.navigationController pushViewController:[storyboard instantiateViewControllerWithIdentifier:@"LogInViewController"] animated:YES];
 //        
 //    }];
     

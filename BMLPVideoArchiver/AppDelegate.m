@@ -39,6 +39,8 @@
         
     }else {
         
+        UIViewController *logInViewController = [storyboard instantiateViewControllerWithIdentifier:@"LogInViewController"];
+        [navigationController addChildViewController:logInViewController];
         [navigationController pushViewController:[storyboard instantiateViewControllerWithIdentifier:@"VideoViewController"] animated:NO];
         
 //        UIStoryboard *storyboard = self.window.rootViewController.storyboard;
