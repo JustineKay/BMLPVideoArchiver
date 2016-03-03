@@ -2,7 +2,7 @@
 //  LogInViewController.m
 //  BMLPVideoArchiver
 //
-//  Created by Justine Gartner on 1/2/16.
+//  Created by Justine Kay on 1/2/16.
 //  Copyright © 2016 Justine Kay. All rights reserved.
 //
 
@@ -21,9 +21,7 @@
     [super viewDidLoad];
     
     self.navigationController.navigationBarHidden = YES;
-    
-    UINavigationController *navController = self.navigationController;
-    
+
     self.logInButton.layer.borderWidth = 1.5;
     self.logInButton.layer.borderColor = [UIColor redColor].CGColor;
     self.logInButton.layer.cornerRadius = 10.0;
@@ -36,17 +34,9 @@
 {
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    
-    //UINavigationController *navController = [[UINavigationController alloc] init];
-    
-    //VideoViewController *videoVC =[[VideoViewController alloc] init];
-    
-    //[self.navigationController popToRootViewControllerAnimated:YES];
+  
     [self.navigationController pushViewController:[storyboard instantiateViewControllerWithIdentifier:@"VideoViewController"]animated:NO];
-//    
-//    [navController pushViewController:videoVC animated:YES];
-//  
-//    [self presentViewController:navController animated:YES completion:nil];
+
 
 }
 

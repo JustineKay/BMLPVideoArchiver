@@ -822,10 +822,17 @@ static Class gSignInClass = Nil;
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
+    
+    if ([webView.request.URL.absoluteString rangeOfString:@"https://accounts.google.com/o/oauth2/approval?"].location != NSNotFound) {
+        webView.hidden=YES;
+    }
+    
   [self notifyWithName:kGTMOAuth2WebViewStoppedLoading
                webView:webView
                   kind:kGTMOAuth2WebViewFinished];
 
+    
+    
   NSString *title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
   if ([title length] > 0) {
     [signIn_ titleChanged:title];

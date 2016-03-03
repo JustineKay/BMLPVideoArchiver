@@ -27,14 +27,6 @@
     
     if (![[NSUserDefaults standardUserDefaults] boolForKey:SignedInKey]) {
         
-//        UIStoryboard *storyboard = self.window.rootViewController.storyboard;
-//        
-//        UIViewController *logInViewController = [storyboard instantiateViewControllerWithIdentifier:@"LogInViewController"];
-//        
-//        [(UINavigationController *)self.window.rootViewController pushViewController:logInViewController animated:YES];
-//        
-//        [self.window makeKeyAndVisible];
-        
         [navigationController pushViewController:[storyboard instantiateViewControllerWithIdentifier:@"LogInViewController"] animated:NO];
         
     }else {
@@ -42,20 +34,6 @@
         UIViewController *logInViewController = [storyboard instantiateViewControllerWithIdentifier:@"LogInViewController"];
         [navigationController addChildViewController:logInViewController];
         [navigationController pushViewController:[storyboard instantiateViewControllerWithIdentifier:@"VideoViewController"] animated:NO];
-        
-//        UIStoryboard *storyboard = self.window.rootViewController.storyboard;
-//        
-//        UINavigationController *navController = (UINavigationController *)[storyboard instantiateViewControllerWithIdentifier:@"MainNavigationController"];
-//        
-//        VideoViewController *videoVC = [[VideoViewController alloc] init];
-//        
-////        VideoViewController *videoVC = [storyboard instantiateViewControllerWithIdentifier:@"VideoViewController"];
-////        
-////        [(UINavigationController *)self.window.rootViewController pushViewController: videoVC animated:YES];
-//        
-//        [navController pushViewController:videoVC animated:YES];
-//        
-//        //[self.window makeKeyAndVisible];
         
     }
     

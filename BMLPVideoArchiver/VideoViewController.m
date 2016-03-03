@@ -62,7 +62,11 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     if (![self isAuthorized]) {
         
         // Not yet authorized, request authorization and push the login UI onto the navigation stack.
-        [self presentViewController:[self createAuthController] animated:YES completion:nil];
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:[self createAuthController]];
+        navigationController.navigationBarHidden = YES;
+        [self presentViewController:navigationController animated:YES completion:nil];
+
+        //[self presentViewController:[self createAuthController] animated:YES completion:nil];
         
     }else {
         
@@ -224,8 +228,6 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:SignedInKey];
     
-    LogInViewController *logInVC = [[LogInViewController alloc] init];
-    
     UINavigationController *navigationController = self.navigationController;
     
     //Get all view controllers in navigation controller currently
@@ -239,37 +241,9 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     [camera dismissViewControllerAnimated:NO completion:^{
         
-        //UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         [navigationController popToRootViewControllerAnimated:NO];
-        //[navigationController pushViewController:[storyboard instantiateViewControllerWithIdentifier:@"LogInViewController"] animated:NO];
-//        //Push a new view controller
-//        [navigationController pushViewController:logInVC animated:YES];
+        
     }];
-    
-    
-    //[navigationController popToViewController:navigationController.viewControllers[0] animated:NO];
-    //[navigationController popToRootViewControllerAnimated:NO];
-    
-    NSLog(@"Sign Out button tapped.");
-    
-    
-    
-//    navigationController pushViewController:<#(nonnull UIViewController *)#> animated:<#(BOOL)#>[storyboard instantiateInitialViewController];
-    
-//    [self.navigationController popToRootViewControllerAnimated:NO];
-//    [self.navigationController pushViewController:[storyboard instantiateViewControllerWithIdentifier:@"LogInViewController"] animated:YES];
-
-    
-//    [self dismissViewControllerAnimated:YES completion:^{
-//        
-//        [self.navigationController popToRootViewControllerAnimated:YES];
-//        [self.navigationController pushViewController:[storyboard instantiateViewControllerWithIdentifier:@"LogInViewController"] animated:YES];
-//        
-//    }];
-    
-    
-    
-    
 
 }
 
