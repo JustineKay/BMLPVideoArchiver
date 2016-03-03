@@ -798,15 +798,43 @@ static Class gSignInClass = Nil;
 - (BOOL)webView:(UIWebView *)webView
   shouldStartLoadWithRequest:(NSURLRequest *)request
               navigationType:(UIWebViewNavigationType)navigationType {
+    
+//    if ([webView.request.URL.absoluteString hasPrefix:@"https://accounts.google.com/o/oauth2/approval"]) {
+//        NSLog(@"-------> Got webview Redirect from Google Auth");
+//        webView.hidden=YES;
+//    }
 
-  if (!hasDoneFinalRedirect_) {
-    hasDoneFinalRedirect_ = [signIn_ requestRedirectedToRequest:request];
-    if (hasDoneFinalRedirect_) {
-      // signIn has told the view to close
-      return NO;
+
+    if (!hasDoneFinalRedirect_)
+    {
+        hasDoneFinalRedirect_ = [signIn_ requestRedirectedToRequest:request];
+        
+        if ([request.URL.absoluteString rangeOfString:@"https://accounts.google.com/o/oauth2/approval?"].location != NSNotFound)
+        {
+            self.navigationController.navigationBarHidden = YES;
+            UIView *redirectView = [[UIView alloc] init];
+            redirectView.backgroundColor = [UIColor blackColor];
+            redirectView.frame=[UIScreen mainScreen].bounds;
+            webView.frame=[UIScreen mainScreen].bounds;
+            [webView addSubview:redirectView];
+            
+            return YES;
+        }
+        else if(hasDoneFinalRedirect_) {
+            // signIn has told the view to close
+            return NO;
+        }
     }
-  }
-  return YES;
+    
+    return YES;
+//  if (!hasDoneFinalRedirect_) {
+//    hasDoneFinalRedirect_ = [signIn_ requestRedirectedToRequest:request];
+//    if (hasDoneFinalRedirect_) {
+//      // signIn has told the view to close
+//      return NO;
+//    }
+//  }
+//  return YES;
 }
 
 - (void)updateUI {
@@ -822,11 +850,15 @@ static Class gSignInClass = Nil;
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    
-    if ([webView.request.URL.absoluteString rangeOfString:@"https://accounts.google.com/o/oauth2/approval?"].location != NSNotFound) {
+    if ([webView.request.URL.absoluteString hasPrefix:@"https://accounts.google.com/o/oauth2/approval"]) {
+        NSLog(@"-------> Got webview Redirect from Google Auth");
         webView.hidden=YES;
     }
-    
+//
+//    if ([webView.request.URL.absoluteString rangeOfString:@"https://accounts.google.com/o/oauth2/approval?"].location != NSNotFound) {
+//        webView.hidden=YES;
+//    }
+//    
   [self notifyWithName:kGTMOAuth2WebViewStoppedLoading
                webView:webView
                   kind:kGTMOAuth2WebViewFinished];
