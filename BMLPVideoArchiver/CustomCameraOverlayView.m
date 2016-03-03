@@ -20,10 +20,16 @@
     [self.delegate didChangeFlashMode];
 }
 
-- (IBAction)menuButtonTapped:(id)sender
+- (IBAction)menuButtonTapped:(UIButton *)sender
 {
     [self.delegate didSignOut];
     
 }
+
+- (IBAction)stopRecordingButtonTapped:(UIButton *)sender {
+    
+    [self.delegate didStopRecording];
+}
+
 
 @end

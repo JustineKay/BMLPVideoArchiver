@@ -82,13 +82,17 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     self.customCameraOverlayView.delegate = self;
     
+    self.customCameraOverlayView.stopRecordingView.alpha = 0.0;
+    self.customCameraOverlayView.stopRecordingView.layer.cornerRadius = 30.0;
+    self.customCameraOverlayView.stopRecordingView.backgroundColor = [UIColor whiteColor];
+    
     self.customCameraOverlayView.cameraSelectionButton.alpha = 0.0;
     self.customCameraOverlayView.flashModeButton.alpha = 0.0;
     self.customCameraOverlayView.recordIndicatorView.alpha = 0.0;
     self.customCameraOverlayView.uploadingLabel.alpha = 0.0;
     self.customCameraOverlayView.fileSavedLabel.alpha = 0.0;
     self.customCameraOverlayView.backgroundColor = [UIColor clearColor];
-    self.customCameraOverlayView.menuBarView.backgroundColor = [UIColor colorWithRed:211.0/255.0 green:211.0/255.0 blue:211.0/255.0 alpha:0.5];
+    self.customCameraOverlayView.menuBarView.backgroundColor = [UIColor colorWithRed:211.0/255.0 green:211.0/255.0 blue:211.0/255.0 alpha:0.25];
     
     self.customCameraOverlayView.frame = camera.view.frame;
     
@@ -224,6 +228,20 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 #pragma Mark - CustomCameraOverlayDelegate methods
 
+-(void)didStopRecording
+{
+    if (recording) {
+        
+        sessionInProgress = NO;
+        
+        [self stopRecording];
+        
+        NSLog(@"session ended");
+        
+    }
+
+}
+
 -(void)didSignOut
 {
     [GTMOAuth2ViewControllerTouch removeAuthFromKeychainForName:kKeychainItemName];
@@ -299,6 +317,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         self.customCameraOverlayView.cameraSelectionButton.alpha = 0.0;
         self.customCameraOverlayView.flashModeButton.alpha = 0.0;
         self.customCameraOverlayView.recordIndicatorView.alpha = 1.0;
+        self.customCameraOverlayView.stopRecordingView.alpha = 1.0;
         
     };
     
@@ -321,6 +340,9 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     recording = NO;
     
     [camera stopVideoCapture];
+    
+    self.customCameraOverlayView.recordIndicatorView.alpha = 0.0;
+    self.customCameraOverlayView.stopRecordingView.alpha = 0.0;
     
     NSLog(@"recording stopped");
 }
@@ -366,10 +388,10 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         
     void (^showControls)(void);
     showControls = ^(void) {
+        
         self.customCameraOverlayView.menuBarView.alpha = 1.0;
         if (showCameraSelection) self.customCameraOverlayView.cameraSelectionButton.alpha = 1.0;
         if (showFlashMode) self.customCameraOverlayView.flashModeButton.alpha = 1.0;
-        self.customCameraOverlayView.recordIndicatorView.alpha = 0.0;
         
     };
     

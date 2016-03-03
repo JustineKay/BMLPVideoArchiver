@@ -13,6 +13,7 @@
 -(void)didChangeCamera;
 -(void)didChangeFlashMode;
 -(void)didSignOut;
+-(void)didStopRecording;
 
 @end
 
@@ -27,5 +28,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *fileSavedLabel;
 @property (weak, nonatomic) IBOutlet UIButton *menuButton;
 @property (weak, nonatomic) IBOutlet UIView *menuBarView;
+@property (weak, nonatomic) IBOutlet UIView *stopRecordingView;
+@property (weak, nonatomic) IBOutlet UIButton *stopRecordingButton;
 
 @end
