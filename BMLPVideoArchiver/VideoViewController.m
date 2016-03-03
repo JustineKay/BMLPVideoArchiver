@@ -339,7 +339,10 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     [camera stopVideoCapture];
     
-    self.customCameraOverlayView.stopRecordingView.alpha = 0.0;
+    if (!sessionInProgress) {
+        
+        self.customCameraOverlayView.stopRecordingView.alpha = 0.0;
+    }
     
     NSLog(@"recording stopped");
 }
