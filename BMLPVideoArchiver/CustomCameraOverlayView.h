@@ -26,5 +26,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *uploadingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *fileSavedLabel;
 @property (weak, nonatomic) IBOutlet UIButton *menuButton;
+@property (weak, nonatomic) IBOutlet UIView *menuBarView;
 
 @end

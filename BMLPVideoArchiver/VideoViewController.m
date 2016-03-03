@@ -88,6 +88,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     self.customCameraOverlayView.uploadingLabel.alpha = 0.0;
     self.customCameraOverlayView.fileSavedLabel.alpha = 0.0;
     self.customCameraOverlayView.backgroundColor = [UIColor clearColor];
+    self.customCameraOverlayView.menuBarView.backgroundColor = [UIColor colorWithRed:211.0/255.0 green:211.0/255.0 blue:211.0/255.0 alpha:0.5];
     
     self.customCameraOverlayView.frame = camera.view.frame;
     
@@ -294,9 +295,11 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 {
     void (^hideControls)(void);
     hideControls = ^(void) {
-        self.customCameraOverlayView.cameraSelectionButton.alpha = 0;
-        self.customCameraOverlayView.flashModeButton.alpha = 0;
+        self.customCameraOverlayView.menuBarView.alpha = 0.0;
+        self.customCameraOverlayView.cameraSelectionButton.alpha = 0.0;
+        self.customCameraOverlayView.flashModeButton.alpha = 0.0;
         self.customCameraOverlayView.recordIndicatorView.alpha = 1.0;
+        
     };
     
     void (^recordMovie)(BOOL finished);
@@ -363,6 +366,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         
     void (^showControls)(void);
     showControls = ^(void) {
+        self.customCameraOverlayView.menuBarView.alpha = 1.0;
         if (showCameraSelection) self.customCameraOverlayView.cameraSelectionButton.alpha = 1.0;
         if (showFlashMode) self.customCameraOverlayView.flashModeButton.alpha = 1.0;
         self.customCameraOverlayView.recordIndicatorView.alpha = 0.0;

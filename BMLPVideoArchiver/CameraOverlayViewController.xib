@@ -15,26 +15,52 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gUe-kh-0MD">
-                    <rect key="frame" x="8" y="8" width="80" height="40"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NMm-pJ-cbO" userLabel="Menu Bar">
+                    <rect key="frame" x="0.0" y="15" width="320" height="45"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HSx-mZ-rTo">
+                            <rect key="frame" x="20" y="5" width="35" height="35"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="35" id="XsZ-vR-34N"/>
+                                <constraint firstAttribute="width" constant="35" id="aWe-79-yBa"/>
+                            </constraints>
+                            <state key="normal" image="Change User Filled-50"/>
+                            <connections>
+                                <action selector="menuButtonTapped:" destination="i5M-Pr-FkT" eventType="touchUpInside" id="726-3d-i0j"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MBk-Rp-tQf">
+                            <rect key="frame" x="146" y="5" width="35" height="35"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="35" id="1eJ-4L-mAv"/>
+                                <constraint firstAttribute="width" constant="35" id="2RR-sC-wby"/>
+                            </constraints>
+                            <connections>
+                                <action selector="flashModeButtonTapped:" destination="i5M-Pr-FkT" eventType="touchUpInside" id="k8d-7V-cwe"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gUe-kh-0MD">
+                            <rect key="frame" x="63" y="5" width="75" height="35"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="75" id="3Ix-TQ-03M"/>
+                                <constraint firstAttribute="height" constant="35" id="9Pp-uq-9T5"/>
+                            </constraints>
+                            <connections>
+                                <action selector="cameraSelectionButtonTapped:" destination="i5M-Pr-FkT" eventType="touchUpInside" id="Sd7-Aa-y4i"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="80" id="3Ix-TQ-03M"/>
-                        <constraint firstAttribute="height" constant="40" id="9Pp-uq-9T5"/>
+                        <constraint firstItem="MBk-Rp-tQf" firstAttribute="leading" secondItem="gUe-kh-0MD" secondAttribute="trailing" constant="8" id="30L-fY-bCZ"/>
+                        <constraint firstAttribute="height" constant="45" id="4aR-gB-R57"/>
+                        <constraint firstItem="HSx-mZ-rTo" firstAttribute="centerY" secondItem="gUe-kh-0MD" secondAttribute="centerY" id="6OX-tq-7Kh"/>
+                        <constraint firstItem="gUe-kh-0MD" firstAttribute="leading" secondItem="HSx-mZ-rTo" secondAttribute="trailing" constant="8" id="6aS-QP-J2V"/>
+                        <constraint firstItem="HSx-mZ-rTo" firstAttribute="centerY" secondItem="NMm-pJ-cbO" secondAttribute="centerY" id="PiB-Sg-1R2"/>
+                        <constraint firstItem="HSx-mZ-rTo" firstAttribute="leading" secondItem="NMm-pJ-cbO" secondAttribute="leading" constant="20" id="SbU-QW-mNT"/>
+                        <constraint firstItem="gUe-kh-0MD" firstAttribute="centerY" secondItem="MBk-Rp-tQf" secondAttribute="centerY" id="kJI-Dh-Bgv"/>
                     </constraints>
-                    <connections>
-                        <action selector="cameraSelectionButtonTapped:" destination="i5M-Pr-FkT" eventType="touchUpInside" id="Sd7-Aa-y4i"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MBk-Rp-tQf">
-                    <rect key="frame" x="96" y="8" width="25" height="40"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="40" id="1eJ-4L-mAv"/>
-                        <constraint firstAttribute="width" constant="25" id="2RR-sC-wby"/>
-                    </constraints>
-                    <connections>
-                        <action selector="flashModeButtonTapped:" destination="i5M-Pr-FkT" eventType="touchUpInside" id="k8d-7V-cwe"/>
-                    </connections>
-                </button>
+                </view>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="recording" translatesAutoresizingMaskIntoConstraints="NO" id="GEA-E4-3gc">
                     <rect key="frame" x="273" y="15" width="35" height="26"/>
                     <constraints>
@@ -64,30 +90,20 @@
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HSx-mZ-rTo">
-                    <rect key="frame" x="250" y="49" width="55" height="30"/>
-                    <state key="normal" title="sign out"/>
-                    <connections>
-                        <action selector="menuButtonTapped:" destination="i5M-Pr-FkT" eventType="touchUpInside" id="726-3d-i0j"/>
-                    </connections>
-                </button>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="GEA-E4-3gc" secondAttribute="trailing" constant="12" id="1XQ-a5-k6E"/>
-                <constraint firstItem="gUe-kh-0MD" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="8" id="2dg-ht-v55"/>
                 <constraint firstAttribute="trailing" secondItem="QJA-aF-8Pe" secondAttribute="trailing" id="5mO-WD-mrA"/>
                 <constraint firstAttribute="bottom" secondItem="Ujz-iM-Ual" secondAttribute="bottom" constant="12" id="8zl-O5-Jff"/>
                 <constraint firstItem="GEA-E4-3gc" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="15" id="9SF-4K-G9B"/>
+                <constraint firstAttribute="trailing" secondItem="NMm-pJ-cbO" secondAttribute="trailing" id="E8s-jj-t3q"/>
+                <constraint firstItem="NMm-pJ-cbO" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Ejv-El-BRG"/>
                 <constraint firstAttribute="trailing" secondItem="Ujz-iM-Ual" secondAttribute="trailing" id="HSZ-2d-4aO"/>
-                <constraint firstItem="MBk-Rp-tQf" firstAttribute="leading" secondItem="gUe-kh-0MD" secondAttribute="trailing" constant="8" id="JLa-MX-C9k"/>
                 <constraint firstItem="QJA-aF-8Pe" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="XqS-B5-VLi"/>
                 <constraint firstItem="Ujz-iM-Ual" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Y5z-Dw-SAB"/>
-                <constraint firstItem="gUe-kh-0MD" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="YiR-oy-2EC"/>
-                <constraint firstAttribute="trailing" secondItem="HSx-mZ-rTo" secondAttribute="trailing" constant="15" id="dgj-jX-cxk"/>
-                <constraint firstItem="HSx-mZ-rTo" firstAttribute="top" secondItem="GEA-E4-3gc" secondAttribute="bottom" constant="8" id="fN4-HA-3yG"/>
                 <constraint firstAttribute="bottom" secondItem="QJA-aF-8Pe" secondAttribute="bottom" constant="48" id="goW-2Z-hTJ"/>
-                <constraint firstItem="MBk-Rp-tQf" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="8" id="kZ4-ef-kwh"/>
+                <constraint firstItem="NMm-pJ-cbO" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="15" id="jdj-wm-m7W"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -95,6 +111,7 @@
                 <outlet property="cameraSelectionButton" destination="gUe-kh-0MD" id="qFb-uZ-wq8"/>
                 <outlet property="fileSavedLabel" destination="QJA-aF-8Pe" id="aCj-sv-HxV"/>
                 <outlet property="flashModeButton" destination="MBk-Rp-tQf" id="HRl-pc-QEB"/>
+                <outlet property="menuBarView" destination="NMm-pJ-cbO" id="d81-Wp-YD6"/>
                 <outlet property="menuButton" destination="HSx-mZ-rTo" id="pOl-ai-28g"/>
                 <outlet property="recordIndicatorView" destination="GEA-E4-3gc" id="yW1-nv-Ts8"/>
                 <outlet property="uploadingLabel" destination="Ujz-iM-Ual" id="UbH-ec-n6A"/>
@@ -103,6 +120,7 @@
         </view>
     </objects>
     <resources>
+        <image name="Change User Filled-50" width="50" height="50"/>
         <image name="recording" width="128" height="128"/>
     </resources>
 </document>
