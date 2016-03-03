@@ -23,7 +23,6 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *cameraSelectionButton;
 @property (weak, nonatomic) IBOutlet UIButton *flashModeButton;
-@property (weak, nonatomic) IBOutlet UIImageView *recordIndicatorView;
 @property (weak, nonatomic) IBOutlet UILabel *uploadingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *fileSavedLabel;
 @property (weak, nonatomic) IBOutlet UIButton *menuButton;

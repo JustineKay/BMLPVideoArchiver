@@ -88,7 +88,6 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     self.customCameraOverlayView.cameraSelectionButton.alpha = 0.0;
     self.customCameraOverlayView.flashModeButton.alpha = 0.0;
-    self.customCameraOverlayView.recordIndicatorView.alpha = 0.0;
     self.customCameraOverlayView.uploadingLabel.alpha = 0.0;
     self.customCameraOverlayView.fileSavedLabel.alpha = 0.0;
     self.customCameraOverlayView.backgroundColor = [UIColor clearColor];
@@ -316,9 +315,8 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         self.customCameraOverlayView.menuBarView.alpha = 0.0;
         self.customCameraOverlayView.cameraSelectionButton.alpha = 0.0;
         self.customCameraOverlayView.flashModeButton.alpha = 0.0;
-        self.customCameraOverlayView.recordIndicatorView.alpha = 1.0;
         self.customCameraOverlayView.stopRecordingView.alpha = 1.0;
-        
+        self.customCameraOverlayView.stopRecordingView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.25];
     };
     
     void (^recordMovie)(BOOL finished);
@@ -341,7 +339,6 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     [camera stopVideoCapture];
     
-    self.customCameraOverlayView.recordIndicatorView.alpha = 0.0;
     self.customCameraOverlayView.stopRecordingView.alpha = 0.0;
     
     NSLog(@"recording stopped");
