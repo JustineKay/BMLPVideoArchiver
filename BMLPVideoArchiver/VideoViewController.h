@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import <LLSimpleCamera/LLSimpleCamera.h>
 #import "GTMOAuth2ViewControllerTouch.h"
 #import "GTLDrive.h"
 #import "CameraOverlayViewController.h"
@@ -24,11 +24,12 @@ CustomCameraOverlayDelegate
 
 {
 UITapGestureRecognizer  *recordGestureRecognizer;
-UIImagePickerController *camera;
-BOOL                     recording;
-BOOL                     sessionInProgress;
-BOOL                     showCameraSelection;
-BOOL                     showFlashMode;
+//UIImagePickerController *camera;
+LLSimpleCamera *camera;
+BOOL recording;
+BOOL sessionInProgress;
+BOOL showCameraSelection;
+BOOL showFlashMode;
 }
 
 @property (nonatomic, strong) GTLServiceDrive *service;

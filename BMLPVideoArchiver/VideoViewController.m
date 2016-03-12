@@ -71,7 +71,11 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         
     }else {
         
-        [self presentViewController:camera animated:animated completion:nil];
+        CGRect screenRect = [[UIScreen mainScreen] bounds];
+        CGFloat screenWidth = screenRect.size.width;
+        CGFloat screenHeight = screenRect.size.height;
+        [camera attachToViewController:self withFrame:CGRectMake(0, 0, screenHeight, screenWidth)];
+        //[self presentViewController:camera animated:animated completion:nil];
     }
 }
 
@@ -104,54 +108,54 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 - (void)createCamera
 {
-    camera = [[UIImagePickerController alloc] init];
-    camera.sourceType = UIImagePickerControllerSourceTypeCamera;
-    
-    camera.mediaTypes = [[NSArray alloc] initWithObjects:(NSString *)kUTTypeMovie, nil];
-    camera.cameraCaptureMode = UIImagePickerControllerCameraCaptureModeVideo;
-    
-    camera.showsCameraControls = NO;
-    camera.cameraViewTransform = CGAffineTransformIdentity;
+    camera = [[LLSimpleCamera alloc] initWithVideoEnabled:YES];
+//    camera.sourceType = UIImagePickerControllerSourceTypeCamera;
+//    
+//    camera.mediaTypes = [[NSArray alloc] initWithObjects:(NSString *)kUTTypeMovie, nil];
+//    camera.cameraCaptureMode = UIImagePickerControllerCameraCaptureModeVideo;
+//    
+//    camera.showsCameraControls = NO;
+//    camera.cameraViewTransform = CGAffineTransformIdentity;
     
     //create custom overlay and apply to camera
     [self customCameraOverlay];
-    camera.cameraOverlayView = self.customCameraOverlayView;
-    
-    // not all devices have two cameras or a flash so just check here
-    if ( [UIImagePickerController isCameraDeviceAvailable: UIImagePickerControllerCameraDeviceRear] ) {
-        
-        camera.cameraDevice = UIImagePickerControllerCameraDeviceRear;
-        
-        if ( [UIImagePickerController isCameraDeviceAvailable: UIImagePickerControllerCameraDeviceFront] ) {
-            
-            [self.customCameraOverlayView.cameraSelectionButton setImage:[UIImage imageNamed:@"camera-toggle"] forState:UIControlStateNormal];
-            self.customCameraOverlayView.cameraSelectionButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
-            self.customCameraOverlayView.cameraSelectionButton.alpha = 1.0;
-            showCameraSelection = YES;
-        }
-        
-    } else {
-        
-        camera.cameraDevice = UIImagePickerControllerCameraDeviceFront;
-    
-    }
-    
-    
-    if ( [UIImagePickerController isFlashAvailableForCameraDevice:camera.cameraDevice] ) {
-        
-        camera.cameraFlashMode = UIImagePickerControllerCameraFlashModeOff;
-        [self.customCameraOverlayView.flashModeButton setImage:[UIImage imageNamed:@"flash-off.png"] forState:UIControlStateNormal];
-        self.customCameraOverlayView.flashModeButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
-        self.customCameraOverlayView.flashModeButton.alpha = 1.0;
-        showFlashMode = YES;
-    
-    }
-    
-    
-    camera.videoQuality = UIImagePickerControllerQualityType640x480;
-    
-    camera.delegate = self;
-    camera.edgesForExtendedLayout = UIRectEdgeAll;
+//    camera.cameraOverlayView = self.customCameraOverlayView;
+//    
+//    // not all devices have two cameras or a flash so just check here
+//    if ( [UIImagePickerController isCameraDeviceAvailable: UIImagePickerControllerCameraDeviceRear] ) {
+//        
+//        camera.cameraDevice = UIImagePickerControllerCameraDeviceRear;
+//        
+//        if ( [UIImagePickerController isCameraDeviceAvailable: UIImagePickerControllerCameraDeviceFront] ) {
+//            
+//            [self.customCameraOverlayView.cameraSelectionButton setImage:[UIImage imageNamed:@"camera-toggle"] forState:UIControlStateNormal];
+//            self.customCameraOverlayView.cameraSelectionButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+//            self.customCameraOverlayView.cameraSelectionButton.alpha = 1.0;
+//            showCameraSelection = YES;
+//        }
+//        
+//    } else {
+//        
+//        camera.cameraDevice = UIImagePickerControllerCameraDeviceFront;
+//    
+//    }
+//    
+//    
+//    if ( [UIImagePickerController isFlashAvailableForCameraDevice:camera.cameraDevice] ) {
+//        
+//        camera.cameraFlashMode = UIImagePickerControllerCameraFlashModeOff;
+//        [self.customCameraOverlayView.flashModeButton setImage:[UIImage imageNamed:@"flash-off.png"] forState:UIControlStateNormal];
+//        self.customCameraOverlayView.flashModeButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+//        self.customCameraOverlayView.flashModeButton.alpha = 1.0;
+//        showFlashMode = YES;
+//    
+//    }
+//    
+//    
+//    camera.videoQuality = UIImagePickerControllerQualityType640x480;
+//    
+//    camera.delegate = self;
+//    camera.edgesForExtendedLayout = UIRectEdgeAll;
     
     
 }
@@ -266,69 +270,83 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 }
 
-- (void)didChangeFlashMode
-{
-    if (camera.cameraFlashMode == UIImagePickerControllerCameraFlashModeOff) {
-        
-        camera.cameraFlashMode = UIImagePickerControllerCameraFlashModeOn;
-        [self.customCameraOverlayView.flashModeButton setImage:[UIImage imageNamed:@"flash-on.png"] forState:UIControlStateNormal];
-    
-    } else {
-        
-        camera.cameraFlashMode = UIImagePickerControllerCameraFlashModeOff;
-        [self.customCameraOverlayView.flashModeButton setImage:[UIImage imageNamed:@"flash-off.png"] forState:UIControlStateNormal];
-    
-    }
-}
-
-- (void)didChangeCamera
-{
-    if (camera.cameraDevice == UIImagePickerControllerCameraDeviceRear) {
-        
-        camera.cameraDevice = UIImagePickerControllerCameraDeviceFront;
-    
-    } else {
-        
-        camera.cameraDevice = UIImagePickerControllerCameraDeviceRear;
-    }
-    
-    if ( ![UIImagePickerController isFlashAvailableForCameraDevice:camera.cameraDevice] ) {
-        
-        [UIView animateWithDuration:0.3 animations:^(void) {self.customCameraOverlayView.flashModeButton.alpha = 0;}];
-        showFlashMode = NO;
-    
-    } else {
-        
-        [UIView animateWithDuration:0.3 animations:^(void) {self.customCameraOverlayView.flashModeButton.alpha = 1.0;}];
-        showFlashMode = YES;
-    
-    }
-}
+//- (void)didChangeFlashMode
+//{
+//    if (camera.cameraFlashMode == UIImagePickerControllerCameraFlashModeOff) {
+//        
+//        camera.cameraFlashMode = UIImagePickerControllerCameraFlashModeOn;
+//        [self.customCameraOverlayView.flashModeButton setImage:[UIImage imageNamed:@"flash-on.png"] forState:UIControlStateNormal];
+//    
+//    } else {
+//        
+//        camera.cameraFlashMode = UIImagePickerControllerCameraFlashModeOff;
+//        [self.customCameraOverlayView.flashModeButton setImage:[UIImage imageNamed:@"flash-off.png"] forState:UIControlStateNormal];
+//    
+//    }
+//}
+//
+//- (void)didChangeCamera
+//{
+//    if (camera.cameraDevice == UIImagePickerControllerCameraDeviceRear) {
+//        
+//        camera.cameraDevice = UIImagePickerControllerCameraDeviceFront;
+//    
+//    } else {
+//        
+//        camera.cameraDevice = UIImagePickerControllerCameraDeviceRear;
+//    }
+//    
+//    if ( ![UIImagePickerController isFlashAvailableForCameraDevice:camera.cameraDevice] ) {
+//        
+//        [UIView animateWithDuration:0.3 animations:^(void) {self.customCameraOverlayView.flashModeButton.alpha = 0;}];
+//        showFlashMode = NO;
+//    
+//    } else {
+//        
+//        [UIView animateWithDuration:0.3 animations:^(void) {self.customCameraOverlayView.flashModeButton.alpha = 1.0;}];
+//        showFlashMode = YES;
+//    
+//    }
+//}
 
 
 #pragma mark - UIImagePickerController camera and delegate methods
 
+-(NSURL *)applicationDocumentsDirectory {
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    NSURL *url = [NSURL URLWithString:basePath];
+    return url;
+    
+}
+
+
 - (void)startRecording
 {
-    void (^hideControls)(void);
-    hideControls = ^(void) {
-        self.customCameraOverlayView.menuBarView.alpha = 0.0;
-        self.customCameraOverlayView.cameraSelectionButton.alpha = 0.0;
-        self.customCameraOverlayView.flashModeButton.alpha = 0.0;
-        self.customCameraOverlayView.stopRecordingView.alpha = 1.0;
-        self.customCameraOverlayView.stopRecordingView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.25];
-    };
     
-    void (^recordMovie)(BOOL finished);
-    recordMovie = ^(BOOL finished) {
-        
-        recording = YES;
-        [camera startVideoCapture];
-        [self startVideoRecordingTimer];
-    };
-    
-    // Hide controls
-    [UIView  animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:hideControls completion:recordMovie];
+    NSURL *outputURL = [[[self applicationDocumentsDirectory]
+                         URLByAppendingPathComponent:@"test1"] URLByAppendingPathExtension:@"mov"];
+    [camera startRecordingWithOutputUrl:outputURL];
+//    void (^hideControls)(void);
+//    hideControls = ^(void) {
+//        self.customCameraOverlayView.menuBarView.alpha = 0.0;
+//        self.customCameraOverlayView.cameraSelectionButton.alpha = 0.0;
+//        self.customCameraOverlayView.flashModeButton.alpha = 0.0;
+//        self.customCameraOverlayView.stopRecordingView.alpha = 1.0;
+//        self.customCameraOverlayView.stopRecordingView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.25];
+//    };
+//    
+//    void (^recordMovie)(BOOL finished);
+//    recordMovie = ^(BOOL finished) {
+//        
+//        recording = YES;
+//        [camera startVideoCapture];
+//        [self startVideoRecordingTimer];
+//    };
+//    
+//    // Hide controls
+//    [UIView  animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:hideControls completion:recordMovie];
 }
 
 - (void)stopRecording
@@ -337,12 +355,16 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     recording = NO;
     
-    [camera stopVideoCapture];
+    [camera stopRecording:^(LLSimpleCamera *camera, NSURL *outputFileUrl, NSError *error) {
+//        VideoViewController *vc = [[VideoViewController alloc] initWithVideoUrl:outputFileUrl];
+//        [self.navigationController pushViewController:vc animated:YES];
+    }];
+    //[camera stopVideoCapture];
     
-    if (!sessionInProgress) {
-        
-        self.customCameraOverlayView.stopRecordingView.alpha = 0.0;
-    }
+//    if (!sessionInProgress) {
+//        
+//        self.customCameraOverlayView.stopRecordingView.alpha = 0.0;
+//    }
     
     NSLog(@"recording stopped");
 }
@@ -375,7 +397,10 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     if (sessionInProgress) {
         
         recording = YES;
-        [camera startVideoCapture];
+        
+        //[camera startVideoCapture];
+        [self startRecording];
+        
         [self startVideoRecordingTimer];
         
         NSLog(@"recording continued...");
@@ -384,21 +409,21 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 - (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
 {
-   if (!sessionInProgress) {
-        
-    void (^showControls)(void);
-    showControls = ^(void) {
-        
-        self.customCameraOverlayView.menuBarView.alpha = 1.0;
-        if (showCameraSelection) self.customCameraOverlayView.cameraSelectionButton.alpha = 1.0;
-        if (showFlashMode) self.customCameraOverlayView.flashModeButton.alpha = 1.0;
-        
-    };
-    
-    // Show controls
-    [UIView  animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:showControls completion:NULL];
-        
-    }
+//   if (!sessionInProgress) {
+//        
+//    void (^showControls)(void);
+//    showControls = ^(void) {
+//        
+//        self.customCameraOverlayView.menuBarView.alpha = 1.0;
+//        if (showCameraSelection) self.customCameraOverlayView.cameraSelectionButton.alpha = 1.0;
+//        if (showFlashMode) self.customCameraOverlayView.flashModeButton.alpha = 1.0;
+//        
+//    };
+//    
+//    // Show controls
+//    [UIView  animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:showControls completion:NULL];
+//        
+//    }
     
 }
 
