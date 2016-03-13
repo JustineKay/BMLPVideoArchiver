@@ -6,6 +6,7 @@
 //  Copyright © 2015 Justine Kay. All rights reserved.
 
 #import <MobileCoreServices/MobileCoreServices.h>
+#import <AVFoundation/AVFoundation.h>
 #import "VideoViewController.h"
 #import "LogInViewController.h"
 #import "GTMOAuth2ViewControllerTouch.h"
@@ -22,8 +23,8 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 }
 
 - (void)createCamera;
-- (void)startRecording;
-- (void)stopRecording;
+- (void)startVideoRecording;
+- (void)stopVideoRecording;
 
 - (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo;
 
@@ -45,6 +46,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     self.navigationController.navigationBarHidden = YES;
     
     [self createCamera];
+    [self setUpAudioRecorder];
     
     self.timeInSeconds = 0;
     
@@ -75,6 +77,26 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     }
 }
 
+#pragma mark - audioRecorder set up
+
+-(void)setUpAudioRecorder
+{
+    //set audio file
+    NSArray *pathComponents = [NSArray arrayWithObjects:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject], @"BMLPAudioRecording.m4a", nil];
+    NSURL *outputFileURL = [NSURL fileURLWithPathComponents:pathComponents];
+    
+    //set audio session
+    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+    [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
+    NSMutableDictionary *recordingString = [[NSMutableDictionary alloc] init];
+    audioRecorder = [[AVAudioRecorder alloc] initWithURL:outputFileURL settings:recordingString error:nil];
+    audioRecorder.delegate = self;
+    audioRecorder.meteringEnabled = YES;
+    [audioRecorder prepareToRecord];
+}
+
+#pragma mark - camera and customCameraoOverlay set up
+
 -(void)customCameraOverlay
 {
     CameraOverlayViewController *overlayVC = [[CameraOverlayViewController alloc] initWithNibName:@"CameraOverlayViewController" bundle:nil];
@@ -95,7 +117,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     self.customCameraOverlayView.frame = camera.view.frame;
     
-    recordGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(beginVideoRecording)];
+    recordGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(beginVideoRecordingSession)];
     recordGestureRecognizer.numberOfTapsRequired = 2;
     
     [self.customCameraOverlayView addGestureRecognizer:recordGestureRecognizer];
@@ -156,18 +178,6 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
 }
 
-- (void)beginVideoRecording
-{
-    if (!recording) {
-        
-        sessionInProgress = YES;
-        
-        [self startRecording];
-        
-        NSLog(@"recording started");
-    
-    }
-}
 
 #pragma mark - Video Recording Timer
 
@@ -185,7 +195,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     if (self.timeInSeconds == 30) {
         
-        [self stopRecording];
+        [self stopVideoRecording];
     }
     
     NSLog(@"Timer Fired, time in seconds: %ld", (long)self.timeInSeconds);
@@ -202,29 +212,6 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 }
 
 
-#pragma mark - ShakeGesture
-
-- (BOOL)canBecomeFirstResponder
-{
-    return YES;
-}
-
-- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event
-{
-    if (motion == UIEventSubtypeMotionShake)
-    {
-        if (recording) {
-            
-            sessionInProgress = NO;
-            
-            [self stopRecording];
-            
-            NSLog(@"session ended");
-            
-        }
-    }
-}
-
 #pragma Mark - CustomCameraOverlayDelegate methods
 
 -(void)didStopRecording
@@ -233,7 +220,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         
         sessionInProgress = NO;
         
-        [self stopRecording];
+        [self stopVideoRecording];
         
         NSLog(@"session ended");
         
@@ -308,7 +295,20 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 #pragma mark - UIImagePickerController camera and delegate methods
 
-- (void)startRecording
+- (void)beginVideoRecordingSession
+{
+    if (!recording) {
+        
+        sessionInProgress = YES;
+        
+        [self startVideoRecording];
+        
+        NSLog(@"recording started");
+        
+    }
+}
+
+- (void)startVideoRecording
 {
     void (^hideControls)(void);
     hideControls = ^(void) {
@@ -331,7 +331,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     [UIView  animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:hideControls completion:recordMovie];
 }
 
-- (void)stopRecording
+- (void)stopVideoRecording
 {
     [self resetTimer];
     
@@ -450,7 +450,6 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     {
         NSString *errorMessage = [NSString stringWithFormat:@"Authentication Error: %@", error];
         NSLog( @"%@", errorMessage);
-        //[self fadeInFadeOutInfoLabel:self.customCameraOverlayView.uploadingLabel WithMessage:errorMessage];
         self.driveService.authorizer = nil;
     }
     else

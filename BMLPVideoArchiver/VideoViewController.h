@@ -17,6 +17,7 @@
 
 @interface VideoViewController : UIViewController
 <
+AVAudioRecorderDelegate,
 UINavigationControllerDelegate,
 UIImagePickerControllerDelegate,
 CustomCameraOverlayDelegate
@@ -25,10 +26,11 @@ CustomCameraOverlayDelegate
 {
 UITapGestureRecognizer  *recordGestureRecognizer;
 UIImagePickerController *camera;
-BOOL                     recording;
-BOOL                     sessionInProgress;
-BOOL                     showCameraSelection;
-BOOL                     showFlashMode;
+AVAudioRecorder *audioRecorder;
+BOOL recording;
+BOOL sessionInProgress;
+BOOL showCameraSelection;
+BOOL showFlashMode;
 }
 
 @property (nonatomic, strong) GTLServiceDrive *service;
