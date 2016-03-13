@@ -13,7 +13,7 @@
 -(void)didChangeCamera;
 -(void)didChangeFlashMode;
 -(void)didSignOut;
--(void)didStopRecording;
+-(void)didStopRecordingVideo;
 
 @end
 

@@ -18,11 +18,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 @interface VideoViewController ()
 
-{
-    BOOL isAuthorized;
-}
-
-- (void)createCamera;
+- (void)setUpCamera;
 - (void)startVideoRecording;
 - (void)stopVideoRecording;
 
@@ -45,7 +41,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     self.navigationController.navigationBarHidden = YES;
     
-    [self createCamera];
+    [self setUpCamera];
     [self setUpAudioRecorder];
     
     self.timeInSeconds = 0;
@@ -55,7 +51,15 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     self.driveService.authorizer = [GTMOAuth2ViewControllerTouch authForGoogleFromKeychainForName:kKeychainItemName
                                                                                          clientID:kClientID
                                                                                      clientSecret:kClientSecret];
-    
+    //Background/Foreground notifications
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appDidEnterBackground)
+                                                 name:UIApplicationDidEnterBackgroundNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appWillEnterForeground)
+                                                 name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -77,7 +81,35 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     }
 }
 
-#pragma mark - audioRecorder set up
+-(void)appDidEnterBackground{
+    
+    inBackground = YES;
+    
+    [self stopVideoRecording];
+    
+    if (!audioRecorder.recording && [self isAuthorized]) {
+        
+        AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+        [audioSession setActive:YES error:nil];
+        
+        [self startAudioRecording];
+    }
+}
+
+-(void)appWillEnterForeground
+{
+    inBackground = NO;
+    
+    if (audioRecorder.recording) {
+        
+        [self stopAudioRecording];
+        
+        AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+        [audioSession setActive:NO error:nil];
+    }
+}
+
+#pragma mark - audioRecorder
 
 -(void)setUpAudioRecorder
 {
@@ -94,6 +126,30 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     audioRecorder.meteringEnabled = YES;
     [audioRecorder prepareToRecord];
 }
+
+-(void)audioRecorderDidFinishRecording:(AVAudioRecorder *)recorder successfully:(BOOL)flag {
+    
+    //save audio file to google drive and photos
+    
+    //restart audioRecorder
+    if (inBackground) {
+        
+        [self startAudioRecording];
+    }
+}
+
+-(void)startAudioRecording
+{
+    [audioRecorder record];
+    [self startRecordingTimer];
+}
+
+-(void)stopAudioRecording
+{
+    [audioRecorder stop];
+    [self resetTimer];
+}
+
 
 #pragma mark - camera and customCameraoOverlay set up
 
@@ -124,7 +180,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
 }
 
-- (void)createCamera
+- (void)setUpCamera
 {
     camera = [[UIImagePickerController alloc] init];
     camera.sourceType = UIImagePickerControllerSourceTypeCamera;
@@ -179,9 +235,9 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 }
 
 
-#pragma mark - Video Recording Timer
+#pragma mark - Recording Timer
 
--(void)startVideoRecordingTimer
+-(void)startRecordingTimer
 {
     NSTimer *timer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(fireTimer:) userInfo:nil repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
@@ -195,7 +251,15 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     if (self.timeInSeconds == 30) {
         
-        [self stopVideoRecording];
+        if (videoRecording) {
+            
+            [self stopVideoRecording];
+        }
+        
+        if (audioRecorder.recording) {
+            
+            [self stopAudioRecording];
+        }
     }
     
     NSLog(@"Timer Fired, time in seconds: %ld", (long)self.timeInSeconds);
@@ -214,9 +278,9 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 #pragma Mark - CustomCameraOverlayDelegate methods
 
--(void)didStopRecording
+-(void)didStopRecordingVideo
 {
-    if (recording) {
+    if (videoRecording) {
         
         sessionInProgress = NO;
         
@@ -297,7 +361,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 - (void)beginVideoRecordingSession
 {
-    if (!recording) {
+    if (!videoRecording) {
         
         sessionInProgress = YES;
         
@@ -322,9 +386,9 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     void (^recordMovie)(BOOL finished);
     recordMovie = ^(BOOL finished) {
         
-        recording = YES;
+        videoRecording = YES;
         [camera startVideoCapture];
-        [self startVideoRecordingTimer];
+        [self startRecordingTimer];
     };
     
     // Hide controls
@@ -335,7 +399,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 {
     [self resetTimer];
     
-    recording = NO;
+    videoRecording = NO;
     
     [camera stopVideoCapture];
     
@@ -348,13 +412,13 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 }
 
 
-// Handle selection of an image
+// Handle most recent video recording
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     NSString *mediaType = [info objectForKey: UIImagePickerControllerMediaType];
     
     if (CFStringCompare ((__bridge CFStringRef) mediaType, kUTTypeMovie, 0) == kCFCompareEqualTo) {
-        NSURL *videoUrl=(NSURL*)[info objectForKey:UIImagePickerControllerMediaURL];
+        NSURL *videoUrl = (NSURL*)[info objectForKey:UIImagePickerControllerMediaURL];
         NSString *videoPath = [videoUrl path];
         
         if (UIVideoAtPathIsCompatibleWithSavedPhotosAlbum (videoPath)) {
@@ -374,9 +438,9 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     if (sessionInProgress) {
         
-        recording = YES;
+        videoRecording = YES;
         [camera startVideoCapture];
-        [self startVideoRecordingTimer];
+        [self startRecordingTimer];
         
         NSLog(@"recording continued...");
     }
@@ -463,6 +527,44 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
     }
 }
+
+// Upload audio to Google Drive
+- (void)uploadAudio:(NSString *)audioURLPath
+{
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"BMLP Video Archiver Uploaded File ('EEEE MMMM d, YYYY h:mm a, zzz')"];
+    
+    GTLDriveFile *file = [GTLDriveFile object];
+    file.title = [dateFormat stringFromDate:[NSDate date]];
+    file.descriptionProperty = @"Uploaded from BMLP Video Archiver";
+    file.mimeType = @"audio/x-m4a";
+    
+    NSError *error = nil;
+    
+    NSData *data = [NSData dataWithContentsOfFile:audioURLPath options:NSDataReadingMappedIfSafe error:&error];
+    
+    GTLUploadParameters *uploadParameters = [GTLUploadParameters uploadParametersWithData:data MIMEType:file.mimeType];
+    GTLQueryDrive *query = [GTLQueryDrive queryForFilesInsertWithObject:file
+                                                       uploadParameters:uploadParameters];
+    
+    
+    [self.driveService executeQuery:query
+                  completionHandler:^(GTLServiceTicket *ticket,
+                                      GTLDriveFile *insertedFile, NSError *error) {
+                      
+                      
+                      if (error == nil) {
+                          
+                          NSLog(@"File ID: %@", insertedFile.identifier);
+                          
+                      } else {
+                          
+                          NSLog(@"An error occurred: %@", error);
+                      }
+                      
+                  }];
+}
+
 
 // Upload video to Google Drive
 - (void)uploadVideo:(NSString *)videoURLPath

@@ -28,7 +28,7 @@
 
 - (IBAction)stopRecordingButtonTapped:(UIButton *)sender {
     
-    [self.delegate didStopRecording];
+    [self.delegate didStopRecordingVideo];
 }
 
 

@@ -246,6 +246,11 @@
 					6BDC39BC1BDF22EF0036BE01 = {
 						CreatedOnToolsVersion = 7.1;
 						DevelopmentTeam = 8338VRHY69;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
