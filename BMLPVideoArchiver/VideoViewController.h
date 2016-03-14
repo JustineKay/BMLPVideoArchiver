@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import <AVFoundation/AVFoundation.h>
 #import "GTMOAuth2ViewControllerTouch.h"
 #import "GTLDrive.h"
 #import "CameraOverlayViewController.h"

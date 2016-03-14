@@ -6,7 +6,6 @@
 //  Copyright © 2015 Justine Kay. All rights reserved.
 
 #import <MobileCoreServices/MobileCoreServices.h>
-#import <AVFoundation/AVFoundation.h>
 #import "VideoViewController.h"
 #import "LogInViewController.h"
 #import "GTMOAuth2ViewControllerTouch.h"
@@ -42,7 +41,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     self.navigationController.navigationBarHidden = YES;
     
     [self setUpCamera];
-    [self setUpAudioRecorder];
+    [self prepareAudioRecorder];
     
     self.timeInSeconds = 0;
     
@@ -100,36 +99,89 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 {
     inBackground = NO;
     
-    if (audioRecorder.recording) {
-        
-        [self stopAudioRecording];
-        
-        AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-        [audioSession setActive:NO error:nil];
-    }
+    [self stopAudioRecording];
+    
+    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+    [audioSession setActive:NO error:nil];
+    
+    sessionInProgress = NO;
+    
+    [self stopVideoRecording];
+    
+    NSLog(@"session ended");
+    
+    [self showCameraControls];
 }
+
 
 #pragma mark - audioRecorder
 
--(void)setUpAudioRecorder
+-(void)prepareAudioRecorder
 {
-    //set audio file
-    NSArray *pathComponents = [NSArray arrayWithObjects:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject], @"BMLPAudioRecording.m4a", nil];
-    NSURL *outputFileURL = [NSURL fileURLWithPathComponents:pathComponents];
-    
     //set audio session
     AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-    [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
-    NSMutableDictionary *recordingString = [[NSMutableDictionary alloc] init];
-    audioRecorder = [[AVAudioRecorder alloc] initWithURL:outputFileURL settings:recordingString error:nil];
+    [audioSession setCategory:AVAudioSessionCategoryRecord error:nil];
+    
+    //set audio file path
+    NSArray *searchPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentPath = searchPaths[0];
+    
+    NSString *pathToSave = [documentPath stringByAppendingPathComponent:[self dateString]];
+    
+    // File URL
+    NSURL *url = [NSURL fileURLWithPath:pathToSave];//FILEPATH
+    
+    //Save recording path to NSUserDefaults
+    NSUserDefaults *paths = [NSUserDefaults standardUserDefaults];
+    [paths setURL:url forKey:@"filePath"];
+    [paths synchronize];
+  
+    NSError *error;
+    
+    // Create recorder
+    audioRecorder = [[AVAudioRecorder alloc] initWithURL:url settings:[self audioRecorderSettings] error:&error];
     audioRecorder.delegate = self;
     audioRecorder.meteringEnabled = YES;
     [audioRecorder prepareToRecord];
 }
 
+- (NSString *)dateString
+{
+    // return a formatted string for a file name
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"ddMMMYY_hhmmssa";
+    return [[formatter stringFromDate:[NSDate date]] stringByAppendingString:@".aif"];
+}
+
+
+-(NSMutableDictionary *)audioRecorderSettings
+{
+    // Recording settings
+    NSMutableDictionary *settings = [NSMutableDictionary dictionary];
+    
+    [settings setValue: [NSNumber numberWithInt:kAudioFormatLinearPCM] forKey:AVFormatIDKey];
+    [settings setValue: [NSNumber numberWithFloat:8000.0] forKey:AVSampleRateKey];
+    [settings setValue: [NSNumber numberWithInt: 1] forKey:AVNumberOfChannelsKey];
+    [settings setValue: [NSNumber numberWithInt:16] forKey:AVLinearPCMBitDepthKey];
+    [settings setValue: [NSNumber numberWithBool:NO] forKey:AVLinearPCMIsBigEndianKey];
+    [settings setValue: [NSNumber numberWithBool:NO] forKey:AVLinearPCMIsFloatKey];
+    [settings setValue: [NSNumber numberWithInt: AVAudioQualityMax] forKey:AVEncoderAudioQualityKey];
+    
+    return settings;
+    
+}
+
 -(void)audioRecorderDidFinishRecording:(AVAudioRecorder *)recorder successfully:(BOOL)flag {
     
     //save audio file to google drive and photos
+    
+    //Load recording path from preferences
+    NSUserDefaults *paths = [NSUserDefaults standardUserDefaults];
+    NSURL *audioFileUrl = [paths URLForKey:@"filePath"];
+    NSString *audiofilePath = [audioFileUrl path];
+    
+    //upload to google drive
+    [self uploadAudio:audiofilePath];
     
     //restart audioRecorder
     if (inBackground) {
@@ -234,6 +286,20 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
 }
 
+-(void)showCameraControls
+{
+    void (^showControls)(void);
+    showControls = ^(void) {
+        
+        self.customCameraOverlayView.menuBarView.alpha = 1.0;
+        if (showCameraSelection) self.customCameraOverlayView.cameraSelectionButton.alpha = 1.0;
+        if (showFlashMode) self.customCameraOverlayView.flashModeButton.alpha = 1.0;
+        
+    };
+    
+    // Show controls
+    [UIView  animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:showControls completion:NULL];
+}
 
 #pragma mark - Recording Timer
 
@@ -251,15 +317,9 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     if (self.timeInSeconds == 30) {
         
-        if (videoRecording) {
-            
-            [self stopVideoRecording];
-        }
+        [self stopVideoRecording];
+        [self stopAudioRecording];
         
-        if (audioRecorder.recording) {
-            
-            [self stopAudioRecording];
-        }
     }
     
     NSLog(@"Timer Fired, time in seconds: %ld", (long)self.timeInSeconds);
@@ -280,16 +340,11 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 -(void)didStopRecordingVideo
 {
-    if (videoRecording) {
-        
-        sessionInProgress = NO;
-        
-        [self stopVideoRecording];
-        
-        NSLog(@"session ended");
-        
-    }
-
+    sessionInProgress = NO;
+    
+    [self stopVideoRecording];
+    
+    NSLog(@"session ended");
 }
 
 -(void)didSignOut
@@ -450,18 +505,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 {
    if (!sessionInProgress) {
         
-    void (^showControls)(void);
-    showControls = ^(void) {
-        
-        self.customCameraOverlayView.menuBarView.alpha = 1.0;
-        if (showCameraSelection) self.customCameraOverlayView.cameraSelectionButton.alpha = 1.0;
-        if (showFlashMode) self.customCameraOverlayView.flashModeButton.alpha = 1.0;
-        
-    };
-    
-    // Show controls
-    [UIView  animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:showControls completion:NULL];
-        
+       [self showCameraControls];
     }
     
 }
@@ -537,7 +581,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     GTLDriveFile *file = [GTLDriveFile object];
     file.title = [dateFormat stringFromDate:[NSDate date]];
     file.descriptionProperty = @"Uploaded from BMLP Video Archiver";
-    file.mimeType = @"audio/x-m4a";
+    //file.mimeType = @"audio/aiff";
     
     NSError *error = nil;
     
