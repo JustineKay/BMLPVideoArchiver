@@ -25,7 +25,6 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 @property (nonatomic, retain) GTLServiceDrive *driveService;
 @property (nonatomic) CustomCameraOverlayView *customCameraOverlayView;
-@property (nonatomic) NSTimer *timer;
 @property (nonatomic) NSInteger timeInSeconds;
 
 @end
@@ -86,6 +85,12 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     [self stopVideoRecording];
     
+    if (self.timer) {
+        
+        [self.timer invalidate];
+        self.timer = nil;
+    }
+    
     if (!audioRecorder.recording && [self isAuthorized]) {
         
         AVAudioSession *audioSession = [AVAudioSession sharedInstance];
@@ -109,6 +114,9 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     [self stopVideoRecording];
     
     NSLog(@"session ended");
+    
+    [self.timer invalidate];
+    self.timer = nil;
     
     [self showCameraControls];
 }

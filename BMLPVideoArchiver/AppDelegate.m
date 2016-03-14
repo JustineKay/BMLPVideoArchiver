@@ -2,7 +2,7 @@
 //  AppDelegate.m
 //  BMLPVideoArchiver
 //
-//  Created by Justine Gartner on 10/26/15.
+//  Created by Justine Kay on 10/26/15.
 //  Copyright © 2015 Justine Kay. All rights reserved.
 //
 
@@ -48,10 +48,18 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    VideoViewController *videoVC = [[VideoViewController alloc] init];
+    [videoVC.timer invalidate];
+    videoVC.timer = nil;
+
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    
+    VideoViewController *videoVC = [[VideoViewController alloc] init];
+    [videoVC.timer invalidate];
+    videoVC.timer = nil;
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
