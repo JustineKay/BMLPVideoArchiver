@@ -26,6 +26,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 @property (nonatomic, retain) GTLServiceDrive *driveService;
 @property (nonatomic) CustomCameraOverlayView *customCameraOverlayView;
 @property (nonatomic) NSInteger timeInSeconds;
+@property (nonatomic) NSTimer *timer;
 
 @end
 

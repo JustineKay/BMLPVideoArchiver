@@ -36,6 +36,5 @@ BOOL showFlashMode;
 
 @property (nonatomic, strong) GTLServiceDrive *service;
 @property (nonatomic, strong) UITextView *output;
-@property (nonatomic) NSTimer *timer;
 
 @end
