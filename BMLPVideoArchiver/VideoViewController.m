@@ -141,10 +141,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 //        }
 //        
 //    });
-    
-
-    
-    
+   
 }
 
 - (void)appWillEnterForeground
