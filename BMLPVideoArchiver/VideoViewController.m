@@ -27,6 +27,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 @property (nonatomic) CustomCameraOverlayView *customCameraOverlayView;
 @property (nonatomic) NSInteger timeInSeconds;
 @property (nonatomic) NSTimer *timer;
+@property (nonatomic) UIBackgroundTaskIdentifier backgroundTask;
 
 @end
 
@@ -37,6 +38,9 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.backgroundTask = UIBackgroundTaskInvalid;
+    hasEnteredBackground = NO;
     
     self.navigationController.navigationBarHidden = YES;
     
@@ -59,6 +63,14 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
                                              selector:@selector(appWillEnterForeground)
                                                  name:UIApplicationWillEnterForegroundNotification
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appDidBecomeActive)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appWillResignActive)
+                                                 name:UIApplicationWillResignActiveNotification
+                                               object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -80,17 +92,21 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     }
 }
 
--(void)appDidEnterBackground{
+- (void)appDidBecomeActive
+{
+    NSLog(@"App did become active.");
+}
+
+- (void)appWillResignActive
+{
+    [self stopVideoRecording];
+    NSLog(@"App will resign active.");
+}
+
+- (void)appDidEnterBackground{
     
     inBackground = YES;
-    
-    [self stopVideoRecording];
-    
-    if (self.timer) {
-        
-        [self.timer invalidate];
-        self.timer = nil;
-    }
+    hasEnteredBackground = YES;
     
     if (!audioRecorder.recording && [self isAuthorized]) {
         
@@ -99,9 +115,39 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         
         [self startAudioRecording];
     }
+    
+    
+    UIApplication *app = [UIApplication sharedApplication];
+    
+    self.backgroundTask = [app beginBackgroundTaskWithName:@"MyTask" expirationHandler:^{
+        // Clean up any unfinished task business by marking where you
+        // stopped or ending the task outright.
+        
+        NSLog(@"Background handler called. Not running background tasks anymore.");
+        [app endBackgroundTask:self.backgroundTask];
+        self.backgroundTask = UIBackgroundTaskInvalid;
+    }];
+    
+    // Start the long-running task
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        
+//        // Do the work associated with the task, preferably in chunks.
+//        if (!audioRecorder.recording && [self isAuthorized]) {
+//            
+//            AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+//            [audioSession setActive:YES error:nil];
+//            
+//            [self startAudioRecording];
+//        }
+//        
+//    });
+    
+
+    
+    
 }
 
--(void)appWillEnterForeground
+- (void)appWillEnterForeground
 {
     inBackground = NO;
     
@@ -111,13 +157,15 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     [audioSession setActive:NO error:nil];
     
     sessionInProgress = NO;
+    self.customCameraOverlayView.stopRecordingView.alpha = 0.0;
     
-    [self stopVideoRecording];
+    NSLog(@"audio session ended");
     
-    NSLog(@"session ended");
-    
-    [self.timer invalidate];
-    self.timer = nil;
+    if (self.backgroundTask != UIBackgroundTaskInvalid)
+    {
+        [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTask];
+        self.backgroundTask = UIBackgroundTaskInvalid;
+    }
     
     [self showCameraControls];
 }
@@ -125,7 +173,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 #pragma mark - audioRecorder
 
--(void)prepareAudioRecorder
+- (void)prepareAudioRecorder
 {
     //set audio session
     AVAudioSession *audioSession = [AVAudioSession sharedInstance];
@@ -138,7 +186,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     NSString *pathToSave = [documentPath stringByAppendingPathComponent:[self dateString]];
     
     // File URL
-    NSURL *url = [NSURL fileURLWithPath:pathToSave];//FILEPATH
+    NSURL *url = [NSURL fileURLWithPath:pathToSave];
     
     //Save recording path to NSUserDefaults
     NSUserDefaults *paths = [NSUserDefaults standardUserDefaults];
@@ -159,22 +207,20 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     // return a formatted string for a file name
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.dateFormat = @"ddMMMYY_hhmmssa";
-    return [[formatter stringFromDate:[NSDate date]] stringByAppendingString:@".aif"];
+    return [[formatter stringFromDate:[NSDate date]] stringByAppendingString:@".m4a"];
 }
 
 
--(NSMutableDictionary *)audioRecorderSettings
+-(NSDictionary *)audioRecorderSettings
 {
     // Recording settings
-    NSMutableDictionary *settings = [NSMutableDictionary dictionary];
+    NSDictionary *settings = [NSDictionary dictionary];
     
-    [settings setValue: [NSNumber numberWithInt:kAudioFormatLinearPCM] forKey:AVFormatIDKey];
-    [settings setValue: [NSNumber numberWithFloat:8000.0] forKey:AVSampleRateKey];
-    [settings setValue: [NSNumber numberWithInt: 1] forKey:AVNumberOfChannelsKey];
-    [settings setValue: [NSNumber numberWithInt:16] forKey:AVLinearPCMBitDepthKey];
-    [settings setValue: [NSNumber numberWithBool:NO] forKey:AVLinearPCMIsBigEndianKey];
-    [settings setValue: [NSNumber numberWithBool:NO] forKey:AVLinearPCMIsFloatKey];
-    [settings setValue: [NSNumber numberWithInt: AVAudioQualityMax] forKey:AVEncoderAudioQualityKey];
+    settings = [NSDictionary dictionaryWithObjectsAndKeys:
+                [NSNumber numberWithInt: kAudioFormatMPEG4AAC], AVFormatIDKey,
+                [NSNumber numberWithFloat:16000.0], AVSampleRateKey,
+                [NSNumber numberWithInt: 1], AVNumberOfChannelsKey,
+                nil];
     
     return settings;
     
@@ -182,7 +228,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 -(void)audioRecorderDidFinishRecording:(AVAudioRecorder *)recorder successfully:(BOOL)flag {
     
-    //save audio file to google drive and photos
+    //save audio file to google drive (and on device?)
     
     //Load recording path from preferences
     NSUserDefaults *paths = [NSUserDefaults standardUserDefaults];
@@ -201,14 +247,27 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 -(void)startAudioRecording
 {
-    [audioRecorder record];
-    [self startRecordingTimer];
+    if (!audioRecorder.recording) {
+        
+        [audioRecorder record];
+        [self startRecordingTimer];
+        
+        NSLog(@"Audio recording started");
+    }
+    
 }
 
 -(void)stopAudioRecording
 {
-    [audioRecorder stop];
-    [self resetTimer];
+    if (audioRecorder.recording) {
+        
+        [audioRecorder stop];
+        [self resetTimer];
+        
+        NSLog(@"Audio recording stopped");
+
+    }
+    
 }
 
 
@@ -316,20 +375,34 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 {
     NSTimer *timer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(fireTimer:) userInfo:nil repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+    NSDate *timerTimeStamp = [NSDate date];
+    [[NSUserDefaults standardUserDefaults] setValue:timerTimeStamp forKey:@"lastTimeStamp"];
     self.timer = timer;
     
 }
 
 -(void)fireTimer: (NSTimer *) timer
 {
+    NSDate *lastTime = [[NSUserDefaults standardUserDefaults] valueForKey:@"lastTimeStamp"];
+    NSTimeInterval stopTimeInterval = 30.0;
+    NSTimeInterval currentTimeInterval = [[NSDate date] timeIntervalSinceDate:lastTime];
+    
+    //For debugging only
     self.timeInSeconds += 1;
     
-    if (self.timeInSeconds == 30) {
-        
+    if (currentTimeInterval >= stopTimeInterval) {
+    
         [self stopVideoRecording];
         [self stopAudioRecording];
         
     }
+    
+    //Not being checked when re-entering foreground
+//    if (!inBackground && hasEnteredBackground) {
+//        
+//        [self resetTimer];
+//        hasEnteredBackground = NO;
+//    }
     
     NSLog(@"Timer Fired, time in seconds: %ld", (long)self.timeInSeconds);
 }
@@ -341,6 +414,8 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         [self.timer invalidate];
         
         self.timeInSeconds = 0;
+        
+        NSLog(@"Timer reset");
     }
 }
 
@@ -431,7 +506,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         
         [self startVideoRecording];
         
-        NSLog(@"recording started");
+        NSLog(@"video recording started");
         
     }
 }
@@ -461,18 +536,22 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 - (void)stopVideoRecording
 {
-    [self resetTimer];
-    
-    videoRecording = NO;
-    
-    [camera stopVideoCapture];
-    
-    if (!sessionInProgress) {
+    if (videoRecording) {
+     
+        [self resetTimer];
         
-        self.customCameraOverlayView.stopRecordingView.alpha = 0.0;
+        videoRecording = NO;
+        
+        [camera stopVideoCapture];
+        
+        if (!sessionInProgress) {
+            
+            self.customCameraOverlayView.stopRecordingView.alpha = 0.0;
+        }
+        
+        NSLog(@"Video recording: %hhd", videoRecording);
     }
     
-    NSLog(@"recording stopped");
 }
 
 
@@ -500,7 +579,8 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     }
     
-    if (sessionInProgress) {
+    //CREATE separate videoSessionInProgress and audioSessionInProgress
+    if (sessionInProgress && !inBackground) {
         
         videoRecording = YES;
         [camera startVideoCapture];
@@ -590,7 +670,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     GTLDriveFile *file = [GTLDriveFile object];
     file.title = [dateFormat stringFromDate:[NSDate date]];
     file.descriptionProperty = @"Uploaded from BMLP Video Archiver";
-    //file.mimeType = @"audio/aiff";
+    //file.mimeType = @"audio/mp4";
     
     NSError *error = nil;
     
