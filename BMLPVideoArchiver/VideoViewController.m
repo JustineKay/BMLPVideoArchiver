@@ -649,11 +649,92 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     }
 }
 
+- (BOOL)BMLPFolderFound
+{
+    NSString *parentId = @"root";
+    NSString *mainFolder = @"BMLP Video Archiver Files";
+    __block BOOL found = NO;
+    
+    GTLQueryDrive *query = [GTLQueryDrive queryForFilesList];
+    query.q = [NSString stringWithFormat:@"'%@' in parents", parentId];
+    [self.driveService executeQuery:query completionHandler:^(GTLServiceTicket *ticket,
+                                                  GTLDriveFileList *fileList,
+                                                  NSError *error) {
+        if (error == nil) {
+            NSLog(@"Have results");
+            // Iterate over fileList.files array
+        
+            for (GTLDriveFile *item in fileList.items) {
+                
+                if ([item.title isEqualToString:mainFolder]) {
+                    
+                    found = YES;
+                }
+            }
+        
+        } else {
+            
+            NSLog(@"An error occurred: %@", error);
+        }
+    }];
+    
+    return found;
+}
+
+//Create main folder in Google Drive for BMLP files
+- (GTLDriveFile *)createMainBMLPfolder
+{
+    
+    GTLDriveFile *folder = [GTLDriveFile object];
+    folder.title = @"BMLP Video Archiver Files";
+    folder.mimeType = @"application/vnd.google-apps.folder";
+    
+    GTLQueryDrive *query = [GTLQueryDrive queryForFilesInsertWithObject:folder uploadParameters:nil];
+    [self.driveService executeQuery:query completionHandler:^(GTLServiceTicket *ticket,
+                                                  GTLDriveFile *updatedFile,
+                                                  NSError *error) {
+        if (error == nil) {
+            NSLog(@"Created main BMLP files folder");
+        } else {
+            NSLog(@"An error occurred: %@", error);
+        }
+    }];
+    
+    return folder;
+}
+
+//Create a new folder for each session
+- (GTLDriveFile *)createNewSessionFolder
+{
+    NSString *parentId = @"BMLP Video Archiver Files";
+    
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"BMLP Video Archiver Session Folder ('EEEE MMMM d, YYYY h:mm a, zzz')"];
+    
+    GTLDriveFile *folder = [GTLDriveFile object];
+    folder.title = [dateFormat stringFromDate:[NSDate date]];
+    folder.mimeType = @"application/vnd.google-apps.folder";
+    folder.parents = @[parentId];
+    
+    GTLQueryDrive *query = [GTLQueryDrive queryForFilesInsertWithObject:folder uploadParameters:nil];
+    [self.driveService executeQuery:query completionHandler:^(GTLServiceTicket *ticket,
+                                                  GTLDriveFile *updatedFile,
+                                                  NSError *error) {
+        if (error == nil) {
+            NSLog(@"Created new session folder");
+        } else {
+            NSLog(@"An error occurred: %@", error);
+        }
+    }];
+    
+    return folder;
+}
+
 // Upload audio to Google Drive
 - (void)uploadAudio:(NSString *)audioURLPath
 {
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"BMLP Video Archiver Uploaded File ('EEEE MMMM d, YYYY h:mm a, zzz')"];
+    [dateFormat setDateFormat:@"BMLP Video Archiver Audio File ('EEEE MMMM d, YYYY h:mm a, zzz')"];
     
     GTLDriveFile *file = [GTLDriveFile object];
     file.title = [dateFormat stringFromDate:[NSDate date]];
@@ -691,7 +772,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 - (void)uploadVideo:(NSString *)videoURLPath
 {
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"BMLP Video Archiver Uploaded File ('EEEE MMMM d, YYYY h:mm a, zzz')"];
+    [dateFormat setDateFormat:@"BMLP Video Archiver Video File ('EEEE MMMM d, YYYY h:mm a, zzz')"];
     
     GTLDriveFile *file = [GTLDriveFile object];
     file.title = [dateFormat stringFromDate:[NSDate date]];
