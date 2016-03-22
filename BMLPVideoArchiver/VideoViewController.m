@@ -40,7 +40,9 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     [super viewDidLoad];
     
     self.backgroundTask = UIBackgroundTaskInvalid;
-    hasEnteredBackground = NO;
+    //hasEnteredBackground = NO;
+    
+    mainFolderCreated = [[NSUserDefaults standardUserDefaults] boolForKey:@"mainfolderCreated"];
     
     self.navigationController.navigationBarHidden = YES;
     
@@ -106,7 +108,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 - (void)appDidEnterBackground{
     
     inBackground = YES;
-    hasEnteredBackground = YES;
+    //hasEnteredBackground = YES;
     
     if (!audioRecorder.recording && [self isAuthorized]) {
         
@@ -555,7 +557,45 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         if (UIVideoAtPathIsCompatibleWithSavedPhotosAlbum (videoPath)) {
             
             //save to Google Drive
-            [self uploadVideo:videoPath];
+            __block GTLDriveFile *folder;
+            __block NSString *parentId;
+            
+            [self searchForMainBMLPFolder:^(BOOL finished) {
+                
+                if (finished) {
+                    
+                    if (!mainFolderCreated) {
+                        
+                        folder = [self createMainBMLPfolder];
+                    }
+                    
+                    //**************
+                    //To be completed when folder.identifier can be found
+                    //check date of session folder
+                    //create new if date is not equal
+                    //assign parentId to (session)folder.title
+                    //***************
+                    
+                    
+                    //Trying to get the folder.identifier ...
+                    //*************
+                    GTLQueryDrive *query = [GTLQueryDrive queryForFilesList];
+                    query.q = [NSString stringWithFormat:@"'%@' in parents", parentId];
+                    [self.driveService executeQuery:query completionHandler:^(GTLServiceTicket *ticket, GTLDriveFile *file, NSError *error) {
+                        
+                    }];
+                    
+//                    GTLDriveParentReference *parentRef = [GTLDriveParentReference object];
+//                    parentRef.identifier = folderIdentifier; // identifier property of the folder
+//                    driveFile.parents = @[ parentRef ];
+                    //**************
+                    
+                    parentId = folder.identifier;//Reading nil although folder is not nil...
+                    
+                    [self uploadVideo:videoPath WithParentId:parentId];
+                    
+                }
+            }];
             
             //save to photo album
             UISaveVideoAtPathToSavedPhotosAlbum(videoPath, self, @selector(video:didFinishSavingWithError:contextInfo:), NULL);
@@ -649,42 +689,53 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     }
 }
 
-- (BOOL)BMLPFolderFound
+//Check if a main BMLP folder has been created
+typedef void(^myCompletion)(BOOL);
+- (void)searchForMainBMLPFolder:(myCompletion) compblock
 {
     NSString *parentId = @"root";
-    NSString *mainFolder = @"BMLP Video Archiver Files";
-    __block BOOL found = NO;
     
     GTLQueryDrive *query = [GTLQueryDrive queryForFilesList];
     query.q = [NSString stringWithFormat:@"'%@' in parents", parentId];
     [self.driveService executeQuery:query completionHandler:^(GTLServiceTicket *ticket,
-                                                  GTLDriveFileList *fileList,
-                                                  NSError *error) {
+                                                              GTLDriveFileList *fileList,
+                                                              NSError *error) {
         if (error == nil) {
             NSLog(@"Have results");
-            // Iterate over fileList.files array
-        
-            for (GTLDriveFile *item in fileList.items) {
-                
-                if ([item.title isEqualToString:mainFolder]) {
-                    
-                    found = YES;
-                }
-            }
-        
+            
+            // Iterate over fileList.items array
+            
+            [[NSUserDefaults standardUserDefaults] setBool:[self mainFolderFoundInFileList:fileList.items] forKey:@"mainFolderCreated"];
+            
         } else {
             
             NSLog(@"An error occurred: %@", error);
         }
+        
+        compblock(YES);
     }];
+}
+
+
+- (BOOL)mainFolderFoundInFileList: (NSArray *)items
+{
+    BOOL found = NO;
+    NSString *mainFolder = @"BMLP Video Archiver Files";
     
+    for (GTLDriveFile *item in items) {
+        NSLog(@"%@", item.title);
+        if ([item.title isEqualToString:mainFolder]) {
+            
+            found = YES;
+        }
+    }
+
     return found;
 }
 
 //Create main folder in Google Drive for BMLP files
 - (GTLDriveFile *)createMainBMLPfolder
 {
-    
     GTLDriveFile *folder = [GTLDriveFile object];
     folder.title = @"BMLP Video Archiver Files";
     folder.mimeType = @"application/vnd.google-apps.folder";
@@ -695,6 +746,8 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
                                                   NSError *error) {
         if (error == nil) {
             NSLog(@"Created main BMLP files folder");
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"mainFolderCreated"];
+            
         } else {
             NSLog(@"An error occurred: %@", error);
         }
@@ -769,7 +822,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 
 // Upload video to Google Drive
-- (void)uploadVideo:(NSString *)videoURLPath
+- (void)uploadVideo:(NSString *)videoURLPath WithParentId: (NSString *)parentId
 {
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"BMLP Video Archiver Video File ('EEEE MMMM d, YYYY h:mm a, zzz')"];
@@ -778,6 +831,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     file.title = [dateFormat stringFromDate:[NSDate date]];
     file.descriptionProperty = @"Uploaded from BMLP Video Archiver";
     file.mimeType = @"video/quicktime";
+    file.parents = @[parentId];
     
     NSError *error = nil;
     
