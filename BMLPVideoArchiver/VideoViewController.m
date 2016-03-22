@@ -244,27 +244,18 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 -(void)startAudioRecording
 {
-    if (!audioRecorder.recording) {
-        
         [audioRecorder record];
         [self startRecordingTimer];
         
         NSLog(@"Audio recording started");
-    }
-    
 }
 
 -(void)stopAudioRecording
 {
-    if (audioRecorder.recording) {
-        
         [audioRecorder stop];
         [self resetTimer];
         
         NSLog(@"Audio recording stopped");
-
-    }
-    
 }
 
 
