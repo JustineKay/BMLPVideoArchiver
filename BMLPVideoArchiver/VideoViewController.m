@@ -579,10 +579,15 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
                     
                     //Trying to get the folder.identifier ...
                     //*************
-                    GTLQueryDrive *query = [GTLQueryDrive queryForFilesList];
-                    query.q = [NSString stringWithFormat:@"'%@' in parents", parentId];
-                    [self.driveService executeQuery:query completionHandler:^(GTLServiceTicket *ticket, GTLDriveFile *file, NSError *error) {
+                    GTLQueryDrive *queryFilesList = [GTLQueryDrive queryForChildrenListWithFolderId:@"root"];
+                    queryFilesList.q = @"mimeType='application/vnd.google-apps.folder' and 'root' in parents and trashed=false";
+                    [self.driveService executeQuery:queryFilesList completionHandler:^(GTLServiceTicket *ticket, GTLDriveFile *file, NSError *error) {
                         
+                        NSLog(@"%@", file);
+                        
+                        parentId = folder.identifier;//Reading nil although folder is not nil...
+                        
+                        [self uploadVideo:videoPath WithParentId:parentId];
                     }];
                     
 //                    GTLDriveParentReference *parentRef = [GTLDriveParentReference object];
@@ -590,9 +595,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 //                    driveFile.parents = @[ parentRef ];
                     //**************
                     
-                    parentId = folder.identifier;//Reading nil although folder is not nil...
                     
-                    [self uploadVideo:videoPath WithParentId:parentId];
                     
                 }
             }];
@@ -723,7 +726,7 @@ typedef void(^myCompletion)(BOOL);
     NSString *mainFolder = @"BMLP Video Archiver Files";
     
     for (GTLDriveFile *item in items) {
-        NSLog(@"%@", item.title);
+        //NSLog(@"%@", item.title);
         if ([item.title isEqualToString:mainFolder]) {
             
             found = YES;
