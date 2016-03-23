@@ -24,7 +24,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 - (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo;
 
 @property (nonatomic, retain) GTLServiceDrive *driveService;
-@property (nonatomic) NSString *mainBMLPFolderIdentifier;
+@property (nonatomic) GTLDriveParentReference *parentRef;
 @property (nonatomic) CustomCameraOverlayView *customCameraOverlayView;
 @property (nonatomic) NSInteger timeInSeconds;
 @property (nonatomic) NSTimer *timer;
@@ -41,9 +41,9 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     [super viewDidLoad];
     
     self.backgroundTask = UIBackgroundTaskInvalid;
-    //hasEnteredBackground = NO;
     
-    mainFolderCreated = [[NSUserDefaults standardUserDefaults] boolForKey:@"mainfolderCreated"];
+    //For testing
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"mainfolderCreated"];
     
     self.navigationController.navigationBarHidden = YES;
     
@@ -109,7 +109,6 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 - (void)appDidEnterBackground{
     
     inBackground = YES;
-    //hasEnteredBackground = YES;
     
     if (!audioRecorder.recording && [self isAuthorized]) {
         
@@ -388,13 +387,6 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         
     }
     
-    //Not being checked when re-entering foreground
-//    if (!inBackground && hasEnteredBackground) {
-//        
-//        [self resetTimer];
-//        hasEnteredBackground = NO;
-//    }
-    
     NSLog(@"Timer Fired, time in seconds: %ld", (long)self.timeInSeconds);
 }
 
@@ -540,7 +532,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
             self.customCameraOverlayView.stopRecordingView.alpha = 0.0;
         }
         
-        NSLog(@"Video recording: %hhd", videoRecording);
+        NSLog(@"Video recording: %@", (videoRecording ? @"YES" : @"NO"));
     }
     
 }
@@ -558,49 +550,32 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         if (UIVideoAtPathIsCompatibleWithSavedPhotosAlbum (videoPath)) {
             
             //save to Google Drive
-            __block GTLDriveFile *folder;
-            __block GTLDriveParentReference *parentRef;
             
             [self searchForMainBMLPFolder:^(BOOL finished) {
                 
                 if (finished) {
                     
-                    if (!mainFolderCreated) {
+                    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"mainfolderCreated"]) {
                         
                         [self createMainBMLPfolder:^(GTLDriveParentReference *identifier) {
-                            parentRef = identifier;
-                            [self uploadVideo:videoPath WithParentRef:parentRef];
+                            
+                            self.parentRef = identifier;
+                            [self uploadVideo:videoPath WithParentRef:self.parentRef];
                         }];
-                        //parentId = self.mainBMLPFolderIdentifier;//Reading nil although folder is not nil...
+                        
+                    }else {
+                        
+                        [self uploadVideo:videoPath WithParentRef:self.parentRef];
                     }
                     
-                    //[self uploadVideo:videoPath WithParentId:parentId];
-                    
                     //**************
-                    //To be completed when folder.identifier can be found
+                    //Next Step
+                    //Create new Session folder by date
                     //check date of session folder
-                    //create new if date is not equal
-                    //assign parentId to (session)folder.title
+                    //create new if date does not exist
+                    //assign parentRef to newly created session folder
                     //***************
-                    
-                    
-                    //Trying to get the folder.identifier ...
-                    //*************
-//                    GTLQueryDrive *queryFilesList = [GTLQueryDrive queryForChildrenListWithFolderId:@"root"];
-//                    queryFilesList.q = @"mimeType='application/vnd.google-apps.folder' and 'root' in parents and trashed=false";
-//                    [self.driveService executeQuery:queryFilesList completionHandler:^(GTLServiceTicket *ticket, GTLDriveFile *file, NSError *error) {
-//                        
-//                        NSLog(@"%@", file);
-//                      
-//                    }];
-                    
-//                    GTLDriveParentReference *parentRef = [GTLDriveParentReference object];
-//                    parentRef.identifier = folderIdentifier; // identifier property of the folder
-//                    driveFile.parents = @[ parentRef ];
-                    //**************
-                    
-                    
-                    
+
                 }
             }];
             
@@ -730,7 +705,7 @@ typedef void(^myCompletion)(BOOL);
     NSString *mainFolder = @"BMLP Video Archiver Files";
     
     for (GTLDriveFile *item in items) {
-        //NSLog(@"%@", item.title);
+        
         if ([item.title isEqualToString:mainFolder]) {
             
             found = YES;
@@ -769,6 +744,7 @@ typedef void(^myCompletion)(BOOL);
 }
 
 //Create a new folder for each session
+//***** similar to createMainBMLPFolder ******NEEDS A BLOCK******** To create and retrieve the parentRef
 - (GTLDriveFile *)createNewSessionFolder
 {
     NSString *parentId = @"BMLP Video Archiver Files";
