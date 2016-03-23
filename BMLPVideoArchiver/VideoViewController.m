@@ -43,6 +43,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     self.backgroundTask = UIBackgroundTaskInvalid;
     
     //For testing
+    //Change to global variable?...
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"mainfolderCreated"];
     
     self.navigationController.navigationBarHidden = YES;
@@ -571,7 +572,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
                     //**************
                     //Next Step
                     //Create new Session folder by date
-                    //check date of session folder
+                    //check date of session folders inside main folder
                     //create new if date does not exist
                     //assign parentRef to newly created session folder
                     //***************
@@ -589,7 +590,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     }
     
-    //CREATE separate videoSessionInProgress and audioSessionInProgress
+    //CREATE separate videoSessionInProgress and audioSessionInProgress***********
     if (sessionInProgress && !inBackground) {
         
         videoRecording = YES;
