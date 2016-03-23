@@ -561,22 +561,37 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
                         
                         [self createMainBMLPfolder:^(GTLDriveParentReference *identifier) {
                             
-                            self.parentRef = identifier;
-                            [self uploadVideo:videoPath WithParentRef:self.parentRef];
+                            [self createNewDatedFolderWithParentRef:identifier completion:^(GTLDriveParentReference *identifier) {
+                               
+                                [self uploadVideo:videoPath WithParentRef:identifier];
+                                
+                            }];
+                            
                         }];
                         
                     }else {
                         
-                        [self uploadVideo:videoPath WithParentRef:self.parentRef];
+                        [self searchForDatedFolder:^(BOOL finished) {
+                        
+                            if (finished) {
+                                
+                                if (!datedFolder) {
+                                
+                                    [self createNewDatedFolderWithParentRef:self.parentRef completion:^(GTLDriveParentReference *identifier) {
+                                       
+                                        [self uploadVideo:videoPath WithParentRef:identifier];
+                                    }];
+                                
+                                } else {
+                                    
+                                    [self uploadVideo:videoPath WithParentRef:self.parentRef];
+                                }
+                                
+                            }
+                            
+                        }];
+                        
                     }
-                    
-                    //**************
-                    //Next Step
-                    //Create new Session folder by date
-                    //check date of session folders inside main folder
-                    //create new if date does not exist
-                    //assign parentRef to newly created session folder
-                    //***************
 
                 }
             }];
@@ -689,9 +704,9 @@ typedef void(^completion)(BOOL);
             NSLog(@"Have results");
             
             // Iterate over fileList.items array
-            [self mainFolderFoundInFileList:fileList.items completion:^(bool mainFolderFound) {
+            [self folder: @"BMLP Video Archiver Files" FoundInFileList:fileList.items Completion:^(bool folderFound) {
              
-                mainFolder = mainFolderFound;
+                mainFolder = folderFound;
                 
                 compblock(YES);
             }];
@@ -705,18 +720,48 @@ typedef void(^completion)(BOOL);
     }];
 }
 
+//Check if dated folder has been created
+- (void)searchForDatedFolder:(completion) compblock
+{
+    NSString *parentId = @"BMLP Video Archiver Files";
+    
+    GTLQueryDrive *query = [GTLQueryDrive queryForFilesList];
+    query.q = [NSString stringWithFormat:@"'%@' in parents and trashed=false", parentId];
+    [self.driveService executeQuery:query completionHandler:^(GTLServiceTicket *ticket,
+                                                              GTLDriveFileList *fileList,
+                                                              NSError *error) {
+        if (error == nil) {
+            NSLog(@"Have results");
+            
+            // Iterate over fileList.items array
+            [self folder:[self datedFolderDateString] FoundInFileList:fileList.items Completion:^(bool folderFound) {
+                
+                datedFolder = folderFound;
+                compblock(YES);
+            }];
+            
+        } else {
+            
+            NSLog(@"An error occurred: %@", error);
+            compblock(YES);
+        }
+        
+    }];
+}
 
-- (void)mainFolderFoundInFileList: (NSArray *)items completion: (void (^)(bool mainFolderFound))handler
+
+- (void)folder: (NSString *)folderTitle FoundInFileList: (NSArray *)items Completion: (void (^)(bool folderFound))handler
 {
     BOOL found = NO;
-    NSString *mainFolderTitle = @"BMLP Video Archiver Files";
+    GTLDriveParentReference *parentRef = [GTLDriveParentReference object];
     
     for (GTLDriveFile *item in items) {
         
-        if ([item.title isEqualToString:mainFolderTitle]) {
+        if ([item.title isEqualToString:folderTitle]) {
             
             found = YES;
-            
+            parentRef.identifier = item.identifier;
+            self.parentRef = parentRef;
         }
     }
     
@@ -750,15 +795,13 @@ typedef void(^completion)(BOOL);
     
 }
 
+
+
 //Create a new folder inside the main folder for each date
-//***** similar to createMainBMLPFolder ******NEEDS A BLOCK******** To create and retrieve the parentRef
 - (GTLDriveFile *)createNewDatedFolderWithParentRef: (GTLDriveParentReference *)mainFolderParentRef completion: (void (^)(GTLDriveParentReference *identifier))handler
 {
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"yyyy-MM-dd"];
-    
     GTLDriveFile *folder = [GTLDriveFile object];
-    folder.title = [dateFormat stringFromDate:[NSDate date]];
+    folder.title = [self datedFolderDateString];
     folder.mimeType = @"application/vnd.google-apps.folder";
     folder.parents = @[mainFolderParentRef];
     
@@ -783,6 +826,17 @@ typedef void(^completion)(BOOL);
     
     return folder;
 }
+
+
+//date formatter helper method
+- (NSString *)datedFolderDateString
+{
+    // return a formatted string for a file name
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"yyyy-MM-dd"];
+    return [dateFormat stringFromDate:[NSDate date]];
+}
+
 
 // Upload audio to Google Drive
 - (void)uploadAudio:(NSString *)audioURLPath WithParentRef: (GTLDriveParentReference *)parentRef

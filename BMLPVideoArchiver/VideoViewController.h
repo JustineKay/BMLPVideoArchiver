@@ -29,6 +29,7 @@ UIImagePickerController *camera;
 AVAudioRecorder *audioRecorder;
 BOOL inBackground;
 BOOL mainFolder;
+BOOL datedFolder;
 BOOL videoRecording;
 BOOL videoSessionInProgress;
 BOOL audioSessionInProgress;
