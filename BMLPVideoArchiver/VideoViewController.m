@@ -42,9 +42,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     self.backgroundTask = UIBackgroundTaskInvalid;
     
-    //For testing
-    //Change to global variable?...
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"mainfolderCreated"];
+    //mainFolderCreated = NO;
     
     self.navigationController.navigationBarHidden = YES;
     
@@ -117,6 +115,8 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         [audioSession setActive:YES error:nil];
         
         [self startAudioRecording];
+        
+        audioSessionInProgress = YES;
     }
     
     
@@ -156,7 +156,8 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     AVAudioSession *audioSession = [AVAudioSession sharedInstance];
     [audioSession setActive:NO error:nil];
     
-    sessionInProgress = NO;
+    audioSessionInProgress = NO;
+    
     self.customCameraOverlayView.stopRecordingView.alpha = 0.0;
     
     NSLog(@"audio session ended");
@@ -236,7 +237,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     NSString *audiofilePath = [audioFileUrl path];
     
     //upload to google drive
-    [self uploadAudio:audiofilePath];
+    [self uploadAudio:audiofilePath WithParentRef:self.parentRef];
     
     //restart audioRecorder
     if (inBackground) {
@@ -408,7 +409,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 -(void)didStopRecordingVideo
 {
-    sessionInProgress = NO;
+    videoSessionInProgress = NO;
     
     [self stopVideoRecording];
     
@@ -486,7 +487,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 {
     if (!videoRecording) {
         
-        sessionInProgress = YES;
+        videoSessionInProgress = YES;
         
         [self startVideoRecording];
         
@@ -528,7 +529,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         
         [camera stopVideoCapture];
         
-        if (!sessionInProgress) {
+        if (!videoSessionInProgress) {
             
             self.customCameraOverlayView.stopRecordingView.alpha = 0.0;
         }
@@ -556,7 +557,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
                 
                 if (finished) {
                     
-                    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"mainfolderCreated"]) {
+                    if (!mainFolder) {
                         
                         [self createMainBMLPfolder:^(GTLDriveParentReference *identifier) {
                             
@@ -591,7 +592,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     }
     
     //CREATE separate videoSessionInProgress and audioSessionInProgress***********
-    if (sessionInProgress && !inBackground) {
+    if (videoSessionInProgress && !inBackground) {
         
         videoRecording = YES;
         [camera startVideoCapture];
@@ -603,7 +604,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 - (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
 {
-   if (!sessionInProgress) {
+   if (!videoSessionInProgress) {
         
        [self showCameraControls];
     }
@@ -673,13 +674,14 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 }
 
 //Check if a main BMLP folder has been created
-typedef void(^myCompletion)(BOOL);
-- (void)searchForMainBMLPFolder:(myCompletion) compblock
+typedef void(^completion)(BOOL);
+
+- (void)searchForMainBMLPFolder:(completion) compblock
 {
     NSString *parentId = @"root";
     
     GTLQueryDrive *query = [GTLQueryDrive queryForFilesList];
-    query.q = [NSString stringWithFormat:@"'%@' in parents", parentId];
+    query.q = [NSString stringWithFormat:@"'%@' in parents and trashed=false", parentId];
     [self.driveService executeQuery:query completionHandler:^(GTLServiceTicket *ticket,
                                                               GTLDriveFileList *fileList,
                                                               NSError *error) {
@@ -687,34 +689,38 @@ typedef void(^myCompletion)(BOOL);
             NSLog(@"Have results");
             
             // Iterate over fileList.items array
-            
-            [[NSUserDefaults standardUserDefaults] setBool:[self mainFolderFoundInFileList:fileList.items] forKey:@"mainFolderCreated"];
+            [self mainFolderFoundInFileList:fileList.items completion:^(bool mainFolderFound) {
+             
+                mainFolder = mainFolderFound;
+                
+                compblock(YES);
+            }];
             
         } else {
             
             NSLog(@"An error occurred: %@", error);
+            compblock(YES);
         }
         
-        compblock(YES);
     }];
 }
 
 
-- (BOOL)mainFolderFoundInFileList: (NSArray *)items
+- (void)mainFolderFoundInFileList: (NSArray *)items completion: (void (^)(bool mainFolderFound))handler
 {
     BOOL found = NO;
-    NSString *mainFolder = @"BMLP Video Archiver Files";
+    NSString *mainFolderTitle = @"BMLP Video Archiver Files";
     
     for (GTLDriveFile *item in items) {
         
-        if ([item.title isEqualToString:mainFolder]) {
+        if ([item.title isEqualToString:mainFolderTitle]) {
             
             found = YES;
-            return found;
+            
         }
     }
-
-    return found;
+    
+    handler(found);
 }
 
 //Create main folder in Google Drive for BMLP files
@@ -731,7 +737,7 @@ typedef void(^myCompletion)(BOOL);
                                                   NSError *error) {
         if (error == nil) {
             NSLog(@"Created main BMLP files folder");
-            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"mainFolderCreated"];
+            mainFolder = YES;
             
             parentRef.identifier = updatedFile.identifier; // identifier property of the folder
             
@@ -744,36 +750,42 @@ typedef void(^myCompletion)(BOOL);
     
 }
 
-//Create a new folder for each session
+//Create a new folder inside the main folder for each date
 //***** similar to createMainBMLPFolder ******NEEDS A BLOCK******** To create and retrieve the parentRef
-- (GTLDriveFile *)createNewSessionFolder
+- (GTLDriveFile *)createNewDatedFolderWithParentRef: (GTLDriveParentReference *)mainFolderParentRef completion: (void (^)(GTLDriveParentReference *identifier))handler
 {
-    NSString *parentId = @"BMLP Video Archiver Files";
-    
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"BMLP Video Archiver Session Folder ('EEEE MMMM d, YYYY h:mm a, zzz')"];
+    [dateFormat setDateFormat:@"yyyy-MM-dd"];
     
     GTLDriveFile *folder = [GTLDriveFile object];
     folder.title = [dateFormat stringFromDate:[NSDate date]];
     folder.mimeType = @"application/vnd.google-apps.folder";
-    folder.parents = @[parentId];
+    folder.parents = @[mainFolderParentRef];
+    
+    GTLDriveParentReference *newFolderParentRef = [GTLDriveParentReference object];
     
     GTLQueryDrive *query = [GTLQueryDrive queryForFilesInsertWithObject:folder uploadParameters:nil];
     [self.driveService executeQuery:query completionHandler:^(GTLServiceTicket *ticket,
                                                   GTLDriveFile *updatedFile,
                                                   NSError *error) {
         if (error == nil) {
-            NSLog(@"Created new session folder");
+            
+            NSLog(@"Created new dated folder");
+            newFolderParentRef.identifier = updatedFile.identifier; // identifier property of the folder
+        
         } else {
+            
             NSLog(@"An error occurred: %@", error);
         }
+        
+        handler(newFolderParentRef);
     }];
     
     return folder;
 }
 
 // Upload audio to Google Drive
-- (void)uploadAudio:(NSString *)audioURLPath
+- (void)uploadAudio:(NSString *)audioURLPath WithParentRef: (GTLDriveParentReference *)parentRef
 {
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"BMLP Video Archiver Audio File ('EEEE MMMM d, YYYY h:mm a, zzz')"];
@@ -782,6 +794,11 @@ typedef void(^myCompletion)(BOOL);
     file.title = [dateFormat stringFromDate:[NSDate date]];
     file.descriptionProperty = @"Uploaded from BMLP Video Archiver";
     //file.mimeType = @"audio/mp4";
+    
+    if (parentRef) {
+        
+        file.parents = @[parentRef];
+    }
     
     NSError *error = nil;
     

@@ -28,9 +28,10 @@ UITapGestureRecognizer  *recordGestureRecognizer;
 UIImagePickerController *camera;
 AVAudioRecorder *audioRecorder;
 BOOL inBackground;
-BOOL mainFolderCreated;
+BOOL mainFolder;
 BOOL videoRecording;
-BOOL sessionInProgress;
+BOOL videoSessionInProgress;
+BOOL audioSessionInProgress;
 BOOL showCameraSelection;
 BOOL showFlashMode;
 }
