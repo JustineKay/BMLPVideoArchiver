@@ -35,7 +35,6 @@ BOOL showCameraSelection;
 BOOL showFlashMode;
 }
 
-@property (nonatomic, strong) GTLServiceDrive *service;
 @property (nonatomic, strong) UITextView *output;
 
 @end

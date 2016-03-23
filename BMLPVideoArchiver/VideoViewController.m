@@ -24,6 +24,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 - (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo;
 
 @property (nonatomic, retain) GTLServiceDrive *driveService;
+@property (nonatomic) NSString *mainBMLPFolderIdentifier;
 @property (nonatomic) CustomCameraOverlayView *customCameraOverlayView;
 @property (nonatomic) NSInteger timeInSeconds;
 @property (nonatomic) NSTimer *timer;
@@ -558,7 +559,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
             
             //save to Google Drive
             __block GTLDriveFile *folder;
-            __block NSString *parentId;
+            __block GTLDriveParentReference *parentRef;
             
             [self searchForMainBMLPFolder:^(BOOL finished) {
                 
@@ -566,8 +567,14 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
                     
                     if (!mainFolderCreated) {
                         
-                        folder = [self createMainBMLPfolder];
+                        [self createMainBMLPfolder:^(GTLDriveParentReference *identifier) {
+                            parentRef = identifier;
+                            [self uploadVideo:videoPath WithParentRef:parentRef];
+                        }];
+                        //parentId = self.mainBMLPFolderIdentifier;//Reading nil although folder is not nil...
                     }
+                    
+                    //[self uploadVideo:videoPath WithParentId:parentId];
                     
                     //**************
                     //To be completed when folder.identifier can be found
@@ -579,16 +586,13 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
                     
                     //Trying to get the folder.identifier ...
                     //*************
-                    GTLQueryDrive *queryFilesList = [GTLQueryDrive queryForChildrenListWithFolderId:@"root"];
-                    queryFilesList.q = @"mimeType='application/vnd.google-apps.folder' and 'root' in parents and trashed=false";
-                    [self.driveService executeQuery:queryFilesList completionHandler:^(GTLServiceTicket *ticket, GTLDriveFile *file, NSError *error) {
-                        
-                        NSLog(@"%@", file);
-                        
-                        parentId = folder.identifier;//Reading nil although folder is not nil...
-                        
-                        [self uploadVideo:videoPath WithParentId:parentId];
-                    }];
+//                    GTLQueryDrive *queryFilesList = [GTLQueryDrive queryForChildrenListWithFolderId:@"root"];
+//                    queryFilesList.q = @"mimeType='application/vnd.google-apps.folder' and 'root' in parents and trashed=false";
+//                    [self.driveService executeQuery:queryFilesList completionHandler:^(GTLServiceTicket *ticket, GTLDriveFile *file, NSError *error) {
+//                        
+//                        NSLog(@"%@", file);
+//                      
+//                    }];
                     
 //                    GTLDriveParentReference *parentRef = [GTLDriveParentReference object];
 //                    parentRef.identifier = folderIdentifier; // identifier property of the folder
@@ -730,6 +734,7 @@ typedef void(^myCompletion)(BOOL);
         if ([item.title isEqualToString:mainFolder]) {
             
             found = YES;
+            return found;
         }
     }
 
@@ -737,11 +742,12 @@ typedef void(^myCompletion)(BOOL);
 }
 
 //Create main folder in Google Drive for BMLP files
-- (GTLDriveFile *)createMainBMLPfolder
+- (void)createMainBMLPfolder:(void (^)(GTLDriveParentReference *identifier))handler
 {
     GTLDriveFile *folder = [GTLDriveFile object];
     folder.title = @"BMLP Video Archiver Files";
     folder.mimeType = @"application/vnd.google-apps.folder";
+    GTLDriveParentReference *parentRef = [GTLDriveParentReference object];
     
     GTLQueryDrive *query = [GTLQueryDrive queryForFilesInsertWithObject:folder uploadParameters:nil];
     [self.driveService executeQuery:query completionHandler:^(GTLServiceTicket *ticket,
@@ -751,12 +757,15 @@ typedef void(^myCompletion)(BOOL);
             NSLog(@"Created main BMLP files folder");
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"mainFolderCreated"];
             
+            parentRef.identifier = updatedFile.identifier; // identifier property of the folder
+            
         } else {
             NSLog(@"An error occurred: %@", error);
         }
+        
+        handler(parentRef);
     }];
     
-    return folder;
 }
 
 //Create a new folder for each session
@@ -825,7 +834,7 @@ typedef void(^myCompletion)(BOOL);
 
 
 // Upload video to Google Drive
-- (void)uploadVideo:(NSString *)videoURLPath WithParentId: (NSString *)parentId
+- (void)uploadVideo:(NSString *)videoURLPath WithParentRef: (GTLDriveParentReference *)parentRef
 {
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"BMLP Video Archiver Video File ('EEEE MMMM d, YYYY h:mm a, zzz')"];
@@ -834,7 +843,12 @@ typedef void(^myCompletion)(BOOL);
     file.title = [dateFormat stringFromDate:[NSDate date]];
     file.descriptionProperty = @"Uploaded from BMLP Video Archiver";
     file.mimeType = @"video/quicktime";
-    file.parents = @[parentId];
+    
+    if (parentRef) {
+        
+        file.parents = @[parentRef];
+    }
+    
     
     NSError *error = nil;
     
