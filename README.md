@@ -10,11 +10,11 @@ It is currently in the early stages of development.
 ###Basic Functionalities   
 * Tap twice anywhere on camera view to begin recording  
 * Video will automatically be saved to user's photo album and uploaded to user's Google Drive account after 30 seconds  
-* Camera will automatically continue recording and uploading in 30 second intervals  
+* Camera will automatically continue recording and a new file will be saved and uploaded every 30 seconds  
 * Tap the stop button to end the recording session and save/upload the final portion of the recording  
-* If the app is sent to the background, audio recording will begin  
-* Audio recording will be uploaded in the same 30 second intervals  
-* Audio recording will continue until the app is brought back to the foreground at which time the session is ended  
+* If the app is sent to the background while recording video, the video session is ended and audio recording will begin  
+* Audio recording will continue while .m4a files are saved and uploaded every 30 seconds  
+* When the app is brought back to the foreground the audio session is ended  
 * A "BMLP Video Archiver Files" folder is created the first time you upload a file  
 * A dated folder is created within the "BMLP Video Archiver Files" folder, to organize the uploaded files by date  
 
