@@ -42,8 +42,6 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     self.backgroundTask = UIBackgroundTaskInvalid;
     
-    //mainFolderCreated = NO;
-    
     self.navigationController.navigationBarHidden = YES;
     
     [self setUpCamera];
@@ -229,7 +227,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 -(void)audioRecorderDidFinishRecording:(AVAudioRecorder *)recorder successfully:(BOOL)flag {
     
-    //save audio file to google drive (and on device?)
+    //save audio file to google drive ***(TO DO: Save on device?...)***
     
     //Load recording path from preferences
     NSUserDefaults *paths = [NSUserDefaults standardUserDefaults];
@@ -606,7 +604,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     }
     
-    //CREATE separate videoSessionInProgress and audioSessionInProgress***********
+    
     if (videoSessionInProgress && !inBackground) {
         
         videoRecording = YES;
@@ -723,7 +721,7 @@ typedef void(^completion)(BOOL);
 //Check if dated folder has been created
 - (void)searchForDatedFolder:(completion) compblock
 {
-    NSString *parentId = @"BMLP Video Archiver Files";
+    NSString *parentId = self.parentRef.identifier;
     
     GTLQueryDrive *query = [GTLQueryDrive queryForFilesList];
     query.q = [NSString stringWithFormat:@"'%@' in parents and trashed=false", parentId];
@@ -749,7 +747,7 @@ typedef void(^completion)(BOOL);
     }];
 }
 
-
+//Check for folder and set self.parentRef if found
 - (void)folder: (NSString *)folderTitle FoundInFileList: (NSArray *)items Completion: (void (^)(bool folderFound))handler
 {
     BOOL found = NO;
@@ -783,7 +781,6 @@ typedef void(^completion)(BOOL);
         if (error == nil) {
             NSLog(@"Created main BMLP files folder");
             mainFolder = YES;
-            
             parentRef.identifier = updatedFile.identifier; // identifier property of the folder
             
         } else {
@@ -814,6 +811,7 @@ typedef void(^completion)(BOOL);
         if (error == nil) {
             
             NSLog(@"Created new dated folder");
+            datedFolder = YES;
             newFolderParentRef.identifier = updatedFile.identifier; // identifier property of the folder
         
         } else {
