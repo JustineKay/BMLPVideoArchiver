@@ -6,6 +6,7 @@
 //  Copyright © 2015 Justine Kay. All rights reserved.
 
 #import <MobileCoreServices/MobileCoreServices.h>
+#import "InterfaceOrientationNavigationController.h"
 #import "VideoViewController.h"
 #import "LogInViewController.h"
 #import "GTMOAuth2ViewControllerTouch.h"
@@ -427,7 +428,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:SignedInKey];
     
-    UINavigationController *navigationController = self.navigationController;
+    InterfaceOrientationNavigationController *navigationController = (InterfaceOrientationNavigationController *)self.navigationController;
     
     //Get all view controllers in navigation controller currently
     NSMutableArray *controllers=[[NSMutableArray alloc] initWithArray:navigationController.viewControllers] ;

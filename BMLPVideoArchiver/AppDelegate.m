@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "VideoViewController.h"
 #import "LogInViewController.h"
+#import "InterfaceOrientationNavigationController.h"
 
 @interface AppDelegate ()
 
@@ -31,7 +32,7 @@
     
     self.isCameraPresented = NO;
     
-    UINavigationController *navigationController = (UINavigationController *) self.window.rootViewController;
+    InterfaceOrientationNavigationController *navigationController = (InterfaceOrientationNavigationController *) self.window.rootViewController;
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
     
