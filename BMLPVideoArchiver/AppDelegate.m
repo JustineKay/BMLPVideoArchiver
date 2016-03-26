@@ -20,25 +20,18 @@
 
 @implementation AppDelegate
 
-- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
-//    if (([window.rootViewController.presentedViewController isKindOfClass:[LandscapeImagePickerController class]])) {
+//- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
+////    if (([window.rootViewController.presentedViewController isKindOfClass:[LandscapeImagePickerController class]])) {
+////        return UIInterfaceOrientationMaskLandscape;
+////    }
+//    
+//    if (self.isCameraPresented){
+//        
+//        NSLog(@"isPresented %d", self.isCameraPresented);
 //        return UIInterfaceOrientationMaskLandscape;
 //    }
-    
-    if (self.isCameraPresented){
-        
-        NSLog(@"isPresented %d", self.isCameraPresented);
-        return UIInterfaceOrientationMaskLandscape;
-    }
-    
-    return UIInterfaceOrientationMaskAll;
-}
-//-(UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
-//{
 //    
-//    NSLog(@"isPresented %d", self.isCameraPresented);
-//    
-//    return self.isCameraPresented?UIInterfaceOrientationMaskAll: UIInterfaceOrientationMaskLandscapeLeft;
+//    return UIInterfaceOrientationMaskAll;
 //}
 
 

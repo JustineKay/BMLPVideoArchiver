@@ -17,7 +17,7 @@
 
 - (BOOL)shouldAutorotate
 {
-    return YES;
+    return NO;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations
@@ -29,12 +29,12 @@
 //        return UIInterfaceOrientationMaskLandscape;
 //        
 //    }
-    return UIInterfaceOrientationMaskAll;
+    return UIInterfaceOrientationMaskLandscape;
 }
 
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
 {
-    return [self.topViewController preferredInterfaceOrientationForPresentation];
+    return UIInterfaceOrientationLandscapeRight;
 }
 
 @end

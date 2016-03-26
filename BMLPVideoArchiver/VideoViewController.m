@@ -34,18 +34,24 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 @end
 
+@interface UIDevice ()
+
+-(void)setOrientation:(UIDeviceOrientation)orientation;
+
+@end
+
 @implementation VideoViewController
 
 @synthesize driveService;
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
-{
-    return UIInterfaceOrientationLandscapeLeft;
-}
+//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+//{
+//    return UIInterfaceOrientationLandscapeLeft;
+//}
 
 -(BOOL)shouldAutorotate
 {
-    return YES;
+    return NO;
 }
 
 -(UIInterfaceOrientationMask)supportedInterfaceOrientations
@@ -55,12 +61,43 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 -(UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
 {
-    return UIInterfaceOrientationLandscapeLeft;
+    return UIInterfaceOrientationLandscapeRight;
+}
+
+-(void)setUpInterfaceOrientation
+{
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    
+    [[UIDevice currentDevice] setOrientation:UIDeviceOrientationLandscapeLeft];
+    
+    //Set Notifications so that when user rotates phone, the orientation is reset to landscape.
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    
+    //Refer to the method didRotate:
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didRotate:)
+                                                 name:@"UIDeviceOrientationDidChangeNotification" object:nil];
+}
+
+- (void) didRotate:(NSNotification *)notification
+
+{
+    UIDeviceOrientation currentOrientation = [[UIDevice currentDevice] orientation];
+    
+    // Ignore changes in device orientation if unknown, face up, or face down.
+    if (!UIDeviceOrientationIsValidInterfaceOrientation(currentOrientation)) {
+        return;
+    }
+    //Maintain the camera in Landscape orientation
+    [[UIDevice currentDevice] setOrientation:UIDeviceOrientationLandscapeLeft];
+    
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self setUpInterfaceOrientation];
     
     self.backgroundTask = UIBackgroundTaskInvalid;
     
@@ -117,6 +154,10 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 {
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     appDelegate.isCameraPresented = NO;
+    
+    if ([[UIDevice currentDevice] isGeneratingDeviceOrientationNotifications]) {
+        [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
+    }
 }
 
 - (void)appDidBecomeActive
