@@ -18,8 +18,18 @@
 
 @implementation AppDelegate
 
+//-(UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
+//{
+//    
+//    NSLog(@"isPresented %d", self.isCameraPresented);
+//    
+//    return self.isCameraPresented?UIInterfaceOrientationMaskAll: UIInterfaceOrientationMaskLandscapeLeft;
+//}
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    self.isCameraPresented = NO;
     
     UINavigationController *navigationController = (UINavigationController *) self.window.rootViewController;
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];

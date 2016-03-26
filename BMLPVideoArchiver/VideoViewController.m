@@ -10,6 +10,7 @@
 #import "LogInViewController.h"
 #import "GTMOAuth2ViewControllerTouch.h"
 #import "GTLDrive.h"
+#import "AppDelegate.h"
 
 static NSString *const kKeychainItemName = @"BMLP Video Archiver";
 static NSString *const kClientID = @"749579524688-b1oaiu8cc4obq06aal4org55qie5lho2.apps.googleusercontent.com";
@@ -80,16 +81,22 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     if (![self isAuthorized]) {
         
         // Not yet authorized, request authorization and push the login UI onto the navigation stack.
-        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:[self createAuthController]];
-        navigationController.navigationBarHidden = YES;
-        [self presentViewController:navigationController animated:YES completion:nil];
-
-        //[self presentViewController:[self createAuthController] animated:YES completion:nil];
+        [self presentViewController:[self createAuthController] animated:YES completion:nil];
         
     }else {
         
-        [self presentViewController:camera animated:animated completion:nil];
+        [self presentViewController:camera animated:animated completion:^{
+//            AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+//            appDelegate.isCameraPresented = YES;
+        }];
     }
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    
+//    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+//    appDelegate.isCameraPresented = NO;
 }
 
 - (void)appDidBecomeActive
@@ -433,6 +440,8 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     [camera dismissViewControllerAnimated:NO completion:^{
         
+//        AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+//        appDelegate.isCameraPresented = NO;
         [navigationController popToRootViewControllerAnimated:NO];
         
     }];
