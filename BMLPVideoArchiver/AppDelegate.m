@@ -25,6 +25,12 @@
 //        return UIInterfaceOrientationMaskLandscape;
 //    }
     
+    if (self.isCameraPresented){
+        
+        NSLog(@"isPresented %d", self.isCameraPresented);
+        return UIInterfaceOrientationMaskLandscape;
+    }
+    
     return UIInterfaceOrientationMaskAll;
 }
 //-(UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window

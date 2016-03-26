@@ -38,20 +38,25 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 @synthesize driveService;
 
-//-(BOOL)shouldAutorotate
-//{
-//    return YES;
-//}
-//
-//-(UIInterfaceOrientationMask)supportedInterfaceOrientations
-//{
-//    return UIInterfaceOrientationMaskLandscape;
-//}
-//
-//-(UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
-//{
-//    return UIInterfaceOrientationLandscapeLeft;
-//}
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    return UIInterfaceOrientationLandscapeLeft;
+}
+
+-(BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+-(UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskLandscape;
+}
+
+-(UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+    return UIInterfaceOrientationLandscapeLeft;
+}
 
 - (void)viewDidLoad
 {
@@ -316,6 +321,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 {
     camera = [[LandscapeImagePickerController alloc] init];
     camera.sourceType = UIImagePickerControllerSourceTypeCamera;
+    //[camera preferredInterfaceOrientationForPresentation];
     
     camera.mediaTypes = [[NSArray alloc] initWithObjects:(NSString *)kUTTypeMovie, nil];
     camera.cameraCaptureMode = UIImagePickerControllerCameraCaptureModeVideo;
