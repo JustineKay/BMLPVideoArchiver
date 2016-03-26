@@ -38,6 +38,21 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 @synthesize driveService;
 
+-(BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+-(UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskLandscape;
+}
+
+-(UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+    return UIInterfaceOrientationLandscapeLeft;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -87,17 +102,16 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     }else {
         
         [self presentViewController:camera animated:animated completion:^{
-//            AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-//            appDelegate.isCameraPresented = YES;
+            AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+            appDelegate.isCameraPresented = YES;
         }];
     }
 }
 
 -(void)viewDidDisappear:(BOOL)animated
 {
-    
-//    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-//    appDelegate.isCameraPresented = NO;
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    appDelegate.isCameraPresented = NO;
 }
 
 - (void)appDidBecomeActive

@@ -7,6 +7,7 @@
 //
 
 #import "InterfaceOrientationNavigationController.h"
+#import "AppDelegate.h"
 
 @interface InterfaceOrientationNavigationController ()
 
@@ -16,12 +17,19 @@
 
 - (BOOL)shouldAutorotate
 {
-    //returns true if want to allow orientation change
-    return [self.topViewController shouldAutorotate];
+    return YES;
 }
-- (NSUInteger)supportedInterfaceOrientations
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
-    return [self.topViewController supportedInterfaceOrientations];
+//    AppDelegate *appDelgate=[[UIApplication sharedApplication] delegate];
+//    
+//    if (appDelgate.isCameraPresented) {
+//        
+//        return UIInterfaceOrientationMaskLandscape;
+//        
+//    }
+    return UIInterfaceOrientationMaskAll;
 }
 
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation

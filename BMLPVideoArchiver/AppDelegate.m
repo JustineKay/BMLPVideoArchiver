@@ -19,6 +19,12 @@
 
 @implementation AppDelegate
 
+- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
+    if (([window.rootViewController.presentedViewController isKindOfClass:[UIImagePickerController class]]) && (window.rootViewController.presentedViewController.isBeingDismissed == NO)) {
+        return UIInterfaceOrientationMaskPortrait;
+    }
+    return UIInterfaceOrientationMaskLandscape;
+}
 //-(UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
 //{
 //    

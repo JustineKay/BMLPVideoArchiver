@@ -2,7 +2,7 @@
 //  main.m
 //  BMLPVideoArchiver
 //
-//  Created by Justine Gartner on 10/26/15.
+//  Created by Justine Kay on 10/26/15.
 //  Copyright © 2015 Justine Kay. All rights reserved.
 //
 
