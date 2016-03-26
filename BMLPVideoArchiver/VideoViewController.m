@@ -38,20 +38,20 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 @synthesize driveService;
 
--(BOOL)shouldAutorotate
-{
-    return YES;
-}
-
--(UIInterfaceOrientationMask)supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskLandscape;
-}
-
--(UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
-{
-    return UIInterfaceOrientationLandscapeLeft;
-}
+//-(BOOL)shouldAutorotate
+//{
+//    return YES;
+//}
+//
+//-(UIInterfaceOrientationMask)supportedInterfaceOrientations
+//{
+//    return UIInterfaceOrientationMaskLandscape;
+//}
+//
+//-(UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+//{
+//    return UIInterfaceOrientationLandscapeLeft;
+//}
 
 - (void)viewDidLoad
 {
@@ -314,7 +314,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 - (void)setUpCamera
 {
-    camera = [[UIImagePickerController alloc] init];
+    camera = [[LandscapeImagePickerController alloc] init];
     camera.sourceType = UIImagePickerControllerSourceTypeCamera;
     
     camera.mediaTypes = [[NSArray alloc] initWithObjects:(NSString *)kUTTypeMovie, nil];

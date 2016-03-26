@@ -10,6 +10,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "GTMOAuth2ViewControllerTouch.h"
 #import "GTLDrive.h"
+#import "LandscapeImagePickerController.h"
 #import "CameraOverlayViewController.h"
 #import "CustomCameraOverlayView.h"
 
@@ -25,7 +26,7 @@ CustomCameraOverlayDelegate
 
 {
 UITapGestureRecognizer  *recordGestureRecognizer;
-UIImagePickerController *camera;
+LandscapeImagePickerController *camera;
 AVAudioRecorder *audioRecorder;
 BOOL inBackground;
 BOOL mainFolder;

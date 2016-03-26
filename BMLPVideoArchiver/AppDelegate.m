@@ -10,6 +10,7 @@
 #import "VideoViewController.h"
 #import "LogInViewController.h"
 #import "InterfaceOrientationNavigationController.h"
+#import "LandscapeImagePickerController.h"
 
 @interface AppDelegate ()
 
@@ -20,10 +21,11 @@
 @implementation AppDelegate
 
 - (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
-    if (([window.rootViewController.presentedViewController isKindOfClass:[UIImagePickerController class]]) && (window.rootViewController.presentedViewController.isBeingDismissed == NO)) {
-        return UIInterfaceOrientationMaskPortrait;
-    }
-    return UIInterfaceOrientationMaskLandscape;
+//    if (([window.rootViewController.presentedViewController isKindOfClass:[LandscapeImagePickerController class]])) {
+//        return UIInterfaceOrientationMaskLandscape;
+//    }
+    
+    return UIInterfaceOrientationMaskAll;
 }
 //-(UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
 //{
