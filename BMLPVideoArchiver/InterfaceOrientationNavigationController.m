@@ -15,6 +15,11 @@
 
 @implementation InterfaceOrientationNavigationController
 
+//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+//{
+//    return (interfaceOrientation == UIInterfaceOrientationLandscapeRight);
+//}
+
 - (BOOL)shouldAutorotate
 {
     return NO;
