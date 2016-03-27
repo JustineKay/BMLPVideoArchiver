@@ -6,10 +6,12 @@
 //  Copyright © 2015 Justine Kay. All rights reserved.
 
 #import <MobileCoreServices/MobileCoreServices.h>
+#import "InterfaceOrientationNavigationController.h"
 #import "VideoViewController.h"
 #import "LogInViewController.h"
 #import "GTMOAuth2ViewControllerTouch.h"
 #import "GTLDrive.h"
+#import "AppDelegate.h"
 
 static NSString *const kKeychainItemName = @"BMLP Video Archiver";
 static NSString *const kClientID = @"749579524688-b1oaiu8cc4obq06aal4org55qie5lho2.apps.googleusercontent.com";
@@ -32,13 +34,74 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 @end
 
+@interface UIDevice ()
+
+-(void)setOrientation:(UIDeviceOrientation)orientation;
+
+@end
+
 @implementation VideoViewController
 
 @synthesize driveService;
 
+//*** Setting the UIInterfaceOrientation here doesn't seem to affect the camera image orientation ***
+
+//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+//{
+//    return UIInterfaceOrientationLandscapeLeft;
+//}
+
+-(BOOL)shouldAutorotate
+{
+    return NO;
+}
+
+-(UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskLandscape;
+}
+
+-(UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+    return UIInterfaceOrientationLandscapeRight;
+}
+
+
+// *** Setting the Device orientation doesn't seem to affect the camera image orientation either ***
+-(void)setUpDeviceOrientation
+{
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    
+    [[UIDevice currentDevice] setOrientation:UIDeviceOrientationLandscapeLeft];
+    
+    //Set Notifications so that when user rotates phone, the orientation is reset to landscape.
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    
+    //Refer to the method didRotate:
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didRotate:)
+                                                 name:@"UIDeviceOrientationDidChangeNotification" object:nil];
+}
+
+- (void) didRotate:(NSNotification *)notification
+
+{
+    UIDeviceOrientation currentOrientation = [[UIDevice currentDevice] orientation];
+    
+    // Ignore changes in device orientation if unknown, face up, or face down.
+    if (!UIDeviceOrientationIsValidInterfaceOrientation(currentOrientation)) {
+        return;
+    }
+    //Maintain the camera in Landscape orientation
+    [[UIDevice currentDevice] setOrientation:UIDeviceOrientationLandscapeLeft];
+    
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self setUpDeviceOrientation];
     
     self.backgroundTask = UIBackgroundTaskInvalid;
     
@@ -80,15 +143,24 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     if (![self isAuthorized]) {
         
         // Not yet authorized, request authorization and push the login UI onto the navigation stack.
-        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:[self createAuthController]];
-        navigationController.navigationBarHidden = YES;
-        [self presentViewController:navigationController animated:YES completion:nil];
-
-        //[self presentViewController:[self createAuthController] animated:YES completion:nil];
+        [self presentViewController:[self createAuthController] animated:YES completion:nil];
         
     }else {
         
-        [self presentViewController:camera animated:animated completion:nil];
+        [self presentViewController:camera animated:animated completion:^{
+            AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+            appDelegate.isCameraPresented = YES;
+        }];
+    }
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    appDelegate.isCameraPresented = NO;
+    
+    if ([[UIDevice currentDevice] isGeneratingDeviceOrientationNotifications]) {
+        [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
     }
 }
 
@@ -225,19 +297,20 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
 }
 
--(void)audioRecorderDidFinishRecording:(AVAudioRecorder *)recorder successfully:(BOOL)flag {
-    
-    //save audio file to google drive ***(TO DO: Save on device?...)***
-    
+-(void)audioRecorderDidFinishRecording:(AVAudioRecorder *)recorder successfully:(BOOL)flag
+{
     //Load recording path from preferences
     NSUserDefaults *paths = [NSUserDefaults standardUserDefaults];
     NSURL *audioFileUrl = [paths URLForKey:@"filePath"];
-    NSString *audiofilePath = [audioFileUrl path];
+    NSString *audioFilePath = [audioFileUrl path];
     
-    //upload to google drive
-    [self uploadAudio:audiofilePath WithParentRef:self.parentRef];
+    //Upload to google drive
+    isVideoFile = NO;
+    [self uploadToGoogleDriveInDatedFolder:audioFilePath];
     
-    //restart audioRecorder
+    //***(TO DO: Save on device)***
+    
+    //Restart audioRecorder
     if (inBackground) {
         
         [self startAudioRecording];
@@ -248,7 +321,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 {
         [audioRecorder record];
         [self startRecordingTimer];
-        
+    
         NSLog(@"Audio recording started");
 }
 
@@ -292,8 +365,9 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 - (void)setUpCamera
 {
-    camera = [[UIImagePickerController alloc] init];
+    camera = [[LandscapeImagePickerController alloc] init];
     camera.sourceType = UIImagePickerControllerSourceTypeCamera;
+    //[camera preferredInterfaceOrientationForPresentation];
     
     camera.mediaTypes = [[NSArray alloc] initWithObjects:(NSString *)kUTTypeMovie, nil];
     camera.cameraCaptureMode = UIImagePickerControllerCameraCaptureModeVideo;
@@ -301,7 +375,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     camera.showsCameraControls = NO;
     camera.cameraViewTransform = CGAffineTransformIdentity;
     
-    //create custom overlay and apply to camera
+    //Create custom overlay and apply to camera
     [self customCameraOverlay];
     camera.cameraOverlayView = self.customCameraOverlayView;
     
@@ -420,7 +494,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:SignedInKey];
     
-    UINavigationController *navigationController = self.navigationController;
+    InterfaceOrientationNavigationController *navigationController = (InterfaceOrientationNavigationController *)self.navigationController;
     
     //Get all view controllers in navigation controller currently
     NSMutableArray *controllers=[[NSMutableArray alloc] initWithArray:navigationController.viewControllers] ;
@@ -428,7 +502,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     //Remove the last view controller
     [controllers removeLastObject];
     
-    //set the new set of view controllers
+    //Set the new set of view controllers
     [navigationController setViewControllers:controllers];
     
     [camera dismissViewControllerAnimated:NO completion:^{
@@ -541,6 +615,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 // Handle most recent video recording
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
+    
     NSString *mediaType = [info objectForKey: UIImagePickerControllerMediaType];
     
     if (CFStringCompare ((__bridge CFStringRef) mediaType, kUTTypeMovie, 0) == kCFCompareEqualTo) {
@@ -550,49 +625,8 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         if (UIVideoAtPathIsCompatibleWithSavedPhotosAlbum (videoPath)) {
             
             //save to Google Drive
-            
-            [self searchForMainBMLPFolder:^(BOOL finished) {
-                
-                if (finished) {
-                    
-                    if (!mainFolder) {
-                        
-                        [self createMainBMLPfolder:^(GTLDriveParentReference *identifier) {
-                            
-                            [self createNewDatedFolderWithParentRef:identifier completion:^(GTLDriveParentReference *identifier) {
-                               
-                                [self uploadVideo:videoPath WithParentRef:identifier];
-                                
-                            }];
-                            
-                        }];
-                        
-                    }else {
-                        
-                        [self searchForDatedFolder:^(BOOL finished) {
-                        
-                            if (finished) {
-                                
-                                if (!datedFolder) {
-                                
-                                    [self createNewDatedFolderWithParentRef:self.parentRef completion:^(GTLDriveParentReference *identifier) {
-                                       
-                                        [self uploadVideo:videoPath WithParentRef:identifier];
-                                    }];
-                                
-                                } else {
-                                    
-                                    [self uploadVideo:videoPath WithParentRef:self.parentRef];
-                                }
-                                
-                            }
-                            
-                        }];
-                        
-                    }
-
-                }
-            }];
+            isVideoFile = YES;
+            [self uploadToGoogleDriveInDatedFolder:videoPath];
             
             //save to photo album
             UISaveVideoAtPathToSavedPhotosAlbum(videoPath, self, @selector(video:didFinishSavingWithError:contextInfo:), NULL);
@@ -684,6 +718,78 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 
     }
+}
+
+-(void)uploadToGoogleDriveInDatedFolder: (NSString *)filePath
+{
+    [self searchForMainBMLPFolder:^(BOOL finished) {
+        
+        if (finished) {
+            
+            if (!mainFolder) {
+                
+                [self createMainBMLPfolder:^(GTLDriveParentReference *identifier) {
+                    
+                    [self createNewDatedFolderWithParentRef:identifier completion:^(GTLDriveParentReference *identifier) {
+                        
+                        if (isVideoFile) {
+                            
+                            [self uploadVideo:filePath WithParentRef:identifier];
+                        
+                        }else {
+                            
+                            [self uploadAudio:filePath WithParentRef:identifier];
+                        }
+                        
+                        
+                    }];
+                    
+                }];
+                
+            }else {
+                
+                [self searchForDatedFolder:^(BOOL finished) {
+                    
+                    if (finished) {
+                        
+                        if (!datedFolder) {
+                            
+                            [self createNewDatedFolderWithParentRef:self.parentRef completion:^(GTLDriveParentReference *identifier) {
+                                
+                                if (isVideoFile) {
+                                    
+                                    [self uploadVideo:filePath WithParentRef:identifier];
+                                    
+                                }else {
+                                    
+                                    [self uploadAudio:filePath WithParentRef:identifier];
+                                }
+
+                            }];
+                            
+                        } else {
+                            
+                            if (isVideoFile) {
+                                
+                                [self uploadVideo:filePath WithParentRef:self.parentRef];
+                                
+                            }else {
+                                
+                                [self uploadAudio:filePath WithParentRef:self.parentRef];
+                            }
+
+                        }
+                        
+                    }
+                    
+                }];
+                
+            }
+            
+        }
+    }];
+
+    
 }
 
 //Check if a main BMLP folder has been created

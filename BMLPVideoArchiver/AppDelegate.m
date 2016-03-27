@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 #import "VideoViewController.h"
 #import "LogInViewController.h"
+#import "InterfaceOrientationNavigationController.h"
+#import "LandscapeImagePickerController.h"
 
 @interface AppDelegate ()
 
@@ -18,10 +20,26 @@
 
 @implementation AppDelegate
 
+//- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
+////    if (([window.rootViewController.presentedViewController isKindOfClass:[LandscapeImagePickerController class]])) {
+////        return UIInterfaceOrientationMaskLandscape;
+////    }
+//    
+//    if (self.isCameraPresented){
+//        
+//        NSLog(@"isPresented %d", self.isCameraPresented);
+//        return UIInterfaceOrientationMaskLandscape;
+//    }
+//    
+//    return UIInterfaceOrientationMaskAll;
+//}
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    UINavigationController *navigationController = (UINavigationController *) self.window.rootViewController;
+    self.isCameraPresented = NO;
+    
+    InterfaceOrientationNavigationController *navigationController = (InterfaceOrientationNavigationController *) self.window.rootViewController;
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
     
