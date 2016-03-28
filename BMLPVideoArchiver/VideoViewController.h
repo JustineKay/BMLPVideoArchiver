@@ -27,6 +27,7 @@ CustomCameraOverlayDelegate
 UITapGestureRecognizer  *recordGestureRecognizer;
 UIImagePickerController *camera;
 AVAudioRecorder *audioRecorder;
+BOOL isVideoFile;
 BOOL inBackground;
 BOOL mainFolder;
 BOOL datedFolder;

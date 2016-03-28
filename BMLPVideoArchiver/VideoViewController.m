@@ -232,10 +232,11 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     //Load recording path from preferences
     NSUserDefaults *paths = [NSUserDefaults standardUserDefaults];
     NSURL *audioFileUrl = [paths URLForKey:@"filePath"];
-    NSString *audiofilePath = [audioFileUrl path];
+    NSString *audioFilePath = [audioFileUrl path];
     
-    //upload to google drive
-    [self uploadAudio:audiofilePath WithParentRef:self.parentRef];
+    //Upload to google drive
+    isVideoFile = NO;
+    [self uploadToGoogleDriveInDatedFolder:audioFilePath];
     
     //restart audioRecorder
     if (inBackground) {
@@ -550,50 +551,9 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         if (UIVideoAtPathIsCompatibleWithSavedPhotosAlbum (videoPath)) {
             
             //save to Google Drive
-            
-            [self searchForMainBMLPFolder:^(BOOL finished) {
-                
-                if (finished) {
-                    
-                    if (!mainFolder) {
+            isVideoFile = YES;
+            [self uploadToGoogleDriveInDatedFolder:videoPath];
                         
-                        [self createMainBMLPfolder:^(GTLDriveParentReference *identifier) {
-                            
-                            [self createNewDatedFolderWithParentRef:identifier completion:^(GTLDriveParentReference *identifier) {
-                               
-                                [self uploadVideo:videoPath WithParentRef:identifier];
-                                
-                            }];
-                            
-                        }];
-                        
-                    }else {
-                        
-                        [self searchForDatedFolder:^(BOOL finished) {
-                        
-                            if (finished) {
-                                
-                                if (!datedFolder) {
-                                
-                                    [self createNewDatedFolderWithParentRef:self.parentRef completion:^(GTLDriveParentReference *identifier) {
-                                       
-                                        [self uploadVideo:videoPath WithParentRef:identifier];
-                                    }];
-                                
-                                } else {
-                                    
-                                    [self uploadVideo:videoPath WithParentRef:self.parentRef];
-                                }
-                                
-                            }
-                            
-                        }];
-                        
-                    }
-
-                }
-            }];
-            
             //save to photo album
             UISaveVideoAtPathToSavedPhotosAlbum(videoPath, self, @selector(video:didFinishSavingWithError:contextInfo:), NULL);
             
@@ -684,6 +644,78 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 
     }
+}
+
+-(void)uploadToGoogleDriveInDatedFolder: (NSString *)filePath
+{
+    [self searchForMainBMLPFolder:^(BOOL finished) {
+        
+        if (finished) {
+            
+            if (!mainFolder) {
+                
+                [self createMainBMLPfolder:^(GTLDriveParentReference *identifier) {
+                    
+                    [self createNewDatedFolderWithParentRef:identifier completion:^(GTLDriveParentReference *identifier) {
+                        
+                        if (isVideoFile) {
+                            
+                            [self uploadVideo:filePath WithParentRef:identifier];
+                            
+                        }else {
+                            
+                            [self uploadAudio:filePath WithParentRef:identifier];
+                        }
+                        
+                        
+                    }];
+                    
+                }];
+                
+            }else {
+                
+                [self searchForDatedFolder:^(BOOL finished) {
+                    
+                    if (finished) {
+                        
+                        if (!datedFolder) {
+                            
+                            [self createNewDatedFolderWithParentRef:self.parentRef completion:^(GTLDriveParentReference *identifier) {
+                                
+                                if (isVideoFile) {
+                                    
+                                    [self uploadVideo:filePath WithParentRef:identifier];
+                                    
+                                }else {
+                                    
+                                    [self uploadAudio:filePath WithParentRef:identifier];
+                                }
+                                
+                            }];
+                            
+                        } else {
+                            
+                            if (isVideoFile) {
+                                
+                                [self uploadVideo:filePath WithParentRef:self.parentRef];
+                                
+                            }else {
+                                
+                                [self uploadAudio:filePath WithParentRef:self.parentRef];
+                            }
+                            
+                        }
+                        
+                    }
+                    
+                }];
+                
+            }
+            
+        }
+    }];
+    
+    
 }
 
 //Check if a main BMLP folder has been created
