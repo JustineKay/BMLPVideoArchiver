@@ -78,13 +78,8 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     [super viewWillAppear:animated];
     
     if (![self isAuthorized]) {
-        
-        // Not yet authorized, request authorization and push the login UI onto the navigation stack.
-        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:[self createAuthController]];
-        navigationController.navigationBarHidden = YES;
-        [self presentViewController:navigationController animated:YES completion:nil];
 
-        //[self presentViewController:[self createAuthController] animated:YES completion:nil];
+        [self presentViewController:[self createAuthController] animated:YES completion:nil];
         
     }else {
         
