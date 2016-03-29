@@ -100,6 +100,8 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 - (void)appWillResignActive
 {
     [self stopVideoRecording];
+    videoSessionInProgress = NO;
+    
     NSLog(@"App will resign active.");
 }
 
@@ -528,7 +530,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         
         [camera stopVideoCapture];
         
-        if (!videoSessionInProgress) {
+        if (!videoSessionInProgress && !inBackground) {
             
             self.customCameraOverlayView.stopRecordingView.alpha = 0.0;
         }
@@ -875,7 +877,8 @@ typedef void(^completion)(BOOL);
     [dateFormat setDateFormat:@"BMLP Video Archiver Audio File ('EEEE MMMM d, YYYY h:mm a, zzz')"];
     
     GTLDriveFile *file = [GTLDriveFile object];
-    file.title = [dateFormat stringFromDate:[NSDate date]];
+    file.originalFilename = [dateFormat stringFromDate:[NSDate date]];
+    file.title = file.originalFilename;
     file.descriptionProperty = @"Uploaded from BMLP Video Archiver";
     //file.mimeType = @"audio/mp4";
     
@@ -918,7 +921,8 @@ typedef void(^completion)(BOOL);
     [dateFormat setDateFormat:@"BMLP Video Archiver Video File ('EEEE MMMM d, YYYY h:mm a, zzz')"];
     
     GTLDriveFile *file = [GTLDriveFile object];
-    file.title = [dateFormat stringFromDate:[NSDate date]];
+    file.originalFilename = [dateFormat stringFromDate:[NSDate date]];
+    file.title = file.originalFilename;
     file.descriptionProperty = @"Uploaded from BMLP Video Archiver";
     file.mimeType = @"video/quicktime";
     
