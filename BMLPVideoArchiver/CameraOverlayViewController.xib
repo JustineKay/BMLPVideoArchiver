@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CameraOverlayViewController">
@@ -34,7 +34,7 @@
                                 <constraint firstAttribute="height" constant="35" id="Oh1-v9-5Yl"/>
                                 <constraint firstAttribute="width" constant="35" id="wA1-Re-FzL"/>
                             </constraints>
-                            <state key="normal" image="Change User Filled-50"/>
+                            <state key="normal" image="Settings Filled-50"/>
                             <connections>
                                 <action selector="menuButtonTapped:" destination="i5M-Pr-FkT" eventType="touchUpInside" id="726-3d-i0j"/>
                             </connections>
@@ -77,10 +77,10 @@
                     <rect key="frame" x="130" y="400" width="60" height="60"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a3x-bO-EDJ">
-                            <rect key="frame" x="7" y="8" width="45" height="45"/>
+                            <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="45" id="4M1-x9-f0a"/>
-                                <constraint firstAttribute="height" constant="45" id="OzA-Yh-pCA"/>
+                                <constraint firstAttribute="width" constant="60" id="4M1-x9-f0a"/>
+                                <constraint firstAttribute="height" constant="60" id="OzA-Yh-pCA"/>
                             </constraints>
                             <state key="normal" image="Stop Filled-50"/>
                             <connections>
@@ -88,7 +88,7 @@
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="60" id="2YU-sH-bkB"/>
                         <constraint firstAttribute="height" constant="60" id="Gdw-L7-oFt"/>
@@ -138,7 +138,7 @@
         </view>
     </objects>
     <resources>
-        <image name="Change User Filled-50" width="50" height="50"/>
+        <image name="Settings Filled-50" width="50" height="50"/>
         <image name="Stop Filled-50" width="50" height="50"/>
     </resources>
 </document>

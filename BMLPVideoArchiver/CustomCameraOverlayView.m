@@ -22,7 +22,7 @@
 
 - (IBAction)menuButtonTapped:(UIButton *)sender
 {
-    [self.delegate didSignOut];
+    [self.delegate didTapSettingsButton];
     
 }
 

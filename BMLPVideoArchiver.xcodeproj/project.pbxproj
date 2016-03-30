@@ -10,6 +10,8 @@
 		6B0263FC1C2F62EF0099BF46 /* CameraOverlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0263FA1C2F62EF0099BF46 /* CameraOverlayViewController.m */; };
 		6B0263FD1C2F62EF0099BF46 /* CameraOverlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B0263FB1C2F62EF0099BF46 /* CameraOverlayViewController.xib */; };
 		6B0264001C2F632A0099BF46 /* CustomCameraOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0263FF1C2F632A0099BF46 /* CustomCameraOverlayView.m */; };
+		6B07A9EA1CAB42280085671E /* NYAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B07A9E91CAB42280085671E /* NYAlertViewController.m */; };
+		6B07A9F11CAB43240085671E /* NYAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B07A9F01CAB43240085671E /* NYAlertView.m */; };
 		6B6B3FD41BE1A51C00EDE9F2 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B6B3FD31BE1A51C00EDE9F2 /* Security.framework */; };
 		6B6B3FD61BE1A52A00EDE9F2 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B6B3FD51BE1A52A00EDE9F2 /* SystemConfiguration.framework */; };
 		6B6B3FDA1BE1A9AA00EDE9F2 /* GTMOAuth2ViewTouch.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B6B3FD91BE1A9AA00EDE9F2 /* GTMOAuth2ViewTouch.xib */; };
@@ -67,6 +69,10 @@
 		6B0263FB1C2F62EF0099BF46 /* CameraOverlayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraOverlayViewController.xib; sourceTree = "<group>"; };
 		6B0263FE1C2F632A0099BF46 /* CustomCameraOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCameraOverlayView.h; sourceTree = "<group>"; };
 		6B0263FF1C2F632A0099BF46 /* CustomCameraOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCameraOverlayView.m; sourceTree = "<group>"; };
+		6B07A9E81CAB42280085671E /* NYAlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYAlertViewController.h; sourceTree = "<group>"; };
+		6B07A9E91CAB42280085671E /* NYAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYAlertViewController.m; sourceTree = "<group>"; };
+		6B07A9EF1CAB43240085671E /* NYAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYAlertView.h; sourceTree = "<group>"; };
+		6B07A9F01CAB43240085671E /* NYAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYAlertView.m; sourceTree = "<group>"; };
 		6B6B3FD31BE1A51C00EDE9F2 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		6B6B3FD51BE1A52A00EDE9F2 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		6B6B3FD91BE1A9AA00EDE9F2 /* GTMOAuth2ViewTouch.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GTMOAuth2ViewTouch.xib; sourceTree = "<group>"; };
@@ -148,6 +154,10 @@
 				6BDC39C41BDF22EF0036BE01 /* AppDelegate.m */,
 				6B6B3FE31BE1A9E500EDE9F2 /* GTLDrive_Sources.m */,
 				6B6B3FE41BE1A9E500EDE9F2 /* GTLDrive.h */,
+				6B07A9EF1CAB43240085671E /* NYAlertView.h */,
+				6B07A9F01CAB43240085671E /* NYAlertView.m */,
+				6B07A9E81CAB42280085671E /* NYAlertViewController.h */,
+				6B07A9E91CAB42280085671E /* NYAlertViewController.m */,
 				6BE642441C388052003CA4A1 /* LogInViewController.h */,
 				6BE642451C388052003CA4A1 /* LogInViewController.m */,
 				6BDC39D71BDF274A0036BE01 /* VideoViewController.h */,
@@ -377,6 +387,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B07A9EA1CAB42280085671E /* NYAlertViewController.m in Sources */,
 				6BE642461C388052003CA4A1 /* LogInViewController.m in Sources */,
 				6BDC39C51BDF22EF0036BE01 /* AppDelegate.m in Sources */,
 				6B6B3FE51BE1A9E500EDE9F2 /* GTLDrive_Sources.m in Sources */,
@@ -384,6 +395,7 @@
 				6BDC39D91BDF274A0036BE01 /* VideoViewController.m in Sources */,
 				6B0264001C2F632A0099BF46 /* CustomCameraOverlayView.m in Sources */,
 				6B0263FC1C2F62EF0099BF46 /* CameraOverlayViewController.m in Sources */,
+				6B07A9F11CAB43240085671E /* NYAlertView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

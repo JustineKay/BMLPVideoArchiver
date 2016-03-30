@@ -10,6 +10,7 @@
 #import "LogInViewController.h"
 #import "GTMOAuth2ViewControllerTouch.h"
 #import "GTLDrive.h"
+#import "NYAlertViewController.h"
 
 static NSString *const kKeychainItemName = @"BMLP Video Archiver";
 static NSString *const kClientID = @"749579524688-b1oaiu8cc4obq06aal4org55qie5lho2.apps.googleusercontent.com";
@@ -90,12 +91,25 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 - (void)appDidBecomeActive
 {
     NSLog(@"App did become active.");
+    
+    if (videoSessionInProgress) {
+        
+        videoRecording = YES;
+        [camera startVideoCapture];
+        [self startRecordingTimer];
+        
+        NSLog(@"Video recording continued...");
+        
+    }
+    
 }
 
 - (void)appWillResignActive
 {
-    [self stopVideoRecording];
-    videoSessionInProgress = NO;
+    if (videoSessionInProgress) {
+        
+        [self stopVideoRecording];
+    }
     
     NSLog(@"App will resign active.");
 }
@@ -163,7 +177,6 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         self.backgroundTask = UIBackgroundTaskInvalid;
     }
     
-    [self showCameraControls];
 }
 
 
@@ -224,7 +237,8 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 -(void)audioRecorderDidFinishRecording:(AVAudioRecorder *)recorder successfully:(BOOL)flag {
     
-    //save audio file to google drive ***(TO DO: Save on device?...)***
+    //save audio file to google drive
+    //***(TO DO: Save on device?...)***
     
     //Load recording path from preferences
     NSUserDefaults *paths = [NSUserDefaults standardUserDefaults];
@@ -259,7 +273,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 }
 
 
-#pragma mark - camera and customCameraoOverlay set up
+#pragma mark - camera and customCameraOverlay set up
 
 -(void)customCameraOverlay
 {
@@ -361,19 +375,27 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 -(void)startRecordingTimer
 {
-    NSTimer *timer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(fireTimer:) userInfo:nil repeats:YES];
-    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
-    NSDate *timerTimeStamp = [NSDate date];
-    [[NSUserDefaults standardUserDefaults] setValue:timerTimeStamp forKey:@"lastTimeStamp"];
-    self.timer = timer;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [self.timer invalidate];
+        self.timer = nil;
+        
+        self.timer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(fireTimer:) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+        
+        NSDate *timerTimeStamp = [NSDate date];
+        [[NSUserDefaults standardUserDefaults] setValue:timerTimeStamp forKey:@"startTimeStamp"];
+        
+        
+    });
     
 }
 
 -(void)fireTimer: (NSTimer *) timer
 {
-    NSDate *lastTime = [[NSUserDefaults standardUserDefaults] valueForKey:@"lastTimeStamp"];
+    NSDate *startTime = [[NSUserDefaults standardUserDefaults] valueForKey:@"startTimeStamp"];
     NSTimeInterval stopTimeInterval = 30.0;
-    NSTimeInterval currentTimeInterval = [[NSDate date] timeIntervalSinceDate:lastTime];
+    NSTimeInterval currentTimeInterval = [[NSDate date] timeIntervalSinceDate:startTime];
     
     //For debugging only
     self.timeInSeconds += 1;
@@ -390,14 +412,18 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 -(void)resetTimer
 {
-    if (self.timer){
+    dispatch_async(dispatch_get_main_queue(), ^{
         
-        [self.timer invalidate];
-        
-        self.timeInSeconds = 0;
-        
-        NSLog(@"Timer reset");
-    }
+        if (self.timer){
+            
+            [self.timer invalidate];
+            self.timer = nil;
+            
+            self.timeInSeconds = 0;
+            
+            NSLog(@"Timer reset");
+        }
+    });
 }
 
 
@@ -405,14 +431,21 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 -(void)didStopRecordingVideo
 {
-    videoSessionInProgress = NO;
-    
-    [self stopVideoRecording];
-    
-    NSLog(@"session ended");
+    [self showCustomAlertViewWithActionCount:2];
+//    videoSessionInProgress = NO;
+//    
+//    [self stopVideoRecording];
+//    
+//    NSLog(@"session ended");
 }
 
--(void)didSignOut
+-(void)didTapSettingsButton
+{
+    [self showCustomAlertViewWithActionCount:2];
+
+}
+
+-(void)signOutOfGoogleDrive
 {
     [GTMOAuth2ViewControllerTouch removeAuthFromKeychainForName:kKeychainItemName];
     
@@ -500,7 +533,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         self.customCameraOverlayView.cameraSelectionButton.alpha = 0.0;
         self.customCameraOverlayView.flashModeButton.alpha = 0.0;
         self.customCameraOverlayView.stopRecordingView.alpha = 1.0;
-        self.customCameraOverlayView.stopRecordingView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.25];
+        self.customCameraOverlayView.stopRecordingView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.5];
     };
     
     void (^recordMovie)(BOOL finished);
@@ -971,6 +1004,7 @@ typedef void(^completion)(BOOL);
                   }];
 }
 
+#pragma mark - Alert animations and NYAlertViewController methods
 
 // Helper for showing Info Label
 
@@ -1024,5 +1058,37 @@ typedef void(^completion)(BOOL);
     
 }
 
+- (void)showCustomAlertViewWithActionCount:(NSInteger)actionCount {
+    NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil];
+    alertViewController.title = NSLocalizedString(@"Example Title", nil);
+    alertViewController.message = NSLocalizedString(@"This alert uses the fade transition style! Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Donec id elit non mi porta gravida at eget metus.", nil);
+    
+    alertViewController.view.tintColor = self.view.tintColor;
+    alertViewController.backgroundTapDismissalGestureEnabled = YES;
+    alertViewController.swipeDismissalGestureEnabled = YES;
+    alertViewController.transitionStyle = NYAlertViewControllerTransitionStyleFade;
+    
+    alertViewController.titleFont = [UIFont fontWithName:@"AvenirNext-Bold" size:alertViewController.titleFont.pointSize];
+    alertViewController.messageFont = [UIFont fontWithName:@"AvenirNext-Regular" size:alertViewController.messageFont.pointSize];
+    alertViewController.buttonTitleFont = [UIFont fontWithName:@"AvenirNext-Regular" size:alertViewController.buttonTitleFont.pointSize];
+    alertViewController.cancelButtonTitleFont = [UIFont fontWithName:@"AvenirNext-Medium" size:alertViewController.cancelButtonTitleFont.pointSize];
+    
+    for (int i = 0; i < actionCount; i++) {
+        NSString *actionTitle = [NSString stringWithFormat:NSLocalizedString(@"Action %d", nil), i + 1];
+        UIAlertActionStyle actionStyle = UIAlertActionStyleDefault;
+        
+        // Set up the final action as a cancel button
+        if (i == actionCount - 1) {
+            actionTitle = NSLocalizedString(@"Cancel", nil);
+            actionStyle = UIAlertActionStyleCancel;
+        }
+        
+        [alertViewController addAction:[NYAlertAction actionWithTitle:actionTitle style:actionStyle handler:^(NYAlertAction *action) {
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }]];
+    }
+    
+    [camera presentViewController:alertViewController animated:YES completion:nil];
+}
 
 @end
