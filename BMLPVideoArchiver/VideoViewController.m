@@ -72,6 +72,10 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
                                              selector:@selector(appWillResignActive)
                                                  name:UIApplicationWillResignActiveNotification
                                                object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(cameraIsReady:)
+                                                 name:AVCaptureSessionDidStartRunningNotification object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -88,9 +92,9 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     }
 }
 
-- (void)appDidBecomeActive
+- (void)cameraIsReady:(NSNotification *)notification
 {
-    NSLog(@"App did become active.");
+    NSLog(@"Camera is ready...");
     
     if (videoSessionInProgress) {
         
@@ -98,10 +102,18 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         [camera startVideoCapture];
         [self startRecordingTimer];
         
+        self.customCameraOverlayView.stopRecordingView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+        self.customCameraOverlayView.stopRecordingView.alpha = 1.0;
+        
         NSLog(@"Video recording continued...");
         
     }
-    
+
+}
+
+- (void)appDidBecomeActive
+{
+    NSLog(@"App did become active.");   
 }
 
 - (void)appWillResignActive
@@ -948,6 +960,7 @@ typedef void(^completion)(BOOL);
     file.title = file.originalFilename;
     file.descriptionProperty = @"Uploaded from BMLP Video Archiver";
     file.mimeType = @"video/quicktime";
+
     
     if (parentRef) {
         
