@@ -152,21 +152,6 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         [app endBackgroundTask:self.backgroundTask];
         self.backgroundTask = UIBackgroundTaskInvalid;
     }];
-    
-    // Start the long-running task
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        
-//        // Do the work associated with the task, preferably in chunks.
-//        if (!audioRecorder.recording && [self isAuthorized]) {
-//            
-//            AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-//            [audioSession setActive:YES error:nil];
-//            
-//            [self startAudioRecording];
-//        }
-//        
-//    });
-   
 }
 
 - (void)appWillEnterForeground
@@ -913,10 +898,8 @@ typedef void(^completion)(BOOL);
     [dateFormat setDateFormat:@"BMLP Video Archiver Audio File ('EEEE MMMM d, YYYY h:mm a, zzz')"];
     
     GTLDriveFile *file = [GTLDriveFile object];
-    file.originalFilename = [dateFormat stringFromDate:[NSDate date]];
-    file.title = file.originalFilename;
+    file.title = [dateFormat stringFromDate:[NSDate date]];
     file.descriptionProperty = @"Uploaded from BMLP Video Archiver";
-    //file.mimeType = @"audio/mp4";
     
     if (parentRef) {
         
@@ -957,13 +940,9 @@ typedef void(^completion)(BOOL);
     [dateFormat setDateFormat:@"BMLP Video Archiver Video File ('EEEE MMMM d, YYYY h:mm a, zzz')"];
     
     GTLDriveFile *file = [GTLDriveFile object];
-    file.originalFilename = [dateFormat stringFromDate:[NSDate date]];
-    file.title = file.originalFilename;
+    file.title = [dateFormat stringFromDate:[NSDate date]];
     file.descriptionProperty = @"Uploaded from BMLP Video Archiver";
     file.mimeType = @"video/quicktime";
-
-    
-    
     
     if (parentRef) {
         
