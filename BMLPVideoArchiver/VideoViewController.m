@@ -6,6 +6,7 @@
 //  Copyright © 2015 Justine Kay. All rights reserved.
 
 #import <MobileCoreServices/MobileCoreServices.h>
+#import <DMPasscode/DMPasscode.h>
 #import "VideoViewController.h"
 #import "LogInViewController.h"
 #import "GTMOAuth2ViewControllerTouch.h"
@@ -1086,10 +1087,17 @@ typedef void(^completion)(BOOL);
     [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Change Passcode", nil)
                                                             style:UIAlertActionStyleDefault
                                                           handler:^(NYAlertAction *action) {
-                                                              
-                                                              //***TO DO: Set up Passcode here ***
-                                                              
-                                                              [camera dismissViewControllerAnimated:YES completion:nil];
+                                                            
+                                                              [camera dismissViewControllerAnimated:YES completion:^{
+                                                                  
+                                                                  //***TO DO: Set up Passcode here ***
+                                                                  if ([[NSUserDefaults standardUserDefaults] objectForKey:@"userPasscode"]) {
+                                                                      
+                                                                      [DMPasscode removePasscode];
+                                                                  }
+                                                                  
+                                                                  [DMPasscode setupPasscodeInViewController:camera completion:nil];
+                                                              }];
                                                               
                                                           }]];
     
