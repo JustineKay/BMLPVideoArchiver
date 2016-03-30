@@ -431,17 +431,12 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 -(void)didStopRecordingVideo
 {
-    [self showCustomAlertViewWithActionCount:2];
-//    videoSessionInProgress = NO;
-//    
-//    [self stopVideoRecording];
-//    
-//    NSLog(@"session ended");
+    [self showVideoRecordingActiveAlertView];
 }
 
 -(void)didTapSettingsButton
 {
-    [self showCustomAlertViewWithActionCount:2];
+    [self showVideoRecordingActiveAlertView];
 
 }
 
@@ -1058,7 +1053,8 @@ typedef void(^completion)(BOOL);
     
 }
 
-- (void)showCustomAlertViewWithActionCount:(NSInteger)actionCount {
+- (void)showVideoRecordingActiveAlertView
+{
     NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil];
     alertViewController.title = NSLocalizedString(@"Video Recording Active", nil);
     alertViewController.message = NSLocalizedString(@"To stop recording you must enter your passcode", nil);
@@ -1076,7 +1072,17 @@ typedef void(^completion)(BOOL);
     NYAlertAction *submitAction = [NYAlertAction actionWithTitle:NSLocalizedString(@"Submit", nil)
                                                            style:UIAlertActionStyleDefault
                                                          handler:^(NYAlertAction *action) {
-                                                             [self dismissViewControllerAnimated:YES completion:nil];
+                                                             
+                                                             //if passcode is correct, stop video recording session
+                                                             //*** TO DO: Set up Passcode ***
+                                                             
+                                                             videoSessionInProgress = NO;
+                                                             
+                                                             [self stopVideoRecording];
+                                                             
+                                                             NSLog(@"session ended");
+
+                                                             [camera dismissViewControllerAnimated:NO completion:nil];
                                                          }];
     submitAction.enabled = NO;
     [alertViewController addAction:submitAction];
@@ -1095,12 +1101,12 @@ typedef void(^completion)(BOOL);
     [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
                                                             style:UIAlertActionStyleCancel
                                                           handler:^(NYAlertAction *action) {
-                                                              [self dismissViewControllerAnimated:YES completion:nil];
+                                                              [camera dismissViewControllerAnimated:NO completion:nil];
                                                           }]];
     
     
     [alertViewController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-        textField.placeholder = NSLocalizedString(@"Password", nil);
+        textField.placeholder = NSLocalizedString(@"passcode", nil);
         textField.font = [UIFont fontWithName:@"AvenirNext-Regular" size:16.0f];
         textField.secureTextEntry = YES;
     }];
