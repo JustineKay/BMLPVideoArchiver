@@ -513,7 +513,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"-ObjC",
-					"-all_load",
+					"-all_load$(inherited)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = nyc.justinekay.BMLPVideoArchiver;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -534,7 +534,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"-ObjC",
-					"-all_load",
+					"-all_load$(inherited)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = nyc.justinekay.BMLPVideoArchiver;
 				PRODUCT_NAME = "$(TARGET_NAME)";

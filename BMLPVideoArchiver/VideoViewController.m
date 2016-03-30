@@ -6,6 +6,7 @@
 //  Copyright © 2015 Justine Kay. All rights reserved.
 
 #import <MobileCoreServices/MobileCoreServices.h>
+#import <AFNetworking/AFNetworking.h>
 #import "VideoViewController.h"
 #import "LogInViewController.h"
 #import "GTMOAuth2ViewControllerTouch.h"
@@ -962,6 +963,8 @@ typedef void(^completion)(BOOL);
     file.mimeType = @"video/quicktime";
 
     
+    
+    
     if (parentRef) {
         
         file.parents = @[parentRef];
@@ -1010,6 +1013,8 @@ typedef void(^completion)(BOOL);
                           
                       }
                   }];
+    
+    
 }
 
 #pragma mark - alert animations
