@@ -21,8 +21,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    NSLog(@" %@", [UIFont fontNamesForFamilyName:@"Avenir"]);
-    
     UINavigationController *navigationController = (UINavigationController *) self.window.rootViewController;
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
