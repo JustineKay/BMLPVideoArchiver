@@ -311,7 +311,7 @@
                                                                                      toItem:self
                                                                                   attribute:NSLayoutAttributeTop
                                                                                  multiplier:1.0f
-                                                                                   constant:40.0f];
+                                                                                   constant:50.0f];
         
         [self addConstraint:self.backgroundViewVerticalCenteringConstraint];
         
@@ -536,7 +536,7 @@
                                                                                                    metrics:nil
                                                                                                      views:NSDictionaryOfVariableBindings(actionButton)]];
             
-            [self.actionButtonContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[actionButton(80)]"
+            [self.actionButtonContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[actionButton(40)]"
                                                                                                    options:0
                                                                                                    metrics:nil
                                                                                                      views:NSDictionaryOfVariableBindings(actionButton)]];

@@ -436,7 +436,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 -(void)didTapSettingsButton
 {
-    [self showVideoRecordingActiveAlertView];
+    [self showSettingsAlertView];
 
 }
 
@@ -999,7 +999,7 @@ typedef void(^completion)(BOOL);
                   }];
 }
 
-#pragma mark - Alert animations and NYAlertViewController methods
+#pragma mark - alert animations
 
 // Helper for showing Info Label
 
@@ -1052,6 +1052,67 @@ typedef void(^completion)(BOOL);
     return theAnimation;
     
 }
+
+#pragma mark - NYAlertViewController methods
+
+- (void)showSettingsAlertView
+{
+    NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil];
+    
+    alertViewController.backgroundTapDismissalGestureEnabled = YES;
+    alertViewController.swipeDismissalGestureEnabled = YES;
+    
+    alertViewController.title = NSLocalizedString(@"Settings", nil);
+    alertViewController.message = nil;
+    
+    alertViewController.buttonCornerRadius = 20.0f;
+    alertViewController.view.tintColor = self.view.tintColor;
+    
+    alertViewController.titleFont = [UIFont fontWithName:@"AvenirNext-Bold" size:18.0f];
+    alertViewController.buttonTitleFont = [UIFont fontWithName:@"AvenirNext-Medium" size:alertViewController.buttonTitleFont.pointSize];
+    alertViewController.cancelButtonTitleFont = [UIFont fontWithName:@"AvenirNext-Regular" size:alertViewController.cancelButtonTitleFont.pointSize];
+    
+    alertViewController.alertViewBackgroundColor = [UIColor blackColor];
+    alertViewController.alertViewCornerRadius = 10.0f;
+    
+    alertViewController.titleColor = [UIColor lightGrayColor];
+    
+    alertViewController.buttonColor = [UIColor redColor];
+    alertViewController.buttonTitleColor = [UIColor colorWithWhite:0.19f alpha:1.0f];
+    
+    alertViewController.cancelButtonColor = [UIColor lightGrayColor];
+    alertViewController.cancelButtonTitleColor = [UIColor colorWithWhite:0.19f alpha:1.0f];
+    
+    [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Change Passcode", nil)
+                                                            style:UIAlertActionStyleDefault
+                                                          handler:^(NYAlertAction *action) {
+                                                              
+                                                              //***TO DO: Set up Passcode here ***
+                                                              
+                                                              [camera dismissViewControllerAnimated:YES completion:nil];
+                                                              
+                                                          }]];
+    
+    [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Switch Google Drive Account", nil)
+                                                            style:UIAlertActionStyleDefault
+                                                          handler:^(NYAlertAction *action) {
+                                                              
+                                                              [camera dismissViewControllerAnimated:YES completion:^{
+                                                                  
+                                                                  [self signOutOfGoogleDrive];
+                                                              }];
+                                                          }]];
+    
+    [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
+                                                            style:UIAlertActionStyleCancel
+                                                          handler:^(NYAlertAction *action) {
+                                                              
+                                                              [camera dismissViewControllerAnimated:YES completion:nil];
+                                                          }]];
+    
+    [camera presentViewController:alertViewController animated:YES completion:nil];
+}
+
 
 - (void)showVideoRecordingActiveAlertView
 {
