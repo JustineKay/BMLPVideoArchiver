@@ -1060,8 +1060,8 @@ typedef void(^completion)(BOOL);
 
 - (void)showCustomAlertViewWithActionCount:(NSInteger)actionCount {
     NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil];
-    alertViewController.title = NSLocalizedString(@"Example Title", nil);
-    alertViewController.message = NSLocalizedString(@"This alert uses the fade transition style! Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Donec id elit non mi porta gravida at eget metus.", nil);
+    alertViewController.title = NSLocalizedString(@"Video Recording Active", nil);
+    alertViewController.message = NSLocalizedString(@"To stop recording you must enter your passcode", nil);
     
     alertViewController.view.tintColor = self.view.tintColor;
     alertViewController.backgroundTapDismissalGestureEnabled = YES;
@@ -1073,20 +1073,38 @@ typedef void(^completion)(BOOL);
     alertViewController.buttonTitleFont = [UIFont fontWithName:@"AvenirNext-Regular" size:alertViewController.buttonTitleFont.pointSize];
     alertViewController.cancelButtonTitleFont = [UIFont fontWithName:@"AvenirNext-Medium" size:alertViewController.cancelButtonTitleFont.pointSize];
     
-    for (int i = 0; i < actionCount; i++) {
-        NSString *actionTitle = [NSString stringWithFormat:NSLocalizedString(@"Action %d", nil), i + 1];
-        UIAlertActionStyle actionStyle = UIAlertActionStyleDefault;
-        
-        // Set up the final action as a cancel button
-        if (i == actionCount - 1) {
-            actionTitle = NSLocalizedString(@"Cancel", nil);
-            actionStyle = UIAlertActionStyleCancel;
-        }
-        
-        [alertViewController addAction:[NYAlertAction actionWithTitle:actionTitle style:actionStyle handler:^(NYAlertAction *action) {
-            [self dismissViewControllerAnimated:YES completion:nil];
-        }]];
-    }
+    NYAlertAction *submitAction = [NYAlertAction actionWithTitle:NSLocalizedString(@"Submit", nil)
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:^(NYAlertAction *action) {
+                                                             [self dismissViewControllerAnimated:YES completion:nil];
+                                                         }];
+    submitAction.enabled = NO;
+    [alertViewController addAction:submitAction];
+    
+    // Disable the submit action until the user has filled out the text field
+    [[NSNotificationCenter defaultCenter] addObserverForName:UITextFieldTextDidChangeNotification
+                                                      object:nil
+                                                       queue:[NSOperationQueue mainQueue]
+                                                  usingBlock:^(NSNotification *note) {
+                                                      
+                                                      UITextField *passwordTextField = [alertViewController.textFields firstObject];
+                                                      
+                                                      submitAction.enabled = ([passwordTextField.text length]);
+                                                  }];
+    
+    [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
+                                                            style:UIAlertActionStyleCancel
+                                                          handler:^(NYAlertAction *action) {
+                                                              [self dismissViewControllerAnimated:YES completion:nil];
+                                                          }]];
+    
+    
+    [alertViewController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = NSLocalizedString(@"Password", nil);
+        textField.font = [UIFont fontWithName:@"AvenirNext-Regular" size:16.0f];
+        textField.secureTextEntry = YES;
+    }];
+
     
     [camera presentViewController:alertViewController animated:YES completion:nil];
 }

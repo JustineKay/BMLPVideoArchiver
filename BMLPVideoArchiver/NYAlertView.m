@@ -306,12 +306,12 @@
         [self addConstraint:self.alertBackgroundWidthConstraint];
         
         _backgroundViewVerticalCenteringConstraint = [NSLayoutConstraint constraintWithItem:self.alertBackgroundView
-                                                                                  attribute:NSLayoutAttributeCenterY
-                                                                                  relatedBy:NSLayoutRelationEqual
+                                                                                  attribute:NSLayoutAttributeTop
+                                                                                  relatedBy:NSLayoutRelationLessThanOrEqual
                                                                                      toItem:self
-                                                                                  attribute:NSLayoutAttributeCenterY
+                                                                                  attribute:NSLayoutAttributeTop
                                                                                  multiplier:1.0f
-                                                                                   constant:0.0f];
+                                                                                   constant:40.0f];
         
         [self addConstraint:self.backgroundViewVerticalCenteringConstraint];
         
