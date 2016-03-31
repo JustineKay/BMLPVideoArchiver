@@ -150,9 +150,17 @@ NSString * const DMUnlockErrorDomain = @"com.dmpasscode.error.unlock";
 }
 
 - (void)closeAndNotify:(BOOL)success withError:(NSError *)error {
-    [_passcodeViewController dismissViewControllerAnimated:YES completion:^() {
-        _completion(success, error);
-    }];
+    
+    if (success) {
+        [_passcodeViewController dismissViewControllerAnimated:NO completion:^() {
+            _completion(success, error);
+        }];
+        
+    }else {
+        [_passcodeViewController dismissViewControllerAnimated:YES completion:^() {
+            _completion(success, error);
+        }];
+    }
 }
 
 #pragma mark - DMPasscodeInternalViewControllerDelegate

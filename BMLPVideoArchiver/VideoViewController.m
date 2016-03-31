@@ -131,7 +131,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     inBackground = YES;
     
-    if (!audioRecorder.recording && [self isAuthorized]) {
+    if (!audioRecorder.recording && [self isAuthorized] && videoSessionInProgress) {
         
         AVAudioSession *audioSession = [AVAudioSession sharedInstance];
         [audioSession setActive:YES error:nil];
@@ -1108,10 +1108,13 @@ typedef void(^completion)(BOOL);
                                                                       
                                                                       [DMPasscode showPasscodeInViewController:camera completion:^(BOOL success, NSError *error) {
                                                                           
-                                                                          [DMPasscode removePasscode];
-                                                                          [DMPasscode setupPasscodeInViewController:camera completion:^(BOOL success, NSError *error) {
+                                                                          if (success) {
                                                                               
-                                                                          }];
+                                                                              [DMPasscode setupPasscodeInViewController:camera completion:^(BOOL success, NSError *error) {
+                                                                                  
+                                                                              }];
+                                                                          }
+                                                                          
                                                                       }];
                                                                       
                                                                   }else {
@@ -1167,7 +1170,7 @@ typedef void(^completion)(BOOL);
                                                          handler:^(NYAlertAction *action) {
                                                              
                                                              //if passcode is correct, stop video recording session
-                                                             //*** TO DO: Set up Passcode ***
+                                                             
                                                              UITextField *passwordTextField = [alertViewController.textFields firstObject];
                                                              
                                                              if ([passwordTextField.text isEqualToString:[[NSUserDefaults standardUserDefaults] valueForKey:@"userPasscode"]]) {
@@ -1207,9 +1210,11 @@ typedef void(^completion)(BOOL);
     
     
     [alertViewController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-        textField.placeholder = NSLocalizedString(@"passcode", nil);
+        textField.placeholder = NSLocalizedString(@"Passcode", nil);
+        textField.textAlignment = NSTextAlignmentCenter;
         textField.font = [UIFont fontWithName:@"AvenirNext-Regular" size:16.0f];
         textField.secureTextEntry = YES;
+        textField.keyboardType = UIKeyboardTypeNumberPad;
     }];
 
     
