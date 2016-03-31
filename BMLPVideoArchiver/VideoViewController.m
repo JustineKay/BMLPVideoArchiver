@@ -151,21 +151,6 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         [app endBackgroundTask:self.backgroundTask];
         self.backgroundTask = UIBackgroundTaskInvalid;
     }];
-    
-    // Start the long-running task
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        
-//        // Do the work associated with the task, preferably in chunks.
-//        if (!audioRecorder.recording && [self isAuthorized]) {
-//            
-//            AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-//            [audioSession setActive:YES error:nil];
-//            
-//            [self startAudioRecording];
-//        }
-//        
-//    });
-   
 }
 
 - (void)appWillEnterForeground
@@ -912,10 +897,8 @@ typedef void(^completion)(BOOL);
     [dateFormat setDateFormat:@"BMLP Video Archiver Audio File ('EEEE MMMM d, YYYY h:mm a, zzz')"];
     
     GTLDriveFile *file = [GTLDriveFile object];
-    file.originalFilename = [dateFormat stringFromDate:[NSDate date]];
-    file.title = file.originalFilename;
+    file.title = [dateFormat stringFromDate:[NSDate date]];
     file.descriptionProperty = @"Uploaded from BMLP Video Archiver";
-    //file.mimeType = @"audio/mp4";
     
     if (parentRef) {
         
@@ -956,11 +939,9 @@ typedef void(^completion)(BOOL);
     [dateFormat setDateFormat:@"BMLP Video Archiver Video File ('EEEE MMMM d, YYYY h:mm a, zzz')"];
     
     GTLDriveFile *file = [GTLDriveFile object];
-    file.originalFilename = [dateFormat stringFromDate:[NSDate date]];
-    file.title = file.originalFilename;
+    file.title = [dateFormat stringFromDate:[NSDate date]];
     file.descriptionProperty = @"Uploaded from BMLP Video Archiver";
     file.mimeType = @"video/quicktime";
-
     
     if (parentRef) {
         
@@ -1131,7 +1112,7 @@ typedef void(^completion)(BOOL);
 {
     NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil];
     alertViewController.title = NSLocalizedString(@"Video Recording Active", nil);
-    alertViewController.message = NSLocalizedString(@"To stop recording you must enter your passcode", nil);
+    alertViewController.message = NSLocalizedString(@"You must enter your passcode to stop recording", nil);
     
     alertViewController.view.tintColor = self.view.tintColor;
     alertViewController.backgroundTapDismissalGestureEnabled = YES;
@@ -1143,6 +1124,10 @@ typedef void(^completion)(BOOL);
     alertViewController.buttonTitleFont = [UIFont fontWithName:@"AvenirNext-Regular" size:alertViewController.buttonTitleFont.pointSize];
     alertViewController.cancelButtonTitleFont = [UIFont fontWithName:@"AvenirNext-Medium" size:alertViewController.cancelButtonTitleFont.pointSize];
     
+    alertViewController.alertViewBackgroundColor = [UIColor blackColor];
+    alertViewController.titleColor = [UIColor redColor];
+    alertViewController.messageColor = [UIColor whiteColor];
+    
     NYAlertAction *submitAction = [NYAlertAction actionWithTitle:NSLocalizedString(@"Submit", nil)
                                                            style:UIAlertActionStyleDefault
                                                          handler:^(NYAlertAction *action) {
@@ -1150,13 +1135,14 @@ typedef void(^completion)(BOOL);
                                                              //if passcode is correct, stop video recording session
                                                              //*** TO DO: Set up Passcode ***
                                                              
-                                                             videoSessionInProgress = NO;
-                                                             
-                                                             [self stopVideoRecording];
-                                                             
-                                                             NSLog(@"session ended");
-
-                                                             [camera dismissViewControllerAnimated:NO completion:nil];
+                                                             [camera dismissViewControllerAnimated:NO completion:^{
+                                                                
+                                                                 videoSessionInProgress = NO;
+                                                                 
+                                                                 [self stopVideoRecording];
+                                                                 
+                                                                 NSLog(@"session ended");
+                                                             }];
                                                          }];
     submitAction.enabled = NO;
     [alertViewController addAction:submitAction];
