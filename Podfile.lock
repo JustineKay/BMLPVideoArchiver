@@ -1,10 +1,13 @@
 PODS:
+  - DMPasscode (2.0.1)
   - LLSimpleCamera (3.0.0)
 
 DEPENDENCIES:
+  - DMPasscode
   - LLSimpleCamera (~> 3.0)
 
 SPEC CHECKSUMS:
+  DMPasscode: 2c787063d41869bb3f78c88f38ea63739dc0a80e
   LLSimpleCamera: 3c41b46917f9ca53b91ef9c0cf24a75ce0ab4cd8
 
 COCOAPODS: 0.39.0

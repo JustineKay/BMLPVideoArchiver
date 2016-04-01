@@ -105,6 +105,7 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="infoLabel" destination="utE-cW-5z9" id="DqY-mE-oY8"/>
                         <outlet property="logInButton" destination="UcM-18-Gzy" id="3WW-qQ-5dK"/>
                     </connections>
                 </viewController>

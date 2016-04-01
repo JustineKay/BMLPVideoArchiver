@@ -1,5 +1,5 @@
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/LLSimpleCamera"
-OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/LLSimpleCamera"
-OTHER_LDFLAGS = $(inherited) -ObjC -l"LLSimpleCamera" -framework "AVFoundation"
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/DMPasscode" "${PODS_ROOT}/Headers/Public/LLSimpleCamera"
+OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/DMPasscode" -isystem "${PODS_ROOT}/Headers/Public/LLSimpleCamera"
+OTHER_LDFLAGS = $(inherited) -ObjC -l"DMPasscode" -l"LLSimpleCamera" -framework "AVFoundation" -framework "LocalAuthentication" -framework "Security" -framework "UIKit"
 PODS_ROOT = ${SRCROOT}/Pods

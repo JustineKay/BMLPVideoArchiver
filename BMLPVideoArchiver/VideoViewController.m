@@ -6,6 +6,7 @@
 //  Copyright © 2015 Justine Kay. All rights reserved.
 
 #import <MobileCoreServices/MobileCoreServices.h>
+#import <DMPasscode/DMPasscode.h>
 #import "VideoViewController.h"
 #import "LogInViewController.h"
 #import "GTMOAuth2ViewControllerTouch.h"
@@ -88,7 +89,22 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         
     }else {
         
-        [self presentViewController:camera animated:animated completion:nil];
+        if (![[NSUserDefaults standardUserDefaults] valueForKey:@"userPasscode"]){
+            
+            [self presentViewController:camera animated:animated completion:^{
+                
+                [DMPasscode setupPasscodeInViewController:camera completion:^(BOOL success, NSError *error) {
+                    
+                }];
+                
+            }];
+            
+        }else {
+            
+            [self presentViewController:camera animated:animated completion:nil];
+
+        }
+        
     }
 }
 
@@ -130,7 +146,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     inBackground = YES;
     
-    if (!audioRecorder.recording && [self isAuthorized]) {
+    if (!audioRecorder.recording && [self isAuthorized] && videoSessionInProgress) {
         
         AVAudioSession *audioSession = [AVAudioSession sharedInstance];
         [audioSession setActive:YES error:nil];
@@ -942,6 +958,7 @@ typedef void(^completion)(BOOL);
     file.title = [dateFormat stringFromDate:[NSDate date]];
     file.descriptionProperty = @"Uploaded from BMLP Video Archiver";
     file.mimeType = @"video/quicktime";
+
     
     if (parentRef) {
         
@@ -1080,10 +1097,31 @@ typedef void(^completion)(BOOL);
     [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Change Passcode", nil)
                                                             style:UIAlertActionStyleDefault
                                                           handler:^(NYAlertAction *action) {
-                                                              
-                                                              //***TO DO: Set up Passcode here ***
-                                                              
-                                                              [camera dismissViewControllerAnimated:YES completion:nil];
+                                                            
+                                                              [camera dismissViewControllerAnimated:YES completion:^{
+                                                                  
+                                                                  //***TO DO: Set up Passcode here ***
+                                                                  if ([[NSUserDefaults standardUserDefaults] valueForKey:@"userPasscode"]) {
+                                                                      
+                                                                      [DMPasscode showPasscodeInViewController:camera completion:^(BOOL success, NSError *error) {
+                                                                          
+                                                                          if (success) {
+                                                                              
+                                                                              [DMPasscode setupPasscodeInViewController:camera completion:^(BOOL success, NSError *error) {
+                                                                                  
+                                                                              }];
+                                                                          }
+                                                                          
+                                                                      }];
+                                                                      
+                                                                  }else {
+                                                                      
+                                                                      [DMPasscode setupPasscodeInViewController:camera completion:^(BOOL success, NSError *error) {
+                                                                          
+                                                                      }];
+                                                                  }
+                                                                  
+                                                              }];
                                                               
                                                           }]];
     
@@ -1119,6 +1157,10 @@ typedef void(^completion)(BOOL);
     alertViewController.swipeDismissalGestureEnabled = YES;
     alertViewController.transitionStyle = NYAlertViewControllerTransitionStyleFade;
     
+    alertViewController.alertViewBackgroundColor = [UIColor blackColor];
+    alertViewController.titleColor = [UIColor redColor];
+    alertViewController.messageColor = [UIColor lightGrayColor];
+    
     alertViewController.titleFont = [UIFont fontWithName:@"AvenirNext-Bold" size:alertViewController.titleFont.pointSize];
     alertViewController.messageFont = [UIFont fontWithName:@"AvenirNext-Regular" size:alertViewController.messageFont.pointSize];
     alertViewController.buttonTitleFont = [UIFont fontWithName:@"AvenirNext-Regular" size:alertViewController.buttonTitleFont.pointSize];
@@ -1133,16 +1175,22 @@ typedef void(^completion)(BOOL);
                                                          handler:^(NYAlertAction *action) {
                                                              
                                                              //if passcode is correct, stop video recording session
-                                                             //*** TO DO: Set up Passcode ***
                                                              
-                                                             [camera dismissViewControllerAnimated:NO completion:^{
-                                                                
-                                                                 videoSessionInProgress = NO;
+                                                             UITextField *passwordTextField = [alertViewController.textFields firstObject];
+                                                             
+                                                             if ([passwordTextField.text isEqualToString:[[NSUserDefaults standardUserDefaults] valueForKey:@"userPasscode"]]) {
                                                                  
-                                                                 [self stopVideoRecording];
-                                                                 
-                                                                 NSLog(@"session ended");
-                                                             }];
+                                                                 [camera dismissViewControllerAnimated:NO completion:^{
+                                                                     
+                                                                     videoSessionInProgress = NO;
+                                                                     
+                                                                     [self stopVideoRecording];
+                                                                     
+                                                                     NSLog(@"session ended");
+                                                                     
+                                                                 }];
+                                                             }
+                     
                                                          }];
     submitAction.enabled = NO;
     [alertViewController addAction:submitAction];
@@ -1155,7 +1203,7 @@ typedef void(^completion)(BOOL);
                                                       
                                                       UITextField *passwordTextField = [alertViewController.textFields firstObject];
                                                       
-                                                      submitAction.enabled = ([passwordTextField.text length]);
+                                                      submitAction.enabled = ([passwordTextField.text length] == 4);
                                                   }];
     
     [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
@@ -1166,9 +1214,11 @@ typedef void(^completion)(BOOL);
     
     
     [alertViewController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-        textField.placeholder = NSLocalizedString(@"passcode", nil);
+        textField.placeholder = NSLocalizedString(@"Passcode", nil);
+        textField.textAlignment = NSTextAlignmentCenter;
         textField.font = [UIFont fontWithName:@"AvenirNext-Regular" size:16.0f];
         textField.secureTextEntry = YES;
+        textField.keyboardType = UIKeyboardTypeNumberPad;
     }];
 
     
