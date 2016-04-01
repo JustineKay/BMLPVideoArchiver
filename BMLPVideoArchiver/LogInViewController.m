@@ -11,6 +11,7 @@
 
 @interface LogInViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *logInButton;
+@property (weak, nonatomic) IBOutlet UILabel *infoLabel;
 
 @end
 
@@ -27,6 +28,8 @@
     self.logInButton.layer.cornerRadius = 10.0;
     
     self.logInButton.titleLabel.textColor = [UIColor redColor];
+    
+    self.infoLabel.text = @"In order to use\nBMLP Video Archiver\nyou must sign in to your\nGoogle Drive account";
     
 }
 

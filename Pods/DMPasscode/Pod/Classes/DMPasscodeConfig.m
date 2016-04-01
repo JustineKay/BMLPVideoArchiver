@@ -13,20 +13,20 @@
 - (instancetype)init {
     if (self = [super init]) {
         self.animationsEnabled = YES;
-        self.backgroundColor = [UIColor whiteColor];
-        self.navigationBarBackgroundColor = nil;
-        self.navigationBarForegroundColor = nil;
+        self.backgroundColor = [UIColor blackColor];
+        self.navigationBarBackgroundColor = [UIColor blackColor];
+        self.navigationBarForegroundColor = [UIColor blackColor];
         self.statusBarStyle = UIStatusBarStyleDefault;
-        self.fieldColor = [UIColor grayColor];
-        self.emptyFieldColor = [UIColor grayColor];
-        self.errorBackgroundColor = [UIColor colorWithRed:0.63 green:0.00 blue:0.00 alpha:1.00];
+        self.fieldColor = [UIColor lightGrayColor];
+        self.emptyFieldColor = [UIColor lightGrayColor];
+        self.errorBackgroundColor = [UIColor redColor];
         self.errorForegroundColor = [UIColor whiteColor];
-        self.descriptionColor = [UIColor colorWithWhite:0.2 alpha:1.0];
+        self.descriptionColor = [UIColor lightGrayColor];
         self.inputKeyboardAppearance = UIKeyboardAppearanceDefault;
-        self.errorFont = [UIFont systemFontOfSize:14];
-        self.instructionsFont = [UIFont systemFontOfSize:16];
+        self.errorFont = [UIFont fontWithName:@"AvenirNext-Regular" size:14.0f];
+        self.instructionsFont = [UIFont fontWithName:@"AvenirNext-Regular" size:16.0f];
         self.navigationBarTitle = @"";
-        self.navigationBarFont = [UIFont systemFontOfSize:16];
+        self.navigationBarFont = [UIFont fontWithName:@"AvenirNext-Regular" size:16.0f];
         self.navigationBarTitleColor = [UIColor darkTextColor];
     }
     return self;

@@ -26,7 +26,7 @@
     
     
     if (![[NSUserDefaults standardUserDefaults] boolForKey:SignedInKey]) {
-        
+    
         [navigationController pushViewController:[storyboard instantiateViewControllerWithIdentifier:@"LogInViewController"] animated:NO];
         
     }else {
