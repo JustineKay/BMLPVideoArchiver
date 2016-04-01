@@ -61,14 +61,17 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
                                              selector:@selector(appDidEnterBackground)
                                                  name:UIApplicationDidEnterBackgroundNotification
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(appWillEnterForeground)
                                                  name:UIApplicationWillEnterForegroundNotification
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(appDidBecomeActive)
                                                  name:UIApplicationDidBecomeActiveNotification
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(appWillResignActive)
                                                  name:UIApplicationWillResignActiveNotification
@@ -251,7 +254,6 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 -(void)audioRecorderDidFinishRecording:(AVAudioRecorder *)recorder successfully:(BOOL)flag {
     
     //save audio file to google drive
-    //***(TO DO: Save on device?...)***
     
     //Load recording path from preferences
     NSUserDefaults *paths = [NSUserDefaults standardUserDefaults];
@@ -262,8 +264,10 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     isVideoFile = NO;
     [self uploadToGoogleDriveInDatedFolder:audioFilePath];
     
+    //***(TO DO: Save on device)***
+    
     //restart audioRecorder
-    if (inBackground) {
+    if (inBackground && audioSessionInProgress) {
         
         [self startAudioRecording];
     }
@@ -399,7 +403,6 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         NSDate *timerTimeStamp = [NSDate date];
         [[NSUserDefaults standardUserDefaults] setValue:timerTimeStamp forKey:@"startTimeStamp"];
         
-        
     });
     
 }
@@ -506,12 +509,19 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     if ( ![UIImagePickerController isFlashAvailableForCameraDevice:camera.cameraDevice] ) {
         
-        [UIView animateWithDuration:0.3 animations:^(void) {self.customCameraOverlayView.flashModeButton.alpha = 0;}];
+        [UIView animateWithDuration:0.3 animations:^(void) {
+            
+            self.customCameraOverlayView.flashModeButton.alpha = 0;
+        }];
+        
         showFlashMode = NO;
     
     } else {
         
-        [UIView animateWithDuration:0.3 animations:^(void) {self.customCameraOverlayView.flashModeButton.alpha = 1.0;}];
+        [UIView animateWithDuration:0.3 animations:^(void) {
+            self.customCameraOverlayView.flashModeButton.alpha = 1.0;
+        }];
+        
         showFlashMode = YES;
     
     }
@@ -602,7 +612,6 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     }
     
-    
     if (videoSessionInProgress && !inBackground) {
         
         videoRecording = YES;
@@ -620,12 +629,6 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
        [self showCameraControls];
     }
     
-}
-
-// Handle cancel from image picker/camera.
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
-{
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma Mark - Google Drive Authorization and Uploading methods
@@ -959,12 +962,10 @@ typedef void(^completion)(BOOL);
     file.descriptionProperty = @"Uploaded from BMLP Video Archiver";
     file.mimeType = @"video/quicktime";
 
-    
     if (parentRef) {
         
         file.parents = @[parentRef];
     }
-    
     
     NSError *error = nil;
     
@@ -986,8 +987,8 @@ typedef void(^completion)(BOOL);
                                       GTLDriveFile *insertedFile, NSError *error) {
                       
                       
-                      if (error == nil)
-                      {
+                      if (error == nil){
+                          
                           NSLog(@"File ID: %@", insertedFile.identifier);
                           
                           [self.customCameraOverlayView.uploadingLabel.layer removeAllAnimations];
@@ -996,9 +997,8 @@ typedef void(^completion)(BOOL);
                           [self fadeInFadeOutInfoLabel:self.customCameraOverlayView.fileSavedLabel WithMessage:@"File Saved"];
                           
                           
-                      }
-                      else
-                      {
+                      }else {
+                          
                           NSLog(@"An error occurred: %@", error);
                           
                           [self.customCameraOverlayView.uploadingLabel.layer removeAllAnimations];
