@@ -89,7 +89,22 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         
     }else {
         
-        [self presentViewController:camera animated:animated completion:nil];
+        if (![[NSUserDefaults standardUserDefaults] valueForKey:@"userPasscode"]){
+            
+            [self presentViewController:camera animated:animated completion:^{
+                
+                [DMPasscode setupPasscodeInViewController:camera completion:^(BOOL success, NSError *error) {
+                    
+                }];
+                
+            }];
+            
+        }else {
+            
+            [self presentViewController:camera animated:animated completion:nil];
+
+        }
+        
     }
 }
 
