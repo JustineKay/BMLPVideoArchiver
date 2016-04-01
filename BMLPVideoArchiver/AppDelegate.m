@@ -9,10 +9,16 @@
 #import "AppDelegate.h"
 #import "VideoViewController.h"
 #import "LogInViewController.h"
+#import "GTLDrive.h"
+#import "GTMOAuth2ViewControllerTouch.h"
+
+static NSString *const kKeychainItemName = @"BMLP Video Archiver";
+static NSString *const kClientID = @"749579524688-b1oaiu8cc4obq06aal4org55qie5lho2.apps.googleusercontent.com";
+static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 @interface AppDelegate ()
 
-@property (nonatomic, strong) IBOutlet UINavigationController *navigationController;
+@property (nonatomic) GTLServiceDrive *driveService;
 
 @end
 
@@ -21,12 +27,33 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    // Initialize the drive service & load existing credentials from the keychain if available
+    self.driveService = [[GTLServiceDrive alloc] init];
+    self.driveService.authorizer = [GTMOAuth2ViewControllerTouch authForGoogleFromKeychainForName:kKeychainItemName
+                                                                                         clientID:kClientID
+                                                                                     clientSecret:kClientSecret];
+    //Check to see if user is already authorized
+    BOOL auth = [((GTMOAuth2Authentication *)self.driveService.authorizer) canAuthorize];
+    
+    //Initialize a navController as the rootVC
     UINavigationController *navigationController = (UINavigationController *) self.window.rootViewController;
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
     
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:SignedInKey]) {
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"] && auth) {
+        
+        //If this is the first time the user has opened the app after installing
+        //yet they are still authorized from a previous sign in through the app
+        //sign them out & push the logInVC
     
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HasLaunchedOnce"];
+        
+        [GTMOAuth2ViewControllerTouch removeAuthFromKeychainForName:kKeychainItemName];
+        
+        [navigationController pushViewController:[storyboard instantiateViewControllerWithIdentifier:@"LogInViewController"] animated:NO];
+        
+    }else if (!auth) {
+        
         [navigationController pushViewController:[storyboard instantiateViewControllerWithIdentifier:@"LogInViewController"] animated:NO];
         
     }else {
