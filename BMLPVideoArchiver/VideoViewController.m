@@ -1160,6 +1160,10 @@ typedef void(^completion)(BOOL);
     alertViewController.swipeDismissalGestureEnabled = YES;
     alertViewController.transitionStyle = NYAlertViewControllerTransitionStyleFade;
     
+    alertViewController.alertViewBackgroundColor = [UIColor blackColor];
+    alertViewController.titleColor = [UIColor redColor];
+    alertViewController.messageColor = [UIColor lightGrayColor];
+    
     alertViewController.titleFont = [UIFont fontWithName:@"AvenirNext-Bold" size:alertViewController.titleFont.pointSize];
     alertViewController.messageFont = [UIFont fontWithName:@"AvenirNext-Regular" size:alertViewController.messageFont.pointSize];
     alertViewController.buttonTitleFont = [UIFont fontWithName:@"AvenirNext-Regular" size:alertViewController.buttonTitleFont.pointSize];
