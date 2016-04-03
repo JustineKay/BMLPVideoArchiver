@@ -7,14 +7,20 @@ This project is being developed for the [Black Movement - Law Project](https://b
 
 It is currently in the early stages of development.  
 
-###Basic Functionalities   
+###Basic Functionalities 
+* The first time the user opens the app they're prompted to:
+ - Sign in to their Google Drive account to get started  
+ - Create a 4-digit passcode to use when ending a recording session  
 * Tap twice anywhere on camera view to begin recording  
-* Video will automatically be saved to user's photo album and uploaded to user's Google Drive account after 30 seconds  
-* Camera will automatically continue recording and a new file will be saved and uploaded every 30 seconds  
+* Video files (SD) are saved to the user's photo album and uploaded to their Google Drive account every 30 secs   
 * Tap the stop button to end the recording session and save/upload the final portion of the recording  
+* The user will be asked to enter their passcode when the stop button is tapped  
+* The camera will continue recording until the correct passcode is entered  
 * If the app is sent to the background while recording video, the video session is ended and audio recording will begin  
-* Audio recording will continue while .m4a files are saved and uploaded every 30 seconds  
-* When the app is brought back to the foreground the audio session is ended  
+* Audio recording will continue while the app is in the background  
+* Audio files (.m4a) are saved and uploaded every 30 secs  
+* An audio session will only begin if a video recording is active when the app is sent to the background  
+* When the app is brought back to the foreground, the audio session is ended and the video session resumes  
 * A "BMLP Video Archiver Files" folder is created the first time you upload a file  
 * A dated folder is created within the "BMLP Video Archiver Files" folder, to organize the uploaded files by date  
 
