@@ -21,7 +21,7 @@ It is currently in the early stages of development.
 * Audio files (.m4a) are saved and uploaded every 30 secs  
 * An audio session will only begin if a video recording is active when the app is sent to the background  
 * When the app is brought back to the foreground, the audio session is ended and the video session resumes  
-* A "BMLP Video Archiver Files" folder is created the first time you upload a file  
+* A "BMLP Video Archiver Files" folder is created the first time the user uploads a file  
 * A dated folder is created within the "BMLP Video Archiver Files" folder, to organize the uploaded files by date  
 
 ###Use Cases  
