@@ -17,6 +17,7 @@
 		6B6B3FDA1BE1A9AA00EDE9F2 /* GTMOAuth2ViewTouch.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B6B3FD91BE1A9AA00EDE9F2 /* GTMOAuth2ViewTouch.xib */; };
 		6B6B3FE51BE1A9E500EDE9F2 /* GTLDrive_Sources.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B6B3FE31BE1A9E500EDE9F2 /* GTLDrive_Sources.m */; };
 		6B9B14741C1FB62200E5A662 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B9B14731C1FB62200E5A662 /* MobileCoreServices.framework */; };
+		6BB36B071CBB1D28002E2D3F /* ConnectivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB36B061CBB1D28002E2D3F /* ConnectivityViewController.m */; };
 		6BDC39C21BDF22EF0036BE01 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDC39C11BDF22EF0036BE01 /* main.m */; };
 		6BDC39C51BDF22EF0036BE01 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDC39C41BDF22EF0036BE01 /* AppDelegate.m */; };
 		6BDC39CB1BDF22EF0036BE01 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BDC39C91BDF22EF0036BE01 /* Main.storyboard */; };
@@ -79,6 +80,8 @@
 		6B6B3FE31BE1A9E500EDE9F2 /* GTLDrive_Sources.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTLDrive_Sources.m; sourceTree = "<group>"; };
 		6B6B3FE41BE1A9E500EDE9F2 /* GTLDrive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTLDrive.h; sourceTree = "<group>"; };
 		6B9B14731C1FB62200E5A662 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		6BB36B051CBB1D28002E2D3F /* ConnectivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectivityViewController.h; sourceTree = "<group>"; };
+		6BB36B061CBB1D28002E2D3F /* ConnectivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectivityViewController.m; sourceTree = "<group>"; };
 		6BDC39BD1BDF22EF0036BE01 /* BMLPVideoArchiver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BMLPVideoArchiver.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BDC39C11BDF22EF0036BE01 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6BDC39C31BDF22EF0036BE01 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -158,6 +161,8 @@
 				6B07A9F01CAB43240085671E /* NYAlertView.m */,
 				6B07A9E81CAB42280085671E /* NYAlertViewController.h */,
 				6B07A9E91CAB42280085671E /* NYAlertViewController.m */,
+				6BB36B051CBB1D28002E2D3F /* ConnectivityViewController.h */,
+				6BB36B061CBB1D28002E2D3F /* ConnectivityViewController.m */,
 				6BE642441C388052003CA4A1 /* LogInViewController.h */,
 				6BE642451C388052003CA4A1 /* LogInViewController.m */,
 				6BDC39D71BDF274A0036BE01 /* VideoViewController.h */,
@@ -396,6 +401,7 @@
 				6B0264001C2F632A0099BF46 /* CustomCameraOverlayView.m in Sources */,
 				6B0263FC1C2F62EF0099BF46 /* CameraOverlayViewController.m in Sources */,
 				6B07A9F11CAB43240085671E /* NYAlertView.m in Sources */,
+				6BB36B071CBB1D28002E2D3F /* ConnectivityViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
