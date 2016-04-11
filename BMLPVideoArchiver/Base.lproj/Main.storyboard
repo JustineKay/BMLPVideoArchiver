@@ -39,7 +39,7 @@
         <!--Connectivity View Controller-->
         <scene sceneID="bSb-1z-CQ3">
             <objects>
-                <viewController id="9Xx-yj-q2y" customClass="ConnectivityViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ConnectivityViewController" id="9Xx-yj-q2y" customClass="ConnectivityViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="6hX-vz-bc4"/>
                         <viewControllerLayoutGuide type="bottom" id="CTG-Oh-aOl"/>
@@ -62,6 +62,9 @@
                                 <state key="normal" title="OK">
                                     <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="okButtonTapped:" destination="9Xx-yj-q2y" eventType="touchUpInside" id="KRC-il-CrB"/>
+                                </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="noInternet-icon_white" translatesAutoresizingMaskIntoConstraints="NO" id="tmO-bn-9yN">
                                 <rect key="frame" x="236" y="87" width="128" height="128"/>
@@ -89,6 +92,9 @@
                             <constraint firstItem="gCP-mi-FlA" firstAttribute="centerX" secondItem="ll5-ns-qiL" secondAttribute="centerX" id="vvV-Cd-3BT"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="okButton" destination="1dL-gc-JgS" id="FCC-E6-JhY"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wmc-sI-ZuF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

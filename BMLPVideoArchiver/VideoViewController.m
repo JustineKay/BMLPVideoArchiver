@@ -12,6 +12,8 @@
 #import "GTMOAuth2ViewControllerTouch.h"
 #import "GTLDrive.h"
 #import "NYAlertViewController.h"
+#import "Connectivity.h"
+#import "ConnectivityViewController.h"
 
 static NSString *const kKeychainItemName = @"BMLP Video Archiver";
 static NSString *const kClientID = @"749579524688-b1oaiu8cc4obq06aal4org55qie5lho2.apps.googleusercontent.com";
@@ -87,7 +89,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     [super viewWillAppear:animated];
     
     if (![self isAuthorized]) {
-
+        
         [self presentViewController:[self createAuthController] animated:YES completion:nil];
         
     }else {
@@ -105,10 +107,11 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         }else {
             
             [self presentViewController:camera animated:animated completion:nil];
-
+            
         }
         
     }
+    
 }
 
 - (void)cameraIsReady:(NSNotification *)notification
@@ -532,7 +535,12 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 - (void)beginVideoRecordingSession
 {
-    if (!videoRecording) {
+    if ([[Connectivity reachabilityForInternetConnection]currentReachabilityStatus] == NotReachable){
+        
+        ConnectivityViewController *connectivityVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ConnectivityViewController"];
+        [camera presentViewController:connectivityVC animated:YES completion:nil];
+        
+    }else if (!videoRecording) {
         
         videoSessionInProgress = YES;
         
