@@ -33,6 +33,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 @property (nonatomic) NSInteger timeInSeconds;
 @property (nonatomic) NSTimer *timer;
 @property (nonatomic) UIBackgroundTaskIdentifier backgroundTask;
+@property (nonatomic) NSInteger passcodeAttempts;
 
 @end
 
@@ -52,6 +53,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     [self prepareAudioRecorder];
     
     self.timeInSeconds = 0;
+    self.passcodeAttempts = 0;
     
     // Initialize the drive service & load existing credentials from the keychain if available
     self.driveService = [[GTLServiceDrive alloc] init];
@@ -629,7 +631,18 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     }
     
-    if (videoSessionInProgress && !inBackground) {
+    if (videoSessionInProgress && !inBackground && passcodeFailed) {
+        
+        [self didChangeCamera];
+        videoRecording = YES;
+        [camera startVideoCapture];
+        [self startRecordingTimer];
+        
+        passcodeFailed = NO;
+        
+        NSLog(@"Camera changed and recording continued...");
+        
+    } else if (videoSessionInProgress && !inBackground && !passcodeFailed){
         
         videoRecording = YES;
         [camera startVideoCapture];
@@ -1199,6 +1212,7 @@ typedef void(^completion)(BOOL);
                                                                  
                                                                  [camera dismissViewControllerAnimated:NO completion:^{
                                                                      
+                                                                     self.passcodeAttempts = 0;
                                                                      videoSessionInProgress = NO;
                                                                      
                                                                      [self stopVideoRecording];
@@ -1206,6 +1220,50 @@ typedef void(^completion)(BOOL);
                                                                      NSLog(@"session ended");
                                                                      
                                                                  }];
+                                                                 
+                                                             }else {
+                                                                 
+                                                                 self.passcodeAttempts += 1;
+                                                                 
+                                                                 switch (self.passcodeAttempts) {
+                                                                         
+                                                                     case 1:
+                                                                     
+                                                                     {
+                                                                         alertViewController.message = NSLocalizedString(@" 2 Attempts Left", nil);
+                                                                         ((UITextField *)alertViewController.textFields.lastObject).text = @"";
+                                                                         break;
+                                                                     }
+                                                                     
+                                                                     case 2:
+                                                                     
+                                                                     {
+                                                                         alertViewController.message = NSLocalizedString(@"1 Attempt Left", nil);
+                                                                         ((UITextField *)alertViewController.textFields.lastObject).text = @"";
+                                                                         break;
+                                                                     }
+                                                                     
+                                                                     case 3:
+                                                                     
+                                                                     {
+                                                                         [camera dismissViewControllerAnimated:NO completion:^{
+                                                                             
+                                                                             self.passcodeAttempts = 0;
+                                                                             passcodeFailed = YES;
+                                                                             
+                                                                             [self stopVideoRecording];
+                                                                             
+                                                                         }];
+                                                                         
+                                                                         break;
+                                                                     }
+                                                                     
+                                                                     default:
+                                                                     
+                                                                     {
+                                                                         break;
+                                                                     }
+                                                                 }
                                                              }
                      
                                                          }];
@@ -1226,7 +1284,9 @@ typedef void(^completion)(BOOL);
     [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
                                                             style:UIAlertActionStyleCancel
                                                           handler:^(NYAlertAction *action) {
-                                                              [camera dismissViewControllerAnimated:NO completion:nil];
+                                                              [camera dismissViewControllerAnimated:NO completion:^{
+                                                                  self.passcodeAttempts = 0;
+                                                              }];
                                                           }]];
     
     
