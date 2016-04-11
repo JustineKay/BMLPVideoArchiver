@@ -614,7 +614,18 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     }
     
-    if (videoSessionInProgress && !inBackground) {
+    if (videoSessionInProgress && !inBackground && passcodeFailed) {
+        
+        [self didChangeCamera];
+        videoRecording = YES;
+        [camera startVideoCapture];
+        [self startRecordingTimer];
+        
+        passcodeFailed = NO;
+        
+        NSLog(@"Camera changed and recording continued...");
+        
+    } else if (videoSessionInProgress && !inBackground && !passcodeFailed){
         
         videoRecording = YES;
         [camera startVideoCapture];
@@ -1203,6 +1214,7 @@ typedef void(^completion)(BOOL);
                                                                      
                                                                      {
                                                                          alertViewController.message = NSLocalizedString(@" 2 Attempts Left", nil);
+                                                                         ((UITextField *)alertViewController.textFields.lastObject).text = @"";
                                                                          break;
                                                                      }
                                                                      
@@ -1210,6 +1222,7 @@ typedef void(^completion)(BOOL);
                                                                      
                                                                      {
                                                                          alertViewController.message = NSLocalizedString(@"1 Attempt Left", nil);
+                                                                         ((UITextField *)alertViewController.textFields.lastObject).text = @"";
                                                                          break;
                                                                      }
                                                                      
@@ -1218,8 +1231,11 @@ typedef void(^completion)(BOOL);
                                                                      {
                                                                          [camera dismissViewControllerAnimated:NO completion:^{
                                                                              
-                                                                         self.passcodeAttempts = 0;
-                                                                         
+                                                                             self.passcodeAttempts = 0;
+                                                                             passcodeFailed = YES;
+                                                                             
+                                                                             [self stopVideoRecording];
+                                                                             
                                                                          }];
                                                                          
                                                                          break;
