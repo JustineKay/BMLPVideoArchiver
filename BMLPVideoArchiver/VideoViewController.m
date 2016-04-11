@@ -88,28 +88,37 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 {
     [super viewWillAppear:animated];
     
-    if (![self isAuthorized]) {
+    if ([[Connectivity reachabilityForInternetConnection]currentReachabilityStatus] == NotReachable){
         
-        [self presentViewController:[self createAuthController] animated:YES completion:nil];
+        ConnectivityViewController *connectivityVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ConnectivityViewController"];
+        
+        [self presentViewController:connectivityVC animated:YES completion:nil];
         
     }else {
         
-        if (![[NSUserDefaults standardUserDefaults] valueForKey:@"userPasscode"]){
+        if (![self isAuthorized]) {
             
-            [self presentViewController:camera animated:animated completion:^{
-                
-                [DMPasscode setupPasscodeInViewController:camera completion:^(BOOL success, NSError *error) {
-                    
-                }];
-                
-            }];
+            [self presentViewController:[self createAuthController] animated:YES completion:nil];
             
         }else {
             
-            [self presentViewController:camera animated:animated completion:nil];
+            if (![[NSUserDefaults standardUserDefaults] valueForKey:@"userPasscode"]){
+                
+                [self presentViewController:camera animated:animated completion:^{
+                    
+                    [DMPasscode setupPasscodeInViewController:camera completion:^(BOOL success, NSError *error) {
+                        
+                    }];
+                    
+                }];
+                
+            }else {
+                
+                [self presentViewController:camera animated:animated completion:nil];
+                
+            }
             
         }
-        
     }
     
 }
