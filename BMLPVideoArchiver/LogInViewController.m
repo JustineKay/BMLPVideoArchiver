@@ -8,6 +8,8 @@
 
 #import "LogInViewController.h"
 #import "VideoViewController.h"
+#import "Connectivity.h"
+#import "ConnectivityViewController.h"
 
 @interface LogInViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *logInButton;
@@ -31,6 +33,17 @@
     
     self.infoLabel.text = @"In order to use\nBMLP Video Archiver\nyou must sign in to your\nGoogle Drive account";
     
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    if ([[Connectivity reachabilityForInternetConnection]currentReachabilityStatus] == NotReachable){
+        
+        ConnectivityViewController *connectivityVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ConnectivityViewController"];
+        
+        [self presentViewController:connectivityVC animated:YES completion:nil];
+        
+    }
 }
 
 - (IBAction)logInButtonTapped:(UIButton *)sender
