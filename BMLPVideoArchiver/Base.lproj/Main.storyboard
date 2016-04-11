@@ -58,7 +58,11 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1dL-gc-JgS">
-                                <rect key="frame" x="285" y="358" width="30" height="30"/>
+                                <rect key="frame" x="270" y="358" width="60" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="rvL-Iz-g9t"/>
+                                    <constraint firstAttribute="width" constant="60" id="xIo-ze-8nW"/>
+                                </constraints>
                                 <state key="normal" title="OK">
                                     <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
