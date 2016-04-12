@@ -1184,7 +1184,7 @@ typedef void(^completion)(BOOL);
     
     alertViewController.view.tintColor = self.view.tintColor;
     alertViewController.backgroundTapDismissalGestureEnabled = NO;
-    alertViewController.swipeDismissalGestureEnabled = YES;
+    alertViewController.swipeDismissalGestureEnabled = NO;
     alertViewController.transitionStyle = NYAlertViewControllerTransitionStyleFade;
     
     alertViewController.alertViewBackgroundColor = [UIColor blackColor];
