@@ -1183,7 +1183,7 @@ typedef void(^completion)(BOOL);
     alertViewController.message = NSLocalizedString(@"You must enter your passcode to stop recording", nil);
     
     alertViewController.view.tintColor = self.view.tintColor;
-    alertViewController.backgroundTapDismissalGestureEnabled = YES;
+    alertViewController.backgroundTapDismissalGestureEnabled = NO;
     alertViewController.swipeDismissalGestureEnabled = YES;
     alertViewController.transitionStyle = NYAlertViewControllerTransitionStyleFade;
     
