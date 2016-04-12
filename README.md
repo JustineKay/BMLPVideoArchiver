@@ -16,6 +16,10 @@ It is currently in the early stages of development.
 * Tap the stop button to end the recording session and save/upload the final portion of the recording  
 * The user will be asked to enter their passcode when the stop button is tapped  
 * The camera will continue recording until the correct passcode is entered  
+* After 3 incorrect passcode attempts:  
+ - Video recording is stopped  
+ - Camera changes from rear to front, user-facing  
+ - Video begins recording and uploading again immediately  
 * If the app is sent to the background while recording video, the video session is ended and audio recording will begin  
 * Audio recording will continue while the app is in the background  
 * Audio files (.m4a) are saved and uploaded every 30 secs  
