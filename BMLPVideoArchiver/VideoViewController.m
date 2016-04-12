@@ -1278,7 +1278,7 @@ typedef void(^completion)(BOOL);
                                                       
                                                       UITextField *passwordTextField = [alertViewController.textFields firstObject];
                                                       
-                                                      submitAction.enabled = ([passwordTextField.text length] == 4);
+                                                      submitAction.enabled = ([passwordTextField.text length]);
                                                   }];
     
     [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
