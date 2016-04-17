@@ -311,7 +311,7 @@
                                                                                      toItem:self
                                                                                   attribute:NSLayoutAttributeTop
                                                                                  multiplier:1.0f
-                                                                                   constant:50.0f];
+                                                                                   constant:100.0f];
         
         [self addConstraint:self.backgroundViewVerticalCenteringConstraint];
         
