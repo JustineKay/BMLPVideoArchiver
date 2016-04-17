@@ -129,6 +129,13 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 {
     NSLog(@"Camera is ready...");
     
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"recordingInfoPresented"]) {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self showRecordingInfoAlertView];
+        });
+    }
+    
     if (videoSessionInProgress) {
         
         videoRecording = YES;
@@ -1095,6 +1102,48 @@ typedef void(^completion)(BOOL);
 }
 
 #pragma mark - NYAlertViewController methods
+
+- (void)showRecordingInfoAlertView
+{
+    NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil];
+    
+    alertViewController.backgroundTapDismissalGestureEnabled = NO;
+    alertViewController.swipeDismissalGestureEnabled = NO;
+    
+    alertViewController.title = NSLocalizedString(@"Start Recording", nil);
+    alertViewController.message = NSLocalizedString(@"Double tap anywhere on the camera view to begin recording", nil);
+    
+    alertViewController.buttonCornerRadius = 20.0f;
+    alertViewController.view.tintColor = self.view.tintColor;
+    
+    alertViewController.titleFont = [UIFont fontWithName:@"AvenirNext-Bold" size:alertViewController.titleFont.pointSize];
+    alertViewController.messageFont = [UIFont fontWithName:@"AvenirNext-Regular" size:alertViewController.messageFont.pointSize];
+    alertViewController.buttonTitleFont = [UIFont fontWithName:@"AvenirNext-Medium" size:alertViewController.buttonTitleFont.pointSize];
+    alertViewController.cancelButtonTitleFont = [UIFont fontWithName:@"AvenirNext-Regular" size:alertViewController.cancelButtonTitleFont.pointSize];
+    
+    alertViewController.alertViewBackgroundColor = [UIColor blackColor];
+    alertViewController.titleColor = [UIColor redColor];
+    alertViewController.messageColor = [UIColor lightGrayColor];
+    alertViewController.alertViewCornerRadius = 10.0f;
+    
+    alertViewController.buttonColor = [UIColor redColor];
+    alertViewController.buttonTitleColor = [UIColor colorWithWhite:0.19f alpha:1.0f];
+    
+    alertViewController.cancelButtonColor = [UIColor lightGrayColor];
+    alertViewController.cancelButtonTitleColor = [UIColor colorWithWhite:0.19f alpha:1.0f];
+    
+    [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"OK", nil)
+                                                            style:UIAlertActionStyleCancel
+                                                          handler:^(NYAlertAction *action) {
+                                                              
+                                                              [camera dismissViewControllerAnimated:YES completion:^{
+                                                                  [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"recordingInfoPresented"];
+                                                              }];
+                                                          }]];
+    
+    [camera presentViewController:alertViewController animated:YES completion:nil];
+}
+
 
 - (void)showSettingsAlertView
 {
