@@ -95,19 +95,19 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         
         ConnectivityViewController *connectivityVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ConnectivityViewController"];
         
-        [self presentViewController:connectivityVC animated:YES completion:nil];
+        [self.navigationController presentViewController:connectivityVC animated:YES completion:nil];
         
     }else {
         
         if (![self isAuthorized]) {
             
-            [self presentViewController:[self createAuthController] animated:YES completion:nil];
+            [self.navigationController presentViewController:[self createAuthController] animated:YES completion:nil];
             
         }else {
             
             if (![[NSUserDefaults standardUserDefaults] valueForKey:@"userPasscode"]){
                 
-                [self presentViewController:camera animated:animated completion:^{
+                [self.navigationController presentViewController:camera animated:animated completion:^{
                     
                     SetPasscodeViewController *setPasscodeVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"SetPasscodeViewController"];
                     [camera presentViewController:setPasscodeVC animated:YES completion:nil];
@@ -116,7 +116,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
                 
             }else {
                 
-                [self presentViewController:camera animated:animated completion:nil];
+                [self.navigationController presentViewController:camera animated:animated completion:nil];
                 
             }
             
