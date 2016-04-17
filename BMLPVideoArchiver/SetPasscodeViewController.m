@@ -7,8 +7,10 @@
 //
 
 #import "SetPasscodeViewController.h"
+#import <DMPasscode/DMPasscode.h>
 
 @interface SetPasscodeViewController ()
+@property (weak, nonatomic) IBOutlet UIButton *okButton;
 
 @end
 
@@ -16,7 +18,19 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    self.okButton.layer.borderWidth = 1.5;
+    self.okButton.layer.borderColor = [UIColor redColor].CGColor;
+    self.okButton.layer.cornerRadius = 10.0;
+    
+}
+- (IBAction)okButtonTapped:(UIButton *)sender {
+    
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"setPasscodeAlertPresented"];
+    [DMPasscode setupPasscodeInViewController:self completion:^(BOOL success, NSError *error) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }];
+    
 }
 
 @end

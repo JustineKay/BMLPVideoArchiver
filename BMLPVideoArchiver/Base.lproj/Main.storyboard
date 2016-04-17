@@ -107,7 +107,7 @@
         <!--Set Passcode View Controller-->
         <scene sceneID="yZz-JA-yPl">
             <objects>
-                <viewController id="g5y-WF-BIX" customClass="SetPasscodeViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SetPasscodeViewController" id="g5y-WF-BIX" customClass="SetPasscodeViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="tvw-J4-Jex"/>
                         <viewControllerLayoutGuide type="bottom" id="Bpa-yi-9Kt"/>
@@ -117,31 +117,36 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Passcode Protection" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K5I-0i-L5R">
-                                <rect key="frame" x="205" y="217" width="190" height="28"/>
+                                <rect key="frame" x="205" y="221" width="190" height="28"/>
                                 <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="20"/>
                                 <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Set up a 4-digit passcode. It will be requested in order to stop a recording." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ouk-pf-sfr">
-                                <rect key="frame" x="200" y="265" width="200" height="70"/>
+                                <rect key="frame" x="208" y="269" width="185" height="62"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="tLe-6R-dMc"/>
+                                    <constraint firstAttribute="width" constant="185" id="tLe-6R-dMc"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="15"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bXP-CO-acf">
-                                <rect key="frame" x="273" y="364" width="55" height="45"/>
+                                <rect key="frame" x="270" y="360" width="60" height="35"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="45" id="IHK-Ve-JCP"/>
-                                    <constraint firstAttribute="width" constant="55" id="MRJ-5b-bRG"/>
+                                    <constraint firstAttribute="height" constant="35" id="IHK-Ve-JCP"/>
+                                    <constraint firstAttribute="width" constant="60" id="MRJ-5b-bRG"/>
                                 </constraints>
                                 <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="OK"/>
+                                <state key="normal" title="OK">
+                                    <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="okButtonTapped:" destination="g5y-WF-BIX" eventType="touchUpInside" id="5Ee-o4-kKH"/>
+                                </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="securityShield-lock" translatesAutoresizingMaskIntoConstraints="NO" id="VEa-r7-JnX">
-                                <rect key="frame" x="180" y="72" width="240" height="128"/>
+                                <rect key="frame" x="180" y="76" width="240" height="128"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="128" id="vRN-et-jzc"/>
                                     <constraint firstAttribute="width" constant="240" id="zyB-TJ-D1r"/>
@@ -160,6 +165,9 @@
                             <constraint firstItem="VEa-r7-JnX" firstAttribute="centerX" secondItem="7lB-ZI-Sah" secondAttribute="centerX" id="l2V-yc-1mr"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="okButton" destination="bXP-CO-acf" id="nOQ-bW-ZLF"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="V0X-Zl-Xvj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

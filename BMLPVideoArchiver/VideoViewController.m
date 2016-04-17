@@ -14,6 +14,7 @@
 #import "NYAlertViewController.h"
 #import "Connectivity.h"
 #import "ConnectivityViewController.h"
+#import "SetPasscodeViewController.h"
 
 static NSString *const kKeychainItemName = @"BMLP Video Archiver";
 static NSString *const kClientID = @"749579524688-b1oaiu8cc4obq06aal4org55qie5lho2.apps.googleusercontent.com";
@@ -108,9 +109,8 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
                 
                 [self presentViewController:camera animated:animated completion:^{
                     
-                    [DMPasscode setupPasscodeInViewController:camera completion:^(BOOL success, NSError *error) {
-                        
-                    }];
+                    SetPasscodeViewController *setPasscodeVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"SetPasscodeViewController"];
+                    [camera presentViewController:setPasscodeVC animated:YES completion:nil];
                     
                 }];
                 
