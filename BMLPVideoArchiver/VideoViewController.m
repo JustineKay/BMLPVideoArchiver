@@ -139,11 +139,15 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     if (videoSessionInProgress) {
         
         videoRecording = YES;
-        [camera startVideoCapture];
+        
         [self startRecordingTimer];
         
-        self.customCameraOverlayView.stopRecordingView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.5];
-        self.customCameraOverlayView.stopRecordingView.alpha = 1.0;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            [camera startVideoCapture];
+            self.customCameraOverlayView.stopRecordingView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+            self.customCameraOverlayView.stopRecordingView.alpha = 1.0;
+        });
         
         NSLog(@"Video recording continued...");
         
@@ -176,6 +180,8 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         [audioSession setActive:YES error:nil];
         
         [self startAudioRecording];
+        
+        NSLog(@"Audio recording: %@", (audioRecorder.isRecording ? @"YES" : @"NO"));
         
         audioSessionInProgress = YES;
     }
