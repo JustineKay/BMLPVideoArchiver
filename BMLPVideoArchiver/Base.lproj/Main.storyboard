@@ -199,7 +199,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="In order to use BMLP Video Archiver you must sign in to your Google Drive account" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="utE-cW-5z9">
-                                <rect key="frame" x="150" y="328" width="300" height="41"/>
+                                <rect key="frame" x="150" y="325" width="300" height="41"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="y8O-Qe-jHm"/>
                                 </constraints>
@@ -208,7 +208,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UcM-18-Gzy">
-                                <rect key="frame" x="260" y="389" width="80" height="44"/>
+                                <rect key="frame" x="260" y="378" width="80" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="80" id="7Ld-re-AWa"/>
                                     <constraint firstAttribute="height" constant="44" id="rVx-Tt-Fw5"/>
@@ -231,14 +231,14 @@
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="3LW-45-xgc" firstAttribute="top" secondItem="Y4j-V0-Ara" secondAttribute="bottom" constant="8" id="9XW-Sa-9ij"/>
-                            <constraint firstItem="utE-cW-5z9" firstAttribute="top" secondItem="lJw-JR-TCi" secondAttribute="bottom" constant="15" id="Afl-do-keH"/>
+                            <constraint firstItem="utE-cW-5z9" firstAttribute="top" secondItem="lJw-JR-TCi" secondAttribute="bottom" constant="12" id="Afl-do-keH"/>
                             <constraint firstItem="tWK-Np-k4s" firstAttribute="centerX" secondItem="bxy-xa-VgT" secondAttribute="centerX" id="FmI-j1-vOw"/>
                             <constraint firstItem="lJw-JR-TCi" firstAttribute="leading" secondItem="bxy-xa-VgT" secondAttribute="leading" constant="20" id="Kqi-wD-LYN"/>
                             <constraint firstItem="lJw-JR-TCi" firstAttribute="top" secondItem="tWK-Np-k4s" secondAttribute="bottom" id="Ngv-0i-Mus"/>
                             <constraint firstItem="utE-cW-5z9" firstAttribute="centerX" secondItem="bxy-xa-VgT" secondAttribute="centerX" id="XlC-Ds-yue"/>
                             <constraint firstItem="3LW-45-xgc" firstAttribute="centerX" secondItem="bxy-xa-VgT" secondAttribute="centerX" id="aBz-J1-KA3"/>
                             <constraint firstItem="tWK-Np-k4s" firstAttribute="top" secondItem="3LW-45-xgc" secondAttribute="bottom" constant="12" id="byz-Ey-LPW"/>
-                            <constraint firstItem="UcM-18-Gzy" firstAttribute="top" secondItem="utE-cW-5z9" secondAttribute="bottom" constant="20" id="d4Y-MR-LJO"/>
+                            <constraint firstItem="UcM-18-Gzy" firstAttribute="top" secondItem="utE-cW-5z9" secondAttribute="bottom" constant="12" id="d4Y-MR-LJO"/>
                             <constraint firstAttribute="trailing" secondItem="lJw-JR-TCi" secondAttribute="trailing" constant="20" id="ue6-wR-egx"/>
                             <constraint firstItem="UcM-18-Gzy" firstAttribute="centerX" secondItem="bxy-xa-VgT" secondAttribute="centerX" id="zFt-il-ZhY"/>
                         </constraints>
