@@ -181,7 +181,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         
         [self startAudioRecording];
         
-        NSLog(@"Audio recording: %@", (audioRecorder.isRecording ? @"YES" : @"NO"));
+        NSLog(@"Audio recording: %@", (audioRecorder.recording ? @"YES" : @"NO"));
         
         audioSessionInProgress = YES;
     }
