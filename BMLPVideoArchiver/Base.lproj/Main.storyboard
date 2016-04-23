@@ -256,8 +256,8 @@
                             <mask key="constraints">
                                 <exclude reference="9XW-Sa-9ij"/>
                                 <exclude reference="xMG-cI-VGd"/>
-                                <exclude reference="b92-yZ-FCh"/>
                                 <exclude reference="d4Y-MR-LJO"/>
+                                <exclude reference="b92-yZ-FCh"/>
                             </mask>
                         </variation>
                     </view>

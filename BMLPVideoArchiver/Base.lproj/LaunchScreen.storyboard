@@ -17,16 +17,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BMLP-Logo6" translatesAutoresizingMaskIntoConstraints="NO" id="jnZ-ua-V74">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BMLP-Launch" translatesAutoresizingMaskIntoConstraints="NO" id="5X3-be-Iqh">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="jnZ-ua-V74" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="7tv-pg-b4u"/>
-                            <constraint firstItem="jnZ-ua-V74" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="fen-ib-byX"/>
-                            <constraint firstAttribute="trailing" secondItem="jnZ-ua-V74" secondAttribute="trailing" id="pDd-HB-Hnk"/>
-                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="jnZ-ua-V74" secondAttribute="bottom" id="sw3-d6-ZXB"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="5X3-be-Iqh" secondAttribute="bottom" id="6RE-cX-zm8"/>
+                            <constraint firstAttribute="trailing" secondItem="5X3-be-Iqh" secondAttribute="trailing" id="9H5-fp-9cp"/>
+                            <constraint firstItem="5X3-be-Iqh" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="SOK-Yi-IDk"/>
+                            <constraint firstItem="5X3-be-Iqh" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="aoK-4z-lmP"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -36,6 +36,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="BMLP-Logo6" width="1208" height="1204"/>
+        <image name="BMLP-Launch" width="1208" height="1204"/>
     </resources>
 </document>
