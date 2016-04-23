@@ -566,11 +566,20 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         
     }else if (!videoRecording) {
         
-        videoSessionInProgress = YES;
-        
-        [self startVideoRecording];
-        
-        NSLog(@"video recording started");
+        if (![[NSUserDefaults standardUserDefaults] valueForKey:@"userPasscode"]){
+            
+            SetPasscodeViewController *setPasscodeVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"SetPasscodeViewController"];
+            [camera presentViewController:setPasscodeVC animated:YES completion:nil];
+            
+        }else {
+            
+            videoSessionInProgress = YES;
+            
+            [self startVideoRecording];
+            
+            NSLog(@"video recording started");
+
+        }
         
     }
 }
@@ -596,6 +605,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     // Hide controls
     [UIView  animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:hideControls completion:recordMovie];
+    
 }
 
 - (void)stopVideoRecording
