@@ -33,6 +33,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
                                                                                          clientID:kClientID
                                                                                      clientSecret:kClientSecret];
     //Check to see if user is already authorized
+    // TODO(cspickert): No need to cast here, because canAuthorize is declared in GTMFetcherAuthorizationProtocol.
     BOOL auth = [((GTMOAuth2Authentication *)self.driveService.authorizer) canAuthorize];
     
     //Initialize a navController as the rootVC
@@ -40,6 +41,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
     
+    // TODO(cspickert): Use constants instead of string literals for user defaults keys.
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"] && auth) {
         
         //If this is the first time the user has opened the app after installing
@@ -59,6 +61,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     }else {
         
         UIViewController *logInViewController = [storyboard instantiateViewControllerWithIdentifier:@"LogInViewController"];
+        // TODO(cspickert): It'd be better to present the login view controller modally instead of adding it as a child of the navigation controller (the nav controller should manage its own child controllers).
         [navigationController addChildViewController:logInViewController];
         [navigationController pushViewController:[storyboard instantiateViewControllerWithIdentifier:@"VideoViewController"] animated:NO];
         
@@ -67,6 +70,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     return YES;
 }
 
+// TODO(cspickert): Deleting these unused callbacks might keep things a bit tidier.
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.

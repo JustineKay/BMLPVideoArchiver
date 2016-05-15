@@ -16,18 +16,31 @@
 #import "ConnectivityViewController.h"
 #import "SetPasscodeViewController.h"
 
+// TODO(cspickert): So it's pretty clear that your entire app is basically implemented in this one file. Splitting it into multiple classes will make things much clearer and easier to test and maintain. You should start by identifying the main types of tasks you're trying to accomplish here:
+// 1. Recording video (obviously)
+// 2. Recording audio
+// 3. Saving media locally
+// 4. Saving media to Drive
+// Each of these categories of functionality should be implemented using _at least_ one *non-UIViewController* class. It's important to do as much outside of UIKit as possible to make your code simpler, more maintainable, and more testable. For example, let's say you run into an intermittent case where recorded videos aren't making it to Drive. If the logic for uploading media is tied up with the rest of the code for building and displaying the UI, interacting with NSUserDefaults, etc., it might be very difficult for you to find the root of the problem and reproduce the exact circumstances that cause it.
+// The guiding principle behind every class you write should be: "do one thing, and do it well" (a la the Unix philosophy).
+
+// TODO(cspickert): These are identical copies of the constants in AppDelegate.m. You could move them into a single header file (maybe called "BMLPConstants.h"), or better yet, declare them in a header and set their values in a .m file, like so:
+// BMLPConstants.h: extern NSString *const kKeychainItemName;
+// BMLPConstants.m: NSString *const kKeychainItemName = @"BMLP Video Archiver";
 static NSString *const kKeychainItemName = @"BMLP Video Archiver";
 static NSString *const kClientID = @"749579524688-b1oaiu8cc4obq06aal4org55qie5lho2.apps.googleusercontent.com";
 static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 @interface VideoViewController ()
 
+// TODO(cspickert): You don't need to declare private methods as long as they're only used in this file.
 - (void)setUpCamera;
 - (void)startVideoRecording;
 - (void)stopVideoRecording;
 
 - (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo;
 
+// TODO(cspickert): Ditch the "retain" attribute here. It's the same as "strong", which is also the default.
 @property (nonatomic, retain) GTLServiceDrive *driveService;
 @property (nonatomic) GTLDriveParentReference *parentRef;
 @property (nonatomic) CustomCameraOverlayView *customCameraOverlayView;
@@ -40,6 +53,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 @implementation VideoViewController
 
+// TODO(cspickert): Properties are auto-synthesized, so you can remove this. Auto-synthesis generates an ivar with the name of the property prefixed with an underscore (i.e. _driveService).
 @synthesize driveService;
 
 - (void)viewDidLoad
@@ -105,6 +119,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
             
         }else {
             
+            // TODO(cspickert): It might be good to add a class that wraps getting/setting all of these NSUserDefaults values.
             if (![[NSUserDefaults standardUserDefaults] valueForKey:@"userPasscode"]){
                 
                 [self.navigationController presentViewController:camera animated:animated completion:^{
@@ -127,10 +142,12 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 - (void)cameraIsReady:(NSNotification *)notification
 {
+    // TODO(cspickert): Although it depends on the situation, it's usually better to use some kind of logging macro instead of using NSLog directly. One reason is that NSLog is extremely slow.
     NSLog(@"Camera is ready...");
     
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"recordingInfoPresented"]) {
         
+        // TODO(cspickert): Is this notification happening on a background queue? If so, you might be able to avoid the dispatch_asyncs by making sure this entire method executes on the main queue (there are various ways to do that).
         dispatch_async(dispatch_get_main_queue(), ^{
             [self showRecordingInfoAlertView];
         });
@@ -193,6 +210,8 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         // Clean up any unfinished task business by marking where you
         // stopped or ending the task outright.
         
+        // TODO(cspickert): Should the audio recording session end here?
+
         NSLog(@"Background handler called. Not running background tasks anymore.");
         [app endBackgroundTask:self.backgroundTask];
         self.backgroundTask = UIBackgroundTaskInvalid;
@@ -254,6 +273,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     [audioRecorder prepareToRecord];
 }
 
+// TODO(cspickert): This method name is somewhat misleading—you're really returning a filename based on the date, not just a string containing the date.
 - (NSString *)dateString
 {
     // return a formatted string for a file name
@@ -268,6 +288,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     // Recording settings
     NSDictionary *settings = [NSDictionary dictionary];
     
+    // TODO(cspickert): Using object literals (@{}, @YES, etc.) would make this a lot more readable.
     settings = [NSDictionary dictionaryWithObjectsAndKeys:
                 [NSNumber numberWithInt: kAudioFormatMPEG4AAC], AVFormatIDKey,
                 [NSNumber numberWithFloat:16000.0], AVSampleRateKey,
@@ -321,6 +342,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 -(void)customCameraOverlay
 {
+    // TODO(cspickert): A lot of this initialization could be done internally by CameraOverlayViewController to keep this class more focused.
     CameraOverlayViewController *overlayVC = [[CameraOverlayViewController alloc] initWithNibName:@"CameraOverlayViewController" bundle:nil];
     self.customCameraOverlayView = (CustomCameraOverlayView *)overlayVC.view;
     
@@ -376,6 +398,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         
     } else {
         
+        // TODO(cspickert): What happens if the device has no cameras? Definitely an edge case, but something to consider.
         camera.cameraDevice = UIImagePickerControllerCameraDeviceFront;
     
     }
@@ -392,6 +415,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     }
     
     
+    // TODO(cspickert): This is extremely low-quality video by today's standards. It might be worth checking to see if the device/internet connection can handle higher-quality video, or record at a higher quality either way and downsample prior to uploading.
     camera.videoQuality = UIImagePickerControllerQualityType640x480;
     
     camera.delegate = self;
@@ -402,6 +426,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 -(void)showCameraControls
 {
+    // TODO(cspickert): This initialization can be all on one line. To make this easier, you could use dispatch_block_t.
     void (^showControls)(void);
     showControls = ^(void) {
         
@@ -498,6 +523,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     [controllers removeLastObject];
     
     //set the new set of view controllers
+    // TODO(cspickert): This "controllers" array can be removed with one line: [navigationController popViewControllerAnimated:NO].
     [navigationController setViewControllers:controllers];
     
     [camera dismissViewControllerAnimated:NO completion:^{
@@ -508,6 +534,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 }
 
+// TODO(cspickert): These notifications could be handled internally within the custom camera overlay class.
 - (void)didChangeFlashMode
 {
     if (camera.cameraFlashMode == UIImagePickerControllerCameraFlashModeOff) {
@@ -559,6 +586,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 - (void)beginVideoRecordingSession
 {
+    // TODO(cspickert): Wouldn't it be better if you could record even when offline?
     if ([[Connectivity reachabilityForInternetConnection]currentReachabilityStatus] == NotReachable){
         
         ConnectivityViewController *connectivityVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ConnectivityViewController"];
@@ -695,6 +723,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     if (auth == YES) {
         
         //Set Bool for presenting LogInVC
+        // TODO(cspickert): It's generally poor form to do things like this ("side effects") inside a getter, because it's impossible for callers to tell that this is happening, and it might result in odd behavior if the calling code gets refactored.
         [[NSUserDefaults standardUserDefaults] setBool:auth forKey:SignedInKey];
 
     }
@@ -740,6 +769,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     }
 }
 
+// TODO(cspickert): Generally when methods get this long, it means you're trying to do too much at once, and you should break it up into smaller methods. Unit-testing a method like this is also pretty much impossible. You may even want to consider moving this logic into its own class.
 -(void)uploadToGoogleDriveInDatedFolder: (NSString *)filePath
 {
     [self searchForMainBMLPFolder:^(BOOL finished) {
@@ -813,7 +843,10 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 }
 
 //Check if a main BMLP folder has been created
+// TODO(cspickert): It's usually best to capitalize types, and make them more descriptive ("CompletionBlock" instead of "completion").
 typedef void(^completion)(BOOL);
+
+// TODO(cspickert): All of this file manipulation and Drive integration should be in a separate (non-UIViewController) class.
 
 - (void)searchForMainBMLPFolder:(completion) compblock
 {
@@ -1265,6 +1298,7 @@ typedef void(^completion)(BOOL);
     alertViewController.titleColor = [UIColor redColor];
     alertViewController.messageColor = [UIColor whiteColor];
     
+    // TODO(cspickert): Moving the completion block out of the method call will make this code much more readable.
     NYAlertAction *submitAction = [NYAlertAction actionWithTitle:NSLocalizedString(@"Submit", nil)
                                                            style:UIAlertActionStyleDefault
                                                          handler:^(NYAlertAction *action) {
