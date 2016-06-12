@@ -33,13 +33,6 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 @interface VideoViewController ()
 
-// TODO(cspickert): You don't need to declare private methods as long as they're only used in this file.
-- (void)setUpCamera;
-- (void)startVideoRecording;
-- (void)stopVideoRecording;
-
-- (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo;
-
 // TODO(cspickert): Ditch the "retain" attribute here. It's the same as "strong", which is also the default.
 @property (nonatomic, retain) GTLServiceDrive *driveService;
 @property (nonatomic) GTLDriveParentReference *parentRef;
