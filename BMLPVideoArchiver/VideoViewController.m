@@ -248,7 +248,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     NSArray *searchPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentPath = searchPaths[0];
     
-    NSString *pathToSave = [documentPath stringByAppendingPathComponent:[self dateString]];
+    NSString *pathToSave = [documentPath stringByAppendingPathComponent:[self audioFileName]];
     
     // File URL
     NSURL *url = [NSURL fileURLWithPath:pathToSave];
@@ -267,8 +267,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     [audioRecorder prepareToRecord];
 }
 
-// TODO(cspickert): This method name is somewhat misleading—you're really returning a filename based on the date, not just a string containing the date.
-- (NSString *)dateString
+- (NSString *)audioFileName
 {
     // return a formatted string for a file name
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
