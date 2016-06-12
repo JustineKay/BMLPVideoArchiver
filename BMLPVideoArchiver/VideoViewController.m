@@ -53,9 +53,6 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 @implementation VideoViewController
 
-// TODO(cspickert): Properties are auto-synthesized, so you can remove this. Auto-synthesis generates an ivar with the name of the property prefixed with an underscore (i.e. _driveService).
-@synthesize driveService;
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
