@@ -67,12 +67,19 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     self.timeInSeconds = 0;
     self.passcodeAttempts = 0;
     
-    // Initialize the drive service & load existing credentials from the keychain if available
+    [self initializeDriveService];
+    [self addNotificationObservers];
+}
+
+- (void)initializeDriveService
+{
+    // Initialize the drive service
     self.driveService = [[GTLServiceDrive alloc] init];
+    
+    //Load existing credentials from the keychain if available
     self.driveService.authorizer = [GTMOAuth2ViewControllerTouch authForGoogleFromKeychainForName:kKeychainItemName
                                                                                          clientID:kClientID
                                                                                      clientSecret:kClientSecret];
-    [self addNotificationObservers];
 }
 
 - (void)addNotificationObservers
