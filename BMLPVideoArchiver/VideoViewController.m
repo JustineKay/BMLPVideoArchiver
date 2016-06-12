@@ -58,7 +58,6 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     [super viewDidLoad];
     
     self.backgroundTask = UIBackgroundTaskInvalid;
-    
     self.navigationController.navigationBarHidden = YES;
     
     [self setUpCamera];
@@ -114,38 +113,33 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     [super viewWillAppear:animated];
     
     if ([[Connectivity reachabilityForInternetConnection]currentReachabilityStatus] == NotReachable){
-        
-        ConnectivityViewController *connectivityVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ConnectivityViewController"];
-        
-        [self.navigationController presentViewController:connectivityVC animated:YES completion:nil];
-        
+        [self presentConnectivityVC];
     }else {
-        
         if (![self isAuthorized]) {
-            
             [self.navigationController presentViewController:[self createAuthController] animated:YES completion:nil];
-            
         }else {
-            
             // TODO(cspickert): It might be good to add a class that wraps getting/setting all of these NSUserDefaults values.
             if (![[NSUserDefaults standardUserDefaults] valueForKey:@"userPasscode"]){
-                
-                [self.navigationController presentViewController:camera animated:animated completion:^{
-                    
-                    SetPasscodeViewController *setPasscodeVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"SetPasscodeViewController"];
-                    [camera presentViewController:setPasscodeVC animated:YES completion:nil];
-                    
-                }];
-                
+                [self presentPasscodeVC];
             }else {
-                
                 [self.navigationController presentViewController:camera animated:animated completion:nil];
-                
             }
-            
         }
     }
-    
+}
+
+- (void)presentConnectivityVC
+{
+    ConnectivityViewController *connectivityVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ConnectivityViewController"];
+    [self.navigationController presentViewController:connectivityVC animated:YES completion:nil];
+}
+
+- (void)presentPasscodeVC
+{
+    [self.navigationController presentViewController:camera animated:YES completion:^{
+        SetPasscodeViewController *setPasscodeVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"SetPasscodeViewController"];
+        [camera presentViewController:setPasscodeVC animated:YES completion:nil];
+    }];
 }
 
 - (void)cameraIsReady:(NSNotification *)notification
