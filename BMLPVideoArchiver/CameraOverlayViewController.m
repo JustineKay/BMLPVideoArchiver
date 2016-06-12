@@ -14,4 +14,13 @@
 
 @implementation CameraOverlayViewController
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.customCameraOverlayView = [[CustomCameraOverlayView alloc] init];
+    }
+    return [self initWithNibName:@"CameraOverlayViewController" bundle:nil];
+}
+
 @end

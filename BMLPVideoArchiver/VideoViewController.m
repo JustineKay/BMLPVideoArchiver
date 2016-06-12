@@ -336,29 +336,22 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 -(void)customCameraOverlay
 {
     // TODO(cspickert): A lot of this initialization could be done internally by CameraOverlayViewController to keep this class more focused.
-    CameraOverlayViewController *overlayVC = [[CameraOverlayViewController alloc] initWithNibName:@"CameraOverlayViewController" bundle:nil];
-    self.customCameraOverlayView = (CustomCameraOverlayView *)overlayVC.view;
+    CameraOverlayViewController *cameraOverlayVC = [[CameraOverlayViewController alloc] init];
+    self.customCameraOverlayView = cameraOverlayVC.customCameraOverlayView;
     
     self.customCameraOverlayView.delegate = self;
-    
-    self.customCameraOverlayView.stopRecordingView.alpha = 0.0;
-    self.customCameraOverlayView.stopRecordingView.layer.cornerRadius = 30.0;
-    self.customCameraOverlayView.stopRecordingView.backgroundColor = [UIColor whiteColor];
-    
-    self.customCameraOverlayView.cameraSelectionButton.alpha = 0.0;
-    self.customCameraOverlayView.flashModeButton.alpha = 0.0;
-    self.customCameraOverlayView.uploadingLabel.alpha = 0.0;
-    self.customCameraOverlayView.fileSavedLabel.alpha = 0.0;
-    self.customCameraOverlayView.backgroundColor = [UIColor clearColor];
-    self.customCameraOverlayView.menuBarView.backgroundColor = [UIColor colorWithRed:211.0/255.0 green:211.0/255.0 blue:211.0/255.0 alpha:0.25];
-    
     self.customCameraOverlayView.frame = camera.view.frame;
     
-    recordGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(beginVideoRecordingSession)];
-    recordGestureRecognizer.numberOfTapsRequired = 2;
+    [self.customCameraOverlayView addGestureRecognizer:[self tapTwiceRecordGesture]];
     
-    [self.customCameraOverlayView addGestureRecognizer:recordGestureRecognizer];
+}
+
+- (UITapGestureRecognizer *)tapTwiceRecordGesture
+{
+    UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(beginVideoRecordingSession)];
+    gestureRecognizer.numberOfTapsRequired = 2;
     
+    return gestureRecognizer;
 }
 
 - (void)setUpCamera

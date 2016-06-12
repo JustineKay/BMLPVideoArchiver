@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CustomCameraOverlayView.h"
 
 @interface CameraOverlayViewController : UIViewController
+
+@property(nonatomic)CustomCameraOverlayView *customCameraOverlayView;
 
 @end
