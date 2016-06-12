@@ -33,8 +33,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 @interface VideoViewController ()
 
-// TODO(cspickert): Ditch the "retain" attribute here. It's the same as "strong", which is also the default.
-@property (nonatomic, retain) GTLServiceDrive *driveService;
+@property (nonatomic) GTLServiceDrive *driveService;
 @property (nonatomic) GTLDriveParentReference *parentRef;
 @property (nonatomic) CustomCameraOverlayView *customCameraOverlayView;
 @property (nonatomic) NSInteger timeInSeconds;
