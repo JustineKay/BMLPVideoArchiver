@@ -32,6 +32,12 @@ static NSString *const kClientID = @"749579524688-b1oaiu8cc4obq06aal4org55qie5lh
 static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 @interface VideoViewController ()
+<
+AVAudioRecorderDelegate,
+UINavigationControllerDelegate,
+UIImagePickerControllerDelegate,
+CustomCameraOverlayDelegate
+>
 
 @property (nonatomic) GTLServiceDrive *driveService;
 @property (nonatomic) GTLDriveParentReference *parentRef;
@@ -44,6 +50,20 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 @end
 
 @implementation VideoViewController
+
+UITapGestureRecognizer  *_recordGestureRecognizer;
+UIImagePickerController *_camera;
+AVAudioRecorder *_audioRecorder;
+BOOL _passcodeFailed;
+BOOL _isVideoFile;
+BOOL _inBackground;
+BOOL _mainFolder;
+BOOL _datedFolder;
+BOOL _videoRecording;
+BOOL _videoSessionInProgress;
+BOOL _audioSessionInProgress;
+BOOL _showCameraSelection;
+BOOL _showFlashMode;
 
 - (void)viewDidLoad
 {
@@ -114,7 +134,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
             if (![[NSUserDefaults standardUserDefaults] valueForKey:@"userPasscode"]){
                 [self presentPasscodeVC];
             }else {
-                [self.navigationController presentViewController:camera animated:animated completion:nil];
+                [self.navigationController presentViewController:_camera animated:animated completion:nil];
             }
         }
     }
@@ -128,9 +148,9 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 - (void)presentPasscodeVC
 {
-    [self.navigationController presentViewController:camera animated:YES completion:^{
+    [self.navigationController presentViewController:_camera animated:YES completion:^{
         SetPasscodeViewController *setPasscodeVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"SetPasscodeViewController"];
-        [camera presentViewController:setPasscodeVC animated:YES completion:nil];
+        [_camera presentViewController:setPasscodeVC animated:YES completion:nil];
     }];
 }
 
@@ -147,15 +167,15 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         });
     }
     
-    if (videoSessionInProgress) {
+    if (_videoSessionInProgress) {
         
-        videoRecording = YES;
+        _videoRecording = YES;
         
         [self startRecordingTimer];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             
-            [camera startVideoCapture];
+            [_camera startVideoCapture];
             self.customCameraOverlayView.stopRecordingView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.5];
             self.customCameraOverlayView.stopRecordingView.alpha = 1.0;
         });
@@ -173,7 +193,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 - (void)appWillResignActive
 {
-    if (videoSessionInProgress) {
+    if (_videoSessionInProgress) {
         
         [self stopVideoRecording];
     }
@@ -183,18 +203,18 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 - (void)appDidEnterBackground{
     
-    inBackground = YES;
+    _inBackground = YES;
     
-    if (!audioRecorder.recording && [self isAuthorized] && videoSessionInProgress) {
+    if (!_audioRecorder.recording && [self isAuthorized] && _videoSessionInProgress) {
         
         AVAudioSession *audioSession = [AVAudioSession sharedInstance];
         [audioSession setActive:YES error:nil];
         
         [self startAudioRecording];
         
-        NSLog(@"Audio recording: %@", (audioRecorder.recording ? @"YES" : @"NO"));
+        NSLog(@"Audio recording: %@", (_audioRecorder.recording ? @"YES" : @"NO"));
         
-        audioSessionInProgress = YES;
+        _audioSessionInProgress = YES;
     }
     
     
@@ -214,14 +234,14 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 - (void)appWillEnterForeground
 {
-    inBackground = NO;
+    _inBackground = NO;
     
     [self stopAudioRecording];
     
     AVAudioSession *audioSession = [AVAudioSession sharedInstance];
     [audioSession setActive:NO error:nil];
     
-    audioSessionInProgress = NO;
+    _audioSessionInProgress = NO;
     
     self.customCameraOverlayView.stopRecordingView.alpha = 0.0;
     
@@ -261,10 +281,10 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     NSError *error;
     
     // Create recorder
-    audioRecorder = [[AVAudioRecorder alloc] initWithURL:url settings:[self audioRecorderSettings] error:&error];
-    audioRecorder.delegate = self;
-    audioRecorder.meteringEnabled = YES;
-    [audioRecorder prepareToRecord];
+    _audioRecorder = [[AVAudioRecorder alloc] initWithURL:url settings:[self audioRecorderSettings] error:&error];
+    _audioRecorder.delegate = self;
+    _audioRecorder.meteringEnabled = YES;
+    [_audioRecorder prepareToRecord];
 }
 
 - (NSString *)audioFileName
@@ -302,13 +322,13 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     NSString *audioFilePath = [audioFileUrl path];
     
     //Upload to google drive
-    isVideoFile = NO;
+    _isVideoFile = NO;
     [self uploadToGoogleDriveInDatedFolder:audioFilePath];
     
     //***(TO DO: Save on device)***
     
     //restart audioRecorder
-    if (inBackground && audioSessionInProgress) {
+    if (_inBackground && _audioSessionInProgress) {
         
         [self startAudioRecording];
     }
@@ -316,7 +336,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 -(void)startAudioRecording
 {
-        [audioRecorder record];
+        [_audioRecorder record];
         [self startRecordingTimer];
         
         NSLog(@"Audio recording started");
@@ -324,7 +344,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 -(void)stopAudioRecording
 {
-        [audioRecorder stop];
+        [_audioRecorder stop];
         [self resetTimer];
         
         NSLog(@"Audio recording stopped");
@@ -339,7 +359,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     self.customCameraOverlayView = (CustomCameraOverlayView *)cameraOverlayVC.view;
     
     self.customCameraOverlayView.delegate = self;
-    self.customCameraOverlayView.frame = camera.view.frame;
+    self.customCameraOverlayView.frame = _camera.view.frame;
     
     //TODO(Justine): Move to CameraOverlayVC 
     self.customCameraOverlayView.stopRecordingView.layer.cornerRadius = 30.0;
@@ -363,56 +383,56 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 - (void)setUpCamera
 {
-    camera = [[UIImagePickerController alloc] init];
-    camera.sourceType = UIImagePickerControllerSourceTypeCamera;
+    _camera = [[UIImagePickerController alloc] init];
+    _camera.sourceType = UIImagePickerControllerSourceTypeCamera;
     
-    camera.mediaTypes = [[NSArray alloc] initWithObjects:(NSString *)kUTTypeMovie, nil];
-    camera.cameraCaptureMode = UIImagePickerControllerCameraCaptureModeVideo;
+    _camera.mediaTypes = [[NSArray alloc] initWithObjects:(NSString *)kUTTypeMovie, nil];
+    _camera.cameraCaptureMode = UIImagePickerControllerCameraCaptureModeVideo;
     
-    camera.showsCameraControls = NO;
-    camera.cameraViewTransform = CGAffineTransformIdentity;
+    _camera.showsCameraControls = NO;
+    _camera.cameraViewTransform = CGAffineTransformIdentity;
     
     //create custom overlay and apply to camera
     [self customCameraOverlay];
-    camera.cameraOverlayView = self.customCameraOverlayView;
+    _camera.cameraOverlayView = self.customCameraOverlayView;
     
     // not all devices have two cameras or a flash so just check here
     if ( [UIImagePickerController isCameraDeviceAvailable: UIImagePickerControllerCameraDeviceRear] ) {
         
-        camera.cameraDevice = UIImagePickerControllerCameraDeviceRear;
+        _camera.cameraDevice = UIImagePickerControllerCameraDeviceRear;
         
         if ( [UIImagePickerController isCameraDeviceAvailable: UIImagePickerControllerCameraDeviceFront] ) {
             
             [self.customCameraOverlayView.cameraSelectionButton setImage:[UIImage imageNamed:@"camera-toggle"] forState:UIControlStateNormal];
             self.customCameraOverlayView.cameraSelectionButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
             self.customCameraOverlayView.cameraSelectionButton.alpha = 1.0;
-            showCameraSelection = YES;
+            _showCameraSelection = YES;
         }
         
     } else {
         
         // TODO(cspickert): What happens if the device has no cameras? Definitely an edge case, but something to consider.
-        camera.cameraDevice = UIImagePickerControllerCameraDeviceFront;
+        _camera.cameraDevice = UIImagePickerControllerCameraDeviceFront;
     
     }
     
     
-    if ( [UIImagePickerController isFlashAvailableForCameraDevice:camera.cameraDevice] ) {
+    if ( [UIImagePickerController isFlashAvailableForCameraDevice:_camera.cameraDevice] ) {
         
-        camera.cameraFlashMode = UIImagePickerControllerCameraFlashModeOff;
+        _camera.cameraFlashMode = UIImagePickerControllerCameraFlashModeOff;
         [self.customCameraOverlayView.flashModeButton setImage:[UIImage imageNamed:@"flash-off.png"] forState:UIControlStateNormal];
         self.customCameraOverlayView.flashModeButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
         self.customCameraOverlayView.flashModeButton.alpha = 1.0;
-        showFlashMode = YES;
+        _showFlashMode = YES;
     
     }
     
     
     // TODO(cspickert): This is extremely low-quality video by today's standards. It might be worth checking to see if the device/internet connection can handle higher-quality video, or record at a higher quality either way and downsample prior to uploading.
-    camera.videoQuality = UIImagePickerControllerQualityType640x480;
+    _camera.videoQuality = UIImagePickerControllerQualityType640x480;
     
-    camera.delegate = self;
-    camera.edgesForExtendedLayout = UIRectEdgeAll;
+    _camera.delegate = self;
+    _camera.edgesForExtendedLayout = UIRectEdgeAll;
     
     
 }
@@ -424,8 +444,8 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     showControls = ^(void) {
         
         self.customCameraOverlayView.menuBarView.alpha = 1.0;
-        if (showCameraSelection) self.customCameraOverlayView.cameraSelectionButton.alpha = 1.0;
-        if (showFlashMode) self.customCameraOverlayView.flashModeButton.alpha = 1.0;
+        if (_showCameraSelection) self.customCameraOverlayView.cameraSelectionButton.alpha = 1.0;
+        if (_showFlashMode) self.customCameraOverlayView.flashModeButton.alpha = 1.0;
         
     };
     
@@ -519,7 +539,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     // TODO(cspickert): This "controllers" array can be removed with one line: [navigationController popViewControllerAnimated:NO].
     [navigationController setViewControllers:controllers];
     
-    [camera dismissViewControllerAnimated:NO completion:^{
+    [_camera dismissViewControllerAnimated:NO completion:^{
         
         [navigationController popToRootViewControllerAnimated:NO];
         
@@ -530,14 +550,14 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 // TODO(cspickert): These notifications could be handled internally within the custom camera overlay class.
 - (void)didChangeFlashMode
 {
-    if (camera.cameraFlashMode == UIImagePickerControllerCameraFlashModeOff) {
+    if (_camera.cameraFlashMode == UIImagePickerControllerCameraFlashModeOff) {
         
-        camera.cameraFlashMode = UIImagePickerControllerCameraFlashModeOn;
+        _camera.cameraFlashMode = UIImagePickerControllerCameraFlashModeOn;
         [self.customCameraOverlayView.flashModeButton setImage:[UIImage imageNamed:@"flash-on.png"] forState:UIControlStateNormal];
     
     } else {
         
-        camera.cameraFlashMode = UIImagePickerControllerCameraFlashModeOff;
+        _camera.cameraFlashMode = UIImagePickerControllerCameraFlashModeOff;
         [self.customCameraOverlayView.flashModeButton setImage:[UIImage imageNamed:@"flash-off.png"] forState:UIControlStateNormal];
     
     }
@@ -545,23 +565,23 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 - (void)didChangeCamera
 {
-    if (camera.cameraDevice == UIImagePickerControllerCameraDeviceRear) {
+    if (_camera.cameraDevice == UIImagePickerControllerCameraDeviceRear) {
         
-        camera.cameraDevice = UIImagePickerControllerCameraDeviceFront;
+        _camera.cameraDevice = UIImagePickerControllerCameraDeviceFront;
     
     } else {
         
-        camera.cameraDevice = UIImagePickerControllerCameraDeviceRear;
+        _camera.cameraDevice = UIImagePickerControllerCameraDeviceRear;
     }
     
-    if ( ![UIImagePickerController isFlashAvailableForCameraDevice:camera.cameraDevice] ) {
+    if ( ![UIImagePickerController isFlashAvailableForCameraDevice:_camera.cameraDevice] ) {
         
         [UIView animateWithDuration:0.3 animations:^(void) {
             
             self.customCameraOverlayView.flashModeButton.alpha = 0;
         }];
         
-        showFlashMode = NO;
+        _showFlashMode = NO;
     
     } else {
         
@@ -569,7 +589,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
             self.customCameraOverlayView.flashModeButton.alpha = 1.0;
         }];
         
-        showFlashMode = YES;
+        _showFlashMode = YES;
     
     }
 }
@@ -583,18 +603,18 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     if ([[Connectivity reachabilityForInternetConnection]currentReachabilityStatus] == NotReachable){
         
         ConnectivityViewController *connectivityVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ConnectivityViewController"];
-        [camera presentViewController:connectivityVC animated:YES completion:nil];
+        [_camera presentViewController:connectivityVC animated:YES completion:nil];
         
-    }else if (!videoRecording) {
+    }else if (!_videoRecording) {
         
         if (![[NSUserDefaults standardUserDefaults] valueForKey:@"userPasscode"]){
             
             SetPasscodeViewController *setPasscodeVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"SetPasscodeViewController"];
-            [camera presentViewController:setPasscodeVC animated:YES completion:nil];
+            [_camera presentViewController:setPasscodeVC animated:YES completion:nil];
             
         }else {
             
-            videoSessionInProgress = YES;
+            _videoSessionInProgress = YES;
             
             [self startVideoRecording];
             
@@ -619,8 +639,8 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     void (^recordMovie)(BOOL finished);
     recordMovie = ^(BOOL finished) {
         
-        videoRecording = YES;
-        [camera startVideoCapture];
+        _videoRecording = YES;
+        [_camera startVideoCapture];
         [self startRecordingTimer];
     };
     
@@ -631,20 +651,20 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 - (void)stopVideoRecording
 {
-    if (videoRecording) {
+    if (_videoRecording) {
      
         [self resetTimer];
         
-        videoRecording = NO;
+        _videoRecording = NO;
         
-        [camera stopVideoCapture];
+        [_camera stopVideoCapture];
         
-        if (!videoSessionInProgress && !inBackground) {
+        if (!_videoSessionInProgress && !_inBackground) {
             
             self.customCameraOverlayView.stopRecordingView.alpha = 0.0;
         }
         
-        NSLog(@"Video recording: %@", (videoRecording ? @"YES" : @"NO"));
+        NSLog(@"Video recording: %@", (_videoRecording ? @"YES" : @"NO"));
     }
     
 }
@@ -662,7 +682,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         if (UIVideoAtPathIsCompatibleWithSavedPhotosAlbum (videoPath)) {
             
             //save to Google Drive
-            isVideoFile = YES;
+            _isVideoFile = YES;
             [self uploadToGoogleDriveInDatedFolder:videoPath];
                         
             //save to photo album
@@ -675,21 +695,21 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
     
     }
     
-    if (videoSessionInProgress && !inBackground && passcodeFailed) {
+    if (_videoSessionInProgress && !_inBackground && _passcodeFailed) {
         
         [self didChangeCamera];
-        videoRecording = YES;
-        [camera startVideoCapture];
+        _videoRecording = YES;
+        [_camera startVideoCapture];
         [self startRecordingTimer];
         
-        passcodeFailed = NO;
+        _passcodeFailed = NO;
         
         NSLog(@"Camera changed and recording continued...");
         
-    } else if (videoSessionInProgress && !inBackground && !passcodeFailed){
+    } else if (_videoSessionInProgress && !_inBackground && !_passcodeFailed){
         
-        videoRecording = YES;
-        [camera startVideoCapture];
+        _videoRecording = YES;
+        [_camera startVideoCapture];
         [self startRecordingTimer];
         
         NSLog(@"recording continued...");
@@ -698,7 +718,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 - (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
 {
-   if (!videoSessionInProgress) {
+   if (!_videoSessionInProgress) {
         
        [self showCameraControls];
     }
@@ -769,13 +789,13 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
         
         if (finished) {
             
-            if (!mainFolder) {
+            if (!_mainFolder) {
                 
                 [self createMainBMLPfolder:^(GTLDriveParentReference *identifier) {
                     
                     [self createNewDatedFolderWithParentRef:identifier completion:^(GTLDriveParentReference *identifier) {
                         
-                        if (isVideoFile) {
+                        if (_isVideoFile) {
                             
                             [self uploadVideo:filePath WithParentRef:identifier];
                             
@@ -795,11 +815,11 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
                     
                     if (finished) {
                         
-                        if (!datedFolder) {
+                        if (!_datedFolder) {
                             
                             [self createNewDatedFolderWithParentRef:self.parentRef completion:^(GTLDriveParentReference *identifier) {
                                 
-                                if (isVideoFile) {
+                                if (_isVideoFile) {
                                     
                                     [self uploadVideo:filePath WithParentRef:identifier];
                                     
@@ -812,7 +832,7 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
                             
                         } else {
                             
-                            if (isVideoFile) {
+                            if (_isVideoFile) {
                                 
                                 [self uploadVideo:filePath WithParentRef:self.parentRef];
                                 
@@ -856,7 +876,7 @@ typedef void(^completion)(BOOL);
             // Iterate over fileList.items array
             [self folder: @"BMLP Video Archiver Files" FoundInFileList:fileList.items Completion:^(bool folderFound) {
              
-                mainFolder = folderFound;
+                _mainFolder = folderFound;
                 
                 compblock(YES);
             }];
@@ -886,7 +906,7 @@ typedef void(^completion)(BOOL);
             // Iterate over fileList.items array
             [self folder:[self datedFolderDateString] FoundInFileList:fileList.items Completion:^(bool folderFound) {
                 
-                datedFolder = folderFound;
+                _datedFolder = folderFound;
                 compblock(YES);
             }];
             
@@ -932,7 +952,7 @@ typedef void(^completion)(BOOL);
                                                   NSError *error) {
         if (error == nil) {
             NSLog(@"Created main BMLP files folder");
-            mainFolder = YES;
+            _mainFolder = YES;
             parentRef.identifier = updatedFile.identifier; // identifier property of the folder
             
         } else {
@@ -963,7 +983,7 @@ typedef void(^completion)(BOOL);
         if (error == nil) {
             
             NSLog(@"Created new dated folder");
-            datedFolder = YES;
+            _datedFolder = YES;
             newFolderParentRef.identifier = updatedFile.identifier; // identifier property of the folder
         
         } else {
@@ -1178,12 +1198,12 @@ typedef void(^completion)(BOOL);
                                                             style:UIAlertActionStyleCancel
                                                           handler:^(NYAlertAction *action) {
                                                               
-                                                              [camera dismissViewControllerAnimated:YES completion:^{
+                                                              [_camera dismissViewControllerAnimated:YES completion:^{
                                                                   [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"recordingInfoPresented"];
                                                               }];
                                                           }]];
     
-    [camera presentViewController:alertViewController animated:YES completion:nil];
+    [_camera presentViewController:alertViewController animated:YES completion:nil];
 }
 
 
@@ -1219,16 +1239,16 @@ typedef void(^completion)(BOOL);
                                                             style:UIAlertActionStyleDefault
                                                           handler:^(NYAlertAction *action) {
                                                             
-                                                              [camera dismissViewControllerAnimated:YES completion:^{
+                                                              [_camera dismissViewControllerAnimated:YES completion:^{
                                                                   
                                                                   //***TO DO: Set up Passcode here ***
                                                                   if ([[NSUserDefaults standardUserDefaults] valueForKey:@"userPasscode"]) {
                                                                       
-                                                                      [DMPasscode showPasscodeInViewController:camera completion:^(BOOL success, NSError *error) {
+                                                                      [DMPasscode showPasscodeInViewController:_camera completion:^(BOOL success, NSError *error) {
                                                                           
                                                                           if (success) {
                                                                               
-                                                                              [DMPasscode setupPasscodeInViewController:camera completion:^(BOOL success, NSError *error) {
+                                                                              [DMPasscode setupPasscodeInViewController:_camera completion:^(BOOL success, NSError *error) {
                                                                                   
                                                                               }];
                                                                           }
@@ -1237,7 +1257,7 @@ typedef void(^completion)(BOOL);
                                                                       
                                                                   }else {
                                                                       
-                                                                      [DMPasscode setupPasscodeInViewController:camera completion:^(BOOL success, NSError *error) {
+                                                                      [DMPasscode setupPasscodeInViewController:_camera completion:^(BOOL success, NSError *error) {
                                                                           
                                                                       }];
                                                                   }
@@ -1250,7 +1270,7 @@ typedef void(^completion)(BOOL);
                                                             style:UIAlertActionStyleDefault
                                                           handler:^(NYAlertAction *action) {
                                                               
-                                                              [camera dismissViewControllerAnimated:YES completion:^{
+                                                              [_camera dismissViewControllerAnimated:YES completion:^{
                                                                   
                                                                   [self signOutOfGoogleDrive];
                                                               }];
@@ -1260,10 +1280,10 @@ typedef void(^completion)(BOOL);
                                                             style:UIAlertActionStyleCancel
                                                           handler:^(NYAlertAction *action) {
                                                               
-                                                              [camera dismissViewControllerAnimated:YES completion:nil];
+                                                              [_camera dismissViewControllerAnimated:YES completion:nil];
                                                           }]];
     
-    [camera presentViewController:alertViewController animated:YES completion:nil];
+    [_camera presentViewController:alertViewController animated:YES completion:nil];
 }
 
 
@@ -1302,10 +1322,10 @@ typedef void(^completion)(BOOL);
                                                              
                                                              if ([passwordTextField.text isEqualToString:[[NSUserDefaults standardUserDefaults] valueForKey:@"userPasscode"]]) {
                                                                  
-                                                                 [camera dismissViewControllerAnimated:NO completion:^{
+                                                                 [_camera dismissViewControllerAnimated:NO completion:^{
                                                                      
                                                                      self.passcodeAttempts = 0;
-                                                                     videoSessionInProgress = NO;
+                                                                     _videoSessionInProgress = NO;
                                                                      
                                                                      [self stopVideoRecording];
                                                                      
@@ -1338,10 +1358,10 @@ typedef void(^completion)(BOOL);
                                                                      case 3:
                                                                      
                                                                      {
-                                                                         [camera dismissViewControllerAnimated:NO completion:^{
+                                                                         [_camera dismissViewControllerAnimated:NO completion:^{
                                                                              
                                                                              self.passcodeAttempts = 0;
-                                                                             passcodeFailed = YES;
+                                                                             _passcodeFailed = YES;
                                                                              
                                                                              [self stopVideoRecording];
                                                                              
@@ -1376,7 +1396,7 @@ typedef void(^completion)(BOOL);
     [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
                                                             style:UIAlertActionStyleCancel
                                                           handler:^(NYAlertAction *action) {
-                                                              [camera dismissViewControllerAnimated:NO completion:^{
+                                                              [_camera dismissViewControllerAnimated:NO completion:^{
                                                                   self.passcodeAttempts = 0;
                                                               }];
                                                           }]];
@@ -1391,7 +1411,7 @@ typedef void(^completion)(BOOL);
     }];
 
     
-    [camera presentViewController:alertViewController animated:YES completion:nil];
+    [_camera presentViewController:alertViewController animated:YES completion:nil];
 }
 
 @end

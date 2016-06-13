@@ -16,29 +16,6 @@
 #define SignedInKey @"SignedIn"
 
 @interface VideoViewController : UIViewController
-<
-AVAudioRecorderDelegate,
-UINavigationControllerDelegate,
-UIImagePickerControllerDelegate,
-CustomCameraOverlayDelegate
->
-
-{
-// TODO(cspickert): Best practices for ivars: declare them in the @implementation instead of @interface, and prefix them with a single underscore.
-UITapGestureRecognizer  *recordGestureRecognizer;
-UIImagePickerController *camera;
-AVAudioRecorder *audioRecorder;
-BOOL passcodeFailed;
-BOOL isVideoFile;
-BOOL inBackground;
-BOOL mainFolder;
-BOOL datedFolder;
-BOOL videoRecording;
-BOOL videoSessionInProgress;
-BOOL audioSessionInProgress;
-BOOL showCameraSelection;
-BOOL showFlashMode;
-}
 
 @property (nonatomic, strong) UITextView *output;
 
