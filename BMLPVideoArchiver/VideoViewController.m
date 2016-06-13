@@ -335,12 +335,19 @@ static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
 
 -(void)customCameraOverlay
 {
-    // TODO(cspickert): A lot of this initialization could be done internally by CameraOverlayViewController to keep this class more focused.
     CameraOverlayViewController *cameraOverlayVC = [[CameraOverlayViewController alloc] init];
-    self.customCameraOverlayView = cameraOverlayVC.customCameraOverlayView;
+    self.customCameraOverlayView = (CustomCameraOverlayView *)cameraOverlayVC.view;
     
     self.customCameraOverlayView.delegate = self;
     self.customCameraOverlayView.frame = camera.view.frame;
+    
+    //TODO(Justine): Move to CameraOverlayVC 
+    self.customCameraOverlayView.stopRecordingView.layer.cornerRadius = 30.0;
+    self.customCameraOverlayView.menuBarView.backgroundColor = [UIColor colorWithRed:211.0/255.0
+                                                                               green:211.0/255.0
+                                                                                blue:211.0/255.0
+                                                                               alpha:0.25
+                                                                ];
     
     [self.customCameraOverlayView addGestureRecognizer:[self tapTwiceRecordGesture]];
     

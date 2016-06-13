@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6B0263FC1C2F62EF0099BF46 /* CameraOverlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0263FA1C2F62EF0099BF46 /* CameraOverlayViewController.m */; };
-		6B0263FD1C2F62EF0099BF46 /* CameraOverlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B0263FB1C2F62EF0099BF46 /* CameraOverlayViewController.xib */; };
+		6B0263FD1C2F62EF0099BF46 /* CustomCameraOverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B0263FB1C2F62EF0099BF46 /* CustomCameraOverlayView.xib */; };
 		6B0264001C2F632A0099BF46 /* CustomCameraOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0263FF1C2F632A0099BF46 /* CustomCameraOverlayView.m */; };
 		6B07A9EA1CAB42280085671E /* NYAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B07A9E91CAB42280085671E /* NYAlertViewController.m */; };
 		6B07A9F11CAB43240085671E /* NYAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B07A9F01CAB43240085671E /* NYAlertView.m */; };
@@ -69,7 +69,7 @@
 		590EA36107CF4346B8B4FAD8 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		6B0263F91C2F62EF0099BF46 /* CameraOverlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraOverlayViewController.h; sourceTree = "<group>"; };
 		6B0263FA1C2F62EF0099BF46 /* CameraOverlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraOverlayViewController.m; sourceTree = "<group>"; };
-		6B0263FB1C2F62EF0099BF46 /* CameraOverlayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraOverlayViewController.xib; sourceTree = "<group>"; };
+		6B0263FB1C2F62EF0099BF46 /* CustomCameraOverlayView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomCameraOverlayView.xib; sourceTree = "<group>"; };
 		6B0263FE1C2F632A0099BF46 /* CustomCameraOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCameraOverlayView.h; sourceTree = "<group>"; };
 		6B0263FF1C2F632A0099BF46 /* CustomCameraOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCameraOverlayView.m; sourceTree = "<group>"; };
 		6B07A9E81CAB42280085671E /* NYAlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYAlertViewController.h; sourceTree = "<group>"; };
@@ -179,7 +179,7 @@
 				6BDC39D81BDF274A0036BE01 /* VideoViewController.m */,
 				6B0263F91C2F62EF0099BF46 /* CameraOverlayViewController.h */,
 				6B0263FA1C2F62EF0099BF46 /* CameraOverlayViewController.m */,
-				6B0263FB1C2F62EF0099BF46 /* CameraOverlayViewController.xib */,
+				6B0263FB1C2F62EF0099BF46 /* CustomCameraOverlayView.xib */,
 				6B0263FE1C2F632A0099BF46 /* CustomCameraOverlayView.h */,
 				6B0263FF1C2F632A0099BF46 /* CustomCameraOverlayView.m */,
 				6BDC39C91BDF22EF0036BE01 /* Main.storyboard */,
@@ -339,7 +339,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6B0263FD1C2F62EF0099BF46 /* CameraOverlayViewController.xib in Resources */,
+				6B0263FD1C2F62EF0099BF46 /* CustomCameraOverlayView.xib in Resources */,
 				6BADA6851CC3033500CAB17E /* Images.xcassets in Resources */,
 				6B6B3FDA1BE1A9AA00EDE9F2 /* GTMOAuth2ViewTouch.xib in Resources */,
 				6BDC39D01BDF22EF0036BE01 /* LaunchScreen.storyboard in Resources */,
