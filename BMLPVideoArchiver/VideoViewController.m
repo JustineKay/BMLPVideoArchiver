@@ -18,6 +18,7 @@
 #import "Connectivity.h"
 #import "ConnectivityViewController.h"
 #import "SetPasscodeViewController.h"
+#import "BMLPConstants.h"
 
 // TODO(cspickert): So it's pretty clear that your entire app is basically implemented in this one file. Splitting it into multiple classes will make things much clearer and easier to test and maintain. You should start by identifying the main types of tasks you're trying to accomplish here:
 // 1. Recording video (obviously)
@@ -26,14 +27,6 @@
 // 4. Saving media to Drive
 // Each of these categories of functionality should be implemented using _at least_ one *non-UIViewController* class. It's important to do as much outside of UIKit as possible to make your code simpler, more maintainable, and more testable. For example, let's say you run into an intermittent case where recorded videos aren't making it to Drive. If the logic for uploading media is tied up with the rest of the code for building and displaying the UI, interacting with NSUserDefaults, etc., it might be very difficult for you to find the root of the problem and reproduce the exact circumstances that cause it.
 // The guiding principle behind every class you write should be: "do one thing, and do it well" (a la the Unix philosophy).
-
-// TODO(cspickert): These are identical copies of the constants in AppDelegate.m. You could move them into a single header file (maybe called "BMLPConstants.h"), or better yet, declare them in a header and set their values in a .m file, like so:
-// BMLPConstants.h: extern NSString *const kKeychainItemName;
-// BMLPConstants.m: NSString *const kKeychainItemName = @"BMLP Video Archiver";
-static NSString *const kKeychainItemName = @"BMLP Video Archiver";
-static NSString *const kClientID = @"749579524688-b1oaiu8cc4obq06aal4org55qie5lho2.apps.googleusercontent.com";
-static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
-static NSString *const SignedInKey = @"SignedIn";
 
 @interface VideoViewController ()
 <
@@ -134,8 +127,7 @@ BOOL _showFlashMode;
         if (![self isAuthorized]) {
             [self.navigationController presentViewController:[self createAuthController] animated:YES completion:nil];
         }else {
-            // TODO(cspickert): It might be good to add a class that wraps getting/setting all of these NSUserDefaults values.
-            if (![[NSUserDefaults standardUserDefaults] valueForKey:@"userPasscode"]){
+            if (![[NSUserDefaults standardUserDefaults] valueForKey:UserPasscodeKey]){
                 [self presentPasscodeVC];
             }else {
                 [self.navigationController presentViewController:_camera animated:animated completion:nil];
@@ -163,7 +155,7 @@ BOOL _showFlashMode;
     // TODO(cspickert): Although it depends on the situation, it's usually better to use some kind of logging macro instead of using NSLog directly. One reason is that NSLog is extremely slow.
     NSLog(@"Camera is ready...");
     
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"recordingInfoPresented"]) {
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:RecordingInfoPresentedKey]) {
         
         // TODO(cspickert): Is this notification happening on a background queue? If so, you might be able to avoid the dispatch_asyncs by making sure this entire method executes on the main queue (there are various ways to do that).
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -322,7 +314,7 @@ BOOL _showFlashMode;
     
     //Load recording path from preferences
     NSUserDefaults *paths = [NSUserDefaults standardUserDefaults];
-    NSURL *audioFileUrl = [paths URLForKey:@"filePath"];
+    NSURL *audioFileUrl = [paths URLForKey:FilePathKey];
     NSString *audioFilePath = [audioFileUrl path];
     
     //Upload to google drive
@@ -470,7 +462,7 @@ BOOL _showFlashMode;
         [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
         
         NSDate *timerTimeStamp = [NSDate date];
-        [[NSUserDefaults standardUserDefaults] setValue:timerTimeStamp forKey:@"startTimeStamp"];
+        [[NSUserDefaults standardUserDefaults] setValue:timerTimeStamp forKey:StartTimeStampKey];
         
     });
     
@@ -478,7 +470,7 @@ BOOL _showFlashMode;
 
 -(void)fireTimer: (NSTimer *) timer
 {
-    NSDate *startTime = [[NSUserDefaults standardUserDefaults] valueForKey:@"startTimeStamp"];
+    NSDate *startTime = [[NSUserDefaults standardUserDefaults] valueForKey:StartTimeStampKey];
     NSTimeInterval stopTimeInterval = 30.0;
     NSTimeInterval currentTimeInterval = [[NSDate date] timeIntervalSinceDate:startTime];
     
@@ -611,7 +603,7 @@ BOOL _showFlashMode;
         
     }else if (!_videoRecording) {
         
-        if (![[NSUserDefaults standardUserDefaults] valueForKey:@"userPasscode"]){
+        if (![[NSUserDefaults standardUserDefaults] valueForKey:UserPasscodeKey]){
             
             SetPasscodeViewController *setPasscodeVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"SetPasscodeViewController"];
             [_camera presentViewController:setPasscodeVC animated:YES completion:nil];
@@ -1203,7 +1195,7 @@ typedef void(^completion)(BOOL);
                                                           handler:^(NYAlertAction *action) {
                                                               
                                                               [_camera dismissViewControllerAnimated:YES completion:^{
-                                                                  [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"recordingInfoPresented"];
+                                                                  [[NSUserDefaults standardUserDefaults] setBool:YES forKey:RecordingInfoPresentedKey];
                                                               }];
                                                           }]];
     
@@ -1246,7 +1238,7 @@ typedef void(^completion)(BOOL);
                                                               [_camera dismissViewControllerAnimated:YES completion:^{
                                                                   
                                                                   //***TO DO: Set up Passcode here ***
-                                                                  if ([[NSUserDefaults standardUserDefaults] valueForKey:@"userPasscode"]) {
+                                                                  if ([[NSUserDefaults standardUserDefaults] valueForKey:UserPasscodeKey]) {
                                                                       
                                                                       [DMPasscode showPasscodeInViewController:_camera completion:^(BOOL success, NSError *error) {
                                                                           
@@ -1324,7 +1316,7 @@ typedef void(^completion)(BOOL);
                                                              
                                                              UITextField *passwordTextField = [alertViewController.textFields firstObject];
                                                              
-                                                             if ([passwordTextField.text isEqualToString:[[NSUserDefaults standardUserDefaults] valueForKey:@"userPasscode"]]) {
+                                                             if ([passwordTextField.text isEqualToString:[[NSUserDefaults standardUserDefaults] valueForKey:UserPasscodeKey]]) {
                                                                  
                                                                  [_camera dismissViewControllerAnimated:NO completion:^{
                                                                      

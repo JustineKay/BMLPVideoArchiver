@@ -10,6 +10,4 @@
 
 @interface VideoViewController : UIViewController
 
-@property (nonatomic, strong) UITextView *output;
-
 @end
