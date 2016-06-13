@@ -5,6 +5,9 @@
 //  Created by Justine Kay on 10/26/15.
 //  Copyright © 2015 Justine Kay. All rights reserved.
 
+#import <AVFoundation/AVFoundation.h>
+#import "CameraOverlayViewController.h"
+#import "CustomCameraOverlayView.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <DMPasscode/DMPasscode.h>
 #import "VideoViewController.h"
@@ -30,6 +33,7 @@
 static NSString *const kKeychainItemName = @"BMLP Video Archiver";
 static NSString *const kClientID = @"749579524688-b1oaiu8cc4obq06aal4org55qie5lho2.apps.googleusercontent.com";
 static NSString *const kClientSecret = @"0U67OQ3UNhX72tmba7ZhMSYK";
+static NSString *const SignedInKey = @"SignedIn";
 
 @interface VideoViewController ()
 <
