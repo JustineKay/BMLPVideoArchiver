@@ -37,4 +37,4 @@ This project is being developed for the [Black Movement - Law Project](https://b
 * Your recordings are saved to your personal Google Drive account, rather than funneling your personal data into anyone else's hands or attempting to gain copyright or other license over it.
 
 ### Update 04-2017
-This project is now in the process of being updated and rebuilt in Swift in a private repo. It will be made public once the foundation has been laid. If you would like to contribute to the project please don't hesitate to be in contact: JustineBethKay@gmail.com
+This project is now in the process of being updated and rebuilt in Swift in a private repo. It will be made public once the foundation has been laid. If you would like to contribute to the project please be in contact: JustineBethKay@gmail.com
