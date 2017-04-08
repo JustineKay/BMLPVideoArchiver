@@ -3,9 +3,7 @@
 ### Description  
 BMLP Video Archiver is an iOS app that allows you to simultaneously record and upload video recordings to your personal Google Drive account. Your recordings are also saved to your device.  
 
-This project is being developed for the [Black Movement - Law Project](https://bmlp.org/) to empower individuals and communities in the event of police harassment and provide vital legal evidence for individuals that may be victims of or witnesses to civil rights violations. 
-
-It is currently in the early stages of development.  
+This project is being developed for the [Black Movement - Law Project](https://bmlp.org/) to empower individuals and communities in the event of police harassment and provide vital legal evidence for individuals that may be victims of or witnesses to civil rights violations.   
 
 ### Basic Functionalities 
 * The first time the user opens the app they're prompted to:
