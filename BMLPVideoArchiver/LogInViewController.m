@@ -31,12 +31,14 @@
     
     self.logInButton.titleLabel.textColor = [UIColor redColor];
     
+    // TODO(cspickert): Using non-breaking spaces and removing the newlines could make this string friendlier to different screen sizes. For example if you change "BMLP Video Archiver" to "BMLP\u00A0Video\u00A0Archiver", then it'll all be on one line.
     self.infoLabel.text = @"In order to use\nBMLP Video Archiver\nyou must sign in to your\nGoogle Drive account";
     
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    // TODO(cspickert): It might be good to listen for kReachabilityChangedNotification to dismiss this view automatically if/when the network becomes reachable again.
     if ([[Connectivity reachabilityForInternetConnection]currentReachabilityStatus] == NotReachable){
         
         ConnectivityViewController *connectivityVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ConnectivityViewController"];
@@ -54,6 +56,7 @@
     [self.navigationController pushViewController:[storyboard instantiateViewControllerWithIdentifier:@"VideoViewController"]animated:NO];
 
 
+    // TODO(cspickert): I'm noticing a lot of inconsistent spacing/formatting in your code. It'd be good to get in the habit of making your formatting consistent. There are tools like clang-format that can automate the process for you (though they're not perfect).
 }
 
 
